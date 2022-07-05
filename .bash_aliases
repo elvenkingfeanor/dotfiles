@@ -50,9 +50,9 @@ alias df="/usr/bin/df -h"                          # human-readable sizes
 alias free="/usr/bin/free -m"                      # show sizes in MB
 
 # youtube-dl
-alias yt="'/usr/bin/yt-dlp --add-metadata -ic'" # Download video links
-alias yta="'/usr/bin/yt-dlp --add-metadata -xic'" # Download audio links
-alias qq="'/usr/bin/torsocks /usr/bin/yt-dlp --add-metadata -ic'"
+alias yt="/usr/bin/yt-dlp --add-metadata -ic" # Download video links
+alias yta="/usr/bin/yt-dlp --add-metadata -xic" # Download audio links
+alias qq="/usr/bin/torsocks /usr/bin/yt-dlp --add-metadata -ic"
 
 # wiki
 alias wiki="/usr/bin/wiki-search" # search Arch-Wiki
