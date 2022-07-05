@@ -1,0 +1,32 @@
+#               _   _ ___ __  __    _    _        _ __   __ _
+#              | | | |_ _|  \/  |  / \  | |      / \\ \ / // \
+#              | |_| || || |\/| | / _ \ | |     / _ \\ V // _ \
+#              |  _  || || |  | |/ ___ \| |___ / ___ \| |/ ___ \
+#              |_| |_|___|_|  |_/_/   \_\_____/_/   \_\_/_/   \_\
+#
+
+name = "Tanmoy"
+downloads-dir = "/home/ts/Downloads"
+signature = "Regards,\nTanmoy"
+default-page-size = 50
+
+[Gmail]
+
+default = true
+format = { type = "auto" }
+email = "seniorsarkar.de@gmail.com"
+
+smtp-host = "smtp.gmail.com"
+smtp-port = 465
+smtp-login = "seniorsarkar.de@gmail.com"
+smtp-passwd-cmd = "echo $himalaya_pwd"
+
+imap-host = "imap.gmail.com"
+imap-port = 993
+imap-login = "seniorsarkar.de@gmail.com"
+imap-passwd-cmd = "echo $himalaya_pwd"
+
+[Gmail.mailboxes]
+
+sent = "[Gmail]/Sent Mail"
+draft = "[Gmail]/Drafts"
