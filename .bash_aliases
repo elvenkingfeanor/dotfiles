@@ -5,6 +5,10 @@
 # sudo
 alias sudo="/usr/bin/doas"
 
+# power
+alias reboot="/usr/bin/doas /usr/bin/reboot"
+alias poweroff="/usr/bin/doas /usr/bin/poweroff"
+
 # pacman
 alias syu="/usr/bin/doas /usr/bin/pacman -Syu"
 alias pis="/usr/bin/doas /usr/bin/pacman -S"
@@ -23,6 +27,7 @@ alias yis="/usr/bin/yay -S"
 
 # himalaya mail client
 alias mail="/usr/bin/himalaya"
+alias sent="/usr/bin/himalaya -m '[Gmail]/Sent Mail'"
 
 # navigation
 alias ..='cd ..' 
