@@ -1,0 +1,6 @@
+#!/bin/sh
+#mnt
+# mount removable backup media and cd into it
+#/usr/bin/doas /usr/bin/mount /dev/sd"$1" /mnt/usb"$2"
+/usr/bin/pmount /dev/sd"$1" && cd /media/sd"$1"
+$SHELL

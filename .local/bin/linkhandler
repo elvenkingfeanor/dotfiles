@@ -1,0 +1,27 @@
+#!/bin/sh
+
+# copied from https://github.com/LukeSmithxyz/voidrice/blob/master/.local/bin/linkhandler
+# Feed script a url or file location.
+# If an image, it will view in /usr/bin/nsxiv,
+# if a video or gif, it will view in mpv
+# if a music file or pdf, it will download,
+# otherwise it opens link in browser.
+
+if [ -z "$1" ]; then
+	url="$(xclip -o)"
+else
+	url="$1"
+fi
+
+case "$url" in
+	*mkv|*webm|*mp4|*youtube.com/watch*|*youtube.com/playlist*|*youtube.com/shorts*|*youtu.be*|*hooktube.com*|*bitchute.com*|*videos.lukesmith.xyz*|*odysee.com*|*player.odycdn.com*)
+		/usr/bin/setsid -f /usr/bin/mpv -quiet "$url" >/dev/null 2>&1 ;;
+	*png|*jpg|*jpe|*jpeg|*gif)
+		/usr/bin/curl -sL "$url" > "/tmp/$(echo "$url" | /usr/bin/sed "s/.*\///;s/%20/ /g")" && /usr/bin/nsxiv -a "/tmp/$(echo "$url" | /usr/bin/sed "s/.*\///;s/%20/ /g")"  >/dev/null 2>&1 & ;;
+	*pdf|*cbz|*cbr)
+		/usr/bin/curl -sL "$url" > "/tmp/$(echo "$url" | /usr/bin/sed "s/.*\///;s/%20/ /g")" && /usr/bin/zathura "/tmp/$(echo "$url" | /usr/bin/sed "s/.*\///;s/%20/ /g")"  >/dev/null 2>&1 & ;;
+	*mp3|*flac|*opus|*mp3?source*)
+		yta "$url" '/usr/bin/curl -LO'  >/dev/null 2>&1 ;;
+	*)
+		[ -f "$url" ] && /usr/bin/setsid -f "$TERMINAL" -e "$EDITOR" "$url" >/dev/null 2>&1 || /usr/bin/setsid -f "$BROWSER" "$url" >/dev/null 2>&1
+esac

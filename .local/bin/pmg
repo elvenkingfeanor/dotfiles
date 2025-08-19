@@ -1,0 +1,3 @@
+#!/bin/sh
+#pmg
+esearch -db pubmed -query "('$1'[AUTH])AND('$2'[AFFL])" -sort "pub date" | efetch -format xml | xtract -pattern Author -sep " " -tab ", " -element Initials,LastName | /usr/bin/sort -R | /usr/bin/uniq -c | /usr/bin/sort -rn > "$3"-group

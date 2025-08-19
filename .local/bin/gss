@@ -1,0 +1,3 @@
+#!/bin/sh
+#gss
+/usr/bin/find $XDG_CONFIG_HOME/shell $XDG_CONFIG_HOME/X11 $HOME/.local/bin -prune -o -type f | /usr/bin/xargs /usr/bin/grep -iIrn --color "$1"

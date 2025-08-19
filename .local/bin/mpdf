@@ -1,0 +1,3 @@
+#!/bin/sh
+#mpdf
+/usr/bin/groff -ms -T pdf "$1" > "$1".pdf

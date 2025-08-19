@@ -1,0 +1,12 @@
+# Alacritty config
+# ~/.config/alacritty/alacritty.toml
+
+[general]
+import = [ "~/.config/alacritty/themes/themes/doom_one.toml" ]
+
+[window]
+decorations = "None"
+
+[font]
+normal = { family = "JetBrainsMono Nerd Font", style = "Medium,Regular" }
+size = 20

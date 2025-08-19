@@ -1,0 +1,3 @@
+#!/bin/sh
+#pmd
+esearch -db pubmed -query "('$1'[AUTH])AND('$2'[AFFL])" -sort "pub date" | efetch -format docsum | xtract -pattern DocumentSummary -sep "|" -def "N/A" -element Id PubDate Name > "$3"-pubdata

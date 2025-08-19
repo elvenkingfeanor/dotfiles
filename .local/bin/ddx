@@ -1,0 +1,3 @@
+#!/bin/sh
+#ddx
+/usr/bin/doas /usr/bin/dd if="$1" of=/dev/sd"$2" bs=1M status=progress

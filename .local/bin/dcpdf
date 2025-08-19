@@ -1,0 +1,3 @@
+#!/bin/sh
+#dcpdf
+/usr/bin/qpdf --decrypt --password="$2" "$1" "$1".pdf

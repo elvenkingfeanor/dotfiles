@@ -1,0 +1,19 @@
+#!/bin/sh
+# ~/.config/X11/xinitrc
+# after, export XINITRC="$XDG_CONFIG_HOME"/X11/xinitrc, in .zshrc or .bashrc
+
+source /etc/X11/xinit/xinitrc.d/50-systemd-user.sh
+/usr/bin/touch /tmp/Xauthority
+$HOME/.local/bin/xinfo &
+/usr/bin/xrdb -load $XDG_CONFIG_HOME/X11/xresources &
+$HOME/.local/bin/bright &
+$XDG_CONFIG_HOME/xwallpaper/swall &
+/usr/bin/xset r rate 200 50 &
+#/usr/bin/xset r off &
+/usr/bin/unclutter &
+/usr/bin/picom 2>> ~/.local/share/picom.log &
+/usr/bin/emacs --daemon &
+/usr/local/bin/dwmblocks 2>> ~/.local/share/dwmblocks.log &
+exec /usr/local/bin/st 2>> ~/.local/share/st.log &
+
+exec $HOME/.local/bin/dwmstart

@@ -1,0 +1,3 @@
+#!/bin/sh
+#brtt
+/usr/bin/cat /sys/class/backlight/nv_backlight/brightness

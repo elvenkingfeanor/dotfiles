@@ -1,0 +1,6 @@
+#!/bin/sh
+#sukc # git copy my suckless configs
+/usr/bin/find $HOME/prog/suckless/dwm -type f -name '*' | /usr/bin/grep -vIE '(.git/*|.def.h|.orig|.rej|dwm.o|drw.o|util.o|.png|dwm$)' | /usr/bin/xargs -i {} /usr/bin/cp -av {} $HOME/gits/my_dwm
+/usr/bin/find $HOME/prog/suckless/st -type f -name '*' | /usr/bin/grep -vIE '(.git/*|.def.h|.orig|.rej|FAQ|LEGACY|TODO|x.o|st.o|st$)' | /usr/bin/xargs -I {} /usr/bin/cp -av {} $HOME/gits/my_st
+/usr/bin/find $HOME/prog/suckless/dmenu -type f -name '*' | /usr/bin/grep -vIE '(.git/*|.def.h|.orig|.rej|dmenu.o|drw.o|stest.o|util.o|stest$|dmenu$)' | /usr/bin/xargs -I {} /usr/bin/cp -av {} $HOME/gits/my_dmenu
+/usr/bin/find $HOME/prog/suckless/slstatus -type f -name '*' | /usr/bin/grep -vIE '(.git/*|components/*|.def.h|.orig|.rej|slstatus.o|util.o|slstatus$)' | /usr/bin/xargs -I {} /usr/bin/cp -av {} $HOME/gits/my_status

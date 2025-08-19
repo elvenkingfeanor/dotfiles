@@ -1,0 +1,12 @@
+#!/bin/sh
+#bakp
+# mount removable backup media and backup to it
+# if LABEL=backup drive not mounted, mount it
+
+loaded=$(/usr/bin/findmnt -S LABEL=backup)
+mountpoint=$(/usr/bin/lsblk -l -o +LABEL | /usr/bin/grep backup | /usr/bin/awk '{print $1}')
+
+if [[ -z "$loaded" ]]; then
+	/usr/bin/pmount /dev/"$mountpoint" backup
+fi
+

@@ -1,0 +1,13 @@
+#!/bin/sh
+#empty_paper
+
+# check if paper is already downloaded, if not proceed with download
+
+cd ~/dl/autopaper/
+
+if [ "$(/usr/bin/ls -A anandabazar-$(/usr/bin/date '+%d%m%Y') 2>/dev/null)" ]
+then
+    /usr/bin/notify-send "Paper already downloaded"
+else
+    ~/.local/bin/rust_autopaper && /usr/bin/notify-send "Paper now downloaded"
+fi

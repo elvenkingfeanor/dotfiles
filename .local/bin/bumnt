@@ -1,0 +1,14 @@
+#!/bin/sh
+#bumnt
+# unmount removable backup media
+# if LABEL=backup media not mounted, do nothing
+
+loaded=$(/usr/bin/findmnt -rn -S LABEL=backup)
+mountpoint=$(/usr/bin/lsblk -l -o +LABEL | /usr/bin/grep backup | /usr/bin/awk '{print $1}')
+
+if [[ -z "$loaded" ]]; then
+	/usr/bin/notify-send "Backup drive not mounted"
+	else
+		/usr/bin/pumount /dev/"$mountpoint" && /usr/bin/notify-send "Backup drive unmounted"
+fi
+

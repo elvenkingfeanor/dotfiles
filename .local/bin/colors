@@ -1,0 +1,4 @@
+#!/bin/sh
+#colors
+for i in {0..255}; do tput setaf $i; echo -n "$i "; done; tput sgr0; echo "";
+for i in {0..255}; do tput setab $i; echo -n "$i "; done; tput sgr0; echo ""

@@ -1,0 +1,10 @@
+#!/bin/sh
+#batt
+stat=$(if [[ $(/usr/bin/grep 'STATUS' /sys/class/power_supply/BAT0/uevent | /usr/bin/sed 's/^.*\=//') == 'Discharging' ]]; then /usr/bin/echo "-"; else /usr/bin/echo "+"; fi)
+
+cap=$(/usr/bin/grep 'CAPACITY=' /sys/class/power_supply/BAT0/uevent | /usr/bin/sed 's/^.*\=//')
+
+red=$(/usr/bin/tput setaf 1)
+norm=$(/usr/bin/tput sgr0)
+
+if [ "$stat" = "-" ] && [ "$cap" -le 20 ]; then /usr/bin/echo "${red}$stat$cap${norm}"; elif [ "$stat" = "+" ] && [ "$cap" -ge 80 ]; then /usr/bin/echo "${red}$stat$cap${norm}"; else /usr/bin/echo "$stat$cap"; fi

@@ -1,0 +1,3 @@
+#!/bin/sh
+#dpath
+/usr/bin/find $HOME -path $HOME/vids -prune -o -type d -name '*' -print | /usr/bin/fzf -m | /usr/bin/paste -s -d ' ' | /usr/bin/tr -d '\n' | /usr/bin/xclip -selection clipboard 

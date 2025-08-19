@@ -1,0 +1,3 @@
+#!/bin/sh
+#pdfresize
+/usr/bin/gs -sDEVICE=pdfwrite -dCompatibilityLevel=1.4 -dPDFSETTINGS=/ebook -dNOPAUSE -dFIXEDMEDIA -dQUIET -dBATCH -sOutputFile="$2" "$1"

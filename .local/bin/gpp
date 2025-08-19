@@ -1,0 +1,3 @@
+#!/bin/sh
+#gpp
+/usr/bin/find . -type f | /usr/bin/xargs /usr/bin/grep -iIrn --color "$1"

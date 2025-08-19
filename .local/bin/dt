@@ -1,0 +1,3 @@
+#!/bin/sh
+#dt
+/usr/bin/dict "$1" | /usr/bin/colorit

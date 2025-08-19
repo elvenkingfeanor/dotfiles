@@ -1,0 +1,3 @@
+#!/bin/sh
+#mergepdf #merge all pdfs
+/usr/bin/qpdf --empty --pages $(for i in *.pdf; do echo $i; done) -- "$1".pdf

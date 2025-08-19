@@ -1,0 +1,15 @@
+#!/bin/bash
+
+# If not running interactively, don't do anything
+[[ $- != *i* ]] && return
+
+[[ $DISPLAY ]] && shopt -s checkwinsize
+
+PS1='[\u@\h \W]\$ '
+
+source $HOME/.config/shell/profile
+source $HOME/.config/shell/aliasrc
+source $HOME/.config/shell/private
+source $HOME/.config/shell/logout
+
+[ -f ~/.fzf.bash ] && source ~/.fzf.bash

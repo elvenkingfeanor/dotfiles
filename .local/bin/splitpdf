@@ -1,0 +1,3 @@
+#!/bin/sh
+#splitpdf
+/usr/bin/qpdf "$1" --pages . "$2" -- "$3"

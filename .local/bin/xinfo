@@ -1,0 +1,10 @@
+#!/bin/sh
+#xinfo
+# Export the dbus session address on startup so it can be used by cron
+/usr/bin/touch $XDG_CONFIG_HOME/X11/xdbus
+/usr/bin/chmod 600 $XDG_CONFIG_HOME/X11/xdbus
+/usr/bin/env | grep DBUS_SESSION_BUS_ADDRESS > $XDG_CONFIG_HOME/X11/xdbus
+/usr/bin/echo 'export DBUS_SESSION_BUS_ADDRESS' >> $XDG_CONFIG_HOME/X11/xdbus
+# Export the Xauthority value on startup so it can be used by cron
+/usr/bin/env | grep XAUTHORITY >> $XDG_CONFIG_HOME/X11/xdbus
+/usr/bin/echo 'export XAUTHORITY' >> $XDG_CONFIG_HOME/X11/xdbus

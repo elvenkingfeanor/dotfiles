@@ -1,0 +1,28 @@
+[global]
+    monitor = 0
+    follow = keyboard
+    width = (0,370) # variable width
+    height = (0,350) # variable height
+    origin = top-right
+    offset = (0,20) # margin of 0 pixels from right, 20 from top
+    padding = 2
+    horizontal_padding = 2
+    transparency = 25 # only works with compositor (picom) running
+    font = JetBrainsMono 12
+    format = "<b>%s</b>\n%b"
+
+[urgency_low]
+    background = "#98971a"
+    foreground = "#3c3836"
+    timeout = 5
+
+[urgency_normal]
+    background = "#d79921"
+    foreground = "#3c3836"
+    timeout = 10
+
+[urgency_critical]
+    background = "#cc241d"
+    foreground = "#ebdbb2"
+    frame_color = "#7c6f64"
+    timeout = 15 

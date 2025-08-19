@@ -1,0 +1,14 @@
+#!/bin/sh
+#thes
+# Command line thesaurus
+
+BROWSER="/usr/bin/lynx -source"
+WEBSITE="http://www.thesaurus.com:80/browse/$1"
+HTML2TEXT="/usr/bin/html2text"
+
+if test $1; then
+	${BROWSER} ${WEBSITE} | ${HTML2TEXT} | ${PAGER}
+	else
+	/usr/bin/echo "Usage: $0 word"
+	exit 1
+fi

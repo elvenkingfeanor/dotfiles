@@ -1,0 +1,3 @@
+#!/bin/sh
+#ffm
+/usr/bin/find /media/sd"$1" -type d -name '*' > /dev/null

@@ -1,0 +1,3 @@
+#!/bin/sh
+#cache
+/usr/bin/doas /usr/bin/pacman -Sc && /usr/bin/yay -Sc

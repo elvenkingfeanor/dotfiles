@@ -1,0 +1,5 @@
+#!/bin/sh
+#cpr
+# rsync copy
+
+/usr/bin/rsync --archive --checksum -hh --partial --info=stats1,progress2 --modify-window=1 "$@"

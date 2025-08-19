@@ -1,0 +1,3 @@
+#!/bin/sh
+#pname
+/usr/bin/pacman -Qlq "$1" | /usr/bin/grep /usr/bin/

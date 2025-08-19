@@ -1,0 +1,5 @@
+#!/bin/sh
+#ana
+# Command line anagram
+
+/usr/bin/grep -Ei "^[$1]{$2}$" /usr/share/dict/words

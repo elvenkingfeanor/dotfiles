@@ -1,0 +1,5 @@
+#!/bin/sh
+# modified from https://github.com/LukeSmithxyz/st/blob/master/st-urlhandler
+regex='(((http|https|ftp|gopher)|mailto)[.:][^ >"\t]*|www\.[-a-z0-9.]+)[^ .,;\t>">\):]'
+url=$(/usr/bin/grep -Po "$regex" | /usr/local/bin/dmenu -l 10 -p "Go:" -w "$WINDOWID") || exit
+/usr/bin/echo "$url" | /usr/bin/tr -d '\n' | /usr/bin/xclip -selection clipboard

@@ -1,0 +1,3 @@
+#!/bin/sh
+#ext
+/usr/bin/doas /usr/bin/mkfs.ext4 /dev/sd"$1" -L "$2"

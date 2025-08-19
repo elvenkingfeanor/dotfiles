@@ -1,0 +1,5 @@
+#!/bin/sh
+#freedisk
+varh=$(/usr/bin/df -h ~ | /usr/bin/awk 'FNR == 2 {print $5,$4}')
+varr=$(/usr/bin/df -h / | /usr/bin/awk 'FNR == 2 {print $5,$4}')
+/usr/bin/echo "$varh|$varr" | /usr/bin/sed 's/\ /:/g'

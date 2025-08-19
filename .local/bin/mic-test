@@ -1,0 +1,5 @@
+#!/bin/sh
+#mic-test
+/usr/bin/arecord --duration=3 --format=dat ~/test-mic.wav;
+sleep 1;
+/usr/bin/aplay ~/test-mic.wav

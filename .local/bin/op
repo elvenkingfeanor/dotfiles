@@ -1,0 +1,3 @@
+#!/bin/sh
+#op
+/usr/bin/xdg-open $(/usr/bin/find $HOME -path $HOME/vids -prune -o -type f -print | /usr/bin/fzf)

@@ -1,0 +1,3 @@
+#!/bin/sh
+#gii
+/usr/bin/grep -IrL --color "$1" ./*

@@ -1,0 +1,88 @@
+#!/bin/sh
+
+# defaults
+export PAGER=/usr/bin/less
+export VISUAL=/usr/bin/nvim
+export EDITOR=/usr/bin/nvim
+export SUDO_EDITOR=/usr/bin/nvim
+export READER=/usr/bin/zathura
+export TERMINAL=/usr/local/bin/st
+export COLORTERM="st-256color"
+export BROWSER=/usr/bin/brave
+export BROWSERCLI=/usr/bin/lynx
+export VIDEO=/usr/bin/mpv
+export IMAGE=/usr/bin/nsxiv
+export WM=/usr/local/bin/dwm
+
+# xdg-usr-directories
+export XDG_DOWNLOAD_DIR=$HOME/dl
+export XDG_DOCUMENTS_DIR=$HOME/dox
+export XDG_MUSIC_DIR=$HOME/musix
+export XDG_PICTURES_DIR=$HOME/pix
+export XDG_VIDEOS_DIR=$HOME/vids
+export XDG_DESKTOP_DIR=$HOME/
+export XDG_TEMPLATES_DIR=$HOME/
+export XDG_CONFIG_HOME="$HOME/.config"
+export XDG_CACHE_HOME="$HOME/.cache"
+export XDG_DATA_HOME="$HOME/.local/share"
+export XDG_STATE_HOME="$HOME/.local/state"
+export XDG_DATA_DIRS="/usr/local/share:/usr/share:$HOME/.local/share"
+export XDG_CONFIG_DIRS=/etc/xdg
+export XDG_RUNTIME_DIR="/run/user/$(/usr/bin/id -ru)"
+
+# Video acceleration VDPAU
+export VDPAU_DRIVER="nouveau"
+
+# Set GTK theme for Qt
+export GTK_THEME=Adwaita:dark
+export GTK2_RC_FILES=/usr/share/themes/Adwaita-dark/gtk-2.0/gtkrc
+export QT_STYLE_OVERRIDE=Adwaita-Dark
+
+# xdg-ninja
+export PASSWORD_STORE_DIR="${XDG_DATA_HOME:-$HOME/.local/share}"/pass
+#export GTK2_RC_FILES="${XDG_CONFIG_HOME:-$HOME/.config}/gtk-2.0/gtkrc"
+export GNUPGHOME="${XDG_DATA_HOME:-$HOME/.local/share}"/gnupg
+export CARGO_HOME="${XDG_DATA_HOME:-$HOME/.local/share}"/cargo
+export W3M_DIR="${XDG_CONFIG_HOME:-$HOME/.config}"/w3m
+export ANTIWORDHOME="$XDG_DOWNLOAD_DIR"/antiword
+export TEXMFVAR="${XDG_CACHE_HOME:-$HOME/.cache}"/texlive/texmf-var
+#export MBSYNCRC="${XDG_CONFIG_HOME:-$HOME/.config}"/isync/mbsyncrc
+export XCURSOR_PATH=/usr/share/icons:${XDG_DATA_HOME:-$HOME/.local/share}/icons
+export ANDROID_USER_HOME="${XDG_DATA_HOME:-$HOME/.local/share}"/android
+export PARALLEL_HOME="${XDG_CONFIG_HOME:-$HOME/.config}"/parallel
+
+# history files
+export HISTFILE="${XDG_STATE_HOME}"/bash/history # Bash history file
+export HISTIGNORE="man:cat:less:vi:pss:psi:yss:ysi:cl:cll:clc:fcc:cdd:op:opp:xx:df:du:brtt:batt:mute:vol:iv:mm:torr:wttr:cu:cn:yt:yta" # bash ignore
+export HISTFILE="${XDG_DATA_HOME}"/zsh/histfile # Zsh history file
+export HISTORY_IGNORE="man:cat:less:vi:pss:psi:yss:ysi:cl:cll:clc:fcc:cdd:op:opp:xx:df:du:brtt:batt:mute:vol:iv:mm:torr:wttr:cu:cn:yt:yta" # zsh ignore
+export CALCHISTFILE="${XDG_CACHE_HOME:-$HOME/.cache}"/calc_history
+export LESSHISTFILE="${XDG_DATA_HOME:-$HOME/.local/share}"/lesshst
+
+# X11
+export XAUTHORITY=/tmp/Xauthority
+export XINITRC="${XDG_CONFIG_HOME:-$HOME/.config}"/X11/xinitrc
+export ICEAUTHORITY="${XDG_CACHE_HOME:-$HOME/.cache}"/ICEauthority
+
+# R
+export R_HOME_USER="${XDG_CONFIG_HOME:-$HOME/.config}/R"
+export R_PROFILE_USER="${XDG_CONFIG_HOME:-$HOME/.config}/R/profile"
+export R_HISTFILE="${XDG_CONFIG_HOME:-$HOME/.config}/R/history"
+export R_LIBS_USER="${XDG_DATA_HOME:-$HOME/.local/share}/R"
+
+# fzf defaults
+export FZF_DEFAULT_OPTS="--cycle --height 10%"
+
+# define Home for any web browser
+export WWW_HOME="https://duckduckgo.com"
+
+# docker config
+export DOCKER_CONFIG="${XDG_CONFIG_HOME:-$HOME/.config/}/docker"
+
+# colored Man
+export MANPAGER="/usr/bin/less -R --use-color -Dd+r -Du+g"
+export MANROFFOPT="-P -c"
+
+# add custom folder to Path
+export GOPATH="${XDG_DATA_HOME:-$HOME/.local/share}"/go
+export PATH="${PATH}:$HOME/.local/bin:$HOME/.local/bin/statusbar:$HOME/.local/bin/edirect:$CARGO_HOME/bin"

@@ -1,0 +1,12 @@
+#!/bin/sh
+#pageprint
+# prints to lp
+
+name="$1"
+range="$2"
+
+if [[ -z "$range" ]]; then
+	/usr/bin/lp -o print-quality=5 -o sides=two-sided-long-edge "$name"
+	else
+		/usr/bin/lp -o print-quality=5 -o sides=two-sided-long-edge -P "$range" "$name"
+fi

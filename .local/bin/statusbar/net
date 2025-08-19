@@ -1,0 +1,3 @@
+#!/bin/sh
+#netw
+/usr/bin/ifstat wlan0 | /usr/bin/grep wlan0 | /usr/bin/awk '{print $6":"$8}'

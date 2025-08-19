@@ -1,0 +1,8 @@
+dmenu - dynamic menu
+====================
+My build of Suckless' DMENU 5.3.
+Patches:
+dmenu-fuzzymatch-5.3.diff
+dmenu-lineheight-5.2.diff
+dmenu-numbers-4.9.diff
+dmenu-xresources-4.9.diff

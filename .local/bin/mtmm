@@ -1,0 +1,3 @@
+#!/bin/sh
+#mtmm
+/usr/bin/simple-mtpfs --device 1 $XDG_DOWNLOAD_DIR/mtp

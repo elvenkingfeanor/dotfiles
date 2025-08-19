@@ -1,0 +1,262 @@
+!! $HOME/.config/X11/xresources
+
+!! Transparency (0-1):
+!*.alpha: 0.8
+
+!! Set a default font and font size as below:
+!*.font: JetBrainsMono:size=14
+
+Xft.dpi: 96
+Xft.antialias: true
+Xft.hinting: true
+Xft.rgba: rgb
+Xft.autohint: true
+Xft.hintstyle: hintfull
+Xft.lcdfilter: lcdfilter
+
+!! XTerm
+XTerm.termName: xterm-256color
+XTerm.vt100.faceName: JetBrainsMono:size=12:antialias=true
+XTerm*renderFont: true
+XTerm*utf8: 2
+XTerm*locale: true
+XTerm.alpha: 0.8
+
+XTerm.vt100.translations: #override \n\
+	Ctrl <Key> -: smaller-vt-font() \n\
+	Ctrl <Key> =: larger-vt-font() \n\
+	Ctrl Shift <Key> C: copy-selection(CLIPBOARD) \n\
+	Ctrl Shift <Key> V: insert-selection(CLIPBOARD) 
+
+!! Support scrollback
+XTerm*saveLines: 16384
+
+!! Double-click to select whole URLs
+XTerm*charClass: 33:48,36-47:48,58-59:48,61:48,63-64:48,95:48,126:48
+
+!! URxvt
+URxvt.font: xft:JetBrainsMono:size=12
+URxvt.letterSpace: 0
+URxvt.lineSpace: 0
+URxvt.geometry: 92x24
+URxvt.internalBorder: 4
+URxvt.cursorBlink: False
+URxvt.cursorUnderline: False
+URxvt.saveline: 2048
+URxvt.scrollBar: False
+URxvt.scrollBar_right: False
+URxvt.underlineURLs: true
+
+!! Common Keybinds for Navigations
+URxvt.keysym.Shift-Up: command:\033]720;1\007
+URxvt.keysym.Shift-Down: command:\033]721;1\007
+URxvt.keysym.Control-Up: \033[1;5A
+URxvt.keysym.Control-Down: \033[1;5B
+URxvt.keysym.Control-Right: \033[1;5C
+URxvt.keysym.Control-Left: \033[1;5D
+
+!! URxvt Perl Extensions
+URxvt.perl-ext-common: default,clipboard,resize-font,url-select,keyboard-select
+URxvt.copyCommand: xclip -i -selection clipboard
+URxvt.pasteCommand: xclip -o -selection clipboard
+URxvt.keysym.C-S-c: perl:clipboard:copy
+URxvt.keysym.C-S-v: perl:clipboard:paste
+URxvt.keysym.C-minus: resize-font:smaller
+URxvt.keysym.C-equal: resize-font:bigger
+URxvt.keysym.C-0: resize-font:reset
+URxvt.keysym.M-u: perl:url-select:select_next
+URxvt.keysym.M-Escape: perl:keyboard-select:activate
+URxvt.keysym.M-s: perl:keyboard-select:search
+
+!! COLORS
+
+! special
+!*.foreground:	#c5c8c6
+!*.background:   #1d1f21
+!*.cursorColor:  #c5c8c6
+
+! black
+!*.color0:       #282a2e
+!*.color8:       #373b41
+
+! red
+!*.color1:       #a54242
+!*.color9:       #cc6666
+
+! green
+!*.color2:       #8c9440
+!*.color10:      #b5bd68
+
+! yellow
+!*.color3:       #de935f
+!*.color11:      #f0c674
+
+! blue
+!*.color4:       #5f819d
+!*.color12:      #81a2be
+
+! magenta
+!*.color5:       #85678f
+!*.color13:      #b294bb
+
+! cyan
+!*.color6:       #5e8d87
+!*.color14:      #8abeb7
+
+! white
+!*.color7:       #707880
+!*.color15:      #c5c8c6
+
+!! Solarized-dark
+!! imported from terminal.sexy
+!! COLORS
+!! special
+!*.foreground:   #93a1a1
+!*.background:   #002b36
+!*.cursorColor:  #93a1a1
+!
+!!! black
+!*.color0:       #002b36
+!*.color8:       #657b83
+!
+!!! red
+!*.color1:       #dc322f
+!*.color9:       #dc322f
+!
+!!! green
+!*.color2:       #859900
+!*.color10:      #859900
+!
+!!! yellow
+!*.color3:       #b58900
+!*.color11:      #b58900
+!
+!! blue
+!*.color4:       #268bd2
+!*.color12:      #268bd2
+!
+!! magenta
+!*.color5:       #6c71c4
+!*.color13:      #6c71c4
+!
+!! cyan
+!*.color6:       #2aa198
+!*.color14:      #2aa198
+!
+!! white
+!*.color7:       #93a1a1
+!*.color15:      #fdf6e3
+
+!! Solarized-light
+!! Imported from terminal.sexy
+!!! COLORS
+!!! special
+!*.foreground:   #586e75
+!*.background:   #fdf6e3
+!*.cursorColor:  #586e75
+
+!! black
+!*.color0:       #002b36
+!*.color8:       #657b83
+
+!! red
+!*.color1:       #dc322f
+!*.color9:       #dc322f
+
+!! green
+!*.color2:       #859900
+!*.color10:      #859900
+
+!! yellow
+!*.color3:       #b58900
+!*.color11:      #b58900
+
+!! blue
+!*.color4:       #268bd2
+!*.color12:      #268bd2
+
+!! magenta
+!*.color5:       #6c71c4
+!*.color13:      #6c71c4
+
+!! cyan
+!*.color6:       #2aa198
+!*.color14:      #2aa198
+
+!! white
+!*.color7:       #93a1a1
+!*.color15:      #fdf6e3
+
+! -----------------------------------------------------------------------------
+! File: gruvbox-dark.xresources
+! Description: Retro groove colorscheme generalized
+! Author: morhetz <morhetz@gmail.com>
+! Source: https://github.com/morhetz/gruvbox-generalized
+! Last Modified: 6 Sep 2014
+! -----------------------------------------------------------------------------
+
+! hard contrast: *background: #1d2021
+*background: #282828
+! soft contrast: *background: #32302f
+*foreground: #ebdbb2
+! Black + DarkGrey
+*color0:  #282828
+*color8:  #928374
+! DarkRed + Red
+*color1:  #cc241d
+*color9:  #fb4934
+! DarkGreen + Green
+*color2:  #98971a
+*color10: #b8bb26
+! DarkYellow + Yellow
+*color3:  #d79921
+*color11: #fabd2f
+! DarkBlue + Blue
+*color4:  #458588
+*color12: #83a598
+! DarkMagenta + Magenta
+*color5:  #b16286
+*color13: #d3869b
+! DarkCyan + Cyan
+*color6:  #689d6a
+*color14: #8ec07c
+! LightGrey + White
+*color7:  #a89984
+*color15: #ebdbb2
+
+! -----------------------------------------------------------------------------
+! File: gruvbox-light.xresources
+! Description: Retro groove colorscheme generalized
+! Author: morhetz <morhetz@gmail.com>
+! Source: https://github.com/morhetz/gruvbox-generalized
+! Last Modified: 6 Sep 2014
+! -----------------------------------------------------------------------------
+
+!! hard contrast: *background: #f9f5d7
+!*background: #fbf1c7
+!! soft contrast: *background: #f2e5bc
+!*foreground: #3c3836
+!! Black + DarkGrey
+!*color0:  #fdf4c1
+!*color8:  #928374
+!! DarkRed + Red
+!*color1:  #cc241d
+!*color9:  #9d0006
+!! DarkGreen + Green
+!*color2:  #98971a
+!*color10: #79740e
+!! DarkYellow + Yellow
+!*color3:  #d79921
+!*color11: #b57614
+!! DarkBlue + Blue
+!*color4:  #458588
+!*color12: #076678
+!! DarkMagenta + Magenta
+!*color5:  #b16286
+!*color13: #8f3f71
+!! DarkCyan + Cyan
+!*color6:  #689d6a
+!*color14: #427b58
+!! LightGrey + White
+!*color7:  #7c6f64
+!*color15: #3c3836

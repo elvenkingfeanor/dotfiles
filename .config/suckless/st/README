@@ -1,0 +1,10 @@
+st - simple terminal
+--------------------
+My build of Suckless' ST 0.9.2.
+Patches:
+st-colorschemes-0.8.5.diff
+st-scrollback-mouse-0.9.2.diff
+st-font2-0.8.5.diff
+st-keyboard_select-20200617-9ba7ecf.diff
+st-scrollback-0.9.2.diff
+st-externalpipe-0.8.5.diff

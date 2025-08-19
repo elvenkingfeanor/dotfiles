@@ -1,0 +1,10 @@
+dwm - dynamic window manager
+============================
+My build of Suckless' DWM 6.5.
+Patches:
+dwm-swallow-6.3.diff
+dwm-patches.txt
+dwm-xrdb-6.4.diff
+dwm-scratchpads-20200414-728d397b.diff
+dwm-pertag-20200914-61bb8b2.diff
+dwm-attachaside-6.4.diff

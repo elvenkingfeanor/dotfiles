@@ -1,0 +1,3 @@
+#!/bin/sh
+#connect
+/usr/bin/iwctl station wlan0 connect "$1"

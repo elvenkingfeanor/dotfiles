@@ -1,0 +1,3 @@
+#!/bin/sh
+# screenshot to file
+/usr/bin/maim --hidecursor ~/pix/ss/$(/usr/bin/date +%Y-%m-%d-%H-%M-%S)_screenshot.png

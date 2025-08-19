@@ -1,0 +1,3 @@
+#!/bin/sh
+#opp
+/usr/bin/xdg-open $(/usr/bin/find . -type f | /usr/bin/fzf)

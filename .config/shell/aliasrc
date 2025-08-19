@@ -1,0 +1,287 @@
+#!/bin/sh
+# ~/.config/shell/aliasrc
+
+# sudo
+alias sudo=/usr/bin/doas
+
+# xdg-mime
+alias xxff="/usr/bin/xdg-mime query filetype"
+alias xxqq="/usr/bin/xdg-mime query default"
+alias xxd="/usr/bin/xdg-mime default"
+alias xx="/usr/bin/xdg-open"
+alias umd="/usr/bin/update-mime-database"
+
+# desktop entries
+alias dff="/usr/bin/desktop-file-validate"
+alias ddi="/usr/bin/desktop-file-install"
+alias udd="/usr/bin/update-desktop-database"
+
+# xdg-dirs
+#alias udu="/usr/bin/xdg-user-dirs-update"
+
+# xrdb reload
+alias xxx="/usr/bin/xrdb $XDG_CONFIG_HOME/X11/xresources"
+
+# pacman
+alias syu="/usr/bin/doas /usr/bin/pacman -Syu"
+alias pis="/usr/bin/doas /usr/bin/pacman -S"
+alias rns="/usr/bin/doas /usr/bin/pacman -Rns"
+alias pss="/usr/bin/pacman -Ss"
+alias psi="/usr/bin/pacman -Si"
+alias pqs="/usr/bin/pacman -Qs"
+alias pqe="/usr/bin/pacman -Qe"
+alias pqi="/usr/bin/pacman -Qi"
+alias Syu="/usr/bin/yay -Sua"
+alias yss="/usr/bin/yay -Ss"
+alias ysi="/usr/bin/yay -Si"
+alias ygi="/usr/bin/yay -Gp" # view PKGBUILD of given packages
+alias yqs="/usr/bin/yay -Qs"
+alias yqe="/usr/bin/yay -Qe"
+alias yqi="/usr/bin/yay -Qi"
+alias yis="/usr/bin/yay -S"
+alias ple="/usr/bin/pacman -Qe" # list all explicitly installed packages
+
+# checkupdates
+alias cu="/usr/bin/checkupdates"
+alias cn="/usr/bin/checkupdates| /usr/bin/wc -l"
+alias Cu="/usr/bin/yay -Qu"
+alias Cn="/usr/bin/yay -Qu | /usr/bin/wc -l"
+
+# journalctl
+alias jctl="/usr/bin/journalctl -p 3 -xb" # show errors from journalctl
+
+# gpg
+alias gpg-check="/usr/bin/gpg2 --keyserver-options auto-key-retrieve --verify" # verify downloaded files
+alias gpg-retrieve="/usr/bin/gpg2 --keyserver-options auto-key-retrieve --receive-keys" # receive keys of a developer
+
+# pip
+alias ppi="/usr/bin/pip install"
+alias ppu="/usr/bin/pip uninstall"
+alias ppl="/usr/bin/pip list"
+alias ppc="/usr/bin/pip check"
+alias pps="/usr/bin/pip show"
+
+# git
+alias gs="/usr/bin/git status"
+alias gd="/usr/bin/git diff"
+alias ga="/usr/bin/git add -v"
+alias grm="/usr/bin/git rm"
+alias gcm="/usr/bin/git commit -m"
+alias gps="/usr/bin/git push"
+alias gcl="/usr/bin/git clone"
+alias gpl="/usr/bin/git pull"
+alias dotfiles='/usr/bin/git --git-dir="/mnt/bak/dotfiles.git" --work-tree="$HOME"'
+
+# navigation
+alias ..="cd ..;/usr/bin/clear;/usr/bin/eza -lo --no-permissions --group-directories-first --grid"
+alias ...="cd ../..;/usr/bin/clear;/usr/bin/eza -lo --no-permissions --group-directories-first --grid"
+alias ....="cd ../../..;/usr/bin/clear;/usr/bin/eza -lo --no-permissions --group-directories-first --grid"
+alias .....="cd ../../../..;/usr/bin/clear;/usr/bin/eza -lo --no-permissions --group-directories-first --grid"
+alias ......="cd ../../../../..;/usr/bin/clear;/usr/bin/eza -lo --no-permissions --group-directories-first --grid"
+alias ..t="cd ..;/usr/bin/clear;/usr/bin/tree -C | /usr/bin/ov"
+alias ..tt="cd ..;/usr/bin/clear;/usr/bin/tree -d -C | /usr/bin/ov"
+alias ...t="cd ../..;/usr/bin/clear;/usr/bin/tree -C | /usr/bin/ov"
+alias ...tt="cd ../..;/usr/bin/clear;/usr/bin/tree -d -C | /usr/bin/ov"
+alias ....t="cd ../../..;/usr/bin/clear;/usr/bin/tree -C | /usr/bin/ov"
+alias ....tt="cd ../../..;/usr/bin/clear;/usr/bin/tree -d -C | /usr/bin/ov"
+alias .....t="cd ../../../..;/usr/bin/clear;/usr/bin/tree -C | /usr/bin/ov"
+alias .....tt="cd ../../../..;/usr/bin/clear;/usr/bin/tree -d -C | /usr/bin/ov"
+alias ......t="cd ../../../../..;/usr/bin/clear;/usr/bin/tree -C | /usr/bin/ov"
+alias ......tt="cd ../../../../..;/usr/bin/clear;/usr/bin/tree -d -C | /usr/bin/ov"
+
+# cd
+fcc() {
+cd "$(/usr/bin/find $HOME -type d \( -path $HOME/vids -prune -o -path $HOME/librm -prune -o -path $HOME/pix -prune -o -path $HOME/musix -prune \) -false -o -type d -name '*' -print | /usr/bin/fzf)";/usr/bin/clear;/usr/bin/eza -lo --no-permissions --group-directories-first --grid
+}
+ftt() {
+cd "$(/usr/bin/find $HOME -type d \( -path $HOME/vids -prune -o -path $HOME/librm -prune -o -path $HOME/pix -prune -o -path $HOME/musix -prune \) -false -o -type d -name '*' -print | /usr/bin/fzf)";/usr/bin/clear;/usr/bin/tree -aC | /usr/bin/ov
+}
+mcc() {
+cd "$(/usr/bin/find /media/ -type d -path *vids -prune -false -o -type d | /usr/bin/fzf)";/usr/bin/clear;/usr/bin/eza -lo --no-permissions --group-directories-first --grid
+}
+cdd() {
+cd "$(/usr/bin/find . -type d | /usr/bin/fzf)";/usr/bin/clear;/usr/bin/eza -lo --no-permissions --group-directories-first --grid
+}
+ctt() {
+cd "$(/usr/bin/find . -type d | /usr/bin/fzf)";/usr/bin/clear;/usr/bin/tree -aC | /usr/bin/ov
+}
+
+# clear
+alias cl=/usr/bin/clear
+alias clc="/usr/bin/clear;cd"
+alias cll="/usr/bin/clear;/usr/bin/eza -lo --no-permissions --group-directories-first --grid"
+alias clt="/usr/bin/clear;/usr/bin/tree -aC | /usr/bin/ov"
+alias ct1="/usr/bin/clear;/usr/bin/tree -C -d -L 1 | /usr/bin/ov"
+alias ct2="/usr/bin/clear;/usr/bin/tree -C -d -L 2 | /usr/bin/ov"
+alias ct3="/usr/bin/clear;/usr/bin/tree -C -d -L 3 | /usr/bin/ov"
+alias ct4="/usr/bin/clear;/usr/bin/tree -C -d -L 4 | /usr/bin/ov"
+
+# tree
+alias tree="/usr/bin/tree -aC"
+alias tt1="/usr/bin/tree -C -d -L 1"
+alias tt2="/usr/bin/tree -C -d -L 2"
+alias tt3="/usr/bin/tree -C -d -L 3"
+alias tt4="/usr/bin/tree -C -d -L 4"
+
+# whereis
+alias ww=/usr/bin/whereis
+
+# checkbashisms
+alias bism=/usr/bin/checkbashisms
+
+# lsblk
+alias llb="/usr/bin/lsblk -o +LABEL"
+
+# xdg-ninja
+alias ninja="cd $HOME && /usr/bin/clear && /usr/bin/xdg-ninja"
+
+# bulk rename
+alias nn=/usr/bin/vimv
+alias nnn="/usr/bin/doas /usr/bin/vimv"
+
+# glow
+alias gg="/usr/bin/glow -p"
+
+# confirm before overwriting something
+alias cp="/usr/bin/cp -vir"
+alias ccp="/usr/bin/doas /usr/bin/cp -vir"
+alias mv="/usr/bin/mv -vi"
+alias mmv="/usr/bin/doas /usr/bin/mv -vi"
+alias rm="/usr/bin/rm -vI"
+alias rrm="/usr/bin/doas /usr/bin/rm -vI"
+alias mkd="/usr/bin/mkdir -vp"
+alias mmkd="/usr/bin/doas /usr/bin/mkdir -vp"
+
+# chown
+alias tt=/usr/bin/touch
+alias modx="/usr/bin/chmod +x"
+alias modu="/usr/bin/chmod -x"
+alias own="/usr/bin/doas /usr/bin/chown -R $(/usr/bin/echo $(/usr/bin/id -un):$(/usr/bin/id -gn))"
+
+# ls
+alias ls="/usr/bin/eza -lo --no-permissions --group-directories-first --grid"
+alias lsa="/usr/bin/eza -alo --group-directories-first --grid"
+alias cc="/usr/bin/ls -A | /usr/bin/wc -l"
+
+# rust alternatives
+alias cat=/usr/bin/bat
+alias rg="/usr/bin/rg -i --colors 'match:fg:green'"
+alias fd="/usr/bin/fd -H -c auto" # search hidden files
+
+# make
+alias mmi="/usr/bin/make && /usr/bin/doas /usr/bin/make clean install"
+alias mmu="/usr/bin/doas /usr/bin/make clean uninstall"
+
+# kill
+alias kill="/usr/bin/kill -9"
+
+# web ports
+alias port="/usr/bin/lsof -i -P -n"
+
+# nsxiv
+alias pp=/usr/bin/nsxiv
+
+# mpv
+alias mmm="/usr/bin/mpv *.mp4 *.mkv *.m4v *.webm"
+alias mm=/usr/bin/mpv
+alias minfo="/usr/bin/ffmpeg -i"
+
+# thumbnailer
+alias txx="/usr/bin/vcs -i 1m -c 4"
+
+# nvim
+alias vi="/usr/bin/nvim -i NONE"
+alias vim=/usr/bin/vi
+alias svim="/usr/bin/doas /usr/bin/nvim"
+alias vdiff="/usr/bin/nvim -d"
+alias vimdiff="/usr/bin/nvim -d"
+
+# emacs
+alias emm="/usr/bin/emacsclient -c -a \"\""
+alias emd="/usr/bin/emacs --daemon"
+alias edd="/usr/bin/killall emacs && /usr/bin/emacs --daemon"
+
+# ping
+alias ping="/usr/bin/ping 8.8.8.8 -c 5"
+
+# space
+alias df="/usr/bin/df -h"
+alias du=/usr/bin/ncdu
+alias freemem="/usr/bin/free -h -s 1 -c 3"
+
+# ytdl
+alias yt="/usr/bin/yt-dlp -ic"
+alias yta="/usr/bin/yt-dlp -xic"
+#alias qq="/usr/bin/torsocks /usr/bin/yt-dlp -ic"
+
+# zathura
+alias zz=/usr/bin/zathura
+
+# torrent
+alias torr=/usr/bin/attractorr
+
+# libg
+alias booka="cd $XDG_DOWNLOAD_DIR/libg && $HOME/.local/bin/libg -b author"
+alias bookt="cd $XDG_DOWNLOAD_DIR/libg && $HOME/.local/bin/libg -b title"
+
+# curl
+alias ccc="/usr/bin/curl --remote-name"
+
+# wget
+alias wget="/usr/bin/wget --hsts-file=$XDG_DATA_HOME/wget-hsts"
+
+# weather
+alias wttr="/usr/bin/curl wttr.in/$place"
+
+# surfraw
+alias sr="/usr/bin/sr duckduckgo"
+
+# w3m
+alias www="/usr/bin/w3m -config $XDG_CONFIG_HOME/w3m/config"
+
+# mail
+#alias mail="/usr/bin/mbsync -a -c $XDG_CONFIG_HOME/isync/mbsyncrc && /usr/bin/neomutt"
+
+# abook
+alias abook="/usr/bin/abook --config $XDG_CONFIG_HOME/abook/abookrc --datafile $XDG_DATA_HOME/abook/addressbook"
+
+# mbsync
+#alias mbsync="/usr/bin/mbsync -c $XDG_CONFIG_HOME/isync/mbsyncrc"
+#alias sync="/usr/bin/mbsync -a -c $XDG_CONFIG_HOME/isync/mbsyncrc"
+
+# scim
+#alias sc=/usr/bin/sc-im
+
+# mocp
+#alias moc="/usr/bin/mocp -M $XDG_CONFIG_HOME/moc"
+
+# neofetch
+alias fetch="$HOME/.local/bin/paleofetch"
+
+# cron
+alias cronl="/usr/bin/crontab -l"
+alias crone="/usr/bin/crontab -e"
+
+# network status
+alias wifi="/usr/bin/iwctl station wlan0 show"
+alias scan="/usr/bin/iwctl station wlan0 scan"
+alias netw="/usr/bin/iwctl station wlan0 get-networks"
+
+# latex
+alias pll=/usr/bin/pdflatex
+
+# calendar
+alias cal="/usr/bin/cal -y"
+
+# adb
+alias adb='HOME="$XDG_DATA_HOME"/android adb'
+
+# wpctl
+alias mute="/usr/bin/wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle"
+alias amute="/usr/bin/wpctl set-mute @DEFAULT_AUDIO_SOURCE@ toggle"
+
+# sl
+alias ctl=/usr/bin/sl
+
+# random identity generator
+alias name=/usr/bin/rig
