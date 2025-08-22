@@ -2,11 +2,11 @@
 
 # defaults
 export PAGER=/usr/bin/less
-export VISUAL=/usr/bin/nvim
+export VISUAL=/usr/bin/less
 export EDITOR=/usr/bin/nvim
 export SUDO_EDITOR=/usr/bin/nvim
 export READER=/usr/bin/zathura
-export TERMINAL=/usr/local/bin/st
+export TERMINAL=/usr/bin/alacritty
 export COLORTERM="st-256color"
 export BROWSER=/usr/bin/brave
 export BROWSERCLI=/usr/bin/lynx
@@ -17,11 +17,11 @@ export WM=/usr/local/bin/dwm
 # xdg-usr-directories
 export XDG_DOWNLOAD_DIR=$HOME/dl
 export XDG_DOCUMENTS_DIR=$HOME/dox
-export XDG_MUSIC_DIR=$HOME/musix
-export XDG_PICTURES_DIR=$HOME/pix
-export XDG_VIDEOS_DIR=$HOME/vids
-export XDG_DESKTOP_DIR=$HOME/
-export XDG_TEMPLATES_DIR=$HOME/
+export XDG_MUSIC_DIR=$HOME/mdi/msx
+export XDG_PICTURES_DIR=$HOME/mdi/pix
+export XDG_VIDEOS_DIR=$HOME/mdi/vids
+export XDG_DESKTOP_DIR="$HOME/.desk"
+export XDG_TEMPLATES_DIR="$HOME/.tmpl"
 export XDG_CONFIG_HOME="$HOME/.config"
 export XDG_CACHE_HOME="$HOME/.cache"
 export XDG_DATA_HOME="$HOME/.local/share"
@@ -46,7 +46,6 @@ export CARGO_HOME="${XDG_DATA_HOME:-$HOME/.local/share}"/cargo
 export W3M_DIR="${XDG_CONFIG_HOME:-$HOME/.config}"/w3m
 export ANTIWORDHOME="$XDG_DOWNLOAD_DIR"/antiword
 export TEXMFVAR="${XDG_CACHE_HOME:-$HOME/.cache}"/texlive/texmf-var
-#export MBSYNCRC="${XDG_CONFIG_HOME:-$HOME/.config}"/isync/mbsyncrc
 export XCURSOR_PATH=/usr/share/icons:${XDG_DATA_HOME:-$HOME/.local/share}/icons
 export ANDROID_USER_HOME="${XDG_DATA_HOME:-$HOME/.local/share}"/android
 export PARALLEL_HOME="${XDG_CONFIG_HOME:-$HOME/.config}"/parallel
@@ -82,6 +81,9 @@ export DOCKER_CONFIG="${XDG_CONFIG_HOME:-$HOME/.config/}/docker"
 # colored Man
 export MANPAGER="/usr/bin/less -R --use-color -Dd+r -Du+g"
 export MANROFFOPT="-P -c"
+
+# minetest/luanti
+export MINETEST_USER_PATH="${XDG_DATA_HOME:-$HOME/.local/share}/luanti"
 
 # add custom folder to Path
 export GOPATH="${XDG_DATA_HOME:-$HOME/.local/share}"/go

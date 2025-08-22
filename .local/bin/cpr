@@ -2,4 +2,4 @@
 #cpr
 # rsync copy
 
-/usr/bin/rsync --archive --checksum -hh --partial --info=stats1,progress2 --modify-window=1 "$@"
+/usr/bin/rsync --archive --checksum -hh --partial --progress --info=stats1 --recursive --modify-window=1 "$@"

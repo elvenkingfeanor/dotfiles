@@ -6,7 +6,7 @@ static const unsigned int snap      = 32;       /* snap pixel */
 static const int swallowfloating    = 0;        /* 1 means swallow floating windows by default */
 static const int showbar            = 1;        /* 0 means no bar */
 static const int topbar             = 1;        /* 0 means bottom bar */
-static const char *fonts[]          = { "JetBrainsMono Nerd Font:style=Regular:size=11:antialias=true:autohint=true", "NotoColorEmoji:style=Regular:size=12" };
+static const char *fonts[]          = { "JetBrainsMono Nerd Font:style=Regular:size=16:antialias=true:autohint=true", "NotoColorEmoji:style=Regular:size=18" };
 static char normbgcolor[]           = "#282828";
 static char normbordercolor[]       = "#a89984";
 static char normfgcolor[]           = "#ebdbb2";
@@ -23,8 +23,8 @@ typedef struct {
 	const char *name;
 	const void *cmd;
 } Sp;
-const char *spcmd1[] = {"st", "-n", "spterm", "-g", "120x34", NULL };
-const char *spcmd2[] = {"st", "-n", "spnote", "-g", "150x36", "-e", "nvim", NULL };
+const char *spcmd1[] = {"st", "-n", "spterm", "-g", "80x20", NULL };
+const char *spcmd2[] = {"st", "-n", "spnote", "-g", "85x24", "-e", "nvim", NULL };
 const char *spcmd3[] = {"st", "-n", "spcalc", "-f", "monospace:size=16", "-g", "50x20", "-e", "bc", "-lq", NULL };
 static Sp scratchpads[] = {
 	/* name          cmd  */
@@ -43,7 +43,8 @@ static const Rule rules[] = {
 	/* class     instance  title           tags mask  isfloating  isterminal  noswallow  monitor */
 	{ "claws-mail",    NULL,     NULL,           0,         1,          0,           0,        -1 },
 	{ "obs", NULL,     NULL,           1 << 8,    1,          0,          0,        -1 },
-	{ "st-256color",      NULL,     NULL,           0,         0,          1,           0,        -1 },
+	{ "st-256color", "st-256color",     "st",           0,         0,          1,           0,        -1 },
+	{ "Alacritty", "Alacritty",  "Alacritty",           0,         0,          1,           0,        -1 },
 	{ NULL,      NULL,    "Event Tester", 0,         0,          0,           1,        -1 }, /* xev */
 	{ NULL,   "spterm",   NULL,          SPTAG(0), 1,	      1,	   1,        -1 },
 	{ NULL,	  "spnote",   NULL,	     SPTAG(1), 1,	      1,	   1,        -1 },
@@ -90,7 +91,8 @@ static const char *downbrtt[] = { "/usr/bin/light", "-U", "5", NULL };
 static const Key keys[] = {
 	/* modifier                     key        function        argument */
 	{ MODKEY,                       XK_x,      spawn,          {.v = dmenucmd } },
-	{ MODKEY,			XK_Return, spawn,          {.v = termcmd } },
+	{ MODKEY|ShiftMask,		XK_Return, spawn,          {.v = termcmd } },
+	{ MODKEY,			XK_Return, spawn,          SHCMD("/usr/bin/alacritty") },
 	{ MODKEY,			XK_grave,  togglescratch,  {.ui = 0 } },
 	{ MODKEY|ShiftMask,            	XK_grave,  togglescratch,  {.ui = 1 } },
 	{ MODKEY,		XK_Num_Lock,	   togglescratch,  {.ui = 2 } },
@@ -108,7 +110,7 @@ static const Key keys[] = {
 	{ MODKEY,        	        XK_f, 	   spawn,          SHCMD("/usr/bin/librewolf") },
 	{ MODKEY|ShiftMask,        	XK_f, 	   spawn,          SHCMD("/usr/bin/pcmanfm") },
 	{ MODKEY,			XK_g, 	   spawn,          SHCMD("/usr/bin/brave") },
-	{ MODKEY,			XK_y, 	   spawn,          SHCMD("st -e /usr/bin/vendor_perl/youtube-viewer") },
+	{ MODKEY,			XK_y, 	   spawn,          SHCMD("st -e /usr/bin/youtube-viewer") },
 	{ MODKEY,			XK_e, 	   spawn,          SHCMD("st -e /usr/bin/nvim") },
 	{ MODKEY,			XK_n, 	   spawn,          SHCMD("st -e /usr/bin/newsraft") },
 	{ MODKEY,     	                XK_m, 	   spawn,          SHCMD("st -e /usr/bin/aerc") },

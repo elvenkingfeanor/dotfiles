@@ -1,3 +1,0 @@
-#!/bin/sh
-#show-pdf
-/usr/bin/qpdf --decrypt --password="$2" "$1" "$3"

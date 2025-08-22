@@ -71,6 +71,7 @@ alias gps="/usr/bin/git push"
 alias gcl="/usr/bin/git clone"
 alias gpl="/usr/bin/git pull"
 alias dotfiles='/usr/bin/git --git-dir="/mnt/bak/dotfiles.git" --work-tree="$HOME"'
+alias private='/usr/bin/git --git-dir="/mnt/bak/private.git" --work-tree="$HOME"'
 
 # navigation
 alias ..="cd ..;/usr/bin/clear;/usr/bin/eza -lo --no-permissions --group-directories-first --grid"
@@ -285,3 +286,6 @@ alias ctl=/usr/bin/sl
 
 # random identity generator
 alias name=/usr/bin/rig
+
+# random string generator
+alias random="/usr/bin/tr -dc A-Za-z0-9 < /dev/urandom | /usr/bin/head -c 15; /usr/bin/echo"

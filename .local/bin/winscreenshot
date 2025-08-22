@@ -1,3 +1,3 @@
 #!/bin/sh
 # screenshot selected window to file
-/usr/bin/maim --hidecursor -i $(/usr/bin/xdo id) ~/pix/ss/$(/usr/bin/date +%Y%m%d_%H%M%S)_ss.png
+/usr/bin/maim --hidecursor -i $(/usr/bin/xdo id) $XDG_PICTURES_DIR/ss/$(/usr/bin/date +%Y%m%d_%H%M%S)_ss.png
