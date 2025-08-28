@@ -1,3 +1,0 @@
-#!/bin/sh
-#ctt
-/usr/bin/find . -type "$1" -iname "$2" | /usr/bin/sed 's@^\.\/@@g' | /usr/bin/xargs /usr/bin/mv -v -t "$3"

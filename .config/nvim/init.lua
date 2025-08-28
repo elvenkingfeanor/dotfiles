@@ -217,23 +217,23 @@ require('lazy').setup({
     },
   },
 
- -- {
- --   -- Theme inspired by Atom
- --   'navarasu/onedark.nvim',
- --   priority = 1000,
- --   config = function()
- --     vim.cmd.colorscheme 'onedark'
- --   end,
- -- },
+  {
+    -- Theme inspired by Atom
+    'navarasu/onedark.nvim',
+    priority = 1000,
+    config = function()
+      vim.cmd.colorscheme 'onedark'
+    end,
+  },
 
- -- {
- --   -- Solarized.nvim 
- --   'shaunsingh/solarized.nvim',
- --   priority = 1000,
- --   config = function()
- --     vim.cmd.colorscheme 'solarized'
- --   end,
- -- },
+  {
+    -- Solarized.nvim 
+    'shaunsingh/solarized.nvim',
+    priority = 1000,
+    --config = function()
+    --  vim.cmd.colorscheme 'solarized'
+    --end,
+  },
 
   {
     "ellisonleao/gruvbox.nvim",
@@ -249,7 +249,8 @@ require('lazy').setup({
     opts = {
       options = {
         icons_enabled = false,
-        theme = 'gruvbox_dark',
+        --theme = 'gruvbox_dark',
+        theme = 'onedark',
         component_separators = '|',
         section_separators = '',
       },
@@ -262,7 +263,7 @@ require('lazy').setup({
     -- Enable `lukas-reineke/indent-blankline.nvim`
     -- See `:help ibl`
     main = 'ibl',
-    opts = {},
+    opts = { enabled = false },
   },
 
   -- render markdown using charmbracelet/glow
@@ -270,6 +271,28 @@ require('lazy').setup({
 
   -- "gc" to comment visual regions/lines
   { 'numToStr/Comment.nvim', opts = {} },
+
+  -- orgmode for nvim
+  {
+    'nvim-orgmode/orgmode',
+    event = 'VeryLazy',
+    ft = { 'org' },
+    config = function()
+      -- Setup orgmode
+      require('orgmode').setup({
+        --org_agenda_files = '~/orgfiles/**/*',
+        --org_default_notes_file = '~/orgfiles/refile.org',
+        org_agenda_files = '~/notx/**/*',
+      })
+
+      -- NOTE: If you are using nvim-treesitter with ~ensure_installed = "all"~ option
+      -- add ~org~ to ignore_install
+      -- require('nvim-treesitter.configs').setup({
+      --   ensure_installed = 'all',
+      --   ignore_install = { 'org' },
+      -- })
+    end,
+  },
 
   -- Fuzzy Finder (files, lsp, etc)
   {
@@ -322,7 +345,7 @@ require('lazy').setup({
 
 -- colorscheme
 vim.o.background = "dark"
-vim.cmd([[colorscheme gruvbox]])
+vim.cmd([[colorscheme onedark]])
 
 -- Set highlight on search
 vim.o.hlsearch = false
@@ -732,14 +755,14 @@ require('mason-lspconfig').setup()
 --  If you want to override the default filetypes that your language server will attach to you can
 --  define the property 'filetypes' to the map in question.
 local servers = {
-  -- clangd = {},
+  clangd = {},
   -- gopls = {},
   -- pyright = {},
   marksman = {},
   -- rust_analyzer = {},
   -- tsserver = {},
   -- html = { filetypes = { 'html', 'twig', 'hbs'} },
-  -- jsonls = {},
+  jsonls = {},
   -- vimls = {},
   texlab = {},
   openscad_lsp = { filetypes = { 'openscad' }, single_file_support = true },

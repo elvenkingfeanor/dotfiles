@@ -39,7 +39,9 @@ alias yqs="/usr/bin/yay -Qs"
 alias yqe="/usr/bin/yay -Qe"
 alias yqi="/usr/bin/yay -Qi"
 alias yis="/usr/bin/yay -S"
-alias ple="/usr/bin/pacman -Qe" # list all explicitly installed packages
+alias ple="/usr/bin/pacman -Qqe" # list all explicitly installed packages
+alias yle="/usr/bin/pacman -Qqm" # list all AUR packages
+alias pcache="/usr/bin/doas /usr/bin/pacman -Sc && /usr/bin/yay -Sc" # clear all cache
 
 # checkupdates
 alias cu="/usr/bin/checkupdates"
@@ -92,10 +94,10 @@ alias ......tt="cd ../../../../..;/usr/bin/clear;/usr/bin/tree -d -C | /usr/bin/
 
 # cd
 fcc() {
-cd "$(/usr/bin/find $HOME -type d \( -path $HOME/vids -prune -o -path $HOME/librm -prune -o -path $HOME/pix -prune -o -path $HOME/musix -prune \) -false -o -type d -name '*' -print | /usr/bin/fzf)";/usr/bin/clear;/usr/bin/eza -lo --no-permissions --group-directories-first --grid
+cd "$(/usr/bin/find $HOME -type d \( -path $HOME/mdi -prune -o -path $HOME/.arx -prune -o -path $HOME/.pki -prune -o -path $HOME/.librewolf -prune -o -path $HOME/.ssh -prune -o -path $HOME/.cache -prune \) -false -o -type d -name '*' -print | /usr/bin/fzf)";/usr/bin/clear;/usr/bin/eza -lo --no-permissions --group-directories-first --grid
 }
 ftt() {
-cd "$(/usr/bin/find $HOME -type d \( -path $HOME/vids -prune -o -path $HOME/librm -prune -o -path $HOME/pix -prune -o -path $HOME/musix -prune \) -false -o -type d -name '*' -print | /usr/bin/fzf)";/usr/bin/clear;/usr/bin/tree -aC | /usr/bin/ov
+cd "$(/usr/bin/find $HOME -type d \( -path $HOME/mdi -prune -o -path $HOME/.arx -prune -o -path $HOME/.pki -prune -o -path $HOME/.librewolf -prune -o -path $HOME/.ssh -prune -o -path $HOME/.cache -prune \) -false -o -type d -name '*' -print | /usr/bin/fzf)";/usr/bin/clear;/usr/bin/tree -aC | /usr/bin/ov
 }
 mcc() {
 cd "$(/usr/bin/find /media/ -type d -path *vids -prune -false -o -type d | /usr/bin/fzf)";/usr/bin/clear;/usr/bin/eza -lo --no-permissions --group-directories-first --grid
@@ -246,6 +248,9 @@ alias www="/usr/bin/w3m -config $XDG_CONFIG_HOME/w3m/config"
 # abook
 alias abook="/usr/bin/abook --config $XDG_CONFIG_HOME/abook/abookrc --datafile $XDG_DATA_HOME/abook/addressbook"
 
+# dict
+alias dict="/usr/bin/dict -c $XDG_CONFIG_HOME/dict/dictrc"
+
 # mbsync
 #alias mbsync="/usr/bin/mbsync -c $XDG_CONFIG_HOME/isync/mbsyncrc"
 #alias sync="/usr/bin/mbsync -a -c $XDG_CONFIG_HOME/isync/mbsyncrc"
@@ -257,7 +262,7 @@ alias abook="/usr/bin/abook --config $XDG_CONFIG_HOME/abook/abookrc --datafile $
 #alias moc="/usr/bin/mocp -M $XDG_CONFIG_HOME/moc"
 
 # neofetch
-alias fetch="$HOME/.local/bin/paleofetch"
+alias fetch=/usr/bin/neofetch
 
 # cron
 alias cronl="/usr/bin/crontab -l"
@@ -289,3 +294,6 @@ alias name=/usr/bin/rig
 
 # random string generator
 alias random="/usr/bin/tr -dc A-Za-z0-9 < /dev/urandom | /usr/bin/head -c 15; /usr/bin/echo"
+
+# fontpreview
+alias font=/usr/bin/fontpreview

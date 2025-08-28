@@ -8,8 +8,7 @@ $HOME/.local/bin/xinfo &
 /usr/bin/xrdb -load $XDG_CONFIG_HOME/X11/xresources &
 $HOME/.local/bin/bright &
 $XDG_CONFIG_HOME/xwallpaper/swall &
-/usr/bin/xset r rate 200 50 &
-#/usr/bin/xset r off &
+/usr/bin/xset r 200 50 &
 /usr/bin/unclutter &
 /usr/bin/picom 2>> ~/.local/share/picom.log &
 /usr/bin/emacs --daemon &

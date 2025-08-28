@@ -1,3 +1,0 @@
-#!/bin/sh
-#font
-/usr/bin/fc-list | /usr/bin/grep -i "$1"

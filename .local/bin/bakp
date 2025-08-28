@@ -4,9 +4,28 @@
 # if LABEL=backup drive not mounted, mount it
 
 loaded=$(/usr/bin/findmnt -S LABEL=backup)
-mountpoint=$(/usr/bin/lsblk -l -o +LABEL | /usr/bin/grep backup | /usr/bin/awk '{print $1}')
+#mountpoint=$(/usr/bin/lsblk -l -o +LABEL | /usr/bin/grep backup | /usr/bin/awk '{print $1}') # too much awk!
+mountpoint=$(/usr/bin/lsblk -l -o +LABEL | /usr/bin/grep backup | /usr/bin/cut -c -4)
 
 if [[ -z "$loaded" ]]; then
 	/usr/bin/pmount /dev/"$mountpoint" backup
 fi
 
+# start syncing to backup and back
+/usr/bin/rsync --archive --checksum -hh --partial --progress --info=stats1 --recursive --modify-window=1 ~/.bak/crypt-bak/ /media/backup/ts-bak/bak/crypt-bak && /usr/bin/rsync --archive --checksum -hh --partial --progress --info=stats1 --recursive --modify-window=1 /media/backup/ts-bak/bak/crypt-bak/ ~/.bak/crypt-bak;
+/usr/bin/rsync --archive --checksum -hh --partial --progress --info=stats1 --recursive --modify-window=1 ~/.bak/etc-bak/ /media/backup/ts-bak/bak/etc-bak && /usr/bin/rsync --archive --checksum -hh --partial --progress --info=stats1 --recursive --modify-window=1 /media/backup/ts-bak/bak/etc-bak/ ~/.bak/etc-bak;
+/usr/bin/rsync --archive --checksum -hh --partial --progress --info=stats1 --recursive --modify-window=1 ~/.config/aerc ~/.config/alacritty ~/.config/bash ~/.config/doom ~/.config/dunst ~/.config/gallery-dl ~/.config/gcompris ~/.config/git ~/.config/gtk-2.0 ~/.config/gtk-3.0 ~/.config/mpv ~/.config/newsraft ~/.config/nvim ~/.config/shell ~/.config/X11 ~/.config/xwallpaper ~/.config/youtube-viewer ~/.config/yt-dlp ~/.config/zathura ~/.config/zsh ~/.config/mimeapps.list ~/.config/rmwrc ~/.config/user-dirs.dirs ~/.config/user-dirs.locale /media/backup/ts-bak/bak/conf-bak && /usr/bin/rsync --archive --checksum -hh --partial --progress --info=stats1 --recursive --modify-window=1 /media/backup/ts-bak/bak/conf-bak/ ~/.config;
+/usr/bin/rsync --archive --checksum -hh --partial --progress --info=stats1 --recursive --modify-window=1 ~/.local/bin/ /media/backup/ts-bak/bak/local-bak/bin && /usr/bin/rsync --archive --checksum -hh --partial --progress --info=stats1 --recursive --modify-window=1 /media/backup/ts-bak/bak/local-bak/bin/ ~/.local/bin;
+/usr/bin/rsync --archive --checksum -hh --partial --progress --info=stats1 --recursive --modify-window=1 ~/.local/share/bookmarks /media/backup/ts-bak/bak/local-bak/share && /usr/bin/rsync --archive --checksum -hh --partial --progress --info=stats1 --recursive --modify-window=1 /media/backup/ts-bak/bak/local-bak/share/ ~/.local/share;
+/usr/bin/rsync --archive --checksum -hh --partial --progress --info=stats1 --recursive --modify-window=1 ~/.arx/ /media/backup/ts-bak/arx && /usr/bin/rsync --archive --checksum -hh --partial --progress --info=stats1 --recursive --modify-window=1 /media/backup/ts-bak/arx/ ~/.arx;
+/usr/bin/rsync --archive --checksum -hh --partial --progress --info=stats1 --recursive --modify-window=1 ~/dox/ /media/backup/ts-bak/dox && /usr/bin/rsync --archive --checksum -hh --partial --progress --info=stats1 --recursive --modify-window=1 /media/backup/ts-bak/dox/ ~/dox;
+/usr/bin/rsync --archive --checksum -hh --partial --progress --info=stats1 --recursive --modify-window=1 ~/notx/ /media/backup/ts-bak/notx && /usr/bin/rsync --archive --checksum -hh --partial --progress --info=stats1 --recursive --modify-window=1 /media/backup/ts-bak/notx/ ~/notx;
+/usr/bin/rsync --archive --checksum -hh --partial --progress --info=stats1 --recursive --modify-window=1 ~/nvl/ /media/backup/ts-bak/nvl && /usr/bin/rsync --archive --checksum -hh --partial --progress --info=stats1 --recursive --modify-window=1 /media/backup/ts-bak/nvl/ ~/nvl;
+/usr/bin/rsync --archive --checksum -hh --partial --progress --info=stats1 --recursive --modify-window=1 ~/rsc/ /media/backup/ts-bak/rsc && /usr/bin/rsync --archive --checksum -hh --partial --progress --info=stats1 --recursive --modify-window=1 /media/backup/ts-bak/rsc/ ~/rsc;
+/usr/bin/rsync --archive --checksum -hh --partial --progress --info=stats1 --recursive --modify-window=1 ~/sty/ /media/backup/ts-bak/sty && /usr/bin/rsync --archive --checksum -hh --partial --progress --info=stats1 --recursive --modify-window=1 /media/backup/ts-bak/sty/ ~/sty;
+/usr/bin/rsync --archive --checksum -hh --partial --progress --info=stats1 --recursive --modify-window=1 ~/wfu/ /media/backup/ts-bak/wfu && /usr/bin/rsync --archive --checksum -hh --partial --progress --info=stats1 --recursive --modify-window=1 /media/backup/ts-bak/wfu/ ~/wfu;
+/usr/bin/notify-send "backup complete"
+
+# unmount backup drive
+/usr/bin/pumount /dev/"$mountpoint"
+/usr/bin/notify-send "backup drive unmounted"

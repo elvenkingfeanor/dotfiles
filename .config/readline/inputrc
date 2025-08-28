@@ -1,0 +1,37 @@
+#
+# ~/.config/readline/inputrc
+#
+$include /etc/inputrc
+# enable vi-style editing interface
+set editing-mode vi
+# vi mode indicator in prompt
+set show-mode-in-prompt on
+# different cursor shapes for each
+# mode, even for Virtual Console;
+$if term=linux
+    set vi-ins-mode-string \1\e[?0c\2
+    set vi-cmd-mode-string \1\e[?8c\2
+$else
+    set vi-ins-mode-string \1\e[6 q\2
+    set vi-cmd-mode-string \1\e[2 q\2
+$endif
+# history search
+$if mode=vi
+    set keymap vi-command
+        # these are for vi-command mode
+        "\e[A": history-search-backward
+        "\e[B": history-search-forward
+        j: history-search-forward
+        k: history-search-backward
+    set keymap vi-insert
+        # these are for vi-insert mode
+        "\e[A": history-search-backward
+        "\e[B": history-search-forward
+$endif
+# single tab to show
+# all possible completions
+set show-all-if-unmodified on
+# bracketed paste from clipboard
+set enable-bracketed-paste on
+# case-insensitive file-matching
+set completion-ignore-case on

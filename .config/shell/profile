@@ -1,25 +1,25 @@
 #!/bin/sh
 
 # defaults
+export SHELL=/usr/bin/zsh
 export PAGER=/usr/bin/less
-export VISUAL=/usr/bin/less
-export EDITOR=/usr/bin/nvim
+[ -n "$DISPLAY" ] && export VISUAL="/usr/bin/emacsclient -c -a \"\"" || export VISUAL=/usr/bin/nvim
+[ -n "$DISPLAY" ] && export EDITOR="/usr/bin/emacsclient -c -a \"\"" || export EDITOR=/usr/bin/nvim
 export SUDO_EDITOR=/usr/bin/nvim
 export READER=/usr/bin/zathura
 export TERMINAL=/usr/bin/alacritty
 export COLORTERM="st-256color"
-export BROWSER=/usr/bin/brave
-export BROWSERCLI=/usr/bin/lynx
+[ -n "$DISPLAY" ] && export BROWSER=/usr/bin/brave || export BROWSER=/usr/bin/lynx
 export VIDEO=/usr/bin/mpv
 export IMAGE=/usr/bin/nsxiv
 export WM=/usr/local/bin/dwm
 
 # xdg-usr-directories
-export XDG_DOWNLOAD_DIR=$HOME/dl
-export XDG_DOCUMENTS_DIR=$HOME/dox
-export XDG_MUSIC_DIR=$HOME/mdi/msx
-export XDG_PICTURES_DIR=$HOME/mdi/pix
-export XDG_VIDEOS_DIR=$HOME/mdi/vids
+export XDG_DOWNLOAD_DIR="$HOME/dl"
+export XDG_DOCUMENTS_DIR="$HOME/dox"
+export XDG_MUSIC_DIR="$HOME/mdi/msx"
+export XDG_PICTURES_DIR="$HOME/mdi/pix"
+export XDG_VIDEOS_DIR="$HOME/mdi/vids"
 export XDG_DESKTOP_DIR="$HOME/.desk"
 export XDG_TEMPLATES_DIR="$HOME/.tmpl"
 export XDG_CONFIG_HOME="$HOME/.config"
@@ -36,38 +36,60 @@ export VDPAU_DRIVER="nouveau"
 # Set GTK theme for Qt
 export GTK_THEME=Adwaita:dark
 export GTK2_RC_FILES=/usr/share/themes/Adwaita-dark/gtk-2.0/gtkrc
+#export GTK2_RC_FILES="${XDG_CONFIG_HOME:-$HOME/.config}/gtk-2.0/gtkrc"
 export QT_STYLE_OVERRIDE=Adwaita-Dark
 
 # xdg-ninja
-export PASSWORD_STORE_DIR="${XDG_DATA_HOME:-$HOME/.local/share}"/pass
-#export GTK2_RC_FILES="${XDG_CONFIG_HOME:-$HOME/.config}/gtk-2.0/gtkrc"
-export GNUPGHOME="${XDG_DATA_HOME:-$HOME/.local/share}"/gnupg
-export CARGO_HOME="${XDG_DATA_HOME:-$HOME/.local/share}"/cargo
-export W3M_DIR="${XDG_CONFIG_HOME:-$HOME/.config}"/w3m
-export ANTIWORDHOME="$XDG_DOWNLOAD_DIR"/antiword
-export TEXMFVAR="${XDG_CACHE_HOME:-$HOME/.cache}"/texlive/texmf-var
-export XCURSOR_PATH=/usr/share/icons:${XDG_DATA_HOME:-$HOME/.local/share}/icons
-export ANDROID_USER_HOME="${XDG_DATA_HOME:-$HOME/.local/share}"/android
-export PARALLEL_HOME="${XDG_CONFIG_HOME:-$HOME/.config}"/parallel
+export GNUPGHOME="${XDG_DATA_HOME:-$HOME/.local/share}/gnupg"
+export ZDOTDIR="${XDG_CONFIG_HOME:-$HOME/.config}/zsh"
+export W3M_DIR="${XDG_STATE_HOME:-$HOME/.local/state}/w3m"
+export LYNX_CFG="${XDG_CONFIG_HOME:-$HOME/.config}/lynx.cfg"
+export ANTIWORDHOME="$XDG_DOWNLOAD_DIR/antiword"
+export TEXMFVAR="${XDG_CACHE_HOME:-$HOME/.cache}/texlive/texmf-var"
+export XCURSOR_PATH="/usr/share/icons:${XDG_DATA_HOME:-$HOME/.local/share}/icons"
+export ANDROID_USER_HOME="${XDG_DATA_HOME:-$HOME/.local/share}/android"
+export PARALLEL_HOME="${XDG_CONFIG_HOME:-$HOME/.config}/parallel"
+export INPUTRC="${XDG_CONFIG_HOME:-$HOME/.config}/readline/inputrc"
+export RIPGREP_CONFIG_PATH="${XDG_CONFIG_HOME:-$HOME/.config}/ripgrep/config"
+export WGETRC="${XDG_CONFIG_HOME:-$HOME/.config}/wgetrc"
+export FFMPEG_DATADIR="${XDG_CONFIG_HOME:-$HOME/.config}/ffmpeg"
 
 # history files
-export HISTFILE="${XDG_STATE_HOME}"/bash/history # Bash history file
-export HISTIGNORE="man:cat:less:vi:pss:psi:yss:ysi:cl:cll:clc:fcc:cdd:op:opp:xx:df:du:brtt:batt:mute:vol:iv:mm:torr:wttr:cu:cn:yt:yta" # bash ignore
-export HISTFILE="${XDG_DATA_HOME}"/zsh/histfile # Zsh history file
-export HISTORY_IGNORE="man:cat:less:vi:pss:psi:yss:ysi:cl:cll:clc:fcc:cdd:op:opp:xx:df:du:brtt:batt:mute:vol:iv:mm:torr:wttr:cu:cn:yt:yta" # zsh ignore
-export CALCHISTFILE="${XDG_CACHE_HOME:-$HOME/.cache}"/calc_history
-export LESSHISTFILE="${XDG_DATA_HOME:-$HOME/.local/share}"/lesshst
+# Bash
+export HISTFILE="${XDG_STATE_HOME:-$HOME/.local/state}/bash/history"
+export HISTIGNORE="man:cat:less:vi:pss:psi:yss:ysi:cl:cll:clc:fcc:cdd:op:opp:xx:df:du:brtt:batt:mute:vol:iv:mm:torr:wttr:cu:cn:yt:yta"
+#Zsh
+export HISTFILE="${XDG_DATA_HOME:-$HOME/.local/share}/zsh/histfile"
+export HISTORY_IGNORE="man:cat:less:vi:pss:psi:yss:ysi:cl:cll:clc:fcc:cdd:op:opp:xx:df:du:brtt:batt:mute:vol:iv:mm:torr:wttr:cu:cn:yt:yta"
+# less, calc
+export CALCHISTFILE="${XDG_CACHE_HOME:-$HOME/.cache}/calc_history"
+export LESSHISTFILE="${XDG_DATA_HOME:-$HOME/.local/share}/lesshst"
 
 # X11
 export XAUTHORITY=/tmp/Xauthority
-export XINITRC="${XDG_CONFIG_HOME:-$HOME/.config}"/X11/xinitrc
-export ICEAUTHORITY="${XDG_CACHE_HOME:-$HOME/.cache}"/ICEauthority
+export XINITRC="${XDG_CONFIG_HOME:-$HOME/.config}/X11/xinitrc"
+export ICEAUTHORITY="${XDG_CACHE_HOME:-$HOME/.cache}/ICEauthority"
+
+# ncurses
+export TERMINFO="${XDG_DATA_HOME:-$HOME/.local/share}/terminfo"
+export TERMINFO_DIRS="${XDG_DATA_HOME:-$HOME/.local/share}/terminfo":/usr/share/terminfo
+
+# SQLite
+export SQLITERC="${XDG_CONFIG_HOME:-$HOME/.config}/sqlite3/sqliterc"
+export SQLITE_HISTORY="${XDG_STATE_HOME:-$HOME/.local/state}/sqlite_history"
+
+# pass
+export PASSWORD_STORE_DIR="${XDG_DATA_HOME:-$HOME/.local/share}/pass"
 
 # R
 export R_HOME_USER="${XDG_CONFIG_HOME:-$HOME/.config}/R"
 export R_PROFILE_USER="${XDG_CONFIG_HOME:-$HOME/.config}/R/profile"
 export R_HISTFILE="${XDG_CONFIG_HOME:-$HOME/.config}/R/history"
 export R_LIBS_USER="${XDG_DATA_HOME:-$HOME/.local/share}/R"
+
+# Julia
+export JULIA_DEPOT_PATH="${XDG_DATA_HOME:-$HOME/.local/share}/julia:$JULIA_DEPOT_PATH"
+export JULIAUP_DEPOT_PATH="${XDG_DATA_HOME:-$HOME/.local/share}/julia"
 
 # fzf defaults
 export FZF_DEFAULT_OPTS="--cycle --height 10%"
@@ -85,6 +107,26 @@ export MANROFFOPT="-P -c"
 # minetest/luanti
 export MINETEST_USER_PATH="${XDG_DATA_HOME:-$HOME/.local/share}/luanti"
 
-# add custom folder to Path
-export GOPATH="${XDG_DATA_HOME:-$HOME/.local/share}"/go
+# Go
+export GOPATH="${XDG_DATA_HOME:-$HOME/.local/share}/go"
+export GOMODCACHE="${XDG_CACHE_HOME:-$HOME/.cache}/go/mod"
+
+# Rust
+export CARGO_HOME="${XDG_DATA_HOME:-$HOME/.local/share}/cargo"
+
+# Python
+# python-setuptools
+export PYTHON_EGG_CACHE="${XDG_CACHE_HOME:-$HOME/.cache}/python-eggs"
+# python_history
+export PYTHON_HISTORY="${XDG_STATE_HOME:-$HOME/.local/state}/python_history"
+export PYTHONCACHEPREFIX="${XDG_CACHE_HOME:-$HOME/.cache}/python"
+export PYTHONUSERBASE="${XDG_DATA_HOME:-$HOME/.local/share}/python"
+
+# npm
+export NPM_CONFIG_USERCONFIG="${XDG_CONFIG_HOME:-$HOME/.config}/npm/npmrc"
+
+# Java
+export _JAVA_OPTIONS=-Djava.util.prefs.userRoot="${XDG_CONFIG_HOME:-$HOME/.config}/java"
+
+# Append to $PATH
 export PATH="${PATH}:$HOME/.local/bin:$HOME/.local/bin/statusbar:$HOME/.local/bin/edirect:$CARGO_HOME/bin"
