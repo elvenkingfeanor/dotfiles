@@ -3,8 +3,8 @@
 # defaults
 export SHELL=/usr/bin/zsh
 export PAGER=/usr/bin/less
-[ -n "$DISPLAY" ] && export VISUAL="/usr/bin/emacsclient -c -a \"\"" || export VISUAL=/usr/bin/nvim
-[ -n "$DISPLAY" ] && export EDITOR="/usr/bin/emacsclient -c -a \"\"" || export EDITOR=/usr/bin/nvim
+export EDITOR=/usr/bin/nvim # setting emacsclient as default editor was showing some unintended consequences, especially during email handling
+export VISUAL="$EDITOR"
 export SUDO_EDITOR=/usr/bin/nvim
 export READER=/usr/bin/zathura
 export TERMINAL=/usr/bin/alacritty
@@ -80,6 +80,14 @@ export SQLITE_HISTORY="${XDG_STATE_HOME:-$HOME/.local/state}/sqlite_history"
 
 # pass
 export PASSWORD_STORE_DIR="${XDG_DATA_HOME:-$HOME/.local/share}/pass"
+
+# gpg-agent as ssh manager
+export GPG_TTY="$(tty)"
+/usr/bin/gpg-connect-agent updatestartuptty /bye >/dev/null
+unset SSH_AGENT_PID
+if [ "${gnupg_SSH_AUTH_SOCK_by:-0}" -ne $$ ]; then
+    export SSH_AUTH_SOCK="$(/usr/bin/gpgconf --list-dirs agent-ssh-socket)"
+fi
 
 # R
 export R_HOME_USER="${XDG_CONFIG_HOME:-$HOME/.config}/R"

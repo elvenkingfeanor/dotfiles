@@ -2,5 +2,9 @@ SHELL=/bin/zsh
 DISPLAY=:0
 @reboot /usr/bin/find $HOME . > /dev/null
 0 * * * * /usr/bin/find $HOME . > /dev/null
-@reboot source ~/.config/X11/xdbus; /usr/bin/notify-send "updates available $(/usr/bin/checkupdates | /usr/bin/wc -l)"
-0 */6 * * * source ~/.config/X11/xdbus; /usr/bin/notify-send "updates available $(/usr/bin/checkupdates | /usr/bin/wc -l)"
+@reboot ~/.local/bin/unotify
+0 */6 * * * ~/.local/bin/unotify
+@reboot ~/.local/bin/bright; ~/.local/bin/bnotify
+0 17 * * * ~/.local/bin/bright; ~/.local/bin/bnotify
+5 12 * * 0 ~/.local/bin/bakp
+@reboot ~/.local/bin/cpr /var/spool/cron/ts ~/.config/crond/ts

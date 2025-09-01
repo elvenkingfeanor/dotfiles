@@ -266,6 +266,14 @@ require('lazy').setup({
     opts = { enabled = false },
   },
 
+  -- Automatically close quotes & parenthesis
+  {
+    'm4xshen/autoclose.nvim',
+    opts = {
+      disabled_filetypes = {},
+    },
+  },
+
   -- render markdown using charmbracelet/glow
   { "ellisonleao/glow.nvim", config = true, cmd = "Glow"},
 

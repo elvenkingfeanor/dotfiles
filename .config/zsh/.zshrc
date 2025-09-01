@@ -85,5 +85,13 @@ zle -N edit-command-line
 
 bindkey '^e' edit-command-line
 
+# automatically close parentheses and quotes
+if [[ ! -d ~/.config/zsh/zsh-autopair/ ]]; then
+	/usr/bin/git clone https://github.com/hlissner/zsh-autopair ~/.config/zsh/zsh-autopair
+fi
+
+source ~/.config/zsh/zsh-autopair/autopair.zsh
+autopair-init
+
 # Syntax highlighting; should be last:
 source /usr/share/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh

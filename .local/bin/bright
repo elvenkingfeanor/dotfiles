@@ -1,6 +1,6 @@
 #!/bin/sh
 #bright
-if [ $(/usr/bin/date +%H) -ge 6 ] && [ $(/usr/bin/date +%H) -le 18 ]; then
+if [ "$(/usr/bin/date +%H)" -ge 6 ] && [ "$(/usr/bin/date +%H)" -lt 17 ]; then
 	/usr/bin/light -S 100;
 	else
 		/usr/bin/light -S 30

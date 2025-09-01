@@ -1,0 +1,7 @@
+#!/bin/sh
+#bnotify
+# brightness notification
+
+brightness=$(/usr/bin/light -G | /usr/bin/sed 's@\..*$@@')
+
+/usr/bin/notify-send "Brightness set to $brightness"

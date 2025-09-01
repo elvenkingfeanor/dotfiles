@@ -31,17 +31,17 @@
 ;;      doom-variable-pitch-font (font-spec :family "Source Sans Pro" :size 26)
 ;;      doom-serif-font (font-spec :family "IBM Plex Serif")
 ;;      doom-symbol-font (font-spec :family "Noto Color Emoji" :size 26)
-;;      )
+;;      ) ;; not working
 ;;
 ;; "JetBrainsMono Nerd Font:pixelsize=16:foundry=JB:weight=regular:slant=normal:width=normal:spacing=100:scalable=true"
 ;; "Source Sans Pro:pixelsize=16:foundry=ADBO:weight=regular:slant=normal:width=normal:scalable=true"
 ;; "IBM Plex Serif:pixelsize=16:foundry=IBM :weight=regular:slant=normal:width=normal:scalable=true"
 ;; "Noto Color Emoji:pixelsize=16:foundry=GOOG:weight=regular:slant=normal:width=normal:spacing=100:scalable=true"
 ;;
-(setq doom-font "JetBrainsMono Nerd Font:pixelsize=24:antialias=off"
-      doom-variable-pitch-font "Source Sans Pro:pixelsize=26"
-      doom-serif-font "IBM Plex Serif"
-      doom-symbol-font "Noto Color Emoji:pixelsize=26")
+;;(setq doom-font "JetBrainsMono Nerd Font:pixelsize=20:antialias=off"
+;;      doom-variable-pitch-font "Source Sans Pro:pixelsize=22"
+;;      doom-serif-font "IBM Plex Serif"
+;;      doom-symbol-font "Noto Color Emoji:pixelsize=22") ;; not working
 
 ;; If you or Emacs can't find your font, use 'M-x describe-font' to look them
 ;; up, `M-x eval-region' to execute elisp code, and 'M-x doom/reload-font' to
@@ -101,9 +101,18 @@
 (unless (server-running-p)
   (server-start))
 
+;; doom fonts not working. setting emacs init frame parameters
+;;(add-to-list 'default-frame-alist '(font-spec :family "JetBrainsMono Nerd Font" :size 20)) ;; font-spec not working
+(add-to-list 'default-frame-alist '(font . "JetBrainsMono Nerd Font-20")) ;; works
+
 ;; Yasnippets directory
 (setq yas-snippet-dirs
       '("~/.config/doom/snippets/snippets/"))
+;; orgmode TAB conflicts with Yasnippets TAB (https://orgmode.org/manual/Conflicts.html)
+;; (add-hook 'org-mode-hook
+;;           (lambda ()
+;;             (setq-local yas/trigger-key [tab])
+;;             (define-key yas/keymap [tab] 'yas/next-field-or-maybe-expand)))
 
 ;; set default bibliography for reftex
 (setq reftex-default-bibliography
@@ -120,3 +129,70 @@
   :hook (markdown-mode . lsp)
   :config
   (require 'lsp-marksman))
+
+;; Orgmode
+;; Org-capture
+;; org-protocol to capture directly from browser
+(require 'org-protocol)
+;; Doom presets
+;; (setq org-capture-templates
+;;       '(("t" "Personal todo" entry (file+headline +org-capture-todo-file "Inbox")
+;;          "* [ ] %?\n%i\n%a" :prepend t)
+;;         ("n" "Personal notes" entry (file+headline +org-capture-notes-file "Inbox")
+;;          "* %u %?\n%i\n%a" :prepend t)
+;;         ("j" "Journal" entry (file+olp+datetree +org-capture-journal-file)
+;;          "* %U %?\n%i\n%a" :prepend t)
+;;         ("p" "Templates for projects")
+;;         ("pt" "Project-local todo" entry
+;;          (file+headline +org-capture-project-todo-file "Inbox") "* TODO %?\n%i\n%a"
+;;          :prepend t)
+;;         ("pn" "Project-local notes" entry
+;;          (file+headline +org-capture-project-notes-file "Inbox") "* %U %?\n%i\n%a"
+;;          :prepend t)
+;;         ("pc" "Project-local changelog" entry
+;;          (file+headline +org-capture-project-changelog-file "Unreleased")
+;;          "* %U %?\n%i\n%a" :prepend t)
+;;         ("o" "Centralized templates for projects")
+;;         ("ot" "Project todo" entry #'+org-capture-central-project-todo-file
+;;          "* TODO %?\n %i\n %a" :heading "Tasks" :prepend nil)
+;;         ("on" "Project notes" entry #'+org-capture-central-project-notes-file
+;;          "* %U %?\n %i\n %a" :heading "Notes" :prepend t)
+;;         ("oc" "Project changelog" entry #'+org-capture-central-project-changelog-file
+;;          "* %U %?\n %i\n %a" :heading "Changelog" :prepend t)))
+
+(setq org-capture-templates
+      '(("b" "bookmark" entry (file+headline "~/notx/links.org" "Bookmarks")
+         "* %a %^G\n:PROPERTIES:\n:CREATED: %U\n:CUSTOM_ID: b-%(format-time-string \"%Y%m%d%H%M%S\")\n:END:\n\n** %:initial%?"
+         :empty-lines 1)
+        ("c" "contact" entry (file "~/notx/contacts.org")
+         "* %^{Name} %^G\n:PROPERTIES:\n:EMAIL: %^{email}\n:PHONE: %^{phone}\n:ALIAS: %^{nickname}\n:ADDRESS:\n:BIRTHDAY: %^{birthday}t\n:CREATED: %U\n:CUSTOM_ID: c-%(format-time-string \"%Y%m%d%H%M%S\")\n:END:\n %?"
+         :empty-lines 1)
+        ))
+
+;; Org-agenda
+(setq org-agenda-files (list org-directory))
+(setq org-agenda-start-with-log-mode t)
+(setq org-log-done 'time)
+(setq org-log-into-drawer t)
+
+;; Doom presets
+;; (setq org-todo-keywords
+;;       '((sequence "TODO(t)" "PROJ(p)" "LOOP(r)" "STRT(s)" "WAIT(w)" "HOLD(h)" "IDEA(i)"
+;;          "|" "DONE(d)" "KILL(k)")
+;;         (sequence "[ ](T)" "[-](S)" "[?](W)" "|" "[X](D)")
+;;         (sequence "|" "OKAY(o)" "YES(y)" "NO(n)")))
+(setq org-todo-keywords
+      '((sequence "TODO(t)" "MAYBE(m)" "|" "DONE(d)" "CANCELLED(c)")))
+
+;; org-refile targets and save org buffers
+(setq org-refile-targets
+      '((org-agenda-files . (:maxlevel . 2))
+        (nil . (:maxlevel . 2))))
+(setq org-refile-allow-creating-parent-nodes 'confirm)
+(setq org-refile-use-cache t)
+(setq org-reverse-note-order nil)
+
+(advice-add 'org-refile :after 'org-save-all-org-buffers)
+
+;; org-contacts
+(setq org-contacts-files '("~/notx/contacts.org"))

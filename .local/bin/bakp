@@ -1,14 +1,14 @@
 #!/bin/sh
 #bakp
-# mount removable backup media and backup to it
+# mount removable backup media, backup to it and unmount it
 # if LABEL=backup drive not mounted, mount it
 
 loaded=$(/usr/bin/findmnt -S LABEL=backup)
 #mountpoint=$(/usr/bin/lsblk -l -o +LABEL | /usr/bin/grep backup | /usr/bin/awk '{print $1}') # too much awk!
 mountpoint=$(/usr/bin/lsblk -l -o +LABEL | /usr/bin/grep backup | /usr/bin/cut -c -4)
 
-if [[ -z "$loaded" ]]; then
-	/usr/bin/pmount /dev/"$mountpoint" backup
+if [ -z "$loaded" ]; then
+	/usr/bin/pmount /dev/"$mountpoint" backup && /usr/bin/notify-send "backup started"
 fi
 
 # start syncing to backup and back

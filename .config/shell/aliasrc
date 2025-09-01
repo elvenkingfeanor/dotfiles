@@ -53,8 +53,8 @@ alias Cn="/usr/bin/yay -Qu | /usr/bin/wc -l"
 alias jctl="/usr/bin/journalctl -p 3 -xb" # show errors from journalctl
 
 # gpg
-alias gpg-check="/usr/bin/gpg2 --keyserver-options auto-key-retrieve --verify" # verify downloaded files
-alias gpg-retrieve="/usr/bin/gpg2 --keyserver-options auto-key-retrieve --receive-keys" # receive keys of a developer
+alias ggrestart="/usr/bin/gpg-connect-agent reloadagent /bye"
+alias ggkill="/usr/bin/gpgconf --kill gpg-agent"
 
 # pip
 alias ppi="/usr/bin/pip install"
