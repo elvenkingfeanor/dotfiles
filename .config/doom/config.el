@@ -190,10 +190,10 @@
          :immediate-finish t)
         ("n" "notes")
         ("na" "article-notes" entry (file+headline "~/notx/notes.org" "Articles")
-         "* %^{title} %^G\n:PROPERTIES:\n:CREATED: %U\n:END:\n\n#+NAME: %^{key}\n#+BEGIN_SRC bibtex\n@article{%\2\ntitle={%\1},\nauthor={%^{authors}},\njournal={%^{journal}},\nyear={%^{year}},\ndoi={%^{doi}},\n}\n#+END_SRC\n\n** %:initial%?"
+         "* %^{title} %^G\n:PROPERTIES:\n:CREATED: %U\n:END:\n\n#+NAME: %^{key}\n#+BEGIN_SRC bibtex\n@article{%\\2\ntitle={%\\1},\nauthor={%^{authors}},\njournal={%^{journal}},\nyear={%^{year}},\ndoi={%^{doi}},\n}\n#+END_SRC\n\n** %:initial%?"
          :empty-lines 1)
         ("nb" "book-notes" entry (file+headline "~/notx/notes.org" "Books")
-         "* %^{title} %^G\n:PROPERTIES:\n:CREATED: %U\n:END:\n\n#+NAME: %^{key}\n#+BEGIN_SRC bibtex\n@book{%\2\ntitle={%\1},\nauthor={%^{authors}},\npublisher={%^{publisher}},\nyear={%^{year}},\ndoi={%^{doi}},\n}\n#+END_SRC\n\n** %:initial%?"
+         "* %^{title} %^G\n:PROPERTIES:\n:CREATED: %U\n:END:\n\n#+NAME: %^{key}\n#+BEGIN_SRC bibtex\n@book{%\\2\ntitle={%\\1},\nauthor={%^{authors}},\npublisher={%^{publisher}},\nyear={%^{year}},\ndoi={%^{doi}},\n}\n#+END_SRC\n\n** %:initial%?"
          :empty-lines 1)
         ("t" "todos & dailies")
         ("td" "daily" entry (file+olp+datetree "~/notx/journal.org" "Journals")
