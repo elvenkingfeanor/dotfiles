@@ -6,7 +6,7 @@ static const unsigned int snap      = 32;       /* snap pixel */
 static const int swallowfloating    = 0;        /* 1 means swallow floating windows by default */
 static const int showbar            = 1;        /* 0 means no bar */
 static const int topbar             = 1;        /* 0 means bottom bar */
-static const char *fonts[]          = { "JetBrainsMono Nerd Font:style=Regular:size=16:antialias=true:autohint=true", "NotoColorEmoji:style=Regular:size=18" };
+static const char *fonts[]          = { "JetBrainsMono Nerd Font:style=Regular:size=20:antialias=true:autohint=true", "NotoColorEmoji:style=Regular:size=22" };
 static char normbgcolor[]           = "#282828";
 static char normbordercolor[]       = "#a89984";
 static char normfgcolor[]           = "#ebdbb2";

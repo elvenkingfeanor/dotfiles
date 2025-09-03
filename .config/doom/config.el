@@ -121,7 +121,7 @@
 ;; path config for use of citar for vertico
 (setq! citar-bibliography '("~/sty/articles/bib/cite.bib")
        citar-library-paths '("~/sty/articles/")
-       citar-notes-paths '("~/notx/"))
+       citar-notes-paths '("~/notx/notes.org"))
 
 ;; marksman for markdown (no +lsp option for markdown in Doomemacs)
 ;; markdown-mode package already installed by Doomemacs
@@ -132,8 +132,8 @@
 
 ;; Orgmode
 ;; Org-capture
-;; org-protocol to capture directly from browser
-(require 'org-protocol)
+(require 'org-protocol) ;; org-protocol to capture directly from browser
+(require 'org-id) ;; generate unique IDs for captured items for future linking
 ;; Doom presets
 ;; (setq org-capture-templates
 ;;       '(("t" "Personal todo" entry (file+headline +org-capture-todo-file "Inbox")
@@ -160,20 +160,50 @@
 ;;         ("oc" "Project changelog" entry #'+org-capture-central-project-changelog-file
 ;;          "* %U %?\n %i\n %a" :heading "Changelog" :prepend t)))
 
+(setq org-id-method 'uuid)
+(setq org-id-link-to-org-use-id t)
+
 (setq org-capture-templates
       '(("b" "bookmark" entry (file+headline "~/notx/links.org" "Bookmarks")
-         "* %a %^G\n:PROPERTIES:\n:CREATED: %U\n:CUSTOM_ID: b-%(format-time-string \"%Y%m%d%H%M%S\")\n:END:\n\n** %:initial%?"
+         "* %a %^G\n:PROPERTIES:\n:CREATED: %U\n:END:\n\n** %:initial%?"
          :empty-lines 1)
         ("c" "contact" entry (file "~/notx/contacts.org")
-         "* %^{Name} %^G\n:PROPERTIES:\n:EMAIL: %^{email}\n:PHONE: %^{phone}\n:ALIAS: %^{nickname}\n:ADDRESS:\n:BIRTHDAY: %^{birthday}t\n:CREATED: %U\n:CUSTOM_ID: c-%(format-time-string \"%Y%m%d%H%M%S\")\n:END:\n %?"
+         "* %^{Name} %^G\n:PROPERTIES:\n:EMAIL: %^{email}\n:PHONE: %^{phone}\n:ALIAS: %^{nickname}\n:ADDRESS:\n:BIRTHDAY: %^{birthday}t\n:CREATED: %U\n:END:\n %?"
+         :empty-lines 1)
+        ("i" "inbox")
+        ("ii" "ideas" entry (file+headline "~/notx/inbox.org" "Ideas")
+         "* %?\u\n%i"
+         :empty-lines 1)
+        ("it" "problems" entry (file+headline "~/notx/inbox.org" "Problems")
+         "* %?\u\n%i"
+         :empty-lines 1)
+        ("iw" "wishlist" entry (file+headline "~/notx/inbox.org" "Wishlists")
+         "* %?\u\n%i"
+         :empty-lines 1)
+        ("l" "link" plain (file "~/.local/share/bookmarks")
+         "%L %?"
+         :immediate-finish t)
+        ("n" "notes")
+        ("na" "article-notes" entry (file+headline "~/notx/notes.org" "Articles")
+         "* %^{title} %^G\n:PROPERTIES:\n:CREATED: %U\n:END:\n\n#+NAME: %^{key}\n#+BEGIN_SRC bibtex\n@article{%\2\ntitle={%\1},\nauthor={%^{authors}},\njournal={%^{journal}},\nyear={%^{year}},\ndoi={%^{doi}},\n}\n#+END_SRC\n\n** %:initial%?"
+         :empty-lines 1)
+        ("nb" "book-notes" entry (file+headline "~/notx/notes.org" "Books")
+         "* %^{title} %^G\n:PROPERTIES:\n:CREATED: %U\n:END:\n\n#+NAME: %^{key}\n#+BEGIN_SRC bibtex\n@book{%\2\ntitle={%\1},\nauthor={%^{authors}},\npublisher={%^{publisher}},\nyear={%^{year}},\ndoi={%^{doi}},\n}\n#+END_SRC\n\n** %:initial%?"
+         :empty-lines 1)
+        ("t" "todos & dailies")
+        ("td" "daily" entry (file+olp+datetree "~/notx/journal.org" "Journals")
+         "* %(format-time-string \"%H:%M\") - Journal :journal:\n\n%?\n\n"
+         :empty-lines 1)
+        ("tt" "task" entry (file+olp "~/notx/journal.org" "TODOs")
+         "* TODO %?\n%u\n%a\n%i"
          :empty-lines 1)
         ))
 
 ;; Org-agenda
-(setq org-agenda-files (list org-directory))
+(setq org-agenda-files (list "~/notx/journal.org" org-directory))
 (setq org-agenda-start-with-log-mode t)
-(setq org-log-done 'time)
 (setq org-log-into-drawer t)
+(setq org-log-done 'time)
 
 ;; Doom presets
 ;; (setq org-todo-keywords
