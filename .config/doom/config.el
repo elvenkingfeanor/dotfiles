@@ -134,6 +134,10 @@
 ;; Org-capture
 (require 'org-protocol) ;; org-protocol to capture directly from browser
 (require 'org-id) ;; generate unique IDs for captured items for future linking
+
+(after! org
+  (add-to-list 'org-modules 'org-id 'org-protocol))
+
 ;; Doom presets
 ;; (setq org-capture-templates
 ;;       '(("t" "Personal todo" entry (file+headline +org-capture-todo-file "Inbox")
@@ -162,6 +166,7 @@
 
 (setq org-id-method 'uuid)
 (setq org-id-link-to-org-use-id t)
+;; not able to change TODO states after this addition
 
 (setq org-capture-templates
       '(("b" "bookmark" entry (file+headline "~/notx/links.org" "Bookmarks")
@@ -172,13 +177,13 @@
          :empty-lines 1)
         ("i" "inbox")
         ("ii" "ideas" entry (file+headline "~/notx/inbox.org" "Ideas")
-         "* %?\u\n%i"
+         "* %?\n%U\n%i"
          :empty-lines 1)
         ("it" "problems" entry (file+headline "~/notx/inbox.org" "Problems")
-         "* %?\u\n%i"
+         "* %?\n%U\n%i"
          :empty-lines 1)
         ("iw" "wishlist" entry (file+headline "~/notx/inbox.org" "Wishlists")
-         "* %?\u\n%i"
+         "* %?\n%U\n%i"
          :empty-lines 1)
         ("l" "link" plain (file "~/.local/share/bookmarks")
          "%L %?"
