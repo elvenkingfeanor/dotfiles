@@ -74,6 +74,8 @@ alias gcl="/usr/bin/git clone"
 alias gpl="/usr/bin/git pull"
 alias dotfiles='/usr/bin/git --git-dir="/mnt/bak/dotfiles.git" --work-tree="$HOME"'
 alias private='/usr/bin/git --git-dir="/mnt/bak/private.git" --work-tree="$HOME"'
+alias forgeup="/usr/bin/docker-compose -f /mnt/bak/docker-compose.yaml up -d"
+alias forgedown="/usr/bin/docker-compose -f /mnt/bak/docker-compose.yaml down"
 
 # navigation
 alias ..="cd ..;/usr/bin/clear;/usr/bin/eza -lo --no-permissions --group-directories-first --grid"

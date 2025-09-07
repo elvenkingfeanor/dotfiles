@@ -166,14 +166,13 @@
 
 (setq org-id-method 'uuid)
 (setq org-id-link-to-org-use-id t)
-;; not able to change TODO states after this addition
 
 (setq org-capture-templates
-      '(("b" "bookmark" entry (file+headline "~/notx/links.org" "Bookmarks")
+      '(("b" "bookmark" entry (file "~/notx/links.org")
          "* %a %^G\n:PROPERTIES:\n:CREATED: %U\n:END:\n\n** %:initial%?"
          :empty-lines 1)
         ("c" "contact" entry (file "~/notx/contacts.org")
-         "* %^{Name} %^G\n:PROPERTIES:\n:EMAIL: %^{email}\n:PHONE: %^{phone}\n:ALIAS: %^{nickname}\n:ADDRESS:\n:BIRTHDAY: %^{birthday}t\n:CREATED: %U\n:END:\n %?"
+         "* %^{Name} %^G\n:PROPERTIES:\n:EMAIL: %^{email}\n:PHONE: %^{phone}\n:ALIAS: %^{nickname}\n:ADDRESS: %^{address}\n:BIRTHDAY: %^{birthday}t\n:CREATED: %U\n:END:\n %?"
          :empty-lines 1)
         ("i" "inbox")
         ("ii" "ideas" entry (file+headline "~/notx/inbox.org" "Ideas")
@@ -185,9 +184,6 @@
         ("iw" "wishlist" entry (file+headline "~/notx/inbox.org" "Wishlists")
          "* %?\n%U\n%i"
          :empty-lines 1)
-        ("l" "link" plain (file "~/.local/share/bookmarks")
-         "%L %?"
-         :immediate-finish t)
         ("n" "notes")
         ("na" "article-notes" entry (file+headline "~/notx/notes.org" "Articles")
          "* %^{title} %^G\n:PROPERTIES:\n:CREATED: %U\n:END:\n\n#+NAME: %^{key}\n#+BEGIN_SRC bibtex\n@article{%\\2\ntitle={%\\1},\nauthor={%^{authors}},\njournal={%^{journal}},\nyear={%^{year}},\ndoi={%^{doi}},\n}\n#+END_SRC\n\n** %:initial%?"
@@ -200,7 +196,7 @@
          "* %(format-time-string \"%H:%M\") - Journal :journal:\n\n%?\n\n"
          :empty-lines 1)
         ("tt" "task" entry (file+olp "~/notx/journal.org" "TODOs")
-         "* TODO %?\n%u\n%a\n%i"
+         "* TODO %?\n%U\n%a\n%i"
          :empty-lines 1)
         ))
 
@@ -217,17 +213,28 @@
 ;;         (sequence "[ ](T)" "[-](S)" "[?](W)" "|" "[X](D)")
 ;;         (sequence "|" "OKAY(o)" "YES(y)" "NO(n)")))
 (setq org-todo-keywords
-      '((sequence "TODO(t)" "MAYBE(m)" "|" "DONE(d)" "CANCELLED(c)")))
+      '((sequence "TODO(t)" "MAYBE(m)" "|" "DONE(d!)" "CANCELLED(c)")
+        (sequence "[ ](T)" "[-](S)" "|" "[X](D)")))
 
 ;; org-refile targets and save org buffers
 (setq org-refile-targets
-      '((org-agenda-files . (:maxlevel . 2))
-        (nil . (:maxlevel . 2))))
+      '((org-agenda-files . (:maxlevel . 3))
+        (org-agenda-files . (:tag . "refile")) ;; use tags as filter for org-refile-targets
+        (nil . (:maxlevel . 3))))
 (setq org-refile-allow-creating-parent-nodes 'confirm)
 (setq org-refile-use-cache t)
+(setq org-log-refile 'time)
 (setq org-reverse-note-order nil)
+(setq org-refile-use-outline-path 'file)
+(setq org-outline-path-complete-in-steps nil) ;; already use completion, no need for step completions
 
 (advice-add 'org-refile :after 'org-save-all-org-buffers)
 
+;; org-archive
+(setq org-archive-location "~/notx/archive.org::* From %s") ;; string-type syntax for org-archive-location
+
 ;; org-contacts
-(setq org-contacts-files '("~/notx/contacts.org"))
+(setq org-contacts-files '("~/notx/contacts.org")) ;; (repeat file)-type symbol property
+
+;; pdf-tools
+(setq +latex-viewers '("pdf-tools")) ;; set pdf-tools as default pdf viewer
