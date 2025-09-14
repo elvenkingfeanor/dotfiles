@@ -178,11 +178,11 @@
         ("ii" "ideas" entry (file+headline "~/notx/inbox.org" "Ideas")
          "* %?\n%U\n%i"
          :empty-lines 1)
-        ("it" "problems" entry (file+headline "~/notx/inbox.org" "Problems")
+        ("ip" "problems" entry (file+headline "~/notx/inbox.org" "Problems")
          "* %?\n%U\n%i"
          :empty-lines 1)
-        ("iw" "wishlist" entry (file+headline "~/notx/inbox.org" "Wishlists")
-         "* %?\n%U\n%i"
+        ("it" "task" entry (file+headline "~/notx/inbox.org" "TODOs")
+         "* TODO %?\n%U\n%a\n%i"
          :empty-lines 1)
         ("n" "notes")
         ("na" "article-notes" entry (file+headline "~/notx/notes.org" "Articles")
@@ -191,20 +191,21 @@
         ("nb" "book-notes" entry (file+headline "~/notx/notes.org" "Books")
          "* %^{title} %^G\n:PROPERTIES:\n:CREATED: %U\n:END:\n\n#+NAME: %^{key}\n#+BEGIN_SRC bibtex\n@book{%\\2\ntitle={%\\1},\nauthor={%^{authors}},\npublisher={%^{publisher}},\nyear={%^{year}},\ndoi={%^{doi}},\n}\n#+END_SRC\n\n** %:initial%?"
          :empty-lines 1)
-        ("t" "todos & dailies")
-        ("td" "daily" entry (file+olp+datetree "~/notx/journal.org" "Journals")
+        ("d" "dailies")
+        ("dd" "daily" entry (file+olp+datetree "~/notx/journal.org" "Journals")
          "* %(format-time-string \"%H:%M\") - Journal :journal:\n\n%?\n\n"
          :empty-lines 1)
-        ("tt" "task" entry (file+olp "~/notx/journal.org" "TODOs")
-         "* TODO %?\n%U\n%a\n%i"
+        ("dw" "wishlist" entry (file+headline "~/notx/journal.org" "Wishlists")
+         "* %?\n%U\n%i"
          :empty-lines 1)
         ))
 
 ;; Org-agenda
-(setq org-agenda-files (list "~/notx/journal.org" org-directory))
+(setq org-agenda-files (list "~/notx/inbox.org" org-directory))
 (setq org-agenda-start-with-log-mode t)
 (setq org-log-into-drawer t)
 (setq org-log-done 'time)
+(setq org-agenda-include-diary t) ;; diary integration with org-agenda
 
 ;; Doom presets
 ;; (setq org-todo-keywords

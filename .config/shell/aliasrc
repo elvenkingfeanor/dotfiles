@@ -53,7 +53,7 @@ alias Cn="/usr/bin/yay -Qu | /usr/bin/wc -l"
 alias jctl="/usr/bin/journalctl -p 3 -xb" # show errors from journalctl
 
 # gpg
-alias ggrestart="/usr/bin/gpg-connect-agent reloadagent /bye"
+alias ggrestart="/usr/bin/gpg-connect-agent --quiet reloadagent /bye"
 alias ggkill="/usr/bin/gpgconf --kill gpg-agent"
 
 # pip
@@ -74,6 +74,8 @@ alias gcl="/usr/bin/git clone"
 alias gpl="/usr/bin/git pull"
 alias dotfiles='/usr/bin/git --git-dir="/mnt/bak/dotfiles.git" --work-tree="$HOME"'
 alias private='/usr/bin/git --git-dir="/mnt/bak/private.git" --work-tree="$HOME"'
+alias notes='/usr/bin/git --git-dir="/mnt/bak/notes.git/" --work-tree="$HOME"'
+alias dox='/usr/bin/git --git-dir="/mnt/bak/dox.git/" --work-tree="$HOME"'
 alias forgeup="/usr/bin/docker-compose -f /mnt/bak/docker-compose.yaml up -d"
 alias forgedown="/usr/bin/docker-compose -f /mnt/bak/docker-compose.yaml down"
 

@@ -83,7 +83,7 @@ export PASSWORD_STORE_DIR="${XDG_DATA_HOME:-$HOME/.local/share}/pass"
 
 # gpg-agent as ssh manager
 export GPG_TTY="$(tty)"
-/usr/bin/gpg-connect-agent updatestartuptty /bye >/dev/null
+/usr/bin/gpg-connect-agent --quiet updatestartuptty /bye >/dev/null
 unset SSH_AGENT_PID
 if [ "${gnupg_SSH_AUTH_SOCK_by:-0}" -ne $$ ]; then
     export SSH_AUTH_SOCK="$(/usr/bin/gpgconf --list-dirs agent-ssh-socket)"

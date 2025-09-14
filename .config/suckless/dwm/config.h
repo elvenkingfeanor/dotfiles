@@ -1,6 +1,7 @@
 /* See LICENSE file for copyright and license details. */
 
 /* appearance */
+#include <cstddef>
 static const unsigned int borderpx  = 1;        /* border pixel of windows */
 static const unsigned int snap      = 32;       /* snap pixel */
 static const int swallowfloating    = 0;        /* 1 means swallow floating windows by default */
@@ -23,9 +24,9 @@ typedef struct {
 	const char *name;
 	const void *cmd;
 } Sp;
-const char *spcmd1[] = {"st", "-n", "spterm", "-g", "80x20", NULL };
-const char *spcmd2[] = {"st", "-n", "spnote", "-g", "85x24", "-e", "nvim", NULL };
-const char *spcmd3[] = {"st", "-n", "spcalc", "-f", "monospace:size=16", "-g", "50x20", "-e", "bc", "-lq", NULL };
+const char *spcmd1[] = {"alacritty", "-n", "spterm", "-o", "\"window.dimensions = { columns = 80, lines = 20}\"",  NULL };
+const char *spcmd2[] = {"alacritty", "-n", "spnote", "-o", "\"window.dimensions = { columns = 85, lines = 24}\"", "-e", "nvim", NULL };
+const char *spcmd3[] = {"alacritty", "-n", "spcalc", "-o", "\"font.size = 18\"", "-o", "\"window.dimensions = { columns = 50, lines = 20}\"", "-e", "bc", "-lq", NULL };
 static Sp scratchpads[] = {
 	/* name          cmd  */
 	{"spterm",      spcmd1},
@@ -78,7 +79,7 @@ static const Layout layouts[] = {
 /* commands */
 static char dmenumon[2] = "0"; /* component of dmenucmd, manipulated in spawn() */
 static const char *dmenucmd[] = { "dmenu_run", "-nb", normbgcolor, "-nf", normfgcolor, "-sb", selbordercolor, "-sf", selfgcolor, NULL };
-static const char *termcmd[]  = { "st", NULL };
+static const char *termcmd[]  = { "/usr/bin/alacritty", NULL };
 static const char *upvol[] = { "/usr/bin/wpctl", "set-volume", "-l", "1.5", "@DEFAULT_AUDIO_SINK@", "5%+", NULL }; /* raise volume with limit at 150% */
 static const char *downvol[] = { "/usr/bin/wpctl", "set-volume", "@DEFAULT_AUDIO_SINK@", "5%-", NULL };
 static const char *mute[] = { "/usr/bin/wpctl", "set-mute", "@DEFAULT_AUDIO_SINK@", "toggle", NULL };
@@ -91,8 +92,8 @@ static const char *downbrtt[] = { "/usr/bin/light", "-U", "5", NULL };
 static const Key keys[] = {
 	/* modifier                     key        function        argument */
 	{ MODKEY,                       XK_x,      spawn,          {.v = dmenucmd } },
-	{ MODKEY|ShiftMask,		XK_Return, spawn,          {.v = termcmd } },
-	{ MODKEY,			XK_Return, spawn,          SHCMD("/usr/bin/alacritty") },
+	{ MODKEY,		XK_Return, spawn,          {.v = termcmd } },
+	{ MODKEY|ShiftMask,			XK_Return, spawn,          SHCMD("/usr/local/bin/st") },
 	{ MODKEY,			XK_grave,  togglescratch,  {.ui = 0 } },
 	{ MODKEY|ShiftMask,            	XK_grave,  togglescratch,  {.ui = 1 } },
 	{ MODKEY,		XK_Num_Lock,	   togglescratch,  {.ui = 2 } },
@@ -108,12 +109,14 @@ static const Key keys[] = {
 	{ MODKEY|ShiftMask,		XK_Print,  spawn,          {.v = (const char*[]){ "winscreenshot", NULL } } },
 	{ MODKEY,		        XK_h,	   spawn,	   SHCMD("st -e /usr/bin/htop") },
 	{ MODKEY,        	        XK_f, 	   spawn,          SHCMD("/usr/bin/librewolf") },
-	{ MODKEY|ShiftMask,        	XK_f, 	   spawn,          SHCMD("/usr/bin/pcmanfm") },
 	{ MODKEY,			XK_g, 	   spawn,          SHCMD("/usr/bin/brave") },
 	{ MODKEY,			XK_y, 	   spawn,          SHCMD("st -e /usr/bin/youtube-viewer") },
 	{ MODKEY,			XK_e, 	   spawn,          SHCMD("st -e /usr/bin/nvim") },
+	{ MODKEY|ShiftMask,			XK_e, 	   spawn,          SHCMD("/usr/bin/emacsclient -c -a \"\"") },
 	{ MODKEY,			XK_n, 	   spawn,          SHCMD("st -e /usr/bin/newsraft") },
 	{ MODKEY,     	                XK_m, 	   spawn,          SHCMD("st -e /usr/bin/aerc") },
+	{ MODKEY,     	                XK_l, 	   spawn,          SHCMD("/usr/bin/luanti") },
+	{ MODKEY,     	                XK_c, 	   spawn,          SHCMD("/usr/bin/gcompris-qt") },
 	{ MODKEY|ShiftMask,		XK_l, 	   spawn,          SHCMD("/usr/local/bin/slock") },
 	{ MODKEY,            	        XK_b, 	   spawn,          {.v = (const char*[]){ "bookmarkthis", NULL } } },	
 	{ MODKEY,            	        XK_Insert, spawn,          SHCMD("/usr/bin/grep -v '^#' ~/.local/share/bookmarks | /usr/local/bin/dmenu -i -l 20 | /usr/bin/cut -d' ' -f1 | /usr/bin/xclip -selection clipboard") },
@@ -137,7 +140,7 @@ static const Key keys[] = {
 	{ MODKEY|ShiftMask,             XK_j,      incnmaster,     {.i = -1 } },
 	{ MODKEY,			XK_d,      setmfact,       {.f = -0.05} },
 	{ MODKEY|ShiftMask,             XK_d,      setmfact,       {.f = +0.05} },
-	{ MODKEY|ShiftMask,             XK_Return, zoom,           {0} },
+	{ MODKEY|ShiftMask,             XK_Tab,	zoom,           {0} },
 	{ MODKEY,                       XK_Tab,    view,           {0} },
 	{ MODKEY|ShiftMask,             XK_t,      setlayout,      {.v = &layouts[0]} },
 	{ MODKEY|ShiftMask,             XK_f,      setlayout,      {.v = &layouts[1]} },
