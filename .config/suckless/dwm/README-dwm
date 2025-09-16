@@ -1,0 +1,13 @@
+dwm - dynamic window manager
+============================
+This is my build of the latest (as of Sep 2025) DWM 6.6, with
+the following patches:
+1. attachaside (6.4)
+2. moveresize (20221210-7ac106c)
+3. pertag (20200914-61bb8b2)
+4. scratchpads (20200414-728d397b)
+5. swallow (6.3)
+6. xrdb (6.4), and,
+7. statuscmd (20241009-8933ebc)
+
+The last patch, is the latest in the list of patches to my DWM

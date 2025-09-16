@@ -68,6 +68,14 @@ URxvt.keysym.M-u: perl:url-select:select_next
 URxvt.keysym.M-Escape: perl:keyboard-select:activate
 URxvt.keysym.M-s: perl:keyboard-select:search
 
+!! DWM xrdb
+dwm.normbgcolor:    #282828
+dwm.normbordercolor:    #a89984
+dwm.normfgcolor:        #ebdbb2
+dwm.selfgcolor:         #1d2021
+dwm.selbordercolor:     #d79921
+dwm.selbgcolor:         #98971a
+
 !! COLORS
 
 ! special
