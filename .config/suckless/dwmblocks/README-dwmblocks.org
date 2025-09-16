@@ -1,0 +1,31 @@
+#+title: Readme for my Dwmblocks
+
+This is torrinfail's build of [[https://github.com/torrinfail/dwmblocks][dwmblocks]], patched with:
+1. [[https://dwm.suckless.org/patches/statuscmd/][statuscmd]]'s dwmblocks patch.
+
+** Note:
+Both torrinfail's dwmblocks and this patch fails to build with the following error:
+#+begin_quote
+dwmblocks.c: In function ‘main’:
+dwmblocks.c:240:25: error: passing argument 2 of ‘signal’ from incompatible pointer type [-Wincompatible-pointer-types]
+  240 |         signal(SIGTERM, termhandler);
+      |                         ^~~~~~~~~~~
+      |                         |
+      |                         void (*)(void)
+In file included from dwmblocks.c:5:
+/usr/include/signal.h:88:57: note: expected ‘__sighandler_t’ {aka ‘void (*)(int)’} but argument is of type ‘void (*)(void)’
+   88 | extern __sighandler_t signal (int __sig, __sighandler_t __handler)
+      |                                          ~~~~~~~~~~~~~~~^~~~~~~~~
+dwmblocks.c:216:6: note: ‘termhandler’ declared here
+  216 | void termhandler()
+      |      ^~~~~~~~~~~
+/usr/include/signal.h:72:16: note: ‘__sighandler_t’ declared here
+   72 | typedef void (*__sighandler_t) (int);
+      |                ^~~~~~~~~~~~~~
+#+end_quote
+*** The above error was in functions =termhandler= and =chldhandler=
+*** The above error was solved by declaring those functions with =int signum=:
+#+begin_quote
+void termhandler(int signum)
+void chldhandler(int signum)
+#+end_quote
