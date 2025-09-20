@@ -5,19 +5,22 @@ static int topbar = 1;                      /* -b  option; if 0, dmenu appears a
 static int fuzzy  = 1;                      /* -F  option; if 0, dmenu doesn't use fuzzy matching */
 /* -fn option overrides fonts[0]; default X11 font or font set */
 static const char *fonts[] = {
-	"JetBrainsMono Nerd Font:style=Regular:size=14:antialias=true:autohint=true", "NotoColorEmoji:style=Regular:size=16"
+	/* "monospace:size=10" */
+	"JetBrainsMono Nerd Font:style=Regular:size=18:antialias=true:autohint=true", "NotoColorEmoji:style=Regular:size=20"
 };
 static const char *prompt      = NULL;      /* -p  option; prompt to the left of input field */
 static const char *colors[SchemeLast][2] = {
 	/*     fg         bg       */
-	[SchemeNorm] = { "#ebdbb2", "#32302f" },
-	[SchemeSel] = { "#ebdbb2", "#83a598" },
-	[SchemeOut] = { "#928374", "#8ec07c" },
+	[SchemeNorm] = { "#bbbbbb", "#222222" },
+	[SchemeSel] = { "#eeeeee", "#005577" },
+	[SchemeOut] = { "#000000", "#00ffff" },
 };
 /* -l option; if nonzero, dmenu uses vertical list with given number of lines */
-static unsigned int lines      = 0;
+/* static unsigned int lines      = 0; */
+static unsigned int lines      = 10;
 /* -h option; minimum height of a menu line */
-static unsigned int lineheight = 22;
+static unsigned int lineheight = 0;
+/* static unsigned int lineheight = 22; */
 static unsigned int min_lineheight = 8;
 
 /*

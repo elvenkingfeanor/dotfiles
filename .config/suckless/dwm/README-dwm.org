@@ -1,0 +1,10 @@
+#+title: Readme for my Dwm build
+
+This is Suckless's [[https://dwm.suckless.org/][DWM]] (*Dynamic Window Manager*) v6.6, with the following patches:
+* [[https://dwm.suckless.org/patches/attachaside/][attachaside]] [[https://dwm.suckless.org/patches/attachaside/dwm-attachaside-6.4.diff][v6.4]]
+* [[https://dwm.suckless.org/patches/moveresize/][moveresize]] [[https://dwm.suckless.org/patches/moveresize/dwm-moveresize-20221210-7ac106c.diff][2022 patch]]
+* [[https://dwm.suckless.org/patches/pertag/][pertag]] [[https://dwm.suckless.org/patches/pertag/dwm-pertag-20200914-61bb8b2.diff][2020 patch]]
+* [[https://dwm.suckless.org/patches/scratchpads/][scratchpads]]
+* [[https://dwm.suckless.org/patches/statuscmd/][statuscmd]] [[https://dwm.suckless.org/patches/statuscmd/dwm-statuscmd-20241009-8933ebc.diff][2024 patch]]
+* [[https://dwm.suckless.org/patches/swallow/][swallow]] [[https://dwm.suckless.org/patches/swallow/dwm-swallow-6.3.diff][v6.3]]
+* [[https://dwm.suckless.org/patches/xrdb/][xrdb]] [[https://dwm.suckless.org/patches/xrdb/dwm-xrdb-6.4.diff][v6.4]]

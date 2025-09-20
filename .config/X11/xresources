@@ -68,93 +68,152 @@ URxvt.keysym.M-u: perl:url-select:select_next
 URxvt.keysym.M-Escape: perl:keyboard-select:activate
 URxvt.keysym.M-s: perl:keyboard-select:search
 
-!! DWM xrdb
+!! dwm
 dwm.normbgcolor:    #282828
 dwm.normbordercolor:    #a89984
 dwm.normfgcolor:        #ebdbb2
 dwm.selfgcolor:         #1d2021
 dwm.selbordercolor:     #d79921
 dwm.selbgcolor:         #98971a
+!! dwm colors imported from gruvbox-dark
 
 !! COLORS
 
-! special
-!*.foreground:	#c5c8c6
-!*.background:   #1d1f21
-!*.cursorColor:  #c5c8c6
+! ------------------------------------------------------------------------------
+! File: atom-one-light.xresources
+! Description: Atom One Light theme for Terminal
+! Author: Nate Mayer <nathanbuchar>
+! Source: https://github.com/nathanbuchar/atom-one-dark-terminal
+! Last Modified: 11 Aug 2016
+! ------------------------------------------------------------------------------
 
-! black
-!*.color0:       #282a2e
-!*.color8:       #373b41
+!*background: #f9f9f9
+!*foreground: #383a42
+!*cursorColor: #3a3f4b
+!! Black
+!*color0:  #000000
+!*color8:  #383a42
+!! Red
+!*color1:  #e45649
+!*color9:  #e45649
+!! Green
+!*color2:  #50a14f
+!*color10: #50a14f
+!! Yellow
+!*color3:  #986801
+!*color11: #986801
+!! Blue
+!*color4:  #4078f2
+!*color12: #4078f2
+!! Magenta
+!*color5:  #a626a4
+!*color13: #a626a4
+!! Cyan
+!*color6:  #0184bc
+!*color14: #0184bc
+!! White
+!*color7:  #a0a1a7
+!*color15: #ffffff
 
-! red
-!*.color1:       #a54242
-!*.color9:       #cc6666
+! ------------------------------------------------------------------------------
+! File: atom-one-dark.xresources
+! Description: Atom One Dark theme for Terminal (inspiration for Doom-One theme)
+! Author: Nate Mayer <nathanbuchar>
+! Source: https://github.com/nathanbuchar/atom-one-dark-terminal
+! Last Modified: 11 Aug 2016
+! ------------------------------------------------------------------------------
 
-! green
-!*.color2:       #8c9440
-!*.color10:      #b5bd68
+!*background: #1e2127
+!*foreground: #abb2bf
+!*cursorColor: #5c6370
+!! Black
+!*color0:  #1e2127
+!*color8:  #5c6370
+!! Red
+!*color1:  #e06c75
+!*color9:  #e06c75
+!! Green
+!*color2:  #98c379
+!*color10: #98c379
+!! Yellow
+!*color3:  #d19a66
+!*color11: #d19a66
+!! Blue
+!*color4:  #61afef
+!*color12: #61afef
+!! Magenta
+!*color5:  #c678dd
+!*color13: #c678dd
+!! Cyan
+!*color6:  #56b6c2
+!*color14: #56b6c2
+!! White
+!*color7:  #abb2bf
+!*color15: #ffffff
 
-! yellow
-!*.color3:       #de935f
-!*.color11:      #f0c674
 
-! blue
-!*.color4:       #5f819d
-!*.color12:      #81a2be
+!--------------------------
+!! special
+!! from terminal.sexy
+!!*.cursorColor:  #c5c8c6
+!! black
+!!*.color0:       #282a2e
+!!*.color8:       #373b41
+!! red
+!!*.color1:       #a54242
+!!*.color9:       #cc6666
+!! green
+!!*.color2:       #8c9440
+!!*.color10:      #b5bd68
+!! yellow
+!!*.color3:       #de935f
+!!*.color11:      #f0c674
+!! blue
+!!*.color4:       #5f819d
+!!*.color12:      #81a2be
+!! magenta
+!!*.color5:       #85678f
+!!*.color13:      #b294bb
+!! cyan
+!!*.color6:       #5e8d87
+!!*.color14:      #8abeb7
+!! white
+!!*.color7:       #707880
+!!*.color15:      #c5c8c6
 
-! magenta
-!*.color5:       #85678f
-!*.color13:      #b294bb
 
-! cyan
-!*.color6:       #5e8d87
-!*.color14:      #8abeb7
-
-! white
-!*.color7:       #707880
-!*.color15:      #c5c8c6
-
+!-------------------------------
 !! Solarized-dark
 !! imported from terminal.sexy
-!! COLORS
-!! special
 !*.foreground:   #93a1a1
 !*.background:   #002b36
 !*.cursorColor:  #93a1a1
-!
 !!! black
 !*.color0:       #002b36
 !*.color8:       #657b83
-!
 !!! red
 !*.color1:       #dc322f
 !*.color9:       #dc322f
-!
 !!! green
 !*.color2:       #859900
 !*.color10:      #859900
-!
 !!! yellow
 !*.color3:       #b58900
 !*.color11:      #b58900
-!
 !! blue
 !*.color4:       #268bd2
 !*.color12:      #268bd2
-!
 !! magenta
 !*.color5:       #6c71c4
 !*.color13:      #6c71c4
-!
 !! cyan
 !*.color6:       #2aa198
 !*.color14:      #2aa198
-!
 !! white
 !*.color7:       #93a1a1
 !*.color15:      #fdf6e3
 
+!-------------------------------
 !! Solarized-light
 !! Imported from terminal.sexy
 !!! COLORS
@@ -162,38 +221,31 @@ dwm.selbgcolor:         #98971a
 !*.foreground:   #586e75
 !*.background:   #fdf6e3
 !*.cursorColor:  #586e75
-
 !! black
 !*.color0:       #002b36
 !*.color8:       #657b83
-
 !! red
 !*.color1:       #dc322f
 !*.color9:       #dc322f
-
 !! green
 !*.color2:       #859900
 !*.color10:      #859900
-
 !! yellow
 !*.color3:       #b58900
 !*.color11:      #b58900
-
 !! blue
 !*.color4:       #268bd2
 !*.color12:      #268bd2
-
 !! magenta
 !*.color5:       #6c71c4
 !*.color13:      #6c71c4
-
 !! cyan
 !*.color6:       #2aa198
 !*.color14:      #2aa198
-
 !! white
 !*.color7:       #93a1a1
 !*.color15:      #fdf6e3
+
 
 ! -----------------------------------------------------------------------------
 ! File: gruvbox-dark.xresources

@@ -4,7 +4,7 @@
 
 source /etc/X11/xinit/xinitrc.d/50-systemd-user.sh
 /usr/bin/touch /tmp/Xauthority
-/usr/bin/xauth -q -f /tmp/Xauthority &
+#/usr/bin/xauth -q -f /tmp/Xauthority &
 "$HOME"/.local/bin/xinfo &
 /usr/bin/xrdb -load "$XDG_CONFIG_HOME"/X11/xresources &
 "$HOME"/.local/bin/bright &
@@ -14,7 +14,7 @@ source /etc/X11/xinit/xinitrc.d/50-systemd-user.sh
 /usr/bin/picom 2>> ~/.local/share/picom.log &
 /usr/bin/emacs --daemon &
 /usr/local/bin/dwmblocks 2>> ~/.local/share/dwmblocks.log &
-#exec /usr/local/bin/st 2>> ~/.local/share/st.log &
-/usr/bin/emacsclient -c -a "" &
+exec /usr/local/bin/st 2>> ~/.local/share/st.log &
+#/usr/bin/emacsclient -c -a "" &
 
 exec "$HOME"/.local/bin/dwmstart

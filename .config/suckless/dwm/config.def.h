@@ -10,7 +10,7 @@ static const int showbar            = 1;        /* 0 means no bar */
 static const int topbar             = 1;        /* 0 means bottom bar */
 /* static const char *fonts[]          = { "monospace:size=10" }; */
 static const char *fonts[]          = { "JetBrainsMono Nerd Font:style=Regular:size=18:antialias=true:autohint=true", "NotoColorEmoji:style=Regular:size=20" };
-static const char dmenufont[]       = "monospace:size=10";
+static const char dmenufont[]       = "monospace:size=18";
 /* static char normbgcolor[]           = "#222222"; */
 /* static char normbordercolor[]       = "#444444"; */
 /* static char normfgcolor[]           = "#bbbbbb"; */
@@ -69,7 +69,7 @@ static const Rule rules[] = {
 	{ "obs",            NULL,        NULL,           1 << 8,    1,          0,           1,        -1 },
 	{ "st-256color",    NULL,        NULL,           0,         0,          1,           0,        -1 },
 	{ "Alacritty",      NULL,        NULL,           0,         0,          1,           0,        -1 },
-	{ NULL,       NULL,     "Event Tester", 0,              0,           0,            1,        -1 }, /* xev */
+	{ NULL,       NULL,     "Event Tester", 		 0,         0,          0,           1,        -1 }, /* xev */
 	{ NULL,            "spterm",     NULL,          SPTAG(0),   1,	        1,	         1,        -1 },
 	{ NULL,	           "spnote",     NULL,	        SPTAG(1),   1,	        1,	         1,        -1 },
 	{ NULL,	           "spcalc",     NULL,	        SPTAG(2),   1,	        1,           1,        -1 },
@@ -143,6 +143,7 @@ static const Key keys[] = {
 	{ MODKEY,     	                XK_m, 	   spawn,          SHCMD("st -e /usr/bin/aerc") },
 	{ MODKEY,     	                XK_l, 	   spawn,          SHCMD("/usr/bin/luanti") },
 	{ MODKEY,     	                XK_c, 	   spawn,          SHCMD("/usr/bin/gcompris-qt") },
+	{ MODKEY|ShiftMask,		        XK_q, 	   spawn,          SHCMD("/usr/bin/qbittorrent") },
 	{ MODKEY|ShiftMask,		        XK_l, 	   spawn,          SHCMD("/usr/local/bin/slock") },
 	{ MODKEY,            	        XK_b, 	   spawn,          {.v = (const char*[]){ "bookmarkthis", NULL } } },
 	{ MODKEY,            	        XK_Insert, spawn,          SHCMD("/usr/bin/grep -v '^#' ~/.local/share/bookmarks | /usr/local/bin/dmenu -i -l 20 | /usr/bin/cut -d' ' -f1 | /usr/bin/xclip -selection clipboard") },
@@ -170,7 +171,7 @@ static const Key keys[] = {
 	{ MODKEY|ShiftMask,             XK_Tab,    zoom,           {0} },
 	{ MODKEY,                       XK_Tab,    view,           {0} },
 	/* { MODKEY|ShiftMask,             XK_c,      killclient,     {0} }, */
-	{ MODKEY|ShiftMask,             XK_q,      killclient,     {0} },
+	{ MODKEY,                       XK_q,      killclient,     {0} },
 	{ MODKEY|ShiftMask,             XK_t,      setlayout,      {.v = &layouts[0]} },
 	{ MODKEY|ShiftMask,             XK_f,      setlayout,      {.v = &layouts[1]} },
 	{ MODKEY|ShiftMask,             XK_m,      setlayout,      {.v = &layouts[2]} },

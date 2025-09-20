@@ -59,8 +59,6 @@ static void zoom(const Arg *);
 static void zoomabs(const Arg *);
 static void zoomreset(const Arg *);
 static void ttysend(const Arg *);
-static void nextscheme(const Arg *);
-static void selectscheme(const Arg *);
 
 /* config.h for applying patches and the configuration. */
 #include "config.h"
@@ -189,7 +187,6 @@ static void mousesel(XEvent *, int);
 static void mousereport(XEvent *);
 static char *kmap(KeySym, uint);
 static int match(uint, uint);
-static void updatescheme(void);
 
 static void run(void);
 static void usage(void);
@@ -807,7 +804,7 @@ xloadcols(void)
 		for (cp = dc.col; cp < &dc.col[dc.collen]; ++cp)
 			XftColorFree(xw.dpy, xw.vis, xw.cmap, cp);
 	} else {
-		dc.collen = 258;
+		dc.collen = MAX(LEN(colorname), 256);
 		dc.col = xmalloc(dc.collen * sizeof(Color));
 	}
 
@@ -1962,12 +1959,6 @@ kpress(XEvent *ev)
 			return;
 	} else {
 		len = XLookupString(e, buf, sizeof buf, &ksym, NULL);
-	if ( IS_SET(MODE_KBDSELECT) ) {
-		if ( match(XK_NO_MOD, e->state) ||
-		     (XK_Shift_L | XK_Shift_R) & e->state )
-			win.mode ^= trt_kbdselect(ksym, buf, len);
-		return;
-	}
 	}
 	/* 1. shortcuts */
 	for (bp = shortcuts; bp < shortcuts + LEN(shortcuts); bp++) {
@@ -2146,55 +2137,6 @@ usage(void)
 	    " [stty_args ...]\n", argv0, argv0);
 }
 
-void
-nextscheme(const Arg *arg)
-{
-	colorscheme += arg->i;
-	if (colorscheme >= (int)LEN(schemes))
-		colorscheme = 0;
-	else if (colorscheme < 0)
-		colorscheme = LEN(schemes) - 1;
-	updatescheme();
-}
-
-void
-selectscheme(const Arg *arg)
-{
-	if (BETWEEN(arg->i, 0, LEN(schemes)-1)) {
-		colorscheme = arg->i;
-		updatescheme();
-	}
-}
-
-void
-updatescheme(void)
-{
-	int oldbg, oldfg;
-
-	oldbg = defaultbg;
-	oldfg = defaultfg;
-	colorname = schemes[colorscheme].colors;
-	defaultbg = schemes[colorscheme].bg;
-	defaultfg = schemes[colorscheme].fg;
-	defaultcs = schemes[colorscheme].cs;
-	defaultrcs = schemes[colorscheme].rcs;
-	xloadcols();
-	if (defaultbg != oldbg)
-		tupdatebgcolor(oldbg, defaultbg);
-	if (defaultfg != oldfg)
-		tupdatefgcolor(oldfg, defaultfg);
-	cresize(win.w, win.h);
-	redraw();
-}
-
-void toggle_winmode(int flag) {
-	win.mode ^= flag;
-}
-
-void keyboard_select(const Arg *dummy) {
-	win.mode ^= trt_kbdselect(-1, NULL, 0);
-}
-
 int
 main(int argc, char *argv[])
 {
@@ -2247,12 +2189,6 @@ main(int argc, char *argv[])
 	} ARGEND;
 
 run:
-	colorname = schemes[colorscheme].colors;
-	defaultbg = schemes[colorscheme].bg;
-	defaultfg = schemes[colorscheme].fg;
-	defaultcs = schemes[colorscheme].cs;
-	defaultrcs = schemes[colorscheme].rcs;
-
 	if (argc > 0) /* eat all remaining arguments */
 		opt_cmd = argv;
 

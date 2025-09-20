@@ -1,0 +1,6 @@
+#+title: Readme for my Dmenu build
+
+This is Suckless's [[https://tools.suckless.org/dmenu/][dmenu]] v5.4, with the following patches:
+* [[https://tools.suckless.org/dmenu/patches/fuzzymatch/][fuzzymatch]] [[https://tools.suckless.org/dmenu/patches/fuzzymatch/dmenu-fuzzymatch-5.3.diff][v5.3]]
+* [[https://tools.suckless.org/dmenu/patches/line-height/][line height]] [[https://tools.suckless.org/dmenu/patches/line-height/dmenu-lineheight-5.2.diff][v5.2]]
+* [[https://tools.suckless.org/dmenu/patches/numbers/][numbers]] [[https://tools.suckless.org/dmenu/patches/numbers/dmenu-numbers-20220512-28fb3e2.diff][2022 patch]]
