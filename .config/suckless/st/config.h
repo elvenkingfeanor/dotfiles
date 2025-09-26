@@ -5,7 +5,7 @@
  *
  * font: see http://freedesktop.org/software/fontconfig/fontconfig-user.html
  */
-static char *font = "JetBrainsMono Nerd Font:style=Regular:pixelsize=24:antialias=true:autohint=true";
+static char *font = "JetBrainsMono Nerd Font:style=Regular:pixelsize=25:antialias=true:autohint=true";
 /* Spare fonts */
 static char *font2[] = {
 /*	"Inconsolata for Powerline:pixelsize=12:antialias=true:autohint=true", */
@@ -102,38 +102,39 @@ char *termname = "st-256color";
 unsigned int tabspaces = 8;
 
 /* Terminal colors (16 first used in escape sequence) */
+/* OneDark theme added from <https://github.com/alacritty/alacritty-theme/blob/master/themes/one_dark.toml> */
 static const char *colorname[] = {
 	/* 8 normal colors */
-[0] = "#1e2127", 				/* black */
-[1] = "#e06c75",				/* red */
-[2] = "#98c379",				/* green */
-[3] = "#d19a66",				/* yellow */
-[4] = "#61afef",				/* blue */
-[5] = "#c678dd",				/* magenta */
-[6] = "#56b6c2",				/* cyan */
-[7] = "#abb2bf",				/* white */
+[0]  = "#282c34", 				/* black */
+[1]	 = "#ff6c6b",				/* red */
+[2]	 = "#98be65",				/* green */
+[3]	 = "#ecbe7b",				/* yellow */
+[4]	 = "#51afef",				/* blue */
+[5]	 = "#c678dd",				/* magenta */
+[6]	 = "#46d9ff",				/* cyan */
+[7]	 = "#bbc2cf",				/* white */
 
-	/* 8 bright colors */
-[8] = "#5c6370",				/* black */
-[9] = "#e06c75",				/* red */
-[10] = "#98c379",				/* green */
-[11] = "#d19a66",				/* yellow */
-[12] = "#61afef",				/* blue */
-[13] = "#c678dd",				/* magenta */
-[14] = "#56b6c2",				/* cyan */
-[15] = "#ffffff",				/* white */
+	/* 8 bright colors, identical to above normal colors */
+[8]  = "#282c34",               /* black */
+[9]	 = "#ff6c6b",               /* red */
+[10] = "#98be65",               /* green */
+[11] = "#ecbe7b",               /* yellow */
+[12] = "#51afef",               /* blue */
+[13] = "#c678dd",               /* magenta */
+[14] = "#46d9ff",               /* cyan */
+[15] = "#bbc2cf",               /* white */
 
 };
 
 
 /*
  * Default colors (colorname index)
- * foreground, background, cursor, reverse cursor
+ * foreground, background, cursor
  */
 unsigned int defaultfg = 7;
 unsigned int defaultbg = 0;
-unsigned int defaultcs = 8;
-static unsigned int defaultrcs = 15;
+unsigned int defaultcs = 7;
+static unsigned int defaultrcs = 7;
 
 /*
  * Default shape of cursor

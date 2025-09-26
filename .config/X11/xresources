@@ -69,13 +69,21 @@ URxvt.keysym.M-Escape: perl:keyboard-select:activate
 URxvt.keysym.M-s: perl:keyboard-select:search
 
 !! dwm
-dwm.normbgcolor:    #282828
-dwm.normbordercolor:    #a89984
-dwm.normfgcolor:        #ebdbb2
-dwm.selfgcolor:         #1d2021
-dwm.selbordercolor:     #d79921
-dwm.selbgcolor:         #98971a
-!! dwm colors imported from gruvbox-dark
+!dwm.normbgcolor:    #282828
+!dwm.normbordercolor:    #a89984
+!dwm.normfgcolor:        #ebdbb2
+!dwm.selfgcolor:         #1d2021
+!dwm.selbordercolor:     #d79921
+!dwm.selbgcolor:         #98971a
+!!! dwm colors imported from gruvbox-dark
+
+dwm.normbgcolor:    #282c34
+dwm.normbordercolor:    #abb2bf
+dwm.normfgcolor:        #abb2bf
+dwm.selfgcolor:         #282c34
+dwm.selbordercolor:     #d19a66
+dwm.selbgcolor:         #98c379
+!! dwm colors imported from alacritty-one-dark
 
 !! COLORS
 
@@ -150,6 +158,44 @@ dwm.selbgcolor:         #98971a
 !! White
 !*color7:  #abb2bf
 !*color15: #ffffff
+
+
+! ------------------------------------------------------------------------------
+! File: alacritty-one-dark.xresources
+! Description: Alacritty's One Dark theme (inspiration for Doom-One theme)
+! Author1: Christian Duerr <chrisduerr> https://christianduerr.com
+! Author2: Kirill Chibisov <kchibisov> https://codeberg.org/kchibisov
+! Source: https://github.com/alacritty/alacritty-theme/blob/master/themes/one_dark.toml
+! Last Modified: 12 Feb 2024
+! ------------------------------------------------------------------------------
+
+*background: #282c34
+*foreground: #abb2bf
+*cursorColor: #282c34
+! Black
+*color0:  #1e2127
+*color8:  #5c6370
+! Red
+*color1:  #e06c75
+*color9:  #e06c75
+! Green
+*color2:  #98c379
+*color10: #98c379
+! Yellow
+*color3:  #d19a66
+*color11: #d19a66
+! Blue
+*color4:  #61afef
+*color12: #61afef
+! Magenta
+*color5:  #c678dd
+*color13: #c678dd
+! Cyan
+*color6:  #56b6c2
+*color14: #56b6c2
+! White
+*color7:  #abb2bf
+*color15: #ffffff
 
 
 !--------------------------
@@ -255,34 +301,34 @@ dwm.selbgcolor:         #98971a
 ! Last Modified: 6 Sep 2014
 ! -----------------------------------------------------------------------------
 
-! hard contrast: *background: #1d2021
-*background: #282828
-! soft contrast: *background: #32302f
-*foreground: #ebdbb2
-! Black + DarkGrey
-*color0:  #282828
-*color8:  #928374
-! DarkRed + Red
-*color1:  #cc241d
-*color9:  #fb4934
-! DarkGreen + Green
-*color2:  #98971a
-*color10: #b8bb26
-! DarkYellow + Yellow
-*color3:  #d79921
-*color11: #fabd2f
-! DarkBlue + Blue
-*color4:  #458588
-*color12: #83a598
-! DarkMagenta + Magenta
-*color5:  #b16286
-*color13: #d3869b
-! DarkCyan + Cyan
-*color6:  #689d6a
-*color14: #8ec07c
-! LightGrey + White
-*color7:  #a89984
-*color15: #ebdbb2
+!! hard contrast: *background: #1d2021
+!*background: #282828
+!! soft contrast: *background: #32302f
+!*foreground: #ebdbb2
+!! Black + DarkGrey
+!*color0:  #282828
+!*color8:  #928374
+!! DarkRed + Red
+!*color1:  #cc241d
+!*color9:  #fb4934
+!! DarkGreen + Green
+!*color2:  #98971a
+!*color10: #b8bb26
+!! DarkYellow + Yellow
+!*color3:  #d79921
+!*color11: #fabd2f
+!! DarkBlue + Blue
+!*color4:  #458588
+!*color12: #83a598
+!! DarkMagenta + Magenta
+!*color5:  #b16286
+!*color13: #d3869b
+!! DarkCyan + Cyan
+!*color6:  #689d6a
+!*color14: #8ec07c
+!! LightGrey + White
+!*color7:  #a89984
+!*color15: #ebdbb2
 
 ! -----------------------------------------------------------------------------
 ! File: gruvbox-light.xresources

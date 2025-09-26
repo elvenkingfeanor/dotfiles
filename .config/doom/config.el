@@ -237,5 +237,10 @@
 ;; org-contacts
 (setq org-contacts-files '("~/notx/contacts.org")) ;; (repeat file)-type symbol property
 
+;; org export backends
+;; add markdown export as org export backend (mostly for rendering git readmes)
+(require 'ox-md)
+;; (setq org-export-backends '(("pandoc" "beamer" "md" "ascii" "html" "icalendar" "latex" "odt"))
+
 ;; pdf-tools
 (setq +latex-viewers '("pdf-tools")) ;; set pdf-tools as default pdf viewer

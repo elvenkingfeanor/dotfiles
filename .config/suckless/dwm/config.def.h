@@ -17,12 +17,12 @@ static const char dmenufont[]       = "monospace:size=18";
 /* static char selfgcolor[]            = "#eeeeee"; */
 /* static char selbordercolor[]        = "#005577"; */
 /* static char selbgcolor[]            = "#005577"; */
-static char normbgcolor[]           = "#282828";
-static char normbordercolor[]       = "#a89984";
-static char normfgcolor[]           = "#ebdbb2";
-static char selfgcolor[]            = "#1d2021";
-static char selbordercolor[]        = "#d79921";
-static char selbgcolor[]            = "#98971a";
+static char normbgcolor[]           = "#282c34";
+static char normbordercolor[]       = "#abb2bf";
+static char normfgcolor[]           = "#abb2bf";
+static char selfgcolor[]            = "#282c34";
+static char selbordercolor[]        = "#d19a66";
+static char selbgcolor[]            = "#98c379";
 static char *colors[][3] = {
        /*               fg           bg           border   */
        [SchemeNorm] = { normfgcolor, normbgcolor, normbordercolor },
@@ -78,7 +78,8 @@ static const Rule rules[] = {
 /* layout(s) */
 static const float mfact     = 0.55; /* factor of master area size [0.05..0.95] */
 static const int nmaster     = 1;    /* number of clients in master area */
-static const int resizehints = 1;    /* 1 means respect size hints in tiled resizals */
+/* static const int resizehints = 1;    /\* 1 means respect size hints in tiled resizals *\/ */
+static const int resizehints = 0;    /* st leaves gaps to the right and bottom of screen otherwise */
 static const int lockfullscreen = 1; /* 1 will force focus on the fullscreen window */
 /* static const int refreshrate = 120;  /\* refresh rate (per second) for client move/resize *\/ */
 static const int refreshrate = 60;  /* refresh rate (per second) for client move/resize */
@@ -105,7 +106,8 @@ static const Layout layouts[] = {
 
 /* commands */
 static char dmenumon[2] = "0"; /* component of dmenucmd, manipulated in spawn() */
-static const char *dmenucmd[] = { "dmenu_run", "-m", dmenumon, "-fn", dmenufont, "-nb", normbgcolor, "-nf", normfgcolor, "-sb", selbordercolor, "-sf", selfgcolor, NULL };
+/* static const char *dmenucmd[] = { "dmenu_run", "-m", dmenumon, "-fn", dmenufont, "-nb", normbgcolor, "-nf", normfgcolor, "-sb", selbgcolor, "-sf", selfgcolor, NULL }; */
+static const char *dmenucmd[] = { "dmenu_run", "-i", "-m", dmenumon, "-fn", dmenufont, "-nb", normbgcolor, "-nf", normfgcolor, "-sb", selbgcolor, "-sf", selfgcolor, NULL };
 /* static const char *termcmd[]  = { "st", NULL }; */
 static const char *termcmd[]  = { "/usr/bin/alacritty", NULL };
 static const char *upvol[] = { "/usr/bin/wpctl", "set-volume", "-l", "1.5", "@DEFAULT_AUDIO_SINK@", "5%+", NULL }; /* raise volume with limit at 150% */
@@ -143,7 +145,8 @@ static const Key keys[] = {
 	{ MODKEY,     	                XK_m, 	   spawn,          SHCMD("st -e /usr/bin/aerc") },
 	{ MODKEY,     	                XK_l, 	   spawn,          SHCMD("/usr/bin/luanti") },
 	{ MODKEY,     	                XK_c, 	   spawn,          SHCMD("/usr/bin/gcompris-qt") },
-	{ MODKEY|ShiftMask,		        XK_q, 	   spawn,          SHCMD("/usr/bin/qbittorrent") },
+	{ MODKEY,		        		XK_t, 	   spawn,          SHCMD("/usr/bin/qbittorrent") },
+	{ MODKEY,		        		XK_s, 	   spawn,          SHCMD("/usr/bin/signal-desktop") },
 	{ MODKEY|ShiftMask,		        XK_l, 	   spawn,          SHCMD("/usr/local/bin/slock") },
 	{ MODKEY,            	        XK_b, 	   spawn,          {.v = (const char*[]){ "bookmarkthis", NULL } } },
 	{ MODKEY,            	        XK_Insert, spawn,          SHCMD("/usr/bin/grep -v '^#' ~/.local/share/bookmarks | /usr/local/bin/dmenu -i -l 20 | /usr/bin/cut -d' ' -f1 | /usr/bin/xclip -selection clipboard") },
@@ -210,8 +213,8 @@ static const Key keys[] = {
 	TAGKEYS(                        XK_7,                      6)
 	TAGKEYS(                        XK_8,                      7)
 	TAGKEYS(                        XK_9,                      8)
-	/* { MODKEY|ShiftMask,             XK_q,      quit,           {0} }, */
-	{ ControlMask|Mod1Mask,         XK_BackSpace,      quit,           {0} }, /*Ctrl+Alt+Bksp to terminate*/
+	{ MODKEY|ShiftMask,             XK_q,      quit,           {0} }, /* reload dwm */
+	/* { ControlMask|Mod1Mask,         XK_BackSpace,      quit,           {0} }, /\*Ctrl+Alt+Bksp to terminate*\/ */
 };
 
 /* button definitions */

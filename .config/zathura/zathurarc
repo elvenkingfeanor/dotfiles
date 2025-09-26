@@ -5,10 +5,13 @@
 # sqlite backend (default "plain" backend is deprecated)
 set database "sqlite"
 
+# set default font
+set font "JetBrainsMono Nerd Font regular 18"
+
 # Synctex
 set synctex true
-#set synctex-editor-command "nvim --headless -c \"VimtexInverseSearch %{line} '%{input}'\""
-set synctex-editor-command "/usr/bin/emacsclient +%{line} %{input}"
+set synctex-editor-command "nvim --headless -c \"VimtexInverseSearch %{line} '%{input}'\""
+#set synctex-editor-command "/usr/bin/emacsclient +%{line} %{input}"
 
 # Enable copy to clipboard
 set selection-clipboard clipboard
