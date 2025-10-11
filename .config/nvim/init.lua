@@ -217,6 +217,14 @@ require('lazy').setup({
     },
   },
 
+  -- Color highlighter
+  {
+      "catgoose/nvim-colorizer.lua",
+      event = "BufReadPre",
+      opts = { -- set to setup table
+      },
+  },
+
   {
     -- Theme inspired by Atom
     'navarasu/onedark.nvim',

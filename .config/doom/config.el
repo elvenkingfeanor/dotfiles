@@ -186,10 +186,10 @@
          :empty-lines 1)
         ("n" "notes")
         ("na" "article-notes" entry (file+headline "~/notx/notes.org" "Articles")
-         "* %^{title} %^G\n:PROPERTIES:\n:CREATED: %U\n:END:\n\n#+NAME: %^{key}\n#+BEGIN_SRC bibtex\n@article{%\\2\ntitle={%\\1},\nauthor={%^{authors}},\njournal={%^{journal}},\nyear={%^{year}},\ndoi={%^{doi}},\n}\n#+END_SRC\n\n** %:initial%?"
+         "* %^{title} %^G\n:PROPERTIES:\n:CREATED: %U\n:END:\n\n#+NAME: %^{key}\n#+BEGIN_SRC bibtex\n@article{%\\2,\ntitle={%\\1},\nauthor={%^{authors}},\njournal={%^{journal}},\nyear={%^{year}},\ndoi={%^{doi}},\nkeywords={%^{keywords}}\n}\n#+END_SRC\n\n** %:initial%?"
          :empty-lines 1)
         ("nb" "book-notes" entry (file+headline "~/notx/notes.org" "Books")
-         "* %^{title} %^G\n:PROPERTIES:\n:CREATED: %U\n:END:\n\n#+NAME: %^{key}\n#+BEGIN_SRC bibtex\n@book{%\\2\ntitle={%\\1},\nauthor={%^{authors}},\npublisher={%^{publisher}},\nyear={%^{year}},\ndoi={%^{doi}},\n}\n#+END_SRC\n\n** %:initial%?"
+         "* %^{booktitle} %^{edition}E\n** %^{chapter-num}. %^{chapter-name} %^G\n:PROPERTIES:\n:CREATED: %U\n:END:\n\n#+NAME: %^{key}:%\\3\n#+BEGIN_SRC bibtex\n@inbook{%\\5:%\\3,\ntitle={%\\1},\nchapter={%\\3},\nauthor={%^{authors}},\npublisher={%^{publisher}},\nyear={%^{year}},\nedition={%\\2},\ndoi={%^{doi}},\nisbn={%^{isbn}},\nkeywords={%^{keywords}}\n}\n#+END_SRC\n\n*** %:initial%?"
          :empty-lines 1)
         ("d" "dailies")
         ("dd" "daily" entry (file+olp+datetree "~/notx/journal.org" "Journals")
@@ -198,6 +198,12 @@
         ("dw" "wishlist" entry (file+headline "~/notx/journal.org" "Wishlists")
          "* %?\n%U\n%i"
          :empty-lines 1)
+        ("m" "media")
+        ("mm" "movies" entry (file+headline "~/notx/media.org" "Movies")
+         "* %?\n%U\n%i")
+        ("md" "documentaries")
+        ("mdb" "BBC" entry (file+headline "~/notx/media.org" "Documentaries" "BBC")
+         "* %?\n%U\n%i")
         ))
 
 ;; Org-agenda
@@ -219,9 +225,9 @@
 
 ;; org-refile targets and save org buffers
 (setq org-refile-targets
-      '((org-agenda-files . (:maxlevel . 3))
+      '((org-agenda-files . (:maxlevel . 8))
         (org-agenda-files . (:tag . "refile")) ;; use tags as filter for org-refile-targets
-        (nil . (:maxlevel . 3))))
+        (nil . (:maxlevel . 8))))
 (setq org-refile-allow-creating-parent-nodes 'confirm)
 (setq org-refile-use-cache t)
 (setq org-log-refile 'time)

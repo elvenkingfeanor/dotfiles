@@ -149,7 +149,7 @@ static const Key keys[] = {
 	{ MODKEY,		        		XK_s, 	   spawn,          SHCMD("/usr/bin/signal-desktop") },
 	{ MODKEY|ShiftMask,		        XK_l, 	   spawn,          SHCMD("/usr/local/bin/slock") },
 	{ MODKEY,            	        XK_b, 	   spawn,          {.v = (const char*[]){ "bookmarkthis", NULL } } },
-	{ MODKEY,            	        XK_Insert, spawn,          SHCMD("/usr/bin/grep -v '^#' ~/.local/share/bookmarks | /usr/local/bin/dmenu -i -l 20 | /usr/bin/cut -d' ' -f1 | /usr/bin/xclip -selection clipboard") },
+	{ MODKEY,            	        XK_i,	   spawn,          SHCMD("/usr/bin/grep -v '^#' ~/.local/share/bookmarks | /usr/local/bin/dmenu -i -l 20 | /usr/bin/cut -d' ' -f1 | /usr/bin/xclip -selection clipboard") },
 	/* { MODKEY,                       XK_F5,     xrdb,           {.v = NULL } }, */
 	{ MODKEY|ShiftMask,             XK_F5,     xrdb,           {.v = NULL } },
 	/* { MODKEY,            			XK_y,  	   togglescratch,  {.ui = 0 } }, */
