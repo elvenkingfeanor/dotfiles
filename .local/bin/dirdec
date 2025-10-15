@@ -1,0 +1,5 @@
+#!/bin/sh
+#dirdec
+# decrypt and extract directories
+
+/usr/bin/gpg --decrypt "$1".tar.gpg | /usr/bin/tar -xv "$1"

@@ -68,6 +68,11 @@ URxvt.keysym.M-u: perl:url-select:select_next
 URxvt.keysym.M-Escape: perl:keyboard-select:activate
 URxvt.keysym.M-s: perl:keyboard-select:search
 
+!! nsxiv
+Nsxiv.bar.font:         JetBrainsMono:size=18:antialias=true
+Nsxiv.window.background: #282c34
+Nsxiv.window.foreground: #abb2bf
+
 !! dwm
 !dwm.normbgcolor:    #282828
 !dwm.normbordercolor:    #a89984
@@ -162,7 +167,7 @@ dwm.selbgcolor:         #98c379
 
 ! ------------------------------------------------------------------------------
 ! File: alacritty-one-dark.xresources
-! Description: Alacritty's One Dark theme (inspiration for Doom-One theme)
+! Description: One Dark theme for Alacritty (inspiration for Doom-One theme)
 ! Author1: Christian Duerr <chrisduerr> https://christianduerr.com
 ! Author2: Kirill Chibisov <kchibisov> https://codeberg.org/kchibisov
 ! Source: https://github.com/alacritty/alacritty-theme/blob/master/themes/one_dark.toml

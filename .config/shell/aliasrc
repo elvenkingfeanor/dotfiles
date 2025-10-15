@@ -4,6 +4,9 @@
 # sudo
 alias sudo=/usr/bin/doas
 
+# zsh, in case of misspells
+alias zhs=/usr/bin/zsh
+
 # xdg-mime
 alias xxff="/usr/bin/xdg-mime query filetype"
 alias xxqq="/usr/bin/xdg-mime query default"
@@ -97,12 +100,6 @@ alias ......t="cd ../../../../..;/usr/bin/clear;/usr/bin/tree -C | /usr/bin/ov"
 alias ......tt="cd ../../../../..;/usr/bin/clear;/usr/bin/tree -d -C | /usr/bin/ov"
 
 # cd
-fcc() {
-cd "$(/usr/bin/find $HOME -type d \( -path $HOME/mdi -prune -o -path $HOME/.arx -prune -o -path $HOME/.pki -prune -o -path $HOME/.librewolf -prune -o -path $HOME/.ssh -prune -o -path $HOME/.cache -prune \) -false -o -type d -name '*' -print | /usr/bin/fzf)";/usr/bin/clear;/usr/bin/eza -lo --no-permissions --group-directories-first --grid
-}
-ftt() {
-cd "$(/usr/bin/find $HOME -type d \( -path $HOME/mdi -prune -o -path $HOME/.arx -prune -o -path $HOME/.pki -prune -o -path $HOME/.librewolf -prune -o -path $HOME/.ssh -prune -o -path $HOME/.cache -prune \) -false -o -type d -name '*' -print | /usr/bin/fzf)";/usr/bin/clear;/usr/bin/tree -aC | /usr/bin/ov
-}
 mcc() {
 cd "$(/usr/bin/find /media/ -type d -path *vids -prune -false -o -type d | /usr/bin/fzf)";/usr/bin/clear;/usr/bin/eza -lo --no-permissions --group-directories-first --grid
 }
@@ -189,7 +186,6 @@ alias port="/usr/bin/lsof -i -P -n"
 alias pp=/usr/bin/nsxiv
 
 # mpv
-alias mmm="/usr/bin/mpv *.mp4 *.mkv *.m4v *.webm"
 alias mm=/usr/bin/mpv
 alias minfo="/usr/bin/ffmpeg -i"
 

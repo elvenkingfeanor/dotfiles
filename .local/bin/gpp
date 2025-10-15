@@ -1,3 +1,5 @@
 #!/bin/sh
 #gpp
-/usr/bin/find . -type f | /usr/bin/xargs /usr/bin/grep -iIrn --color "$1"
+# grep within directory
+
+/usr/bin/grep -iIrn --color "$1" ./*

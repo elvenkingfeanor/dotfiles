@@ -1,0 +1,10 @@
+#!/bin/sh
+#mmm
+# play all video files in directory
+
+for f in $(/usr/bin/find . -type f \( -iname "*.mkv" -o -iname "*.mp4" -o -iname "*.m4v" -o -iname "*.webm" -o -iname "*.mov" -o -iname "*.avi" \) | /usr/bin/sort -t '.' -k 3,3 -n )
+do
+    # press ^C to exit
+    /usr/bin/mpv "$f" || break
+done
+
