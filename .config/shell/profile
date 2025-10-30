@@ -9,7 +9,13 @@ export SUDO_EDITOR=/usr/bin/nvim
 export READER=/usr/bin/zathura
 export TERMINAL=/usr/bin/alacritty
 export COLORTERM="st-256color"
-[ -n "$DISPLAY" ] && export BROWSER=/usr/bin/brave || export BROWSER=/usr/bin/lynx
+# [ -n "$DISPLAY" ] && export BROWSER=/usr/bin/brave || export BROWSER=/usr/bin/lynx # removed brave due to wallet shenanigans
+# [ -n "$DISPLAY" ] && export BROWSER=/usr/bin/librewolf || export BROWSER=/usr/bin/lynx
+if [ -n "$DISPLAY" ]; then
+    export BROWSER=/usr/bin/librewolf
+else
+    export BROWSER=/usr/bin/lynx
+fi
 export VIDEO=/usr/bin/mpv
 export IMAGE=/usr/bin/nsxiv
 export WM=/usr/local/bin/dwm
@@ -121,6 +127,7 @@ export GOMODCACHE="${XDG_CACHE_HOME:-$HOME/.cache}/go/mod"
 
 # Rust
 export CARGO_HOME="${XDG_DATA_HOME:-$HOME/.local/share}/cargo"
+export RUSTUP_HOME="${XDG_DATA_HOME:-$HOME/.local/share}/rustup"
 
 # Python
 # python-setuptools

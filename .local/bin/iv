@@ -1,5 +1,5 @@
 #!/bin/sh
 #iv
-# view all images in directory
+# view all images in directory && yank path to selected images to system clipboard
 
 /usr/bin/nsxiv -ftpoq * | /usr/bin/sed 's@^@'"$PWD"'\/@g' | /usr/bin/paste -s -d ' ' | /usr/bin/tr -d '\n' | /usr/bin/xclip -selection clipboard

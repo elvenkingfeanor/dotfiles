@@ -250,3 +250,9 @@
 
 ;; pdf-tools
 (setq +latex-viewers '("pdf-tools")) ;; set pdf-tools as default pdf viewer
+
+
+;; elfeed (from [[https://github.com/remyhonig/elfeed-org?tab=readme-ov-file#installation][elfeed-org]] )
+(require 'elfeed-org) ;; load elfeed-org
+(elfeed-org) ;; initializes elfeed-org ;; hooks up elfeed-org to read configuration when =M-x elfeed=
+(setq rmh-elfeed-org-files (list "~/notx/elfeed.org"))

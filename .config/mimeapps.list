@@ -50,9 +50,24 @@ application/x-lz4+json=nvim.desktop
 application/x-executable=nvim.desktop
 text/x-script.python=nvim.desktop
 application/x-abook-addressbook=nvim.desktop
+x-scheme-handler/mailto=aerc.desktop
+x-scheme-handler/news=newsraft.desktop
+x-scheme-handler/snews=newsraft.desktop
+x-scheme-handler/feed=newsraft.desktop
+message/rfc822=aerc.desktop
+application/x-extension-eml=aerc.desktop
+application/rss+xml=newsraft.desktop
+application/x-extension-rss=newsraft.desktop
 
 [Added Associations]
 text/markdown=nvim.desktop
 text/ms=nvim.desktop;
-application/rss+xml=librewolf.desktop;
+application/rss+xml=newsraft.desktop;librewolf.desktop;
 application/vnd.openxmlformats-officedocument.presentationml.presentation=brave.desktop;chromium.desktop;
+x-scheme-handler/mailto=aerc.desktop;
+x-scheme-handler/news=newsraft.desktop;
+x-scheme-handler/snews=newsraft.desktop;
+x-scheme-handler/feed=newsraft.desktop;
+message/rfc822=aerc.desktop;
+application/x-extension-eml=aerc.desktop;
+application/x-extension-rss=newsraft.desktop;

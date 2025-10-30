@@ -1,4 +1,0 @@
-#!/bin/sh
-#sel
-funcsel=$(/usr/bin/find $HOME/.local/bin -type f | /usr/local/bin/dmenu)
-eval $funcsel

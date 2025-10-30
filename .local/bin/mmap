@@ -3,16 +3,18 @@
 # create maps of minetest worlds
 # check for world directories, and select one using fzf
 
-selected=$(/usr/bin/find "$XDG_DATA_HOME"/luanti/worlds -type d | /usr/bin/fzf)
+selected=$(/usr/bin/find "$XDG_DATA_HOME"/luanti/worlds -mindepth 1 -type d | /usr/bin/fzf) # exclude root directory from printing
 
 # error handling
 if [ -z "$selected" ]; then
        /usr/bin/echo "No worlds selected"
        exit 1
        else
-           shortsel=$(/usr/bin/echo "$selected" | /usr/bin/sed 's@.*worlds/@@')
+           shortsel=$(/usr/bin/echo "$selected" | /usr/bin/sed 's@.*worlds/@@') # grab world name
+           seedsel=$(/usr/bin/grep -rI "^seed" "$selected" | /usr/bin/cut -d " " -f 3) # grab world seed ID
 fi
 
 # after selection, let minetestmapper generate the map to specified location
 
-/usr/bin/minetestmapper --draworigin --drawplayers -v -i "$selected" -o ~/mdi/pix/mmaps/"$shortsel"-"$(/usr/bin/date +%Y%m%d%H%M%S)".png
+# /usr/bin/minetestmapper --draworigin --drawplayers --backend "sqlite3" --zoom 4 -v -i "$selected" -o ~/mdi/pix/mmaps/"$shortsel"-"$seedsel"-"$(/usr/bin/date +%Y%m%d%H%M%S)".png
+/usr/bin/minetestmapper --draworigin --drawplayers --backend "sqlite3" --zoom 4 -v -i "$selected" -o ~/mdi/pix/mmaps/"$shortsel"-"$seedsel".png

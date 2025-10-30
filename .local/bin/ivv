@@ -1,3 +1,5 @@
 #!/bin/sh
 #ivv
-/usr/bin/find . -maxdepth 1 -type f \( -iname "*.jpg" -o -iname "*.jpeg" -o -iname "*.png" \) | /usr/bin/xargs /usr/local/bin/nsxiv
+# open all image files with nsxiv
+
+/usr/bin/find . -maxdepth 1 -type f \( -iname "*.jpg" -o -iname "*.jpeg" -o -iname "*.png" \) | /usr/bin/sort -t '.' -k 3,3 -n | /usr/bin/xargs /usr/bin/nsxiv

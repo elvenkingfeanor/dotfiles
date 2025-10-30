@@ -5,7 +5,7 @@
 
 while [[ true ]]; do
 	# log stderror to file
-	dwm 2>> ~/.local/share/dwm.log
+	dwm 2> ~/.local/share/dwm.log
 	# no error logging
 	#dwm > /dev/null 2>&1
 done

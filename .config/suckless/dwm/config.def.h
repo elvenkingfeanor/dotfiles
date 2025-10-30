@@ -1,8 +1,6 @@
 /* See LICENSE file for copyright and license details. */
 
 /* appearance */
-#include <X11/X.h>
-#include <X11/Xutil.h>
 static const unsigned int borderpx  = 1;        /* border pixel of windows */
 static const unsigned int snap      = 32;       /* snap pixel */
 static const int swallowfloating    = 0;        /* 1 means swallow floating windows by default */
@@ -118,6 +116,8 @@ static const char *micvolup[] = { "/usr/bin/wpctl", "set-volume", "-l", "1.5", "
 static const char *micvoldown[] = { "/usr/bin/wpctl", "set-volume", "@DEFAULT_AUDIO_SOURCE@", "5%-", NULL };
 static const char *upbrtt[] = { "/usr/bin/light", "-A", "5", NULL };
 static const char *downbrtt[] = { "/usr/bin/light", "-U", "5", NULL };
+static const char *cmd_emacs[] = { "/usr/bin/emacsclient", "-n", "-c", "-a \"\"", NULL };
+/* static const char *cmd_elfeed[] = { "/usr/bin/emacsclient", "-c", "-a \"\"", "-e \"\\(elfeed\\)\"", NULL }; */
 
 static const Key keys[] = {
 	/* modifier                     key        function        argument */
@@ -136,12 +136,14 @@ static const Key keys[] = {
 	{ MODKEY,			            XK_Print,  spawn,          {.v = (const char*[]){ "screenshot", NULL } } },
 	{ MODKEY|ShiftMask,		        XK_Print,  spawn,          {.v = (const char*[]){ "winscreenshot", NULL } } },
 	{ MODKEY,		                XK_h,	   spawn,	       SHCMD("st -e /usr/bin/htop") },
-	{ MODKEY,			            XK_g, 	   spawn,          SHCMD("/usr/bin/brave") },
+	{ MODKEY,			            XK_g, 	   spawn,          SHCMD("/usr/bin/qutebrowser") },
+	{ MODKEY|ShiftMask,			    XK_g, 	   spawn,          SHCMD("/usr/bin/librewolf") },
 	{ MODKEY,        	            XK_f, 	   spawn,          SHCMD("/usr/bin/pcmanfm") },
 	{ MODKEY,			            XK_y, 	   spawn,          SHCMD("st -e /usr/bin/youtube-viewer") },
 	{ MODKEY,			            XK_e, 	   spawn,          SHCMD("st -e /usr/bin/nvim") },
-	{ MODKEY|ShiftMask,			    XK_e, 	   spawn,          SHCMD("/usr/bin/emacsclient -c -a \"\"") },
+	{ MODKEY|ShiftMask,			    XK_e, 	   spawn,          {.v = cmd_emacs } },
 	{ MODKEY,			            XK_n, 	   spawn,          SHCMD("st -e /usr/bin/newsraft") },
+	/* { MODKEY|ShiftMask,			    XK_n, 	   spawn,          {.v = cmd_elfeed } }, */
 	{ MODKEY,     	                XK_m, 	   spawn,          SHCMD("st -e /usr/bin/aerc") },
 	{ MODKEY,     	                XK_l, 	   spawn,          SHCMD("/usr/bin/luanti") },
 	{ MODKEY,     	                XK_c, 	   spawn,          SHCMD("/usr/bin/gcompris-qt") },
@@ -157,7 +159,8 @@ static const Key keys[] = {
 	/* { MODKEY,            			XK_x,	   togglescratch,  {.ui = 2 } }, */
 	{ MODKEY,            			XK_grave,  	   togglescratch,  {.ui = 0 } },
 	{ MODKEY|ShiftMask,            	XK_grave,	   togglescratch,  {.ui = 1 } },
-	{ MODKEY,            			XK_Num_Lock,   togglescratch,  {.ui = 2 } },
+	/* { MODKEY,            			XK_Num_Lock,   togglescratch,  {.ui = 2 } }, */
+	{ MODKEY,            			XK_equal,      togglescratch,  {.ui = 2 } },
 	/* { MODKEY,                       XK_b,      togglebar,      {0} }, */
 	{ MODKEY|ShiftMask,             XK_b,      togglebar,      {0} },
 	{ MODKEY,                       XK_j,      focusstack,     {.i = +1 } },

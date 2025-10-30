@@ -1,3 +1,0 @@
-#!/bin/sh
-#gsw
-/usr/bin/find $XDG_CONFIG_HOME/shell $XDG_CONFIG_HOME/X11 $HOME/.local/bin $XDG_DOWNLOAD_DIR/examples -path $HOME/.local/bin/edirect -prune -o -type f | /usr/bin/xargs /usr/bin/grep -iIrnw --color "$1"

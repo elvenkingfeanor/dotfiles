@@ -1,3 +1,5 @@
 #!/bin/sh
 #wal
+# select image for setting as wallpaper
+
 /usr/bin/find $HOME -type d -path $HOME/vids -prune -false -o -type d -iname '*' -print | /usr/bin/fzf | /usr/bin/xargs /usr/bin/nsxiv -ftoq *.JPG | /usr/bin/tee >(/usr/bin/xargs -tI {} /usr/bin/xwallpaper --focus {}) >(/usr/bin/xargs -tI {} /usr/bin/echo -e "/usr/bin/xwallpaper --focus {}" > $XDG_CONFIG_HOME/xwallpaper/swall)
