@@ -1,0 +1,7 @@
+day_count = 7
+lbm_introduction_times = doors:replace_doors_door_steel~0;default:upgrade_chest_locked_v2~0;crafting_bench:cleanup_rec_inv~0;3d_armor_stand:update_inventories~0;doors:replace_doors_door_obsidian_glass~0;anvil:hammer_ejection~0;xpanes:gen2~0;digtron:generic_formspec_sanitizer~0;digtron:sand_digger_upgrade~0;digtron:builder_extrusion_upgrade~0;moretrees:restart_coconut_regrow_timer~0;doors:replace_doors_door_glass~0;farming:start_crop_timer~0;moretrees:convert_existing_cocos_palms_to_regrow_coconuts~0;moretrees:restart_dates_regrow_timer~0;default:upgrade_chest_v2~0;doors:replace_xpanes_door_steel_bar~0;default:convert_saplings_to_node_timer~0;doors:replace_doors_door_wood~0;default:3dtorch~0;digtron:autocontroller_lateral_upgrade~0;digtron:fuelstore_upgrade~0;
+lbm_introduction_times_version = 1
+last_clear_objects_time = 0
+time_of_day = 4006
+game_time = 6601
+EnvArgsEnd

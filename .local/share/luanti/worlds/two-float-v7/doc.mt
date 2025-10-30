@@ -1,0 +1,1 @@
+local _={};_[1]="digtron";_[2]="craftitems";return {players_stored_data={singleplayer={viewed={[_[2]]={},tools={},[_[1]]={},nodes={}},viewed_count={[_[2]]=0,tools=0,[_[1]]=0,nodes=0},revealed_count={[_[2]]=1,tools=2,[_[1]]=4,nodes=1},revealed={[_[2]]={},tools={},[_[1]]={},nodes={}}}}}

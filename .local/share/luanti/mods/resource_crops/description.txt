@@ -1,0 +1,1 @@
+Resource Crops adds crops to to grow ores and base elements, inspired by Mark719's Magical Crops mod for Minecraft

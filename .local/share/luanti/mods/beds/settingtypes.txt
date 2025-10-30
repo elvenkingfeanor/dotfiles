@@ -1,0 +1,7 @@
+enable_bed_respawn (Enable bed respawn) bool true
+
+enable_bed_night_skip (Enable night skip) bool true
+
+bed_sleep_divide (Division of players needed to skip night) float 2
+
+bed_show_sleep_msg (Show when player sleeps in chat) bool false

@@ -1,0 +1,3 @@
+# Allow refilling hand slot from baskets
+# Only in effect if the basket mod is also enabled.
+refill_from_baskets (Allow refilling hand slot from baskets) bool false
