@@ -1,0 +1,5 @@
+#!/bin/sh
+#itemstring
+# find official names (itemstrings) in luanti
+
+/usr/bin/find "$MINETEST_USER_PATH" -type f -name "*.lua" -exec /usr/bin/grep -rE '\.register_.*\("[_a-z:]+"' "{}" \; | /usr/bin/grep "$@"
