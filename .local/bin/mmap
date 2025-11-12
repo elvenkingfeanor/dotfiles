@@ -17,4 +17,5 @@ fi
 # after selection, let minetestmapper generate the map to specified location
 
 # /usr/bin/minetestmapper --draworigin --drawplayers --backend "sqlite3" --zoom 4 -v -i "$selected" -o ~/mdi/pix/mmaps/"$shortsel"-"$seedsel"-"$(/usr/bin/date +%Y%m%d%H%M%S)".png
-/usr/bin/minetestmapper --draworigin --drawplayers --backend "sqlite3" --zoom 4 -v -i "$selected" -o ~/mdi/pix/mmaps/"$shortsel"-"$seedsel".png
+# /usr/bin/minetestmapper --draworigin --drawplayers --backend "sqlite3" --zoom 4 -v -i "$selected" -o ~/mdi/pix/mmaps/"$shortsel"-"$seedsel".png
+/usr/bin/minetestmapper --draworigin --drawplayers --backend "sqlite3" -v -i "$selected" -o ~/mdi/pix/mmaps/"$shortsel"-"$seedsel".png

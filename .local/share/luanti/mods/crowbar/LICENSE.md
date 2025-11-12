@@ -1,1 +1,0 @@
-* Code derived from init.lua from [Mineclone2 Multitool](https://content.luanti.org/packages/duckgo/mcl_multitool/) by DuckGo, MIT

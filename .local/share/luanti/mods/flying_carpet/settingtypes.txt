@@ -1,8 +1,0 @@
-# If enabled, the flying carpet uses an outdated non-rotated
-# square-shaped selection box.
-# If disabled, the flying carpet has a selection box that matches
-# its shape and rotation perfectly.
-# Rotating selection boxes are supported since Minetest 5.7.0.
-# If your Minetest version is older, enable this setting.
-# If not, disable this setting.
-flying_carpet_legacy_selectionbox (Use legacy selection box) bool false
