@@ -49,9 +49,8 @@ export QT_STYLE_OVERRIDE=Adwaita-Dark
 export GNUPGHOME="${XDG_DATA_HOME:-$HOME/.local/share}/gnupg"
 export ZDOTDIR="${XDG_CONFIG_HOME:-$HOME/.config}/zsh"
 export W3M_DIR="${XDG_STATE_HOME:-$HOME/.local/state}/w3m"
-export LYNX_CFG="${XDG_CONFIG_HOME:-$HOME/.config}/lynx.cfg"
+export LYNX_CFG="${XDG_CONFIG_HOME:-$HOME/.config}/lynx/lynx.cfg"
 export ANTIWORDHOME="$XDG_DOWNLOAD_DIR/antiword"
-export TEXMFVAR="${XDG_CACHE_HOME:-$HOME/.cache}/texlive/texmf-var"
 export XCURSOR_PATH="/usr/share/icons:${XDG_DATA_HOME:-$HOME/.local/share}/icons"
 export ANDROID_USER_HOME="${XDG_DATA_HOME:-$HOME/.local/share}/android"
 export PARALLEL_HOME="${XDG_CONFIG_HOME:-$HOME/.config}/parallel"
@@ -76,6 +75,11 @@ export XAUTHORITY=/tmp/Xauthority
 export XINITRC="${XDG_CONFIG_HOME:-$HOME/.config}/X11/xinitrc"
 export ICEAUTHORITY="${XDG_CACHE_HOME:-$HOME/.cache}/ICEauthority"
 
+# TeX
+export TEXMFHOME="${XDG_DATA_HOME:-$HOME/.local/share}/texmf"
+export TEXMFVAR="${XDG_CACHE_HOME:-$HOME/.cache}/texlive/texmf-var"
+export TEXMFCONFIG="${XDG_CONFIG_HOME:-$HOME/.config}/texlive/texmf-config"
+
 # ncurses
 export TERMINFO="${XDG_DATA_HOME:-$HOME/.local/share}/terminfo"
 export TERMINFO_DIRS="${XDG_DATA_HOME:-$HOME/.local/share}/terminfo":/usr/share/terminfo
@@ -83,6 +87,9 @@ export TERMINFO_DIRS="${XDG_DATA_HOME:-$HOME/.local/share}/terminfo":/usr/share/
 # SQLite
 export SQLITERC="${XDG_CONFIG_HOME:-$HOME/.config}/sqlite3/sqliterc"
 export SQLITE_HISTORY="${XDG_STATE_HOME:-$HOME/.local/state}/sqlite_history"
+
+# MySQL
+export MYSQL_HISTFILE="${XDG_DATA_HOME:-$HOME/.local/share}/mysql_history"
 
 # pass
 export PASSWORD_STORE_DIR="${XDG_DATA_HOME:-$HOME/.local/share}/pass"

@@ -1,7 +1,8 @@
 #!/bin/sh
-#mic
-mic=$(if [[ $(/usr/bin/wpctl get-volume @DEFAULT_AUDIO_SOURCE@ | /usr/bin/awk '{print $NF}') == '[MUTED]' ]]; then /usr/bin/echo "off"; else /usr/bin/echo "$(/usr/bin/wpctl get-volume @DEFAULT_AUDIO_SOURCE@ | /usr/bin/awk '{print $NF}')*100" | /usr/bin/bc | /usr/bin/sed 's/\..*$//'; fi)
+#micvol
+# get speaker and mic volume status
+mic=$(if [ "$(/usr/bin/wpctl get-volume @DEFAULT_AUDIO_SOURCE@ | /usr/bin/awk '{print $NF}')" = '[MUTED]' ]; then /usr/bin/echo "off"; else /usr/bin/echo "$(/usr/bin/wpctl get-volume @DEFAULT_AUDIO_SOURCE@ | /usr/bin/awk '{print $NF}')*100" | /usr/bin/bc | /usr/bin/sed 's/\..*$//'; fi)
 
-vol=$(if [[ $(/usr/bin/wpctl get-volume @DEFAULT_AUDIO_SINK@ | /usr/bin/awk '{print $NF}') == '[MUTED]' ]]; then /usr/bin/echo "off"; else /usr/bin/echo "$(/usr/bin/wpctl get-volume @DEFAULT_AUDIO_SINK@ | /usr/bin/awk '{print $NF}')*100" | /usr/bin/bc | /usr/bin/sed 's/\..*$//'; fi)
+vol=$(if [ "$(/usr/bin/wpctl get-volume @DEFAULT_AUDIO_SINK@ | /usr/bin/awk '{print $NF}')" = '[MUTED]' ]; then /usr/bin/echo "off"; else /usr/bin/echo "$(/usr/bin/wpctl get-volume @DEFAULT_AUDIO_SINK@ | /usr/bin/awk '{print $NF}')*100" | /usr/bin/bc | /usr/bin/sed 's/\..*$//'; fi)
 
 /usr/bin/echo "$vol:$mic"

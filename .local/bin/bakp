@@ -12,18 +12,87 @@ if [ -z "$loaded" ]; then
 fi
 
 # start syncing to backup and back
-/usr/bin/rsync --verbose --itemize-changes --archive --checksum -hh --partial --progress --info=stats1 --recursive --modify-window=1 ~/.bak/crypt-bak/ -t /media/backup/ts-bak/bak/crypt-bak && /usr/bin/rsync --verbose --itemize-changes --archive --checksum -hh --partial --progress --info=stats1 --recursive --modify-window=1 /media/backup/ts-bak/bak/crypt-bak/ -t ~/.bak/crypt-bak;
-/usr/bin/rsync --verbose --itemize-changes --archive --checksum -hh --partial --progress --info=stats1 --recursive --modify-window=1 ~/.bak/etc-bak/ -t /media/backup/ts-bak/bak/etc-bak && /usr/bin/rsync --verbose --itemize-changes --archive --checksum -hh --partial --progress --info=stats1 --recursive --modify-window=1 /media/backup/ts-bak/bak/etc-bak/ -t ~/.bak/etc-bak;
-/usr/bin/rsync --verbose --itemize-changes --archive --checksum -hh --partial --progress --info=stats1 --recursive --modify-window=1 ~/.config/aerc ~/.config/alacritty ~/.config/bash ~/.config/doom ~/.config/dunst ~/.config/gallery-dl ~/.config/gcompris ~/.config/git ~/.config/gtk-2.0 ~/.config/gtk-3.0 ~/.config/mpv ~/.config/newsraft ~/.config/nvim ~/.config/shell ~/.config/X11 ~/.config/xwallpaper ~/.config/youtube-viewer ~/.config/yt-dlp ~/.config/zathura ~/.config/zsh ~/.config/mimeapps.list ~/.config/rmwrc ~/.config/user-dirs.dirs ~/.config/user-dirs.locale -t /media/backup/ts-bak/bak/conf-bak && /usr/bin/rsync --verbose --itemize-changes --archive --checksum -hh --partial --progress --info=stats1 --recursive --modify-window=1 /media/backup/ts-bak/bak/conf-bak/ -t ~/.config;
-/usr/bin/rsync --verbose --itemize-changes --archive --checksum -hh --partial --progress --info=stats1 --recursive --modify-window=1 ~/.local/bin/ -t /media/backup/ts-bak/bak/local-bak/bin && /usr/bin/rsync --verbose --itemize-changes --archive --checksum -hh --partial --progress --info=stats1 --recursive --modify-window=1 /media/backup/ts-bak/bak/local-bak/bin/ -t ~/.local/bin;
-/usr/bin/rsync --verbose --itemize-changes --archive --checksum -hh --partial --progress --info=stats1 --recursive --modify-window=1 ~/.local/share/bookmarks -t /media/backup/ts-bak/bak/local-bak/share && /usr/bin/rsync --verbose --itemize-changes --archive --checksum -hh --partial --progress --info=stats1 --recursive --modify-window=1 /media/backup/ts-bak/bak/local-bak/share/ -t ~/.local/share;
-/usr/bin/rsync --verbose --itemize-changes --archive --checksum -hh --partial --progress --info=stats1 --recursive --modify-window=1 ~/.arx/ -t /media/backup/ts-bak/arx && /usr/bin/rsync --verbose --itemize-changes --archive --checksum -hh --partial --progress --info=stats1 --recursive --modify-window=1 /media/backup/ts-bak/arx/ -t ~/.arx;
-/usr/bin/rsync --verbose --itemize-changes --archive --checksum -hh --partial --progress --info=stats1 --recursive --modify-window=1 ~/dox/ -t /media/backup/ts-bak/dox && /usr/bin/rsync --verbose --itemize-changes --archive --checksum -hh --partial --progress --info=stats1 --recursive --modify-window=1 /media/backup/ts-bak/dox/ -t ~/dox;
-/usr/bin/rsync --verbose --itemize-changes --archive --checksum -hh --partial --progress --info=stats1 --recursive --modify-window=1 ~/notx/ -t /media/backup/ts-bak/notx && /usr/bin/rsync --verbose --itemize-changes --archive --checksum -hh --partial --progress --info=stats1 --recursive --modify-window=1 /media/backup/ts-bak/notx/ -t ~/notx;
-/usr/bin/rsync --verbose --itemize-changes --archive --checksum -hh --partial --progress --info=stats1 --recursive --modify-window=1 ~/nvl/ -t /media/backup/ts-bak/nvl && /usr/bin/rsync --verbose --itemize-changes --archive --checksum -hh --partial --progress --info=stats1 --recursive --modify-window=1 /media/backup/ts-bak/nvl/ -t ~/nvl;
-/usr/bin/rsync --verbose --itemize-changes --archive --checksum -hh --partial --progress --info=stats1 --recursive --modify-window=1 ~/rsc/ -t /media/backup/ts-bak/rsc && /usr/bin/rsync --verbose --itemize-changes --archive --checksum -hh --partial --progress --info=stats1 --recursive --modify-window=1 /media/backup/ts-bak/rsc/ -t ~/rsc;
-/usr/bin/rsync --verbose --itemize-changes --archive --checksum -hh --partial --progress --info=stats1 --recursive --modify-window=1 ~/sty/ -t /media/backup/ts-bak/sty && /usr/bin/rsync --verbose --itemize-changes --archive --checksum -hh --partial --progress --info=stats1 --recursive --modify-window=1 /media/backup/ts-bak/sty/ -t ~/sty;
-/usr/bin/rsync --verbose --itemize-changes --archive --checksum -hh --partial --progress --info=stats1 --recursive --modify-window=1 ~/wfu/ -t /media/backup/ts-bak/wfu && /usr/bin/rsync --verbose --itemize-changes --archive --checksum -hh --partial --progress --info=stats1 --recursive --modify-window=1 /media/backup/ts-bak/wfu/ -t ~/wfu;
+# /usr/bin/rsync --verbose --itemize-changes --archive --checksum -hh --partial --progress --info=stats1 --recursive --modify-window=1 ~/.bak/crypt-bak/ -t /media/backup/ts-bak/bak/crypt-bak && /usr/bin/rsync --verbose --itemize-changes --archive --checksum -hh --partial --progress --info=stats1 --recursive --modify-window=1 /media/backup/ts-bak/bak/crypt-bak/ -t ~/.bak/crypt-bak; # keeping line for old arguments
+/usr/bin/rsync --archive --checksum --partial --recursive ~/.bak/crypt-bak/ \
+ -t /media/backup/ts-bak/bak/crypt-bak \
+    && /usr/bin/rsync --archive --checksum --partial --recursive /media/backup/ts-bak/bak/crypt-bak/ \
+ -t ~/.bak/crypt-bak;
+/usr/bin/rsync --archive --checksum --partial --recursive ~/.bak/etc-bak/ \
+ -t /media/backup/ts-bak/bak/etc-bak \
+    && /usr/bin/rsync --archive --checksum --partial --recursive /media/backup/ts-bak/bak/etc-bak/ \
+ -t ~/.bak/etc-bak;
+/usr/bin/rsync --archive --checksum --partial --recursive \
+    ~/.config/aerc \
+    ~/.config/alacritty \
+    ~/.config/bash \
+    ~/.config/crond \
+    ~/.config/doom \
+    ~/.config/dunst \
+    ~/.config/gallery-dl \
+    ~/.config/gcompris \
+    ~/.config/git \
+    ~/.config/gtk-2.0 \
+    ~/.config/gtk-3.0 \
+    ~/.config/mpv \
+    ~/.config/newsraft \
+    ~/.config/npm \
+    ~/.config/nsxiv \
+    ~/.config/nvim \
+    ~/.config/octodroid \
+    ~/.config/pcmanfm \
+    ~/.config/qutebrowser \
+    ~/.config/readline \
+    ~/.config/shell \
+    ~/.config/suckless \
+    ~/.config/X11 \
+    ~/.config/xwallpaper \
+    ~/.config/youtube-viewer \
+    ~/.config/yt-dlp \
+    ~/.config/zathura \
+    ~/.config/zsh \
+    ~/.config/mimeapps.list \
+    ~/.config/rmwrc \
+    ~/.config/user-dirs.dirs \
+    ~/.config/user-dirs.locale \
+ -t /media/backup/ts-bak/bak/conf-bak \
+    && /usr/bin/rsync --archive --checksum --partial --recursive /media/backup/ts-bak/bak/conf-bak/ \
+ -t ~/.config;
+/usr/bin/rsync --archive --checksum --partial --recursive ~/.local/bin/ \
+ -t /media/backup/ts-bak/bak/local-bak/bin \
+ && /usr/bin/rsync --archive --checksum --partial --recursive /media/backup/ts-bak/bak/local-bak/bin/ \
+ -t ~/.local/bin;
+/usr/bin/rsync --archive --checksum --partial --recursive ~/.local/share/bookmarks \
+ -t /media/backup/ts-bak/bak/local-bak/share \
+ && /usr/bin/rsync --archive --checksum --partial --recursive /media/backup/ts-bak/bak/local-bak/share/ \
+ -t ~/.local/share;
+/usr/bin/rsync --archive --checksum --partial --recursive ~/.arx/ \
+ -t /media/backup/ts-bak/arx \
+ && /usr/bin/rsync --archive --checksum --partial --recursive /media/backup/ts-bak/arx/ \
+ -t ~/.arx;
+/usr/bin/rsync --archive --checksum --partial --recursive ~/dox/ \
+ -t /media/backup/ts-bak/dox \
+ && /usr/bin/rsync --archive --checksum --partial --recursive /media/backup/ts-bak/dox/ \
+ -t ~/dox;
+/usr/bin/rsync --archive --checksum --partial --recursive ~/notx/ \
+ -t /media/backup/ts-bak/notx \
+ && /usr/bin/rsync --archive --checksum --partial --recursive /media/backup/ts-bak/notx/ \
+ -t ~/notx;
+/usr/bin/rsync --archive --checksum --partial --recursive ~/nvl/ \
+ -t /media/backup/ts-bak/nvl \
+ && /usr/bin/rsync --archive --checksum --partial --recursive /media/backup/ts-bak/nvl/ \
+ -t ~/nvl;
+/usr/bin/rsync --archive --checksum --partial --recursive ~/rsc/ \
+ -t /media/backup/ts-bak/rsc \
+ && /usr/bin/rsync --archive --checksum --partial --recursive /media/backup/ts-bak/rsc/ \
+ -t ~/rsc;
+/usr/bin/rsync --archive --checksum --partial --recursive ~/sty/ \
+ -t /media/backup/ts-bak/sty \
+ && /usr/bin/rsync --archive --checksum --partial --recursive /media/backup/ts-bak/sty/ \
+ -t ~/sty;
+/usr/bin/rsync --archive --checksum --partial --recursive ~/wfu/ \
+ -t /media/backup/ts-bak/wfu \
+ && /usr/bin/rsync --archive --checksum --partial --recursive /media/backup/ts-bak/wfu/ \
+ -t ~/wfu;
 /usr/bin/notify-send "backup complete"
 
 # unmount backup drive

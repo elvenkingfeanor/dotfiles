@@ -1,7 +1,22 @@
 #!/bin/sh
 #bright
-if [ "$(/usr/bin/date +%H)" -ge 6 ] && [ "$(/usr/bin/date +%H)" -lt 17 ]; then
-	/usr/bin/light -S 100;
+# automatically sets brightness depending on time of day, else set it as desired
+
+time="$(/usr/bin/date +%H%M)"
+lvl="$1"
+
+if [ "$time" -ge 600 ] && [ "$time" -lt 1700 ]; then
+	/usr/bin/light -S 100
+elif [ "$time" -ge 1700 ] && [ "$time" -lt 1730 ]; then
+	/usr/bin/light -S 90
+elif [ "$time" -ge 1730 ] && [ "$time" -lt 1800 ]; then
+	/usr/bin/light -S 80
+elif [ "$time" -ge 1830 ] && [ "$time" -lt 1900 ]; then
+	/usr/bin/light -S 75
+elif [ "$time" -ge 1900 ] && [ "$time" -lt 600 ]; then
+	/usr/bin/light -S 70
+elif [ -n "$lvl" ]; then
+	/usr/bin/light -S "$lvl"
 	else
-		/usr/bin/light -S 30
+		/usr/bin/cat /sys/class/backlight/nv_backlight/brightness
 fi

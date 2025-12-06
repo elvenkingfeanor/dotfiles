@@ -226,26 +226,14 @@ alias bookt="cd $XDG_DOWNLOAD_DIR/libg && $HOME/.local/bin/libg -b title"
 # curl
 alias ccc="/usr/bin/curl --remote-name"
 
-# wget
-alias wget="/usr/bin/wget --hsts-file=$XDG_DATA_HOME/wget-hsts"
-
 # weather
 alias wttr="/usr/bin/curl wttr.in/$place"
 
 # surfraw
 alias sr="/usr/bin/sr duckduckgo"
 
-# w3m
-alias www="/usr/bin/w3m -config $XDG_CONFIG_HOME/w3m/config"
-
 # mail
 #alias mail="/usr/bin/mbsync -a -c $XDG_CONFIG_HOME/isync/mbsyncrc && /usr/bin/neomutt"
-
-# abook
-alias abook="/usr/bin/abook --config $XDG_CONFIG_HOME/abook/abookrc --datafile $XDG_DATA_HOME/abook/addressbook"
-
-# dict
-alias dict="/usr/bin/dict -c $XDG_CONFIG_HOME/dict/dictrc"
 
 # mbsync
 #alias mbsync="/usr/bin/mbsync -c $XDG_CONFIG_HOME/isync/mbsyncrc"
@@ -275,9 +263,6 @@ alias pll=/usr/bin/pdflatex
 # calendar
 alias cal="/usr/bin/cal -y"
 
-# adb
-alias adb='HOME="$XDG_DATA_HOME"/android adb'
-
 # wpctl
 alias mute="/usr/bin/wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle"
 alias amute="/usr/bin/wpctl set-mute @DEFAULT_AUDIO_SOURCE@ toggle"
@@ -293,3 +278,11 @@ alias random="/usr/bin/tr -dc A-Za-z0-9 < /dev/urandom | /usr/bin/head -c 15; /u
 
 # fontpreview
 alias font=/usr/bin/fontpreview
+
+# xdg-ninja
+alias adb="HOME=$XDG_DATA_HOME/android adb"
+alias abook="/usr/bin/abook --config $XDG_CONFIG_HOME/abook/abookrc --datafile $XDG_DATA_HOME/abook/addressbook"
+alias dict="/usr/bin/dict -c $XDG_CONFIG_HOME/dict/dictrc"
+alias www="/usr/bin/w3m -config $XDG_CONFIG_HOME/w3m/config"
+alias wget="/usr/bin/wget --hsts-file=$XDG_DATA_HOME/wget-hsts"
+alias units="/usr/bin/units --history $XDG_CACHE_HOME/units_history"
