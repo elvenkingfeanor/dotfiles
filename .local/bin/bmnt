@@ -1,19 +1,14 @@
 #!/bin/sh
 #bmnt
-# mount removable backup media and cd into it
+# mount removable backup media
 
 # if LABEL=backup drive not mounted, mount it
 loaded=$(/usr/bin/findmnt -rn -S LABEL=backup)
-#loadedshort=$(/usr/bin/findmnt -rn -S LABEL=backup | /usr/bin/awk '{print $1}') # not used
-#mountpoint=$(/usr/bin/lsblk -l -o +LABEL | /usr/bin/grep backup | /usr/bin/awk '{print $1}') # too much awk!
 mountpoint=$(/usr/bin/lsblk -l -o +LABEL | /usr/bin/grep backup | /usr/bin/cut -c -4)
 
-if [[ -z "$loaded" ]]; then
-	/usr/bin/pmount /dev/"$mountpoint" backup && /usr/bin/notify-send "Backup drive mounted to /media/backup"
+if [ -z "$loaded" ]; then
+	/usr/bin/pmount /dev/"$mountpoint" backup
+	/usr/bin/notify-send "Backup drive mounted to /media/backup"
 	else
 		/usr/bin/notify-send "Backup drive already mounted at /media/backup"
 fi
-
-# pmount mounts into /media, to cd into it
-cd /media/backup
-$SHELL

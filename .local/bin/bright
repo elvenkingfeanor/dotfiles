@@ -5,18 +5,22 @@
 time="$(/usr/bin/date +%H%M)"
 lvl="$1"
 
-if [ "$time" -ge 600 ] && [ "$time" -lt 1700 ]; then
+if [ "$time" -ge 600 ] && [ "$time" -lt 1600 ]; then
 	/usr/bin/light -S 100
-elif [ "$time" -ge 1700 ] && [ "$time" -lt 1730 ]; then
+	/usr/bin/notify-send "Brightness set to 100"
+elif [ "$time" -ge 1600 ] && [ "$time" -lt 1615 ]; then
 	/usr/bin/light -S 90
-elif [ "$time" -ge 1730 ] && [ "$time" -lt 1800 ]; then
+	/usr/bin/notify-send "Brightness set to 90"
+elif [ "$time" -ge 1615 ] && [ "$time" -lt 1630 ]; then
 	/usr/bin/light -S 80
-elif [ "$time" -ge 1830 ] && [ "$time" -lt 1900 ]; then
+	/usr/bin/notify-send "Brightness set to 80"
+elif [ "$time" -ge 1630 ] && [ "$time" -lt 1645 ]; then
 	/usr/bin/light -S 75
-elif [ "$time" -ge 1900 ] && [ "$time" -lt 600 ]; then
+	/usr/bin/notify-send "Brightness set to 75"
+elif [ "$time" -ge 1645 ] && [ "$time" -lt 600 ]; then
 	/usr/bin/light -S 70
-elif [ -n "$lvl" ]; then
+	/usr/bin/notify-send "Brightness set to 70"
+else [ -n "$lvl" ];
 	/usr/bin/light -S "$lvl"
-	else
-		/usr/bin/cat /sys/class/backlight/nv_backlight/brightness
+	/usr/bin/notify-send "Brightness set to $lvl"
 fi

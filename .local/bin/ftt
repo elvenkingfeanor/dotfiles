@@ -1,8 +1,23 @@
 #!/bin/sh
 #ftt
-# show tree view of selected directory, after cd-ing into it
+# cd to directory and show its tree view
 
-dir=$(/usr/bin/find "$HOME" -type d \( -path "$HOME"/.arx -o -path "$HOME"/mdi/msx -o -path "$HOME"/.pki -o -path "$HOME"/.librewolf -o -path "$HOME"/.ssh -o -path "$HOME"/.cache \) -prune -false -o -type d -name '*' -print | /usr/bin/fzf)
+dir=$(/usr/bin/find "$HOME" -type d \( -path "$HOME"/.android -o \
+      -path "$HOME"/.arx -o \
+      -path "$HOME"/.cache -o \
+      -path "$HOME"/.config/BraveSoftware -o \
+      -path "$HOME"/.config/GIMP -o \
+      -path "$HOME"/.config/libreoffice -o \
+      -path "$HOME"/.config/Signal -o \
+      -path "$HOME"/.librewolf -o \
+      -path "$HOME"/.local/share -o \
+      -path "$HOME"/.local/state -o \
+      -path "$HOME"/.mozilla -o \
+      -path "$HOME"/mdi/ani -o \
+      -path "$HOME"/mdi/msx -o \
+      -path "$HOME"/.pki -o \
+      -path "$HOME"/.ssh -o \
+      -path "$HOME"/.vbox-vols \) -prune -false -o -type d -name '*' -print | /usr/bin/fzf)
 
 if [ -z "$dir" ]; then
     /usr/bin/echo "No directory selected. Exiting..."

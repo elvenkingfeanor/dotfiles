@@ -1,3 +1,42 @@
 #!/bin/sh
 #rpath
-/usr/bin/find /etc /usr /opt /tmp /var -type d \( -path /etc/pacman.d/gnupg -o -path /etc/credstore -o -path /etc/credstore.encrypted -o -path /etc/audit/plugins.d -o -path /usr/share/polkit-1 -o -path /var/lib/NetworkManager -o -path /var/lib/transmission -o -path /var/lib/private -o -path /var/lib/private -o -path /var/lib/machines -o -path /var/lib/iwd -o -path /var/lib/tor -o -path /var/lib/portables -o -path /var/log/private -o -path /var/log/audit -o -path /var/db/sudo -o -path /var/tmp -o -path /var/cache/private -o -path /var/cache/ldconfig -o -path /var/cache/cups -o -path "/tmp/systemd-private-*" \) -prune -false -type f -path /etc/credstore.credentials -prune -false -o -type f -name '*' -print | /usr/bin/fzf | /usr/bin/tr -d '\n' | /usr/bin/xclip -selection clipboard 
+# yank system file path to clipboard
+
+/usr/bin/find /etc /usr /opt /tmp /var -type d \( -path /etc/pacman.d/gnupg -o \
+    -path /etc/audit/plugins.d -o \
+    -path /etc/cni/net.d -o \
+    -path /etc/credstore -o \
+    -path /etc/credstore.encrypted -o \
+    -path /etc/cryptsetup-keys.d -o \
+    -path /etc/libvirt/secrets -o \
+    -path /etc/polkit-1/rules.d -o \
+    -path /etc/cups/ssl -o \
+    -path /etc/sudoers.d -o \
+    -path /opt/containerd -o \
+    -path /usr/share/polkit-1 -o \
+    -path /var/lib/bluetooth -o \
+    -path /var/lib/brltty -o \
+    -path /var/lib/containerd -o \
+    -path /var/lib/dhcpcd -o \
+    -path /var/lib/docker -o \
+    -path /var/lib/fwupd/gnupg -o \
+    -path /var/lib/iwd -o \
+    -path /var/lib/libvirt/swtpm -o \
+    -path /var/lib/libvirt/qemu -o \
+    -path /var/lib/machines -o \
+    -path /var/lib/portables -o \
+    -path /var/lib/private -o \
+    -path /var/lib/rpcbind -o \
+    -path /var/lib/swtpm-localca -o \
+    -path /var/lib/tor -o \
+    -path /var/lib/udisks2 -o \
+    -path /var/log/audit -o \
+    -path /var/log/private -o \
+    -path /var/log/swtpm/libvirt/qemu -o \
+    -path /var/db/sudo -o \
+    -path /var/spool/cups -o \
+    -path /var/tmp -o \
+    -path /var/cache/ldconfig -o \
+    -path /var/cache/pacman -o \
+    -path /var/cache/private -o \
+    -path "/tmp/systemd-private-*" \) -prune -false -o -type f -name '*' -print | /usr/bin/fzf | /usr/bin/tr -d '\n' | /usr/bin/xclip -selection clipboard

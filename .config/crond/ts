@@ -4,7 +4,7 @@ DISPLAY=:0
 0 * * * * /usr/bin/find $HOME . > /dev/null
 @reboot ~/.local/bin/unotify
 0 */6 * * * ~/.local/bin/unotify
-@reboot ~/.local/bin/bright; ~/.local/bin/bnotify
-0,30 17,18 * * * ~/.local/bin/bright; ~/.local/bin/bnotify
+@reboot ~/.local/bin/bright
+0,15,30,45 16 * * * ~/.local/bin/bright
 5 12 * * 0 ~/.local/bin/bakp
 @reboot ~/.local/bin/cpr /var/spool/cron/ts ~/.config/crond/ts

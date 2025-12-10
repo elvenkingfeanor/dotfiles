@@ -96,14 +96,11 @@ alias ......t="cd ../../../../..;/usr/bin/clear;/usr/bin/tree -C | /usr/bin/ov"
 alias ......tt="cd ../../../../..;/usr/bin/clear;/usr/bin/tree -d -C | /usr/bin/ov"
 
 # cd
-mcc() {
-cd "$(/usr/bin/find /media/ -type d -path *vids -prune -false -o -type d | /usr/bin/fzf)";/usr/bin/clear;/usr/bin/eza -lo --no-permissions --group-directories-first --grid
-}
 cdd() {
-cd "$(/usr/bin/find . -type d | /usr/bin/fzf)";/usr/bin/clear;/usr/bin/eza -lo --no-permissions --group-directories-first --grid
+cd "$(/usr/bin/find . -type d | /usr/bin/fzf)" || exit;/usr/bin/clear;/usr/bin/eza -lo --no-permissions --group-directories-first --grid
 }
 ctt() {
-cd "$(/usr/bin/find . -type d | /usr/bin/fzf)";/usr/bin/clear;/usr/bin/tree -aC | /usr/bin/ov
+cd "$(/usr/bin/find . -type d | /usr/bin/fzf)" || exit;/usr/bin/clear;/usr/bin/tree -aC | /usr/bin/ov
 }
 
 # clear
