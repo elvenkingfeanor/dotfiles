@@ -17,7 +17,7 @@ elif [ "$time" -ge 1615 ] && [ "$time" -lt 1630 ]; then
 elif [ "$time" -ge 1630 ] && [ "$time" -lt 1645 ]; then
 	/usr/bin/light -S 75
 	/usr/bin/notify-send "Brightness set to 75"
-elif [ "$time" -ge 1645 ] && [ "$time" -lt 600 ]; then
+elif [ "$time" -ge 1645 ] || [ "$time" -lt 600 ]; then
 	/usr/bin/light -S 70
 	/usr/bin/notify-send "Brightness set to 70"
 else [ -n "$lvl" ];

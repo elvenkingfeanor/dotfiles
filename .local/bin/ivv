@@ -2,4 +2,4 @@
 #ivv
 # open all image files with nsxiv
 
-/usr/bin/find . -maxdepth 1 -type f \( -iname "*.jpg" -o -iname "*.jpeg" -o -iname "*.png" \) | /usr/bin/sort -t '.' -k 3,3 -n | /usr/bin/xargs /usr/bin/nsxiv
+/usr/bin/find . -maxdepth 1 -type f \( -iname "*.jpg" -o -iname "*.jpeg" -o -iname "*.png" -o -iname "*.webp" \) | /usr/bin/sort -t '.' -k 3,3 -n | /usr/bin/xargs /usr/bin/nsxiv
