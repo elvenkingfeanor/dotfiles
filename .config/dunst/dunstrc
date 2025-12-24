@@ -8,7 +8,7 @@
     padding = 2
     horizontal_padding = 2
     transparency = 25 # only works with compositor (picom) running
-    font = JetBrainsMono 12
+    font = JetBrainsMono 14
     format = "<b>%s</b>\n%b"
 
 [urgency_low]

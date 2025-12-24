@@ -37,7 +37,7 @@ typedef struct {
 /*const char *spcmd1[] = {"alacritty", "-n", "spterm", "-o", "\"window.dimensions = { columns = 80, lines = 20}\"",  NULL };*/
 const char *spcmd1[] = {"st", "-n", "spterm", "-g", "120x30",  NULL };
 /* const char *spcmd2[] = {"alacritty", "-n", "spnote", "-o", "\"window.dimensions = { columns = 85, lines = 24}\"", "-e", "nvim", NULL }; */
-const char *spcmd2[] = {"st", "-n", "spnote", "-g", "128x32", "-e", "nvim",  NULL };
+const char *spcmd2[] = {"st", "-n", "spnote", "-g", "96x24", "-e", "nvim",  NULL };
 /* const char *spcmd3[] = {"alacritty", "-n", "spcalc", "-o", "\"font.size = 18\"", "-o", "\"window.dimensions = { columns = 50, lines = 20}\"", "-e", "bc", "-lq", NULL }; */
 const char *spcmd3[] = {"st", "-n", "spcalc", "-f", "monospace:size=18", "-g", "50x20", "-e", "bc", "-lq", NULL };
  static Sp scratchpads[] = {
@@ -108,7 +108,7 @@ static char dmenumon[2] = "0"; /* component of dmenucmd, manipulated in spawn() 
 static const char *dmenucmd[] = { "dmenu_run", "-i", "-m", dmenumon, "-fn", dmenufont, "-nb", normbgcolor, "-nf", normfgcolor, "-sb", selbgcolor, "-sf", selfgcolor, NULL };
 /* static const char *termcmd[]  = { "st", NULL }; */
 static const char *termcmd[]  = { "/usr/bin/alacritty", NULL };
-static const char *upvol[] = { "/usr/bin/wpctl", "set-volume", "-l", "1.5", "@DEFAULT_AUDIO_SINK@", "5%+", NULL }; /* raise volume with limit at 150% */
+static const char *upvol[] = { "/usr/bin/wpctl", "set-volume", "-l", "1.2", "@DEFAULT_AUDIO_SINK@", "5%+", NULL }; /* raise volume with limit at 120% */
 static const char *downvol[] = { "/usr/bin/wpctl", "set-volume", "@DEFAULT_AUDIO_SINK@", "5%-", NULL };
 static const char *mute[] = { "/usr/bin/wpctl", "set-mute", "@DEFAULT_AUDIO_SINK@", "toggle", NULL };
 static const char *mic[] = { "/usr/bin/wpctl", "set-mute", "@DEFAULT_AUDIO_SOURCE@", "toggle", NULL };

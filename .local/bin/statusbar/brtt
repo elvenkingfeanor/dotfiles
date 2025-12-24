@@ -1,3 +1,5 @@
 #!/bin/sh
 #brtt
+# report system brightness
+
 /usr/bin/cat /sys/class/backlight/nv_backlight/brightness

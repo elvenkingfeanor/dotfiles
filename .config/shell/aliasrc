@@ -262,7 +262,7 @@ alias cal="/usr/bin/cal -y"
 
 # wpctl
 alias mute="/usr/bin/wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle"
-alias amute="/usr/bin/wpctl set-mute @DEFAULT_AUDIO_SOURCE@ toggle"
+alias mmute="/usr/bin/wpctl set-mute @DEFAULT_AUDIO_SOURCE@ toggle"
 
 # sl
 alias ctl=/usr/bin/sl
