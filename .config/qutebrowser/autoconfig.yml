@@ -15,12 +15,16 @@ settings:
         ',m': spawn mpv {url}
   colors.tabs.pinned.even.bg:
     global: darkseagreen
+  colors.webpage.bg:
+    global: null
   colors.webpage.darkmode.algorithm:
-    global: brightness-rgb
+    global: lightness-hsl
+  colors.webpage.darkmode.contrast:
+    global: 0.05
   colors.webpage.darkmode.enabled:
     global: true
   colors.webpage.darkmode.policy.images:
-    global: smart
+    global: never
   content.cookies.accept:
     global: no-3rdparty
   content.cookies.store:

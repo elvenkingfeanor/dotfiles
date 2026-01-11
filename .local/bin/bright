@@ -5,7 +5,10 @@
 time="$(/usr/bin/date +%H%M)"
 lvl="$1"
 
-if [ "$time" -ge 600 ] && [ "$time" -lt 1600 ]; then
+if [ -n "$lvl" ]; then
+	/usr/bin/light -S "$lvl"
+	/usr/bin/notify-send "Brightness set to $lvl"
+elif [ "$time" -ge 600 ] && [ "$time" -lt 1600 ]; then
 	/usr/bin/light -S 100
 	/usr/bin/notify-send "Brightness set to 100"
 elif [ "$time" -ge 1600 ] && [ "$time" -lt 1615 ]; then
@@ -17,10 +20,7 @@ elif [ "$time" -ge 1615 ] && [ "$time" -lt 1630 ]; then
 elif [ "$time" -ge 1630 ] && [ "$time" -lt 1645 ]; then
 	/usr/bin/light -S 75
 	/usr/bin/notify-send "Brightness set to 75"
-elif [ "$time" -ge 1645 ] || [ "$time" -lt 600 ]; then
+else [ "$time" -ge 1645 ] || [ "$time" -lt 600 ];
 	/usr/bin/light -S 70
 	/usr/bin/notify-send "Brightness set to 70"
-else [ -n "$lvl" ];
-	/usr/bin/light -S "$lvl"
-	/usr/bin/notify-send "Brightness set to $lvl"
 fi

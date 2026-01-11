@@ -261,8 +261,8 @@ alias pll=/usr/bin/pdflatex
 alias cal="/usr/bin/cal -y"
 
 # wpctl
-alias mute="/usr/bin/wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle"
-alias mmute="/usr/bin/wpctl set-mute @DEFAULT_AUDIO_SOURCE@ toggle"
+alias mute="/usr/bin/wpctl set-mute @DEFAULT_SINK@ toggle"
+alias mmute="/usr/bin/wpctl set-mute @DEFAULT_SOURCE@ toggle"
 
 # sl
 alias ctl=/usr/bin/sl
