@@ -6,6 +6,6 @@ DISPLAY=:0
 0 */6 * * * ~/.local/bin/unotify
 @reboot ~/.local/bin/bright
 */5 16 * * * ~/.local/bin/bright
-30 11-18 * * Sun ~/.local/bin/bakp
-15 * * * * ~/.local/bin/fmnt
+30 9-18 * * Sun ~/.local/bin/bakp
+15 */6 * * * ~/.local/bin/fmnt
 @reboot ~/.local/bin/cpr /var/spool/cron/ts ~/.config/crond/ts

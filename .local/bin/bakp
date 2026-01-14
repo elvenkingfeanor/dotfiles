@@ -13,10 +13,10 @@ mountpoint=$(/usr/bin/lsblk -l -o +LABEL | /usr/bin/grep backup | /usr/bin/cut -
 # if backup for today already done, abort, if not continue
 # backup often takes hours, stop script from re-running if another instance of rsync is present
 
-if [ -n "$mountpoint" ] && [ -z "$loaded" ] && [ "$time" -ge 11 ] && [ "$time" -lt 19 ]; then
-    if /usr/bin/grep -Eq "$(/usr/bin/date +%F).completed" "$logfile"; then
+if [ -n "$mountpoint" ] && [ -z "$loaded" ] && [ "$time" -ge 9 ] && [ "$time" -lt 19 ]; then
+    if /usr/bin/grep -Eq "$(/usr/bin/date '+%A %F').completed" "$logfile"; then
         /usr/bin/notify-send -u critical "backup aborted" "backup for today done"
-        /usr/bin/echo "backup for Sunday $(/usr/bin/date +%F) aborted at $(/usr/bin/date +%H%M), already done" >> "$logfile"
+        /usr/bin/echo "backup for $(/usr/bin/date '+%A %F') aborted at $(/usr/bin/date +%H%M)hrs, already done" >> "$logfile"
         exit 1
     elif [ -n "$(/usr/bin/pgrep rsync)" ]; then
         /usr/bin/notify-send -u critical "backup in progress" "aborting..."
@@ -24,11 +24,11 @@ if [ -n "$mountpoint" ] && [ -z "$loaded" ] && [ "$time" -ge 11 ] && [ "$time" -
     else
         /usr/bin/pmount /dev/"$mountpoint" backup
         /usr/bin/notify-send -u critical "backup started" "no backup for today found"
-        /usr/bin/echo "backup for Sunday $(/usr/bin/date +%F) started at $(/usr/bin/date +%H%M)hrs" >> "$logfile"
+        /usr/bin/echo "backup for $(/usr/bin/date '+%A %F') started at $(/usr/bin/date +%H%M)hrs" >> "$logfile"
     fi
 else
     /usr/bin/notify-send -u critical "no device found" "backup aborted"
-    /usr/bin/echo "backup for Sunday $(/usr/bin/date +%F) aborted at $(/usr/bin/date +%H%M)hrs, no device found" >> "$logfile"
+    /usr/bin/echo "backup for $(/usr/bin/date '+%A %F') aborted at $(/usr/bin/date +%H%M)hrs, no device found" >> "$logfile"
     exit 1
 fi
 
@@ -43,6 +43,7 @@ if ! /usr/bin/rsync --archive --checksum --partial --recursive ~/.bak/crypt-bak/
  -t ~/.bak/crypt-bak \
  2>> "$logfile"; then
     /usr/bin/notify-send -u critical "secret backup failed" "check error log"
+    /usr/bin/echo "secret backup for $(/usr/bin/date '+%A %F') failed at $(/usr/bin/date +%H%M)hrs" >> "$logfile"
 else
     /usr/bin/notify-send -u low "secret backup done"
 fi
@@ -55,6 +56,7 @@ if ! /usr/bin/rsync --archive --checksum --partial --recursive ~/.bak/etc-bak/ \
  -t ~/.bak/etc-bak \
  2>> "$logfile"; then
     /usr/bin/notify-send -u critical "etc backup failed" "check error log"
+    /usr/bin/echo "etc backup for $(/usr/bin/date '+%A %F') failed at $(/usr/bin/date +%H%M)hrs" >> "$logfile"
 else
     /usr/bin/notify-send -u low "etc backup done"
 fi
@@ -106,6 +108,7 @@ if ! /usr/bin/rsync --archive --checksum --partial --recursive \
  -t ~/.config \
  2>> "$logfile"; then
     /usr/bin/notify-send -u critical "config backup failed" "check error log"
+    /usr/bin/echo "config backup for $(/usr/bin/date '+%A %F') failed at $(/usr/bin/date +%H%M)hrs" >> "$logfile"
 else
     /usr/bin/notify-send -u low "config backup done"
 fi
@@ -118,6 +121,7 @@ if ! /usr/bin/rsync --archive --checksum --partial --recursive ~/.local/bin/ \
  -t ~/.local/bin \
  2>> "$logfile"; then
     /usr/bin/notify-send -u critical "local/bin backup failed" "check error log"
+    /usr/bin/echo "local/bin backup for $(/usr/bin/date '+%A %F') failed at $(/usr/bin/date +%H%M)hrs" >> "$logfile"
 else
     /usr/bin/notify-send -u low "local/bin backup done"
 fi
@@ -132,6 +136,7 @@ if ! /usr/bin/rsync --archive --checksum --partial --recursive \
  -t ~/.local/share \
  2>> "$logfile"; then
     /usr/bin/notify-send -u critical "local/share backup failed" "check error log"
+    /usr/bin/echo "local/share backup for $(/usr/bin/date '+%A %F') failed at $(/usr/bin/date +%H%M)hrs" >> "$logfile"
 else
     /usr/bin/notify-send -u low "local/share backup done"
 fi
@@ -144,6 +149,7 @@ if ! /usr/bin/rsync --archive --checksum --partial --recursive ~/.arx/ \
  -t ~/.arx \
  2>> "$logfile"; then
     /usr/bin/notify-send -u critical "archive backup failed" "check error log"
+    /usr/bin/echo "archive backup for $(/usr/bin/date '+%A %F') failed at $(/usr/bin/date +%H%M)hrs" >> "$logfile"
 else
     /usr/bin/notify-send -u low "archive backup done"
 fi
@@ -156,6 +162,7 @@ if ! /usr/bin/rsync --archive --checksum --partial --recursive ~/dox/ \
  -t ~/dox \
  2>> "$logfile"; then
     /usr/bin/notify-send -u critical "dox backup failed" "check error log"
+    /usr/bin/echo "dox backup for $(/usr/bin/date '+%A %F') failed at $(/usr/bin/date +%H%M)hrs" >> "$logfile"
 else
     /usr/bin/notify-send -u low "dox backup done"
 fi
@@ -168,6 +175,7 @@ if ! /usr/bin/rsync --archive --checksum --partial --recursive ~/notx/ \
  -t ~/notx \
  2>> "$logfile"; then
     /usr/bin/notify-send -u critical "notx backup failed" "check error log"
+    /usr/bin/echo "notx backup for $(/usr/bin/date '+%A %F') failed at $(/usr/bin/date +%H%M)hrs" >> "$logfile"
 else
     /usr/bin/notify-send -u low "notx backup done"
 fi
@@ -180,6 +188,7 @@ if ! /usr/bin/rsync --archive --checksum --partial --recursive ~/nvl/ \
  -t ~/nvl \
  2>> "$logfile"; then
     /usr/bin/notify-send -u critical "nvl backup failed" "check error log"
+    /usr/bin/echo "nvl backup for $(/usr/bin/date '+%A %F') failed at $(/usr/bin/date +%H%M)hrs" >> "$logfile"
 else
     /usr/bin/notify-send -u low "nvl backup done"
 fi
@@ -192,6 +201,7 @@ if ! /usr/bin/rsync --archive --checksum --partial --recursive ~/rsc/ \
  -t ~/rsc \
  2>> "$logfile"; then
     /usr/bin/notify-send -u critical "rsc backup failed" "check error log"
+    /usr/bin/echo "rsc backup for $(/usr/bin/date '+%A %F') failed at $(/usr/bin/date +%H%M)hrs" >> "$logfile"
 else
     /usr/bin/notify-send -u low "rsc backup done"
 fi
@@ -204,6 +214,7 @@ if ! /usr/bin/rsync --archive --checksum --partial --recursive ~/sty/ \
  -t ~/sty \
  2>> "$logfile"; then
     /usr/bin/notify-send -u critical "sty backup failed" "check error log"
+    /usr/bin/echo "sty backup for $(/usr/bin/date '+%A %F') failed at $(/usr/bin/date +%H%M)hrs" >> "$logfile"
 else
     /usr/bin/notify-send -u low "sty backup done"
 fi
@@ -216,12 +227,13 @@ if ! /usr/bin/rsync --archive --checksum --partial --recursive ~/wfu/ \
  -t ~/wfu \
  2>> "$logfile"; then
     /usr/bin/notify-send -u critical "wfu backup failed" "check error log"
+    /usr/bin/echo "wfu backup for $(/usr/bin/date '+%A %F') failed at $(/usr/bin/date +%H%M)hrs" >> "$logfile"
 else
     /usr/bin/notify-send -u low "wfu backup done"
 fi
 
 /usr/bin/notify-send "backup complete"
-/usr/bin/echo "backup for Sunday $(/usr/bin/date +%F) completed at $(/usr/bin/date +%H%M)" >> "$logfile"
+/usr/bin/echo "backup for $(/usr/bin/date '+%A %F') completed at $(/usr/bin/date +%H%M)hrs" >> "$logfile"
 
 # unmount backup drive
 /usr/bin/pumount /dev/"$mountpoint"

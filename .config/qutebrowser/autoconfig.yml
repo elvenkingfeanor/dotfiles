@@ -18,7 +18,7 @@ settings:
   colors.webpage.bg:
     global: null
   colors.webpage.darkmode.algorithm:
-    global: lightness-hsl
+    global: brightness-rgb
   colors.webpage.darkmode.contrast:
     global: 0.05
   colors.webpage.darkmode.enabled:
