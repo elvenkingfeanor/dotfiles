@@ -1,5 +1,21 @@
 #!/bin/sh
 #iv
-# view all images in directory && yank path to selected images to system clipboard
+# view all images in directory &&
+# yank selected images paths to system clipboard
 
-/usr/bin/nsxiv -ftpoq * | /usr/bin/sed 's@^@'"$PWD"'\/@g' | /usr/bin/paste -s -d ' ' | /usr/bin/tr -d '\n' | /usr/bin/xclip -selection clipboard
+/usr/bin/find . -maxdepth 1 \
+    -type f \( \
+    -iname "*.jpg" -o \
+    -iname "*.jpeg" -o \
+    -iname "*.png" -o \
+    -iname "*.webp" -o \
+    -iname "*.gif" -o \
+    -iname "*.tiff" -o \
+    -iname "*.bmp" \
+    \) -print | \
+    /usr/bin/sort -u | \
+    /usr/bin/xargs /usr/bin/nsxiv -iftoq | \
+    /usr/bin/sed 's@^\.@'"$PWD"'@' | \
+    /usr/bin/paste -s -d ' ' | \
+    /usr/bin/tr -d '\n' | \
+    /usr/bin/xclip -selection clipboard

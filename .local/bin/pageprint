@@ -1,12 +1,17 @@
 #!/bin/sh
 #pageprint
 # prints to lp
+# first argument is pdf file to be printed
+# second argument is pagerange(s)
 
 name="$1"
 range="$2"
 
-if [[ -z "$range" ]]; then
-	/usr/bin/lp -o print-quality=5 -o sides=two-sided-long-edge "$name"
+if [ -z "$range" ]; then
+	/usr/bin/lp -o print-quality=5 \
+		-o sides=two-sided-long-edge "$name"
 	else
-		/usr/bin/lp -o print-quality=5 -o sides=two-sided-long-edge -P "$range" "$name"
+		/usr/bin/lp -o print-quality=5 \
+			-o sides=two-sided-long-edge \
+			-P "$range" "$name"
 fi

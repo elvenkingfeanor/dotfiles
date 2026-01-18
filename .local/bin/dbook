@@ -1,0 +1,23 @@
+#!/bin/sh
+#dbook
+# yank entries from bookmarks file to system clipboard
+
+# system-wide bookmarks file
+file="$HOME/.local/share/bookmarks"
+
+# if no bookmark file exists, then exit, else proceed
+# reject any lines starting with a # and display via dmenu for user to select
+# curate selected via cut to leave out any spaces (i.e. not part of any url)
+if [ -z "$file" ]; then
+    /usr/bin/echo "Bookmarks file doesnot exists"
+    exit 1
+else
+    selected="$(/usr/bin/grep -v "^#" "$file" | \
+        /usr/local/bin/dmenu -i -l 20 | \
+        /usr/bin/cut -d ' ' -f 1)"
+fi
+
+# yank selected url to system clipboard, after trimming trailing newline character
+/usr/bin/echo "$selected" | \
+    /usr/bin/tr -d '\n' | \
+    /usr/bin/xclip -selection clipboard

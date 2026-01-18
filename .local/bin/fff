@@ -1,3 +1,10 @@
 #!/bin/sh
 #fff
-/usr/bin/find $HOME -type d \( -path $HOME/.cache -o -path $HOME/.cargo -o -path $HOME/.ssh \) -prune -o -name '*' > /dev/null
+# find files in $HOME, quietly
+# old unused script, used to be used for cron
+
+/usr/bin/find "$HOME" \
+    -type d \( -path "$HOME/.cache" -o \
+    -path "$HOME/.cargo" -o \
+    -path "$HOME/.ssh" \) \
+    -prune -o -name '*' > /dev/null

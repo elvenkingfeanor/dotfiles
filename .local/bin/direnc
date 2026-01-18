@@ -1,5 +1,11 @@
 #!/bin/sh
 #direnc
 # archive and encrypt directories
+# only argument is dirname
 
-/usr/bin/tar -cvf - "$1" | /usr/bin/gpg --symmetric --s2k-cipher-algo AES256 --s2k-digest-algo SHA512 --s2k-count 65536 --output "$1".tar.gpg
+/usr/bin/tar -cvf - "$1" | \
+    /usr/bin/gpg --symmetric \
+    --s2k-cipher-algo AES256 \
+    --s2k-digest-algo SHA512 \
+    --s2k-count 65536 \
+    --output "$1".tar.gpg

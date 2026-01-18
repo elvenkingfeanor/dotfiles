@@ -1,3 +1,11 @@
 #!/bin/sh
 #grubi
-/usr/bin/doas /usr/bin/grub-install --target=x86_64-efi --efi-directory=/boot --bootloader-id=grub-uefi --recheck && /usr/bin/doas /usr/bin/grub-mkconfig -o /boot/grub/grub.cfg
+# install grub using system default settings and generate grub.cfg config file
+
+/usr/bin/doas /usr/bin/grub-install \
+    --target=x86_64-efi \
+    --efi-directory=/boot \
+    --bootloader-id=grub-uefi \
+    --recheck && \
+    /usr/bin/doas /usr/bin/grub-mkconfig \
+    -o /boot/grub/grub.cfg

@@ -2,13 +2,19 @@
 #path
 # yank path of file to system clipboard
 
-/usr/bin/find "$HOME" -type d \( -path "$HOME"/.android -o \
+/usr/bin/find "$HOME" -type d \( \
+      -path "$HOME"/.android -o \
       -path "$HOME"/.arx -o \
       -path "$HOME"/.cache -o \
       -path "$HOME"/.config/BraveSoftware -o \
+      -path "$HOME"/.config/emacs -o \
       -path "$HOME"/.config/GIMP -o \
+      -path "$HOME"/.config/hakuneko-desktop -o \
+      -path "$HOME"/.config/inkscape -o \
       -path "$HOME"/.config/libreoffice -o \
+      -path "$HOME"/.config/libvirt -o \
       -path "$HOME"/.config/Signal -o \
+      -path "$HOME"/.config/VirtualBox -o \
       -path "$HOME"/.librewolf -o \
       -path "$HOME"/.local/share -o \
       -path "$HOME"/.local/state -o \
@@ -17,4 +23,10 @@
       -path "$HOME"/mdi/msx -o \
       -path "$HOME"/.pki -o \
       -path "$HOME"/.ssh -o \
-      -path "$HOME"/.vbox-vols \) -prune -false -o -type f -name '*' -print | /usr/bin/fzf -m | /usr/bin/paste -s -d ' ' | /usr/bin/tr -d '\n' | /usr/bin/xclip -selection clipboard
+      -path "$HOME"/.vbox-vols \) \
+      -prune -false -o \
+      -type f -name '*' -print | \
+      /usr/bin/fzf -m | \
+      /usr/bin/paste -s -d ' ' | \
+      /usr/bin/tr -d '\n' | \
+      /usr/bin/xclip -selection clipboard

@@ -1,5 +1,11 @@
 #!/bin/sh
 #fpath
 # yank file path from present directory to system clipboard
+# less used compared to path script
 
-/usr/bin/find . -type f -name '*' -print | /usr/bin/fzf -m | /usr/bin/paste -s -d ' ' | /usr/bin/sed 's@\.\/@'"$PWD"'\/@g' | /usr/bin/tr -d '\n' | /usr/bin/xclip -selection clipboard 
+/usr/bin/find . -type f -name '*' -print | \
+    /usr/bin/fzf -m | \
+    /usr/bin/paste -s -d ' ' | \
+    /usr/bin/sed 's@^\.@'"$PWD"'@g' | \
+    /usr/bin/tr -d '\n' | \
+    /usr/bin/xclip -selection clipboard

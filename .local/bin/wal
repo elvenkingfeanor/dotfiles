@@ -1,5 +1,30 @@
 #!/bin/sh
 #wal
 # select image for setting as wallpaper
+# selected image copied to xwallpaper config directory
+# old script, rarely used, updated
 
-/usr/bin/find $HOME -type d -path $HOME/vids -prune -false -o -type d -iname '*' -print | /usr/bin/fzf | /usr/bin/xargs /usr/bin/nsxiv -ftoq *.JPG | /usr/bin/tee >(/usr/bin/xargs -tI {} /usr/bin/xwallpaper --focus {}) >(/usr/bin/xargs -tI {} /usr/bin/echo -e "/usr/bin/xwallpaper --focus {}" > $XDG_CONFIG_HOME/xwallpaper/swall)
+selected="$( /usr/bin/find . \
+    -type f \( \
+    -iname "*.jpg" -o \
+    -iname "*.jpeg" -o \
+    -iname "*.png" -o \
+    -iname "*.webp" -o \
+    -iname "*.tiff" -o \
+    -iname "*.bmp" \
+    \) -print | \
+    /usr/bin/sort -u | \
+    /usr/bin/xargs /usr/bin/nsxiv -iftoq | \
+    /usr/bin/sed 's@^\.@'"$PWD"'@')"
+
+# set wallpaper
+if [ -z "$selected" ]; then
+    /usr/bin/notify-send "Exiting..." "No image selected"
+    exit 1
+else
+    /usr/bin/xwallpaper --focus "$selected"
+    /usr/bin/notify-send "Setting wallpaper" "Wallpaper set from $selected"
+    # copy image and image info to xwallpaper config directory
+    /usr/bin/echo "/usr/bin/xwallpaper --focus $selected" > "$XDG_CONFIG_HOME"/xwallpaper/swall
+    ~/.local/bin/cpr "$selected" "$XDG_CONFIG_HOME"/xwallpaper/output.jpg
+fi

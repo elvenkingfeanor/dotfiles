@@ -1,0 +1,5 @@
+#!/bin/sh
+#emdired
+# run dired in emacsclient directly from dwm
+
+/usr/bin/emacsclient -c --eval \(dirvish\)

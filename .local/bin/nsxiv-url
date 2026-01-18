@@ -1,4 +1,7 @@
 #!/bin/sh
+#nsxiv-url
+# open url images by nsxiv
+# source: [[https://codeberg.org/nsxiv/nsxiv-extra/src/branch/master/scripts/nsxiv-url]]
 
 cache_dir="${TMPDIR:-/tmp}/nsxiv"
 

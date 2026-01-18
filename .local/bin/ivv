@@ -1,5 +1,20 @@
 #!/bin/sh
 #ivv
-# open all image files with nsxiv
+# open all image files in directory with nsxiv
+# display selected images absolute paths to stdout
 
-/usr/bin/find . -maxdepth 1 -type f \( -iname "*.jpg" -o -iname "*.jpeg" -o -iname "*.png" -o -iname "*.webp" \) | /usr/bin/sort -t '.' -k 3,3 -n | /usr/bin/xargs /usr/bin/nsxiv
+/usr/bin/find . -maxdepth 1 \
+    -type f \( \
+    -iname "*.jpg" -o \
+    -iname "*.jpeg" -o \
+    -iname "*.png" -o \
+    -iname "*.gif" -o \
+    -iname "*.tiff" -o \
+    -iname "*.bmp" -o \
+    -iname "*.webp" \
+    \) -print | \
+    /usr/bin/sort -t '.' -k 3,3 -n | \
+    /usr/bin/xargs /usr/bin/nsxiv -iftoq | \
+    /usr/bin/sed 's@^\.@'"$PWD"'@' | \
+    /usr/bin/paste -s -d ' ' | \
+    /usr/bin/tr -d '\n'

@@ -2,4 +2,13 @@
 #mvr
 # rsync mv
 
-/usr/bin/rsync --archive --checksum -hh --partial --progress --info=stats1 --recursive --modify-window=1 --remove-source-files "$@"
+/usr/bin/rsync \
+    --archive \
+    --checksum \
+    -hh \
+    --partial \
+    --progress \
+    --info=stats1 \
+    --recursive \
+    --modify-window=1 \
+    --remove-source-files "$@"

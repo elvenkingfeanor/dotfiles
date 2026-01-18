@@ -1,4 +1,6 @@
 #!/bin/sh
 #umnt
+# unmount removable storage device
+
 #/usr/bin/doas /usr/bin/umount /dev/sd"$1"
 /usr/bin/pumount /dev/sd"$1"

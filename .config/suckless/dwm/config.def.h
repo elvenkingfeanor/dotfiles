@@ -119,6 +119,10 @@ static const char *upbrtt[] = { "/usr/bin/light", "-A", "5", NULL };
 static const char *downbrtt[] = { "/usr/bin/light", "-U", "5", NULL };
 static const char *cmd_emacs[] = { "/usr/bin/emacsclient", "-n", "-c", "-a \"\"", NULL };
 /* static const char *cmd_elfeed[] = { "/usr/bin/emacsclient", "-c", "-a \"\"", "-e \"\\(elfeed\\)\"", NULL }; */
+static const char *cmd_elfeed[] = { "emfeed", NULL };
+static const char *cmd_dired[] = { "emdired", NULL };
+static const char *yankbookmark[] = { "dbook", NULL };
+static const char *yankpassword[] = { "dpass", NULL };
 
 static const Key keys[] = {
 	/* modifier                     key        function        argument */
@@ -126,26 +130,27 @@ static const Key keys[] = {
 	{ MODKEY,                       XK_x,      spawn,          {.v = dmenucmd } },
 	{ MODKEY,                       XK_Return, spawn,          {.v = termcmd } },
 	{ MODKEY|ShiftMask,			    XK_Return, spawn,          SHCMD("/usr/local/bin/st") },
-	{ MODKEY,			            XK_F3, 	   spawn,          {.v = upvol } },
-	{ MODKEY,			            XK_F2, 	   spawn,          {.v = downvol } },
 	{ MODKEY,			            XK_F1, 	   spawn,          {.v = mute } },
+	{ MODKEY,			            XK_F2, 	   spawn,          {.v = downvol } },
+	{ MODKEY,			            XK_F3, 	   spawn,          {.v = upvol } },
 	{ MODKEY,			            XK_F4, 	   spawn,          {.v = mic } },
-	{ MODKEY,			            XK_F7,	   spawn,          {.v = micvoldown } },
-	{ MODKEY,			            XK_F8,     spawn,          {.v = micvolup } },
 	{ MODKEY,                       XK_F5,     spawn,          {.v = downbrtt } },
 	{ MODKEY,                       XK_F6,     spawn,          {.v = upbrtt } },
+	{ MODKEY,			            XK_F7,	   spawn,          {.v = micvoldown } },
+	{ MODKEY,			            XK_F8,     spawn,          {.v = micvolup } },
 	{ MODKEY,			            XK_Print,  spawn,          {.v = (const char*[]){ "screenshot", NULL } } },
 	{ MODKEY|ShiftMask,		        XK_Print,  spawn,          {.v = (const char*[]){ "winscreenshot", NULL } } },
 	{ MODKEY,		                XK_h,	   spawn,	       SHCMD("/usr/bin/alacritty -e /usr/bin/btop") },
 	{ MODKEY,			            XK_g, 	   spawn,          SHCMD("/usr/bin/qutebrowser") },
 	{ MODKEY|ShiftMask,			    XK_g, 	   spawn,          SHCMD("/usr/bin/brave") },
 	{ MODKEY,        	            XK_f, 	   spawn,          SHCMD("/usr/bin/librewolf") },
-	{ MODKEY,        	            XK_p, 	   spawn,          SHCMD("/usr/bin/pcmanfm") },
-	{ MODKEY,			            XK_y, 	   spawn,          SHCMD("/usr/bin/alacritty -e /usr/bin/youtube-viewer") },
 	{ MODKEY,			            XK_e, 	   spawn,          SHCMD("/usr/bin/alacritty -e /usr/bin/nvim") },
 	{ MODKEY|ShiftMask,			    XK_e, 	   spawn,          {.v = cmd_emacs } },
+	{ MODKEY,        	            XK_p, 	   spawn,          SHCMD("/usr/bin/pcmanfm") },
+	{ MODKEY|ShiftMask,			    XK_p, 	   spawn,          {.v = cmd_dired } },
+	{ MODKEY,			            XK_y, 	   spawn,          SHCMD("/usr/bin/alacritty -e /usr/bin/youtube-viewer") },
 	{ MODKEY,			            XK_n, 	   spawn,          SHCMD("/usr/bin/alacritty -e /usr/bin/newsraft") },
-	/* { MODKEY|ShiftMask,			    XK_n, 	   spawn,          {.v = cmd_elfeed } }, */
+	{ MODKEY|ShiftMask,			    XK_n, 	   spawn,          {.v = cmd_elfeed } },
 	{ MODKEY,     	                XK_m, 	   spawn,          SHCMD("/usr/bin/alacritty -e /usr/bin/aerc") }, /* st doesnot support OSC52 escape sequence required to :copy-link in aerc to system clipboard */
 	{ MODKEY,     	                XK_l, 	   spawn,          SHCMD("/usr/bin/luanti") },
 	{ MODKEY,     	                XK_c, 	   spawn,          SHCMD("/usr/bin/gcompris-qt") },
@@ -153,7 +158,8 @@ static const Key keys[] = {
 	{ MODKEY,		        		XK_s, 	   spawn,          SHCMD("/usr/bin/signal-desktop") },
 	{ MODKEY|ShiftMask,		        XK_l, 	   spawn,          SHCMD("/usr/local/bin/slock") },
 	{ MODKEY,            	        XK_b, 	   spawn,          {.v = (const char*[]){ "bookmarkthis", NULL } } },
-	{ MODKEY,            	        XK_i,	   spawn,          SHCMD("/usr/bin/grep -v '^#' ~/.local/share/bookmarks | /usr/local/bin/dmenu -i -l 20 | /usr/bin/cut -d' ' -f1 | /usr/bin/xclip -selection clipboard") },
+	{ MODKEY,            	        XK_i,	   spawn,          {.v = yankbookmark } },
+	{ MODKEY|ShiftMask,			    XK_i, 	   spawn,          {.v = yankpassword } },
 	/* { MODKEY,                       XK_F5,     xrdb,           {.v = NULL } }, */
 	{ MODKEY|ShiftMask,             XK_F5,     xrdb,           {.v = NULL } },
 	/* { MODKEY,            			XK_y,  	   togglescratch,  {.ui = 0 } }, */

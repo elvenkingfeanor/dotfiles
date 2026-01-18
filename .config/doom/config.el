@@ -141,6 +141,14 @@
 (after! org
   (add-to-list 'org-modules 'org-id 'org-protocol))
 
+;; A few custom keybindings, mostly for Orgmode
+(map! :after org
+      :map org-mode-map
+      :localleader
+      :desc "org-paste-subtree"
+      :prefix "s"
+      "p" #'org-paste-subtree)
+
 ;; Doom presets
 ;; (setq org-capture-templates
 ;;       '(("t" "Personal todo" entry (file+headline +org-capture-todo-file "Inbox")

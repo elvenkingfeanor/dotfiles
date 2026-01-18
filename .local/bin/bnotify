@@ -2,6 +2,7 @@
 #bnotify
 # brightness notification
 
-brightness=$(/usr/bin/light -G | /usr/bin/sed 's@\..*$@@')
+# brightness=$(/usr/bin/light -G | /usr/bin/sed 's@\..*$@@')
+brightness=$(/usr/bin/cat /sys/class/backlight/nv_backlight/brightness)
 
 /usr/bin/notify-send "Brightness set to $brightness"

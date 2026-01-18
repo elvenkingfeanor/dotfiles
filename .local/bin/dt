@@ -1,3 +1,5 @@
 #!/bin/sh
 #dt
+# lookup term in dictionary
+
 /usr/bin/dict "$1" | /usr/bin/colorit

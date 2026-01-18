@@ -1,3 +1,6 @@
 #!/bin/sh
 #ff
+# find file in current directory
+# old script
+
 /usr/bin/find . -type "$1" -iname "$2"

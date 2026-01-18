@@ -2,11 +2,14 @@
 #mmm
 # play all video files in directory
 
-# for f in $(/usr/bin/find . -type f \( -iname "*.mkv" -o -iname "*.mp4" -o -iname "*.m4v" -o -iname "*.webm" -o -iname "*.mov" -o -iname "*.avi" \) | /usr/bin/sort -t '.' -k 3,3 -n )
-# do
-#     # press ^C to exit
-#     /usr/bin/mpv "$f" || break
-# done
-
-
-/usr/bin/find . -maxdepth 1 -type f \( -iname "*.mkv" -o -iname "*.mp4" -o -iname "*.webm" -o -iname "*.m4v" -o -iname "*.mov" -o -iname "*.avi" \) | /usr/bin/sort -t '.' -k 3,3 -n | /usr/bin/xargs /usr/bin/mpv
+/usr/bin/find . -maxdepth 1 \
+    -type f \( \
+    -iname "*.mkv" -o \
+    -iname "*.mp4" -o \
+    -iname "*.webm" -o \
+    -iname "*.m4v" -o \
+    -iname "*.mov" -o \
+    -iname "*.avi" \
+    \) -print | \
+    /usr/bin/sort -t '.' -k 3,3 -n | \
+    /usr/bin/xargs /usr/bin/mpv

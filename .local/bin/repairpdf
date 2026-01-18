@@ -1,3 +1,9 @@
 #!/bin/sh
 #repair-pdf
-/usr/bin/gs -o "$1-repaired.pdf" -sDEVICE=pdfwrite -dPDFSETTINGS=/ebook "$1"
+# repair a pdf using ghostscript
+
+/usr/bin/gs \
+    -o "$1-repaired.pdf" \
+    -sDEVICE=pdfwrite \
+    -dPDFSETTINGS=/ebook \
+    "$1"

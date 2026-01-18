@@ -1,3 +1,19 @@
 #!/bin/sh
 #pma
-esearch -db pubmed -query "('$1'[AUTH])AND('$2'[AFFL])" -sort "pub date" | efetch -format xml | xtract -pattern Author -sep " " -tab ", " -element Initials LastName Affiliation | /usr/bin/sort -R | /usr/bin/uniq -c | /usr/bin/sort -rn > "$3"-affl
+# fetch known affiliations of authors
+# first argument as author name
+# second argument as author affiliation
+# third argument as output name
+
+esearch \
+    -db pubmed \
+    -query "('$1'[AUTH])AND('$2'[AFFL])" \
+    -sort "pub date" | \
+    efetch -format xml | \
+    xtract -pattern Author \
+    -sep " " \
+    -tab ", " \
+    -element Initials LastName Affiliation | \
+    /usr/bin/sort -R | \
+    /usr/bin/uniq -c | \
+    /usr/bin/sort -rn > "$3"-affl

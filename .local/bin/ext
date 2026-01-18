@@ -1,3 +1,5 @@
 #!/bin/sh
 #ext
+# format a disk partition to ext4 filesystem
+
 /usr/bin/doas /usr/bin/mkfs.ext4 /dev/sd"$1" -L "$2"

@@ -48,6 +48,7 @@ settings:
       gh: https://github.com/search?q={}&type=repositories
       l: https://content.luanti.org/packages/?q={}
       s: https://stackoverflow.com/search?q={}
+      sc: https://www.shellcheck.net/wiki/{}
       w: https://en.wikipedia.org/wiki/{}
   url.start_pages:
     global: https://start.duckduckgo.com

@@ -1,3 +1,7 @@
 #!/bin/sh
-# screenshot to file
-/usr/bin/maim --hidecursor $XDG_PICTURES_DIR/ss/$(/usr/bin/date +%Y-%m-%d-%H-%M-%S)_screenshot.png
+#screenshot
+# screenshot to file using maim
+
+/usr/bin/maim \
+    --hidecursor \
+    "$XDG_PICTURES_DIR"/ss/"$(/usr/bin/date +%Y%m%d_%H%M%S)"_ss.png

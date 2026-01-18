@@ -1,3 +1,11 @@
 #!/bin/sh
 #ddx
-/usr/bin/doas /usr/bin/dd if="$1" of=/dev/sd"$2" bs=4M status=progress
+# create bootable devices using dd
+# first argument is location of .iso file
+# second argument is device mapping as per /dev/sd{}
+
+/usr/bin/doas /usr/bin/dd \
+    if="$1" \
+    of=/dev/sd"$2" \
+    bs=4M \
+    status=progress

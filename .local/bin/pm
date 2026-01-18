@@ -1,3 +1,12 @@
 #!/bin/sh
 #pm
-esearch -db pubmed -query "('$1'[AUTH])AND('$2'[AFFL])" -sort "pub date" | efetch -format abstract > "$3" 
+# pubmed query using author and affiliation
+# first argument as author name
+# second argument as author affiliation
+# fetch abstracts to output, as third argument
+
+esearch \
+    -db pubmed \
+    -query "('$1'[AUTH])AND('$2'[AFFL])" \
+    -sort "pub date" | \
+    efetch -format abstract > "$3"

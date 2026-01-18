@@ -1,3 +1,16 @@
 #!/bin/sh
 #pmd
-esearch -db pubmed -query "('$1'[AUTH])AND('$2'[AFFL])" -sort "pub date" | efetch -format docsum | xtract -pattern DocumentSummary -sep "|" -def "N/A" -element Id PubDate Name > "$3"-pubdata
+# pubmed extract (document summary) of published articles of author, sorted by date
+# first argument as author name
+# second argument as author affiliation
+# third argument as output name
+
+esearch \
+    -db pubmed \
+    -query "('$1'[AUTH])AND('$2'[AFFL])" \
+    -sort "pub date" | \
+    efetch -format docsum | \
+    xtract -pattern DocumentSummary \
+    -sep "|" \
+    -def "N/A" \
+    -element Id PubDate Name > "$3"-pubdata

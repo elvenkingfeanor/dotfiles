@@ -1,3 +1,5 @@
 #!/bin/sh
 #connect
+# iwctl shortcuts
+
 /usr/bin/iwctl station wlan0 connect "$1"

@@ -1,4 +1,7 @@
 #!/bin/sh
+#bookmarkthis
+# checks and pastes clipboard contents to bookmarks file
+# credits to Luke Smith
 
 bm="$(/usr/bin/xclip -o)"
 file="$XDG_DATA_HOME/bookmarks"

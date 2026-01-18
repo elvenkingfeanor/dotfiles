@@ -1,4 +1,7 @@
 #!/bin/sh
+#libg
+# legacy script to download from libgen.li
+# doesnot work any more
 
 CONFIG_FILE="$HOME"/.config/libg/libg.sh
 if [ -f "$CONFIG_FILE" ] ; then

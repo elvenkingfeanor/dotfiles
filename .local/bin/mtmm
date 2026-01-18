@@ -1,3 +1,5 @@
 #!/bin/sh
 #mtmm
-/usr/bin/simple-mtpfs --device 1 $XDG_DOWNLOAD_DIR/mtp
+# mount mtpfs device to ~/dl/mtp/ directory for easy file handling
+
+/usr/bin/simple-mtpfs --device 1 "$XDG_DOWNLOAD_DIR"/mtp

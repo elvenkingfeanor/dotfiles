@@ -1,7 +1,7 @@
 #!/bin/sh
 #empty_paper
-
 # check if paper is already downloaded, if not proceed with download
+# NB: doesnot work as rust_autopaper can no longer parse source webpages
 
 cd ~/dl/autopaper/
 

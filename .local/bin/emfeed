@@ -1,0 +1,5 @@
+#!/bin/sh
+#emfeed
+# run elfeed in emacsclient directly from dwm
+
+/usr/bin/emacsclient -c --eval \(elfeed\)

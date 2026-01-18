@@ -1,3 +1,20 @@
 #!/bin/sh
 #pmg
-esearch -db pubmed -query "('$1'[AUTH])AND('$2'[AFFL])" -sort "pub date" | efetch -format xml | xtract -pattern Author -sep " " -tab ", " -element Initials,LastName | /usr/bin/sort -R | /usr/bin/uniq -c | /usr/bin/sort -rn > "$3"-group
+# find author group using pubmed
+# first argument as author name
+# second argument as author affiliation
+# third argument as output name
+
+esearch \
+    -db pubmed \
+    -query "('$1'[AUTH])AND('$2'[AFFL])" \
+    -sort "pub date" | \
+    efetch -format xml | \
+    xtract \
+    -pattern Author \
+    -sep " " \
+    -tab ", " \
+    -element Initials,LastName | \
+    /usr/bin/sort -R | \
+    /usr/bin/uniq -c | \
+    /usr/bin/sort -rn > "$3"-group

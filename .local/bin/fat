@@ -1,3 +1,5 @@
 #!/bin/sh
 #fat
+# format a disk partition to fat32 filesystem
+
 /usr/bin/doas /usr/bin/mkfs.vfat -F 32 /dev/sd"$1" -n "$2"
