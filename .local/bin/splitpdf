@@ -1,8 +1,0 @@
-#!/bin/sh
-#splitpdf
-# split a pdf to individual pages using qpdf
-# first argument is original pdf filename
-# final argument is output pdf filename
-# old script, never really used much
-
-/usr/bin/qpdf "$1" --pages . "$2" -- "$3"

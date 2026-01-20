@@ -1,6 +1,6 @@
 #!/bin/sh
 #opp
 # local xdg-open wrapper
-# old, unused buggy script
+# old script, unused, buggy
 
 /usr/bin/xdg-open "$(/usr/bin/find . -type f | /usr/bin/fzf)"

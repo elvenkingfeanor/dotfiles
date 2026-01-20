@@ -2,7 +2,8 @@
 #ftt
 # cd to directory and show its tree view
 
-dir=$(/usr/bin/find "$HOME" -type d \( -path "$HOME"/.android -o \
+dir=$(/usr/bin/find "$HOME" -type d \( \
+      -path "$HOME"/.android -o \
       -path "$HOME"/.arx -o \
       -path "$HOME"/.cache -o \
       -path "$HOME"/.config/BraveSoftware -o \
@@ -17,13 +18,16 @@ dir=$(/usr/bin/find "$HOME" -type d \( -path "$HOME"/.android -o \
       -path "$HOME"/mdi/msx -o \
       -path "$HOME"/.pki -o \
       -path "$HOME"/.ssh -o \
-      -path "$HOME"/.vbox-vols \) -prune -false -o -type d -name '*' -print | /usr/bin/fzf)
+      -path "$HOME"/.vbox-vols \
+      \) -prune -false -o \
+      -type d -name '*' -print | \
+      /usr/bin/fzf)
 
 if [ -z "$dir" ]; then
     /usr/bin/echo "No directory selected. Exiting..."
     exit 1
     else
-        cd "$dir"
+        cd "$dir" || exit 1
 fi
 
 /usr/bin/clear

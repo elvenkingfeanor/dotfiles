@@ -1,10 +1,13 @@
 #!/bin/sh
 #fff
-# find files in $HOME, quietly
-# old unused script, used to be used for cron
+# if bootable media is mounted, find its directory structure -quietly
 
-/usr/bin/find "$HOME" \
-    -type d \( -path "$HOME/.cache" -o \
-    -path "$HOME/.cargo" -o \
-    -path "$HOME/.ssh" \) \
-    -prune -o -name '*' > /dev/null
+loaded=$(/usr/bin/findmnt -rn -S LABEL=backup)
+
+if [ -n "$loaded" ]; then
+	/usr/bin/notify-send "Generating directory tree"
+	/usr/bin/find /media/backup/ . > /dev/null
+	/usr/bin/notify-send "Done"
+	else
+		/usr/bin/notify-send "Backup drive not mounted. Exiting..."
+fi

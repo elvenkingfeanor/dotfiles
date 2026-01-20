@@ -1,0 +1,136 @@
+#!/bin/sh
+#fmt
+# format partitions
+
+# check whether dmenu is present, if not check for fzf, else exit
+if ! command -v dmenu > /dev/null 2>&1; then
+	/usr/bin/echo "dmenu not found, checking for fzf"
+	if command -v fzf > /dev/null 2>&1; then
+	/usr/bin/echo "fzf found in path, proceeding"
+	chooser="$(command -v fzf)"
+	else
+		/usr/bin/echo "neither dmenu nor fzf found in path, exiting..."
+		exit 1
+	fi
+else
+	/usr/bin/echo "dmenu found in path, proceeding"
+	chooser="$(command -v dmenu)"
+fi
+
+# choose partition to format, abort if none selected
+if [ "$chooser" = "$(command -v dmenu)" ]; then
+	part="$(/usr/bin/lsblk -anlp | /usr/bin/grep part | /usr/bin/cut -d ' ' -f 1 | "$chooser" -p "select partition to format: ")"
+else
+	part="$(/usr/bin/lsblk -anlp | /usr/bin/grep part | /usr/bin/cut -d ' ' -f 1 | "$chooser" --prompt="select partition to format: ")"
+fi
+
+if [ -z "$(/usr/bin/lsblk -anlp | /usr/bin/grep -q "$part")" ] ; then
+	/usr/bin/printf "%s\n" "no valid partition selected. stopping.."
+	exit 1
+fi
+
+# if partition is mounted, warn, then proceed accordingly
+if [ -n "$(/usr/bin/findmnt "$part")" ]; then
+	if [ "$chooser" = "$(command -v dmenu)" ]; then
+		affirm="$(/usr/bin/printf "%b" "yes\nno" | "$chooser" -p "proceed to unmount and format?")"
+	else
+		affirm="$(/usr/bin/printf "%b" "yes\nno" | "$chooser" --prompt="proceed to unmount and format?")"
+	fi
+else
+	if [ "$chooser" = "$(command -v dmenu)" ]; then
+		affirm="$(/usr/bin/printf "%b" "yes\nno" | "$chooser" -p "proceed to format?")"
+	else
+		affirm="$(/usr/bin/printf "%b" "yes\nno" | "$chooser" --prompt="proceed to format?")"
+	fi
+fi
+
+# if choice is negative, abort
+if [ "$affirm" = "no" ]; then
+	/usr/bin/echo "Chose to stop. Stopping..."
+	exit 1
+fi
+
+# choose filesystem type to format to
+if [ "$chooser" = "$(command -v dmenu)" ]; then
+	type="$(/usr/bin/printf "%b" "ext4\nfat32" | "$chooser" -p "choose filesystem type to format to: ")"
+else
+	type="$(/usr/bin/printf "%b" "ext4\nfat32" | "$chooser" --prompt="choose filesystem type to format to: ")"
+fi
+
+# give a suitable label to partition
+if [ "$chooser" = "$(command -v dmenu)" ]; then
+	label="$("$chooser" -p "give a label to partition: " < /dev/null)"
+else
+	/usr/bin/printf "%s" "give a new label to partition: " && read -r label
+fi
+
+# give a final warning
+if [ "$chooser" = "$(command -v dmenu)" ]; then
+	choice="$(/usr/bin/printf "%b" "yes\nno" | "$chooser" -p "all data will be erased. really want to proceed?: ")"
+else
+	choice="$(/usr/bin/printf "%b" "yes\nno" | "$chooser" --prompt="all data will be erased. really want to proceed?: ")"
+fi
+
+if [ "$choice" = "no" ]; then
+	/usr/bin/printf "%s\n" "Stopping. No format done"
+	exit 1
+fi
+
+# proceed with format
+if [ "$affirm" = "yes" ] && [ -n "$(/usr/bin/findmnt "$part")" ]; then
+	if [ -n "$label" ]; then
+		if [ "$type" = "ext4" ]; then
+			/usr/bin/pumount "$part"
+			if ! /usr/bin/doas /usr/bin/mkfs.ext4 "$part" -L "$label"; then
+				/usr/bin/echo "Aborted"
+				exit 1
+			fi
+		else
+			/usr/bin/pumount "$part"
+			if ! /usr/bin/doas /usr/bin/mkfs.vfat -F 32 "$part" -n "$label"; then
+				/usr/bin/echo "Aborted"
+				exit 1
+			fi
+		fi
+	else
+		if [ "$type" = "ext4" ]; then
+			/usr/bin/pumount "$part"
+			if ! /usr/bin/doas /usr/bin/mkfs.ext4 "$part"; then
+				/usr/bin/echo "Aborted"
+				exit 1
+			fi
+		else
+			/usr/bin/pumount "$part"
+			if ! /usr/bin/doas /usr/bin/mkfs.vfat -F 32 "$part"; then
+				/usr/bin/echo "Aborted"
+				exit 1
+			fi
+		fi
+	fi
+else
+	if [ -n "$label" ]; then
+		if [ "$type" = "ext4" ]; then
+			if ! /usr/bin/doas /usr/bin/mkfs.ext4 "$part" -L "$label"; then
+				/usr/bin/echo "Aborted"
+				exit 1
+			fi
+		else
+			if ! /usr/bin/doas /usr/bin/mkfs.vfat -F 32 "$part" -n "$label"; then
+				/usr/bin/echo "Aborted"
+				exit 1
+			fi
+		fi
+	else
+		if [ "$type" = "ext4" ]; then
+			if ! /usr/bin/doas /usr/bin/mkfs.ext4 "$part"; then
+				/usr/bin/echo "Aborted"
+				exit 1
+			fi
+		else
+			if ! /usr/bin/doas /usr/bin/mkfs.vfat -F 32 "$part"; then
+				/usr/bin/echo "Aborted"
+				exit 1
+			fi
+		fi
+	fi
+fi

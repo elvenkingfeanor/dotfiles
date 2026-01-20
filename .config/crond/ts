@@ -7,5 +7,5 @@ DISPLAY=:0
 @reboot ~/.local/bin/bright
 */5 16 * * * ~/.local/bin/bright
 30 9-18 * * Sun ~/.local/bin/bakp
-15 */6 * * * ~/.local/bin/fmnt
+15 */6 * * * ~/.local/bin/fff
 @reboot ~/.local/bin/cpr /var/spool/cron/ts ~/.config/crond/ts

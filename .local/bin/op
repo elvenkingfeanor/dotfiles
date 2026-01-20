@@ -1,6 +1,6 @@
 #!/bin/sh
 #op
 # xdg-open wrapper
-# old unused, buggy script
+# old script, unused, buggy
 
 /usr/bin/xdg-open "$(/usr/bin/find "$HOME" -path "$HOME"/mdi -prune -o -type f -print | /usr/bin/fzf)"

@@ -1,6 +1,0 @@
-#!/bin/sh
-#mergepdf
-# merge all pdfs in directory using qpdf
-# old script, inefficient, rarely used
-
-/usr/bin/qpdf --empty --pages "$(for i in *.pdf; do echo "$i"; done)" -- "$1".pdf

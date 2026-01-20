@@ -1,7 +1,7 @@
 #!/bin/sh
 #iss
 # where is the ISS now?
-# old, rarely used script
+# old script, rarely used
 
 /usr/bin/curl \
     -s http://api.open-notify.org/iss-now.json | \
