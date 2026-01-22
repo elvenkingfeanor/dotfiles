@@ -4,16 +4,13 @@
 
 # check whether dmenu is present, if not check for fzf, else exit
 if ! command -v dmenu > /dev/null 2>&1; then
-	/usr/bin/echo "dmenu not found, checking for fzf"
 	if command -v fzf > /dev/null 2>&1; then
-	/usr/bin/echo "fzf found in path, proceeding"
 	chooser="$(command -v fzf)"
 	else
-		/usr/bin/echo "neither dmenu nor fzf found in path, exiting..."
+		/usr/bin/echo "install dmenu or fzf to proceed"
 		exit 1
 	fi
 else
-	/usr/bin/echo "dmenu found in path, proceeding"
 	chooser="$(command -v dmenu)"
 fi
 

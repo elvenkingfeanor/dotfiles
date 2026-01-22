@@ -179,7 +179,7 @@
 (setq org-id-link-to-org-use-id t)
 
 (setq org-capture-templates
-      '(("b" "bookmark" entry (file "~/notx/links.org")
+      '(("b" "bookmark" entry (file+headline "~/notx/links.org" "Bookmarks")
          "* %a %^G\n:PROPERTIES:\n:CREATED: %U\n:END:\n\n** %:initial%?"
          :empty-lines 1)
         ("c" "contact" entry (file "~/notx/contacts.org")

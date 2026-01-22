@@ -9,8 +9,12 @@ password="$(/usr/bin/find "$XDG_DATA_HOME"/pass/ -type f -name '*.gpg' | \
     /usr/bin/sed 's/\.gpg$//g')"
 
 if [ -n "$password" ]; then
- /usr/bin/pass show -c "$password"
- /usr/bin/notify-send "Success!" "$password copied to clipboard"
+ if ! /usr/bin/pass show -c "$password"; then
+  /usr/bin/notify-send "Oops!" "try again"
+  exit 1
+ else
+    /usr/bin/notify-send "Success!" "$password copied to clipboard"
+ fi
 else
     /usr/bin/notify-send "Exiting..." "no pass selected"
     exit 1

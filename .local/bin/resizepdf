@@ -10,5 +10,5 @@
     -dFIXEDMEDIA \
     -dQUIET \
     -dBATCH \
-    -sOutputFile="$2" \
+    -sOutputFile="$1-resized.pdf" \
     "$1"

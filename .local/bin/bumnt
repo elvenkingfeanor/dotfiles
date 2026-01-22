@@ -7,9 +7,10 @@ loaded=$(/usr/bin/findmnt -rn -S LABEL=backup)
 #mountpoint=$(/usr/bin/lsblk -l -o +LABEL | /usr/bin/grep backup | /usr/bin/awk '{print $1}') # too much awk!
 mountpoint=$(/usr/bin/lsblk -l -o +LABEL | /usr/bin/grep backup | /usr/bin/cut -c -4)
 
-if [[ -z "$loaded" ]]; then
+if [ -z "$loaded" ]; then
 	/usr/bin/notify-send "Backup drive not mounted"
 	else
-		/usr/bin/pumount /dev/"$mountpoint" && /usr/bin/notify-send "Backup drive unmounted"
+		/usr/bin/pumount /dev/"$mountpoint"
+		/usr/bin/notify-send "Backup drive unmounted"
 fi
 

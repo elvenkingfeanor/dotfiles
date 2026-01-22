@@ -1,0 +1,38 @@
+#!/bin/sh
+#emojify
+# select emoji from emoji file to clipboard
+
+# path to emoji file
+file="$HOME/.local/share/emoji.txt"
+
+# check whether dmenu is present, if not check for fzf, else exit
+if ! command -v dmenu > /dev/null 2>&1; then
+	if command -v fzf > /dev/null 2>&1; then
+	chooser="$(command -v fzf)"
+	else
+        /usr/bin/printf "%s\n" "Install dmenu or fzf to proceed"
+		exit 1
+	fi
+else
+	chooser="$(command -v dmenu)"
+fi
+
+# use dmenu or fzf to pick emoji
+if [ -z "$file" ]; then
+    /usr/bin/printf "%s\n" "No emoji file present. Exiting.."
+    exit 1
+else
+    if [ "$chooser" = "$(command -v dmenu)" ]; then
+        /usr/bin/cat "$file" | \
+            "$chooser" -p "pick an emoji" | \
+            /usr/bin/cut -d ' ' -f 1 | \
+            /usr/bin/tr -d '\n' | \
+            /usr/bin/xclip -selection clipboard
+    else
+        /usr/bin/cat "$file" | \
+            "$chooser" --prompt="pick an emoji" | \
+            /usr/bin/cut -d ' ' -f 1 | \
+            /usr/bin/tr -d '\n' | \
+            /usr/bin/xclip -selection clipboard
+    fi
+fi

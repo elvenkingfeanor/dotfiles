@@ -2,21 +2,22 @@
 #micvol
 # get speaker and mic volume status
 
-micmute="$(/usr/bin/wpctl get-volume @DEFAULT_SOURCE@ | /usr/bin/cut -d ' ' -f 3)"
-micvol="$(/usr/bin/wpctl get-volume @DEFAULT_SOURCE@ | /usr/bin/cut -d ' ' -f 2)"
 spkmute="$(/usr/bin/wpctl get-volume @DEFAULT_SINK@ | /usr/bin/cut -d ' ' -f 3)"
 spkvol="$(/usr/bin/wpctl get-volume @DEFAULT_SINK@ | /usr/bin/cut -d ' ' -f 2)"
-
-if [ -n "$micmute" ]; then
-    mic="$(/usr/bin/echo "off")";
-else
-    mic="$(/usr/bin/echo "$micvol*100/1" | /usr/bin/bc)";
-fi
+micmute="$(/usr/bin/wpctl get-volume @DEFAULT_SOURCE@ | /usr/bin/cut -d ' ' -f 3)"
+micvol="$(/usr/bin/wpctl get-volume @DEFAULT_SOURCE@ | /usr/bin/cut -d ' ' -f 2)"
 
 if [ -n "$spkmute" ]; then
-    spk="$(/usr/bin/echo "off")";
+    spk="off";
 else
-    spk="$(/usr/bin/echo "$spkvol*100/1" | /usr/bin/bc)";
+    spk="$(/usr/bin/printf "%s\n" "$spkvol*100/1" | /usr/bin/bc)";
 fi
 
-/usr/bin/echo "$spk:$mic"
+if [ -n "$micmute" ]; then
+    mic="off";
+else
+    mic="$(/usr/bin/printf "%s\n" "$micvol*100/1" | /usr/bin/bc)";
+    # the (/1) is required to prevent bc from outputting decimal
+fi
+
+/usr/bin/printf "%s" "$spk:$mic"

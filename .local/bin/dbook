@@ -18,6 +18,12 @@ else
 fi
 
 # yank selected url to system clipboard, after trimming trailing newline character
-/usr/bin/echo "$selected" | \
-    /usr/bin/tr -d '\n' | \
-    /usr/bin/xclip -selection clipboard
+if [ -z "$selected" ]; then
+    /usr/bin/notify-send "No URL selected"
+    exit 1
+else
+    /usr/bin/echo "$selected" | \
+        /usr/bin/tr -d '\n' | \
+        /usr/bin/xclip -selection clipboard
+    /usr/bin/notify-send "$selected copied"
+fi

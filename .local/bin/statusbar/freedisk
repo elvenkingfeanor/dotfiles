@@ -1,5 +1,21 @@
 #!/bin/sh
 #freedisk
-varh=$(/usr/bin/df -h ~ | /usr/bin/awk 'FNR == 2 {print $5,$4}')
-varr=$(/usr/bin/df -h / | /usr/bin/awk 'FNR == 2 {print $5,$4}')
-/usr/bin/echo "$varh|$varr" | /usr/bin/sed 's/\ /:/g'
+# check storage space used and available on / and /home partitions
+
+# available space on /home partition
+avh="$(/usr/bin/df -h ~ | /usr/bin/tail -n 1 | /usr/bin/cut -d ' ' -f 7)"
+
+# used space on /home partition
+ush="$(/usr/bin/df -h ~ | /usr/bin/tail -n 1 | /usr/bin/cut -d ' ' -f 9)"
+
+# available space on / partition
+avr="$(/usr/bin/df -h / | /usr/bin/tail -n 1 | /usr/bin/cut -d ' ' -f 8)"
+
+# used space on / partition
+usr="$(/usr/bin/df -h / | /usr/bin/tail -n 1 | /usr/bin/cut -d ' ' -f 10)"
+
+# varh=$(/usr/bin/df -h ~ | /usr/bin/awk 'FNR == 2 {print $5,$4}') # too much awk!
+# varr=$(/usr/bin/df -h / | /usr/bin/awk 'FNR == 2 {print $5,$4}') # well, this is AWKward!
+# /usr/bin/echo "$varh|$varr" | /usr/bin/sed 's/\ /:/g'
+
+/usr/bin/printf "%s" "$ush:$avh|$usr:$avr"

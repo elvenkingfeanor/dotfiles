@@ -1,5 +1,5 @@
 #!/bin/sh
-#repair-pdf
+#repairpdf
 # repair a pdf using ghostscript
 
 /usr/bin/gs \

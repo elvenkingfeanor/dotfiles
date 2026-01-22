@@ -1,3 +1,8 @@
 #!/bin/sh
 #datime
+# return date and time in the following format:
+# abbreviated weekday
+# abbreviated month with day of month
+# 24hrs time of day
+
 /usr/bin/date "+%a %b%e %H:%M"
