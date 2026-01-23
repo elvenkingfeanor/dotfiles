@@ -1,6 +1,6 @@
 #!/bin/sh
 #cpumem
-# display percent cpu and ram usage
+# display percent cpu and ram usage, plus cpu temp
 
 # cpu=$(/usr/bin/grep cpu /proc/stat | /usr/bin/head -n 1 | /usr/bin/awk '{print ($5*100)/($2+$3+$4+$5+$6+$7+$8+$9+$10+$11)}' | /usr/bin/awk '{print "C:" int(100-$1)}')
 
@@ -51,6 +51,8 @@ cpufree="$(((cpar3 * 100)/(cpar0 + cpar1 + cpar3 + cpar4 + cpar5 + cpar6 + cpar7
 #     /usr/bin/bc)"
 cpuuse="$((100 - cpufree))"
 
+cputemp="$(/usr/bin/sed 's/000$/°C/' /sys/class/thermal/thermal_zone0/temp)"
+
 # ram parameters as per $(free)
 ramused="$(/usr/bin/free | \
     /usr/bin/grep -i mem | \
@@ -67,4 +69,4 @@ ramtotal="$(/usr/bin/free | \
 ramuse="$((100 * ramused / ramtotal))"
 
 # output final result fully formatted
-/usr/bin/printf "%s" "💻$cpuuse📟$ramuse"
+/usr/bin/printf "%s" "💻$cpuuse🌡️$cputemp📟$ramuse"

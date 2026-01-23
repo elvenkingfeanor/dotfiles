@@ -1,0 +1,6 @@
+#!/bin/sh
+#decvol
+# decrease volume of speakers by fixed margin
+
+/usr/bin/wpctl set-volume -l 1.2 @DEFAULT_SINK@ 5%-
+/usr/bin/pkill -f -RTMIN+10 /usr/local/bin/dwmblocks

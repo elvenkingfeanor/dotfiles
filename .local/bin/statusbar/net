@@ -27,7 +27,7 @@ if [ "$med" = "wlan0" ]; then
         /usr/bin/cut -d ' ' -f 6)"
     wtx="$(/usr/bin/ifstat wlan0 | \
         /usr/bin/grep wlan0 | \
-        /usr/bin/tr -s '[:blank:]' | \
+        /usr/bin/sed 's@\ \ *@\ @g' | \
         /usr/bin/cut -d ' ' -f 8)"
     /usr/bin/printf "%s" "🛜$wrx🔽$wtx🔼"
 else

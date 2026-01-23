@@ -17,7 +17,7 @@ cap=$(/usr/bin/grep -i "capacity=" /sys/class/power_supply/BAT0/uevent | \
 if /usr/bin/grep -iq discharging /sys/class/power_supply/BAT0/uevent && [ "$cap" -le 20 ]; then
     /usr/bin/notify-send -u critical "Battery low" "Please plug-in charger"
     /usr/bin/printf "%s" "❗$cap"
-elif /usr/bin/grep -iq discharging /sys/class/power_supply/BAT0/uevent && [ "$cap" -ge 80 ]; then
+elif /usr/bin/grep -iwq charging /sys/class/power_supply/BAT0/uevent && [ "$cap" -ge 80 ]; then
     /usr/bin/notify-send -u critical "Battery full" "Please turn off charging"
     /usr/bin/printf "%s" "❗$cap"
 else /usr/bin/printf "%s" "$stat$cap";

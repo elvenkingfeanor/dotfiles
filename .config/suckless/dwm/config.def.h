@@ -101,7 +101,7 @@ static const Layout layouts[] = {
 /* helper for spawning shell commands in the pre dwm-5.0 fashion */
 #define SHCMD(cmd) { .v = (const char*[]){ "/bin/sh", "-c", cmd, NULL } }
 
-#define STATUSBAR "dwmblocks"
+#define STATUSBAR "/usr/local/bin/dwmblocks"
 
 /* commands */
 static char dmenumon[2] = "0"; /* component of dmenucmd, manipulated in spawn() */
@@ -109,14 +109,14 @@ static char dmenumon[2] = "0"; /* component of dmenucmd, manipulated in spawn() 
 static const char *dmenucmd[] = { "dmenu_run", "-i", "-m", dmenumon, "-fn", dmenufont, "-nb", normbgcolor, "-nf", normfgcolor, "-sb", selbgcolor, "-sf", selfgcolor, NULL };
 /* static const char *termcmd[]  = { "st", NULL }; */
 static const char *termcmd[]  = { "/usr/bin/alacritty", NULL };
-static const char *upvol[] = { "/usr/bin/wpctl", "set-volume", "-l", "1.2", "@DEFAULT_AUDIO_SINK@", "5%+", NULL }; /* raise volume with limit at 120% */
-static const char *downvol[] = { "/usr/bin/wpctl", "set-volume", "@DEFAULT_AUDIO_SINK@", "5%-", NULL };
-static const char *mute[] = { "/usr/bin/wpctl", "set-mute", "@DEFAULT_AUDIO_SINK@", "toggle", NULL };
-static const char *mic[] = { "/usr/bin/wpctl", "set-mute", "@DEFAULT_AUDIO_SOURCE@", "toggle", NULL };
-static const char *micvolup[] = { "/usr/bin/wpctl", "set-volume", "-l", "1.5", "@DEFAULT_AUDIO_SOURCE@", "5%+", NULL }; /* raise mic vol till 150% */
-static const char *micvoldown[] = { "/usr/bin/wpctl", "set-volume", "@DEFAULT_AUDIO_SOURCE@", "5%-", NULL };
-static const char *upbrtt[] = { "/usr/bin/light", "-A", "5", NULL };
-static const char *downbrtt[] = { "/usr/bin/light", "-U", "5", NULL };
+static const char *upvol[] = { "incvol", NULL };
+static const char *downvol[] = { "decvol", NULL };
+static const char *mute[] = { "smute", NULL };
+static const char *mic[] = { "mmute", NULL };
+static const char *micvolup[] = { "incmic", NULL };
+static const char *micvoldown[] = { "decmic", NULL };
+static const char *upbrtt[] = { "incbrt", NULL };
+static const char *downbrtt[] = { "decbrt", NULL };
 static const char *cmd_emacs[] = { "/usr/bin/emacsclient", "-n", "-c", "-a \"\"", NULL };
 /* static const char *cmd_elfeed[] = { "/usr/bin/emacsclient", "-c", "-a \"\"", "-e \"\\(elfeed\\)\"", NULL }; */
 static const char *cmd_elfeed[] = { "emfeed", NULL };
