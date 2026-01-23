@@ -5,4 +5,7 @@
 # abbreviated month with day of month
 # 24hrs time of day
 
-/usr/bin/date "+%a %b%e %H:%M"
+dt="$(/usr/bin/date "+%a %b%e")"
+tm="$(/usr/bin/date "+%H:%M")"
+
+/usr/bin/printf "%s" "📅$dt⏰$tm"

@@ -8,15 +8,15 @@ micmute="$(/usr/bin/wpctl get-volume @DEFAULT_SOURCE@ | /usr/bin/cut -d ' ' -f 3
 micvol="$(/usr/bin/wpctl get-volume @DEFAULT_SOURCE@ | /usr/bin/cut -d ' ' -f 2)"
 
 if [ -n "$spkmute" ]; then
-    spk="off";
+    spk="🔇";
 else
-    spk="$(/usr/bin/printf "%s\n" "$spkvol*100/1" | /usr/bin/bc)";
+    spk="🎧$(/usr/bin/printf "%s\n" "$spkvol*100/1" | /usr/bin/bc)";
 fi
 
 if [ -n "$micmute" ]; then
-    mic="off";
+    mic="🔇";
 else
-    mic="$(/usr/bin/printf "%s\n" "$micvol*100/1" | /usr/bin/bc)";
+    mic="🎤$(/usr/bin/printf "%s\n" "$micvol*100/1" | /usr/bin/bc)";
     # the (/1) is required to prevent bc from outputting decimal
 fi
 

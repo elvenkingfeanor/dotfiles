@@ -2,19 +2,23 @@
 #batt
 # show battery status
 
-if [ "$(/usr/bin/grep -i status /sys/class/power_supply/BAT0/uevent | /usr/bin/sed 's@^.*\=@@')" = "Discharging" ]; then
-    stat="$(/usr/bin/echo "-")";
+# get charging/discharging status
+if /usr/bin/grep -iq discharging /sys/class/power_supply/BAT0/uevent; then
+    stat="🪫";
 else
-    stat="$(/usr/bin/echo "+")";
+    stat="🔋";
 fi
 
-cap=$(/usr/bin/grep -i "capacity=" /sys/class/power_supply/BAT0/uevent | /usr/bin/sed 's@^.*\=@@')
+# get present battery capacity
+cap=$(/usr/bin/grep -i "capacity=" /sys/class/power_supply/BAT0/uevent | \
+    /usr/bin/sed 's@^.*\=@@')
 
-if [ "$stat" = "-" ] && [ "$cap" -le 20 ]; then
-    /usr/bin/echo "$(/usr/bin/tput setaf 1)$stat$cap$(/usr/bin/tput sgr0)";
+# formatted output with alerts
+if /usr/bin/grep -iq discharging /sys/class/power_supply/BAT0/uevent && [ "$cap" -le 20 ]; then
     /usr/bin/notify-send -u critical "Battery low" "Please plug-in charger"
-elif [ "$stat" = "+" ] && [ "$cap" -ge 80 ]; then
-    /usr/bin/echo "$(/usr/bin/tput setaf 1)$stat$cap$(/usr/bin/tput sgr0)";
+    /usr/bin/printf "%s" "❗$cap"
+elif /usr/bin/grep -iq discharging /sys/class/power_supply/BAT0/uevent && [ "$cap" -ge 80 ]; then
     /usr/bin/notify-send -u critical "Battery full" "Please turn off charging"
-else /usr/bin/echo "$stat$cap";
+    /usr/bin/printf "%s" "❗$cap"
+else /usr/bin/printf "%s" "$stat$cap";
 fi

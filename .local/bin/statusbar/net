@@ -1,3 +1,43 @@
 #!/bin/sh
 #net
-/usr/bin/ifstat wlan0 | /usr/bin/grep wlan0 | /usr/bin/awk '{print $6":"$8}'
+# show network received and transferred rates
+
+# /usr/bin/ifstat wlan0 | /usr/bin/grep wlan0 | /usr/bin/awk '{print $6":"$8}' # too much awk
+
+# grab which interface is UP from $(ip a)
+intf="$(/usr/bin/ip a | \
+    /usr/bin/grep -E 'enp0s|wlan0' | \
+    /usr/bin/grep " UP " | \
+    /usr/bin/cut -d ' ' -f 2 )"
+
+if [ "$intf" = "wlan0:" ]; then
+    med="wlan0"
+elif [ "$intf" = "enp0s31f6:" ]; then
+    med="enp0s31f6"
+else
+    /usr/bin/printf "%s\n" "not connected"
+    exit 1
+fi
+
+# grab stats from ifstat for active interface
+if [ "$med" = "wlan0" ]; then
+    wrx="$(/usr/bin/ifstat wlan0 | \
+        /usr/bin/grep wlan0 | \
+        /usr/bin/tr -s '[:blank:]' | \
+        /usr/bin/cut -d ' ' -f 6)"
+    wtx="$(/usr/bin/ifstat wlan0 | \
+        /usr/bin/grep wlan0 | \
+        /usr/bin/tr -s '[:blank:]' | \
+        /usr/bin/cut -d ' ' -f 8)"
+    /usr/bin/printf "%s" "🛜$wrx🔽$wtx🔼"
+else
+    erx="$(/usr/bin/ifstat enp0s31f6 | \
+        /usr/bin/grep enp0s31f6 | \
+        /usr/bin/tr -s '[:blank:]' | \
+        /usr/bin/cut -d ' ' -f 6)"
+    etx="$(/usr/bin/ifstat enp0s31f6 | \
+        /usr/bin/grep enp0s31f6 | \
+        /usr/bin/tr -s '[:blank:]' | \
+        /usr/bin/cut -d ' ' -f 8)"
+    /usr/bin/printf "%s" "🔳$erx🔽$etx🔼"
+fi

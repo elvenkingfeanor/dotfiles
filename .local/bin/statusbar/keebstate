@@ -5,16 +5,25 @@
 # ~currently am unable to get any distinction between my second and third layouts from $(xset q)~
 # deleted my second layout to just use xset
 
+# check if xset is installed, else exit
 if ! command -v xset > /dev/null 2>&1; then
     /usr/bin/printf "%s\n" "please install xset first"
     exit 1
 fi
 
-if [ "$(/usr/bin/xset -q | /usr/bin/grep -i "led mask" | /usr/bin/cut -d ':' -f 4 | /usr/bin/tr -d ' ')" = "00000000" ]; then
-    /usr/bin/printf "%s" "us"
+# display as per LED Mask status of keyboard
+# (hence, only supports 2 layouts)
+if [ "$(/usr/bin/xset -q | \
+    /usr/bin/grep -i "led mask" | \
+    /usr/bin/cut -d ':' -f 4 | \
+    /usr/bin/tr -d ' ')" = "00000000" ]; then
+    /usr/bin/printf "%s" "🎹us"
 elif
-    [ "$(/usr/bin/xset -q | /usr/bin/grep -i "led mask" | /usr/bin/cut -d ':' -f 4 | /usr/bin/tr -d ' ')" = "00001000" ]; then
-    /usr/bin/printf "%s" "bn"
+    [ "$(/usr/bin/xset -q | \
+        /usr/bin/grep -i "led mask" | \
+        /usr/bin/cut -d ':' -f 4 | \
+        /usr/bin/tr -d ' ')" = "00001000" ]; then
+    /usr/bin/printf "%s" "🎹bn"
 else
     /usr/bin/printf "%s" "??"
 fi

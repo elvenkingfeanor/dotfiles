@@ -1,7 +1,70 @@
 #!/bin/sh
 #cpumem
-cpu=$(/usr/bin/grep cpu /proc/stat | /usr/bin/head -n 1 | /usr/bin/awk '{print ($5*100)/($2+$3+$4+$5+$6+$7+$8+$9+$10+$11)}' | /usr/bin/awk '{print "C:" int(100-$1)}')
+# display percent cpu and ram usage
 
-ram=$(/usr/bin/free | /usr/bin/grep -i mem | /usr/bin/awk '{print "R:" int($3/$2*100)}')
+# cpu=$(/usr/bin/grep cpu /proc/stat | /usr/bin/head -n 1 | /usr/bin/awk '{print ($5*100)/($2+$3+$4+$5+$6+$7+$8+$9+$10+$11)}' | /usr/bin/awk '{print "C:" int(100-$1)}')
 
-echo "$cpu$ram"
+# ram=$(/usr/bin/free | /usr/bin/grep -i mem | /usr/bin/awk '{print "R:" int($3/$2*100)}')
+
+# echo "$cpu$ram"
+
+# store cpu parameters from /proc/stat to individual variables
+cpar0="$(/usr/bin/grep "cpu " /proc/stat | \
+    /usr/bin/tr -s '[:blank:]' | \
+    /usr/bin/cut -d ' ' -f 2)"
+cpar1="$(/usr/bin/grep "cpu " /proc/stat | \
+    /usr/bin/tr -s '[:blank:]' | \
+    /usr/bin/cut -d ' ' -f 3)"
+cpar2="$(/usr/bin/grep "cpu " /proc/stat | \
+    /usr/bin/tr -s '[:blank:]' | \
+    /usr/bin/cut -d ' ' -f 4)"
+cpar3="$(/usr/bin/grep "cpu " /proc/stat | \
+    /usr/bin/tr -s '[:blank:]' | \
+    /usr/bin/cut -d ' ' -f 5)"
+cpar4="$(/usr/bin/grep "cpu " /proc/stat | \
+    /usr/bin/tr -s '[:blank:]' | \
+    /usr/bin/cut -d ' ' -f 6)"
+cpar5="$(/usr/bin/grep "cpu " /proc/stat | \
+    /usr/bin/tr -s '[:blank:]' | \
+    /usr/bin/cut -d ' ' -f 7)"
+cpar6="$(/usr/bin/grep "cpu " /proc/stat | \
+    /usr/bin/tr -s '[:blank:]' | \
+    /usr/bin/cut -d ' ' -f 8)"
+cpar7="$(/usr/bin/grep "cpu " /proc/stat | \
+    /usr/bin/tr -s '[:blank:]' | \
+    /usr/bin/cut -d ' ' -f 9)"
+cpar8="$(/usr/bin/grep "cpu " /proc/stat | \
+    /usr/bin/tr -s '[:blank:]' | \
+    /usr/bin/cut -d ' ' -f 10)"
+cpar9="$(/usr/bin/grep "cpu " /proc/stat | \
+    /usr/bin/tr -s '[:blank:]' | \
+    /usr/bin/cut -d ' ' -f 11)"
+
+# percent cpu free
+# simply do arithmetic operation within shell, instead of piping to bc
+# cpufree="$(/usr/bin/printf "%s\n" \
+#     "($cpar3*100)/($cpar0+$cpar1+$cpar2+$cpar3+$cpar4+$cpar5+$cpar6+$cpar7+$cpar8+$cpar9)" | \
+#     /usr/bin/bc)"
+cpufree="$(((cpar3 * 100)/(cpar0 + cpar1 + cpar3 + cpar4 + cpar5 + cpar6 + cpar7 + cpar8 + cpar9)))"
+# percent cpu used
+# cpuuse="$(/usr/bin/printf "%s\n" "(100-$cpufree)" | \
+#     /usr/bin/bc)"
+cpuuse="$((100 - cpufree))"
+
+# ram parameters as per $(free)
+ramused="$(/usr/bin/free | \
+    /usr/bin/grep -i mem | \
+    /usr/bin/tr -s '[:blank:]' | \
+    /usr/bin/cut -d ' ' -f 3)"
+ramtotal="$(/usr/bin/free | \
+    /usr/bin/grep -i mem | \
+    /usr/bin/tr -s '[:blank:]' | \
+    /usr/bin/cut -d ' ' -f 2)"
+# percent ram used
+# ramuse="$(/usr/bin/printf "%s\n" \
+#     "(100*$ramused/$ramtotal)" | \
+#     /usr/bin/bc)"
+ramuse="$((100 * ramused / ramtotal))"
+
+# output final result fully formatted
+/usr/bin/printf "%s" "💻$cpuuse📟$ramuse"

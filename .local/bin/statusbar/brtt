@@ -2,4 +2,6 @@
 #brtt
 # report system brightness
 
-/usr/bin/cat /sys/class/backlight/nv_backlight/brightness
+brtt="$(/usr/bin/cat /sys/class/backlight/nv_backlight/brightness)"
+
+/usr/bin/printf "%s" "🔆$brtt"
