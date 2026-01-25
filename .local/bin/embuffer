@@ -1,0 +1,5 @@
+#!/bin/sh
+#embuffer
+# run emacsclient directly from dwm
+
+/usr/bin/emacsclient -n -c -a ""

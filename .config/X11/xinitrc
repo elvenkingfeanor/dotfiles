@@ -13,6 +13,7 @@
 /usr/bin/unclutter &
 /usr/bin/picom 2>> ~/.local/share/picom.log &
 /usr/bin/emacs --daemon &
+/usr/bin/sxhkd -m -1 2>> ~/.local/share/sxhkd.log &
 /usr/local/bin/dwmblocks 2>> ~/.local/share/dwmblocks.log &
 exec /usr/local/bin/st 2>> ~/.local/share/st.log &
 #/usr/bin/emacsclient -c -a "" &

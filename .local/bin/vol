@@ -1,6 +1,8 @@
 #!/bin/sh
 #vol
 # set speaker volume
+# send requisite signal to statusbar
+# max speaker volume set to 120%
 
 lvl="$1"
 mute="$(/usr/bin/wpctl get-volume @DEFAULT_SINK@ | /usr/bin/cut -d ' ' -f 3)"
@@ -8,11 +10,15 @@ mute="$(/usr/bin/wpctl get-volume @DEFAULT_SINK@ | /usr/bin/cut -d ' ' -f 3)"
 if [ -n "$lvl" ] && [ -n "$mute" ]; then
     /usr/bin/wpctl set-mute @DEFAULT_SINK@ 0
     /usr/bin/wpctl set-volume -l 1.2 @DEFAULT_SINK@ "$lvl"%
+    /usr/bin/pkill -f -RTMIN+10 /usr/local/bin/dwmblocks
     /usr/bin/notify-send "Audio volume" "set to $lvl";
-elif [ -n "$lvl" ] && [ -z "$mute" ]; then
+elif
+    [ -n "$lvl" ] && [ -z "$mute" ]; then
     /usr/bin/wpctl set-volume -l 1.2 @DEFAULT_SINK@ "$lvl"%
+    /usr/bin/pkill -f -RTMIN+10 /usr/local/bin/dwmblocks
     /usr/bin/notify-send "Audio volume" "set to $lvl";
 else
     /usr/bin/wpctl set-mute @DEFAULT_SINK@ 1;
+    /usr/bin/pkill -f -RTMIN+10 /usr/local/bin/dwmblocks
     /usr/bin/notify-send "Audio muted"
 fi

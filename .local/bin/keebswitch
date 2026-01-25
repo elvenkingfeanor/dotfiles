@@ -1,0 +1,23 @@
+#!/bin/sh
+#keebswitch
+# switch between keyboard layouts
+# keyboard layouts already defined in Xorg config files at /etc/X11/xorg.conf.d/00-keyboard.conf
+# uses xkblayout-state from [[https://github.com/nonpop/xkblayout-state]]
+
+log="$HOME/.local/share/keebswitch.log"
+
+# check if xkblayout-state is installed, else exit
+if ! command -v xkblayout-state > /dev/null; then
+    /usr/bin/notify-send "xkblayout-state" "Not installed"
+    exit 1
+fi
+
+# cycle to next keyboard layout
+# sends appropriate signal to statusbar
+if ! /usr/bin/xkblayout-state set +1; then
+    /usr/bin/notify-send "Oops" "something went wrong"
+    2 >> "$log"
+    exit 1
+else
+    /usr/bin/pkill -f -RTMIN+12 /usr/local/bin/dwmblocks
+fi

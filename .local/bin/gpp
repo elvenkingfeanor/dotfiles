@@ -1,5 +1,6 @@
 #!/bin/sh
 #gpp
 # grep within directory
+# old script
 
 /usr/bin/grep -iIrn --color "$1" ./*

@@ -1,19 +1,24 @@
 #!/bin/sh
 #mic
-# set microphone volume
+# set microphone audio
+# send requisite signal to statusbar
+# max mic audio set to 120%
 
 lvl="$1"
 mute="$(/usr/bin/wpctl get-volume @DEFAULT_SOURCE@ | /usr/bin/cut -d ' ' -f 3)"
 
 if [ -n "$lvl" ] && [ -n "$mute" ]; then
     /usr/bin/wpctl set-mute @DEFAULT_SOURCE@ 0
-    /usr/bin/wpctl set-volume @DEFAULT_SOURCE@ "$lvl"%
+    /usr/bin/wpctl set-volume -l 1.2 @DEFAULT_SOURCE@ "$lvl"%
+    /usr/bin/pkill -f -RTMIN+10 /usr/local/bin/dwmblocks
     /usr/bin/notify-send "Mic volume" "set to $lvl";
 elif
     [ -n "$lvl" ] && [ -z "$mute" ]; then
-    /usr/bin/wpctl set-volume @DEFAULT_SOURCE@ "$lvl"%
+    /usr/bin/wpctl set-volume -l 1.2 @DEFAULT_SOURCE@ "$lvl"%
+    /usr/bin/pkill -f -RTMIN+10 /usr/local/bin/dwmblocks
     /usr/bin/notify-send "Mic volume" "set to $lvl";
 else
     /usr/bin/wpctl set-mute @DEFAULT_SOURCE@ 1;
+    /usr/bin/pkill -f -RTMIN+10 /usr/local/bin/dwmblocks
     /usr/bin/notify-send "Mic muted"
 fi

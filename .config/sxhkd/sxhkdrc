@@ -1,0 +1,93 @@
+# ~/.config/sxhkd/sxhkdrc
+#####################################
+#          _     _       _          #
+# _____  _| |__ | | ____| |_ __ ___ #
+#/ __\ \/ / '_ \| |/ / _` | '__/ __|#
+#\__ \>  <| | | |   < (_| | | | (__ #
+#|___/_/\_\_| |_|_|\_\__,_|_|  \___|#
+#####################################
+
+# store keybindings to favorite programs in a WM-agnostic platform
+# keys mentioned here follow QWERTY keycodes, not modified layouts
+# my keybindings from DWM
+# Most used
+# launch dmenu
+super + x
+      dmenu_run
+
+# launch terminals (alacritty & st)
+super + {_, shift +}Return
+      {alacritty,st}
+
+# launch emacs (emacsclient, elfeed & dirvish) buffers
+super + shift + {e,n,p}
+      {embuffer,emfeed,emdired}
+
+# launch nvim, newsraft & aerc
+super + {e,n,m}
+      alacritty -e {nvim,newsraft,aerc}
+
+# launch qutebrowser, brave browser
+super + {_,shift +}g
+      {qutebrowser,brave}
+
+# audio volume commands
+super + {F1,F2,F3}
+      {smute,decvol,incvol}
+
+# mic commands
+super + {F4,F7,F8}
+      {mmute,decmic,incmic}
+
+# brightness commands
+super + {F5,F6}
+      {decbrt,incbrt}
+
+# keyboard layout switch command
+super + F12
+          keebswitch
+
+# screenshot commands
+super + {_,shift +}Print
+      {screenshot,winscreenshot}
+
+# bookmarkthis
+super + b
+      bookmarkthis
+
+# yank bookmarks & passwords
+super + {_,shift +}i
+      {dbook,dpass}
+
+# Other heavily used
+# system monitor (top)
+super + h
+      btop
+
+# librewolf
+super + f
+      librewolf
+
+# signal-desktop
+super + s
+      signal-desktop
+
+# youtube-viewer
+super + y
+      youtube-viewer
+
+# gcompris-qt
+super + c
+      gcompris-qt
+
+# minetest (luanti)
+super + l
+      luanti
+
+# qbittorrent
+super + t
+      qbittorrent
+
+# pcmanfm
+super + p
+      pcmanfm

@@ -5,10 +5,10 @@ static const Block blocks[] = {
 	{"", "~/.local/bin/statusbar/net",	5,		0},
 	{"", "~/.local/bin/statusbar/brtt",	0,		11},
 	{"", "~/.local/bin/statusbar/freedisk",	60,		0},
-	{"", "~/.local/bin/statusbar/batt",	10,		0},
+	{"", "~/.local/bin/statusbar/batt",	60,		0},
 	{"", "~/.local/bin/statusbar/cpumem",	10,		0},
 	{"", "~/.local/bin/statusbar/datime",	60,		0},
-	{"", "~/.local/bin/statusbar/keebstate",	5,		0},
+	{"", "~/.local/bin/statusbar/keebstate",	0,		12},
 };
 
 //sets delimiter between status commands. NULL character ('\0') means no delimiter.
