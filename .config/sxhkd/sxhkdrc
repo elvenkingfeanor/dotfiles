@@ -15,7 +15,7 @@
 # Essentials
 # launcher - dmenu (super + x)
 super + x
-      dmenu_run
+      dmenu_run -i
 
 # terminals - alacritty & st (super + {_/shift} + enter)
 super + {_, shift +}Return
@@ -95,3 +95,7 @@ super + f
 # pcmanfm (super + p)
 super + r
       pcmanfm
+
+# screenlock (slock) (super + shift + l)
+super + shift + u
+      slock

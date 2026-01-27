@@ -40,13 +40,18 @@ settings:
       DEFAULT: https://duckduckgo.com/?q={}
       a: https://www.amazon.com/s?k={}
       ain: https://www.amazon.in/s?k={}
+      ap: https://archlinux.org/packages/?q={}
+      aur: https://aur.archlinux.org/packages?K={}
       aw: https://wiki.archlinux.org/?search={}
       b: https://search.brave.com/search?q={}
       d: https://duckduckgo.com/?q={}
       fk: https://www.flipkart.com/search?q={}
       g: https://www.google.com/search?hl=en&q={}
       gh: https://github.com/search?q={}&type=repositories
-      l: https://content.luanti.org/packages/?q={}
+      gu: https://github.com/search?q={}&type=users
+      gw: https://wiki.gentoo.org/?search={}
+      lp: https://content.luanti.org/packages/?q={}
+      mw: https://wiki.minetest.org/{}
       s: https://stackoverflow.com/search?q={}
       sc: https://www.shellcheck.net/wiki/{}
       w: https://en.wikipedia.org/wiki/{}

@@ -3,16 +3,31 @@
 # grep within specific config directories for patterns
 
 /usr/bin/find \
-    "$XDG_CONFIG_HOME"/shell \
-    "$XDG_CONFIG_HOME"/X11 \
     "$HOME"/.local/bin \
-    "$XDG_CONFIG_HOME"/suckless \
-    "$XDG_CONFIG_HOME"/nvim \
+    "$XDG_CONFIG_HOME"/X11 \
+    "$XDG_CONFIG_HOME"/aerc \
+    "$XDG_CONFIG_HOME"/alacritty \
     "$XDG_CONFIG_HOME"/crond \
     "$XDG_CONFIG_HOME"/doom \
     "$XDG_CONFIG_HOME"/dunst \
+    "$XDG_CONFIG_HOME"/newsraft \
+    "$XDG_CONFIG_HOME"/nsxiv \
+    "$XDG_CONFIG_HOME"/nvim \
+    "$XDG_CONFIG_HOME"/qutebrowser \
+    "$XDG_CONFIG_HOME"/readline \
+    "$XDG_CONFIG_HOME"/shell \
+    "$XDG_CONFIG_HOME"/suckless \
+    "$XDG_CONFIG_HOME"/sxhkd \
     "$XDG_CONFIG_HOME"/yt-dlp \
     "$XDG_CONFIG_HOME"/zathura \
     "$XDG_CONFIG_HOME"/zsh \
-    -prune -o -type f | \
-    /usr/bin/xargs /usr/bin/grep -iIrn --color "$1"
+    -path "$HOME"/.local/bin/edirect -prune -o \
+    -path "$XDG_CONFIG_HOME"/alacritty/themes -prune -o \
+    -path "$XDG_CONFIG_HOME"/doom/snippets/snippets -prune -o \
+    -name ".git" -prune -o \
+    -name "spell" -prune -o \
+    -name "themes" -prune -o \
+    \! -user root \
+    -type f -print | \
+    /usr/bin/sort -u | \
+    /usr/bin/xargs /usr/bin/grep -iIrn -C 2 --color "$1"

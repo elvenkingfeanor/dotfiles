@@ -193,9 +193,8 @@ alias vdiff="/usr/bin/nvim -d"
 alias vimdiff="/usr/bin/nvim -d"
 
 # emacs
-alias emm="/usr/bin/emacsclient -c -a \"\""
-alias emd="/usr/bin/emacs --daemon"
 alias edd="/usr/bin/killall emacs && /usr/bin/emacs --daemon"
+alias eee="/usr/bin/emacsclient -q -nw"
 
 # ping
 alias ping="/usr/bin/ping 8.8.8.8 -c 5"

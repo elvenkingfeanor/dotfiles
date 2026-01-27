@@ -9,8 +9,6 @@ export SUDO_EDITOR=/usr/bin/nvim
 export READER=/usr/bin/zathura
 export TERMINAL=/usr/bin/alacritty
 export COLORTERM="st-256color"
-# [ -n "$DISPLAY" ] && export BROWSER=/usr/bin/brave || export BROWSER=/usr/bin/lynx # removed brave due to wallet shenanigans
-# [ -n "$DISPLAY" ] && export BROWSER=/usr/bin/librewolf || export BROWSER=/usr/bin/lynx
 if [ -n "$DISPLAY" ]; then
     export BROWSER=/usr/bin/librewolf
 else
