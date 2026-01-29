@@ -17,23 +17,53 @@
 super + x
       dmenu_run -i
 
-# terminals - alacritty & st (super + {_/shift} + enter)
-super + {_, shift +}Return
+# terminals - alacritty & st
+# ( super + {_/shift} + t )
+super + {_, shift +}f
       {alacritty,st}
 
-# emacs buffers - emacsclient, elfeed & dirvish (super + shift + {e/n/p})
-super + shift + {k,j,r}
-      {embuffer,emfeed,emdired}
+# editors (emacs, nvim) with
+# ( super + {_/shift} + s )
+super + {_,shift +}d
+      {embuffer,alacritty -e nvim}
 
-# terminal-based applications - nvim, newsraft & aerc (super + {e/n/m})
-super + {k,j,m}
-      alacritty -e {nvim,newsraft,aerc}
-
-# graphical web browsers - qutebrowser & brave browser (super + {_/shift} + g)
-super + {_,shift +}t
+# graphical web browsers - qutebrowser & brave browser
+# ( super + {_/shift} + w )
+super + {_,shift +}w
       {qutebrowser,brave}
 
-# Audio, brightness & keyboard layout scripts
+# yank & copy bookmarks
+# ( super + {_/shift} + a )
+super + {_,shift +}a
+      {bookmarkthis,dbook}
+
+# copy passwords
+# ( super + p )
+super + r
+      dpass
+
+# Keychording for other tasks
+## file browsers - dired, lf & pcmanfm
+## ( super + f ; {e/l/p} )
+super + e ; {k,u,r}
+      {emdired,alacritty -e lf,pcmanfm}
+
+## readers - newsraft, elfeed, aerc (mail) & Signal-desktop (message)
+## ( super + r ; {n/e/m/s} )
+super + s ; {j,k,m,d}
+      {st -e newsraft,emfeed,alacritty -e aerc,signal-desktop}
+
+## other less commonly used browsers - librewolf, torbrowser-launcher, w3m, lynx, surf, youtube-viewer
+## ( super + g ; {f,y,t,w,l,s} )
+super + t ; {e,o,f,w,u,d}
+      {librewolf,st -e youtube-viewer,torbrowser-launcher,alacritty -e w3m,alacritty -e lynx,surf}
+
+## other less commonly used applications - emojify, slock, luanti, gcompris-qt, qbittorrent, htop
+## ( super + d ; {e,l,m,c,t,h} )
+super + g ; {k,u,m,c,f,h}
+      {emojify,slock,luanti,gcompris-qt,qbittorrent,st-e htop}
+
+# Audio, brightness, screenshot & keyboard layout scripts
 # speaker volume commands
 super + {F1,F2,F3}
       {smute,decvol,incvol}
@@ -50,52 +80,6 @@ super + {F5,F6}
 super + F12
           keebswitch
 
-# Screenshots, bookmarks & passwords scripts
 # screenshot commands
 super + {_,shift +}Print
       {screenshot,winscreenshot}
-
-# bookmarkthis (super + b)
-super + b
-      bookmarkthis
-
-# yank bookmarks & passwords (super + {_/shift} + i)
-super + {_,shift +}l
-      {dbook,dpass}
-
-# Other heavily used programs
-# system monitor (top) (super + h)
-super + h
-      btop
-
-# librewolf (super + f)
-super + e
-      librewolf
-
-# signal-desktop (super + s)
-super + d
-      signal-desktop
-
-# youtube-viewer (super + y)
-super + o
-      youtube-viewer
-
-# gcompris-qt (super + c)
-super + c
-      gcompris-qt
-
-# minetest (luanti) (super + l)
-super + u
-      luanti
-
-# qbittorrent (super + t)
-super + f
-      qbittorrent
-
-# pcmanfm (super + p)
-super + r
-      pcmanfm
-
-# screenlock (slock) (super + shift + l)
-super + shift + u
-      slock

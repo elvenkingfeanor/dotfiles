@@ -105,6 +105,9 @@
 ;;(add-to-list 'default-frame-alist '(font-spec :family "JetBrainsMono Nerd Font" :size 20)) ;; font-spec not working
 (add-to-list 'default-frame-alist '(font . "JetBrainsMono Nerd Font-20")) ;; works
 
+;; convert markdown content to Org for emacs-everywhere package
+(setq emacs-everywhere-major-mode-function #'org-mode)
+
 ;; Yasnippets directory
 (setq yas-snippet-dirs
       '("~/.config/doom/snippets/snippets/"))

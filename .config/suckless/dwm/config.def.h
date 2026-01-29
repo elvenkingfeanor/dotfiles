@@ -126,41 +126,7 @@ static const char *dmenucmd[] = { "dmenu_run", "-i", "-m", dmenumon, "-fn", dmen
 
 static const Key keys[] = {
 	/* modifier                     key        function        argument */
-	/* { MODKEY,                       XK_p,      spawn,          {.v = dmenucmd } }, */
 	{ MODKEY,                       XK_x,      spawn,          {.v = dmenucmd } },
-	/* { MODKEY,                       XK_Return, spawn,          {.v = termcmd } }, */
-	/* { MODKEY|ShiftMask,			    XK_Return, spawn,          SHCMD("/usr/local/bin/st") }, */
-	/* { MODKEY,			            XK_F1, 	   spawn,          {.v = mute } }, */
-	/* { MODKEY,			            XK_F2, 	   spawn,          {.v = downvol } }, */
-	/* { MODKEY,			            XK_F3, 	   spawn,          {.v = upvol } }, */
-	/* { MODKEY,			            XK_F4, 	   spawn,          {.v = mic } }, */
-	/* { MODKEY,                       XK_F5,     spawn,          {.v = downbrtt } }, */
-	/* { MODKEY,                       XK_F6,     spawn,          {.v = upbrtt } }, */
-	/* { MODKEY,			            XK_F7,	   spawn,          {.v = micvoldown } }, */
-	/* { MODKEY,			            XK_F8,     spawn,          {.v = micvolup } }, */
-	/* { MODKEY,			            XK_F12,    spawn,          {.v = keebswitch } }, */
-	/* { MODKEY,			            XK_Print,  spawn,          {.v = (const char*[]){ "screenshot", NULL } } }, */
-	/* { MODKEY|ShiftMask,		        XK_Print,  spawn,          {.v = (const char*[]){ "winscreenshot", NULL } } }, */
-	/* { MODKEY,		                XK_h,	   spawn,	       SHCMD("/usr/bin/alacritty -e /usr/bin/btop") }, */
-	/* { MODKEY,			            XK_g, 	   spawn,          SHCMD("/usr/bin/qutebrowser") }, */
-	/* { MODKEY|ShiftMask,			    XK_g, 	   spawn,          SHCMD("/usr/bin/brave") }, */
-	/* { MODKEY,        	            XK_f, 	   spawn,          SHCMD("/usr/bin/librewolf") }, */
-	/* { MODKEY,			            XK_e, 	   spawn,          SHCMD("/usr/bin/alacritty -e /usr/bin/nvim") }, */
-	/* { MODKEY|ShiftMask,			    XK_e, 	   spawn,          {.v = cmd_emacs } }, */
-	/* { MODKEY,        	            XK_p, 	   spawn,          SHCMD("/usr/bin/pcmanfm") }, */
-	/* { MODKEY|ShiftMask,			    XK_p, 	   spawn,          {.v = cmd_dired } }, */
-	/* { MODKEY,			            XK_y, 	   spawn,          SHCMD("/usr/bin/alacritty -e /usr/bin/youtube-viewer") }, */
-	/* { MODKEY,			            XK_n, 	   spawn,          SHCMD("/usr/bin/alacritty -e /usr/bin/newsraft") }, */
-	/* { MODKEY|ShiftMask,			    XK_n, 	   spawn,          {.v = cmd_elfeed } }, */
-	/* { MODKEY,     	                XK_m, 	   spawn,          SHCMD("/usr/bin/alacritty -e /usr/bin/aerc") }, /\* st doesnot support OSC52 escape sequence required to :copy-link in aerc to system clipboard *\/ */
-	/* { MODKEY,     	                XK_l, 	   spawn,          SHCMD("/usr/bin/luanti") }, */
-	/* { MODKEY,     	                XK_c, 	   spawn,          SHCMD("/usr/bin/gcompris-qt") }, */
-	/* { MODKEY,		        		XK_t, 	   spawn,          SHCMD("/usr/bin/qbittorrent") }, */
-	/* { MODKEY,		        		XK_s, 	   spawn,          SHCMD("/usr/bin/signal-desktop") }, */
-	/* { MODKEY|ShiftMask,		        XK_l, 	   spawn,          SHCMD("/usr/local/bin/slock") }, */
-	/* { MODKEY,            	        XK_b, 	   spawn,          {.v = (const char*[]){ "bookmarkthis", NULL } } }, */
-	/* { MODKEY,            	        XK_i,	   spawn,          {.v = yankbookmark } }, */
-	/* { MODKEY|ShiftMask,			    XK_i, 	   spawn,          {.v = yankpassword } }, */
 	/* { MODKEY,                       XK_F5,     xrdb,           {.v = NULL } }, */
 	{ MODKEY|ShiftMask,             XK_F5,     xrdb,           {.v = NULL } },
 	/* { MODKEY,            			XK_y,  	   togglescratch,  {.ui = 0 } }, */
@@ -180,8 +146,8 @@ static const Key keys[] = {
 	{ MODKEY|ShiftMask,             XK_k,      incnmaster,     {.i = -1 } },
 	/* { MODKEY,                       XK_h,      setmfact,       {.f = -0.05} }, */
 	/* { MODKEY,                       XK_l,      setmfact,       {.f = +0.05} }, */
-	{ MODKEY,                       XK_d,      setmfact,       {.f = -0.05} },
-	{ MODKEY|ShiftMask,             XK_d,      setmfact,       {.f = +0.05} },
+	{ MODKEY,               XK_bracketleft,    setmfact,       {.f = -0.05} },
+	{ MODKEY,   		   XK_bracketright,    setmfact,       {.f = +0.05} },
 	/* { MODKEY,                       XK_Return, zoom,           {0} }, */
 	{ MODKEY|ShiftMask,             XK_Tab,    zoom,           {0} },
 	{ MODKEY,                       XK_Tab,    view,           {0} },

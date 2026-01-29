@@ -16,9 +16,9 @@ fi
 
 # choose partition to format, abort if none selected
 if [ "$chooser" = "$(command -v dmenu)" ]; then
-	part="$(/usr/bin/lsblk -anlp | /usr/bin/grep part | /usr/bin/cut -d ' ' -f 1 | "$chooser" -p "select partition to format: ")"
+	part="$(/usr/bin/lsblk -anlp | /usr/bin/grep part | /usr/bin/cut -d ' ' -f 1 | /usr/local/bin/dmenu -p "select partition to format: ")"
 else
-	part="$(/usr/bin/lsblk -anlp | /usr/bin/grep part | /usr/bin/cut -d ' ' -f 1 | "$chooser" --prompt="select partition to format: ")"
+	part="$(/usr/bin/lsblk -anlp | /usr/bin/grep part | /usr/bin/cut -d ' ' -f 1 | /usr/bin/fzf --prompt="select partition to format: ")"
 fi
 
 if [ -z "$(/usr/bin/lsblk -anlp | /usr/bin/grep -q "$part")" ] ; then
@@ -29,15 +29,15 @@ fi
 # if partition is mounted, warn, then proceed accordingly
 if [ -n "$(/usr/bin/findmnt "$part")" ]; then
 	if [ "$chooser" = "$(command -v dmenu)" ]; then
-		affirm="$(/usr/bin/printf "%b" "yes\nno" | "$chooser" -p "proceed to unmount and format?")"
+		affirm="$(/usr/bin/printf "%b" "yes\nno" | /usr/local/bin/dmenu -p "proceed to unmount and format?")"
 	else
-		affirm="$(/usr/bin/printf "%b" "yes\nno" | "$chooser" --prompt="proceed to unmount and format?")"
+		affirm="$(/usr/bin/printf "%b" "yes\nno" | /usr/bin/fzf --prompt="proceed to unmount and format?")"
 	fi
 else
 	if [ "$chooser" = "$(command -v dmenu)" ]; then
-		affirm="$(/usr/bin/printf "%b" "yes\nno" | "$chooser" -p "proceed to format?")"
+		affirm="$(/usr/bin/printf "%b" "yes\nno" | /usr/local/bin/dmenu -p "proceed to format?")"
 	else
-		affirm="$(/usr/bin/printf "%b" "yes\nno" | "$chooser" --prompt="proceed to format?")"
+		affirm="$(/usr/bin/printf "%b" "yes\nno" | /usr/bin/fzf --prompt="proceed to format?")"
 	fi
 fi
 
@@ -49,23 +49,23 @@ fi
 
 # choose filesystem type to format to
 if [ "$chooser" = "$(command -v dmenu)" ]; then
-	type="$(/usr/bin/printf "%b" "ext4\nfat32" | "$chooser" -p "choose filesystem type to format to: ")"
+	type="$(/usr/bin/printf "%b" "ext4\nfat32" | /usr/local/bin/dmenu -p "choose filesystem type to format to: ")"
 else
-	type="$(/usr/bin/printf "%b" "ext4\nfat32" | "$chooser" --prompt="choose filesystem type to format to: ")"
+	type="$(/usr/bin/printf "%b" "ext4\nfat32" | /usr/bin/fzf --prompt="choose filesystem type to format to: ")"
 fi
 
 # give a suitable label to partition
 if [ "$chooser" = "$(command -v dmenu)" ]; then
-	label="$("$chooser" -p "give a label to partition: " < /dev/null)"
+	label="$(/usr/local/bin/dmenu -p "give a label to partition: " < /dev/null)"
 else
 	/usr/bin/printf "%s" "give a new label to partition: " && read -r label
 fi
 
 # give a final warning
 if [ "$chooser" = "$(command -v dmenu)" ]; then
-	choice="$(/usr/bin/printf "%b" "yes\nno" | "$chooser" -p "all data will be erased. really want to proceed?: ")"
+	choice="$(/usr/bin/printf "%b" "yes\nno" | /usr/local/bin/dmenu -p "all data will be erased. really want to proceed?: ")"
 else
-	choice="$(/usr/bin/printf "%b" "yes\nno" | "$chooser" --prompt="all data will be erased. really want to proceed?: ")"
+	choice="$(/usr/bin/printf "%b" "yes\nno" | /usr/bin/fzf --prompt="all data will be erased. really want to proceed?: ")"
 fi
 
 if [ "$choice" = "no" ]; then

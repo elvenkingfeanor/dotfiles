@@ -1,0 +1,15 @@
+#!/bin/sh
+#keytest
+# report keycode of a keypress event in Xorg
+# requires xorg-xev package
+# credits to [[https://wiki.archlinux.org/title/Keyboard_input#Identifying_keycodes_in_Xorg]]
+# $
+
+# check if xev is installed, else exit
+if ! command -v xev > /dev/null 2>&1 ; then
+    /usr/bin/printf "%s\n" "Install the xorg-xev package before proceeding"
+    exit 1
+fi
+
+# return keycodes for keypresses
+xev | awk -F'[ )]+' '/^KeyPress/ { a[NR+2] } NR in a { printf "%-3s %s\n", $5, $8 }'

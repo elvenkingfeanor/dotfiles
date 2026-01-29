@@ -6,9 +6,17 @@
 bm="$(/usr/bin/xclip -o)"
 file="$XDG_DATA_HOME/bookmarks"
 
-if /usr/bin/grep -q "^$bm$" "$file"; then
-   /usr/bin/notify-send "Oops." "Already bookmarked!" 
+# check if empty string yanked from clipboard, then abort, else continue
+# check if yanked string matches any present entry, then abort
+# else, append yanked string to bookmarks file as new entry
+if [ -z "$bm" ]; then
+  /usr/bin/notify-send "Error!" "Nothing to bookmark"
+  exit 1
+elif
+  /usr/bin/grep -q "^$bm$" "$file"; then
+  /usr/bin/notify-send "Oops." "Already bookmarked!"
+  exit 1
 else
-   /usr/bin/notify-send "Bookmark added" "$bm is now saved to bookmarks!"
-   /usr/bin/echo "$bm" >> "$file"
+  /usr/bin/notify-send "Bookmark added" "$bm is now saved to bookmarks!"
+  /usr/bin/echo "$bm" >> "$file"
 fi

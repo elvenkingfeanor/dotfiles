@@ -1,0 +1,16 @@
+#!/bin/sh
+#wintest
+# report windowid and other parameters in Xorg
+# requires xorg-xprop package
+# credits to [[https://wiki.archlinux.org/title/Dwm#Floating_layout_for_some_windows]]
+
+# check if xev is installed, else exit
+if ! command -v xprop > /dev/null 2>&1 ; then
+    /usr/bin/printf "%s\n" "Install the xorg-xprop package before proceeding"
+    exit 1
+fi
+
+# return window class & name
+xprop | awk '
+/^WM_CLASS/{sub(/.* =/, "instance:"); sub(/,/, "\nclass:"); print}
+/^WM_NAME/{sub(/.* =/, "title:"); print}'

@@ -1,0 +1,6 @@
+#!/bin/sh
+#ewbuffer
+# run emacs-everywhere in emacsclient in the terminal directly from dwm
+# cannot run on its own, needs a command like ( $TERMINAL -e ewbuffer ) to function
+
+/usr/bin/emacsclient -q -nw --eval \(emacs-everywhere\)

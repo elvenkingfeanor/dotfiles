@@ -3,4 +3,4 @@
 # grep within directory
 # old script
 
-/usr/bin/grep -iIrn --color "$1" ./*
+/usr/bin/grep -iIrn -C 2 --color "$1" ./*
