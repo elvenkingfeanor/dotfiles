@@ -1,6 +1,110 @@
 #!/bin/sh
-#mpdf
-# make pdf using groff -ms macro
-# no tables or pics
+#gpdf
+# make pdf using groff
+# only 1 file at a time
 
-/usr/bin/groff -ms -T pdf "$1" > "$1".pdf
+# check if file path present to format out extensions, else exit
+if [ -z "$1" ]; then
+    /usr/bin/notify-send "Error!" "No file selected"
+    exit 1
+else
+    output="$(/usr/bin/printf "%s" "$1" | /usr/bin/rev | /usr/bin/cut -d '.' -f 2- | /usr/bin/rev)"
+fi
+
+# check whether dmenu is present, if not check for fzf, else exit
+if ! command -v dmenu > /dev/null 2>&1; then
+	if command -v fzf > /dev/null 2>&1; then
+	chooser="fzf"
+	else
+		/usr/bin/notify-send "Error!" "Install dmenu or fzf to proceed"
+		exit 1
+	fi
+else
+	chooser="dmenu"
+fi
+
+# ask user for macro to be used by groff via dmenu or fzf
+if [ "$chooser" = "dmenu" ]; then
+    macro="$(/usr/bin/printf "%b" "\n-man\n-mdoc\n-me\n-mm\n-mom\n-ms" | dmenu -p "choose macro: ")"
+else
+    macro="$(/usr/bin/printf "%b" "\n-man\n-mdoc\n-me\n-mm\n-mom\n-ms" | fzf --prompt="choose macro: ")"
+fi
+
+# ask user for any preprocessors used by groff via dmenu or fzf
+if [ "$chooser" = "dmenu" ]; then
+    pp1="$(/usr/bin/printf "%b" "yes\nno" | dmenu -p "preprocessor tbl used? ")"
+    other="$(/usr/bin/printf "%b" "yes\nno" | dmenu -p "any other preprocessor used? ")"
+    if [ "$other" = "yes" ]; then
+        pp2="$(/usr/bin/printf "%b" "yes\nno" | dmenu -p "preprocessor pic used? ")"
+        pp3="$(/usr/bin/printf "%b" "yes\nno" | dmenu -p "preprocessor eqn used? ")"
+        pp4="$(/usr/bin/printf "%b" "yes\nno" | dmenu -p "preprocessor chem used? ")"
+        pp5="$(/usr/bin/printf "%b" "yes\nno" | dmenu -p "preprocessor refer used? ")"
+    fi
+else
+    pp1="$(/usr/bin/printf "%b" "yes\nno" | fzf --prompt="preprocessor tbl used? ")"
+    other="$(/usr/bin/printf "%b" "yes\nno" | fzf --prompt="any other preprocessor used? ")"
+    if [ "$other" = "yes" ]; then
+        pp2="$(/usr/bin/printf "%b" "yes\nno" | fzf --prompt="preprocessor pic used? ")"
+        pp3="$(/usr/bin/printf "%b" "yes\nno" | fzf --prompt="preprocessor eqn used? ")"
+        pp4="$(/usr/bin/printf "%b" "yes\nno" | fzf --prompt="preprocessor chem used? ")"
+        pp5="$(/usr/bin/printf "%b" "yes\nno" | fzf --prompt="preprocessor refer used? ")"
+    fi
+fi
+
+# assign proper values to above preprocessor prevariables
+if [ "$pp1" = "yes" ]; then
+    tbl="-tbl"
+else
+    tbl=""
+fi
+
+if [ "$pp2" = "yes" ]; then
+    pic="-pic"
+else
+    pic=""
+fi
+
+if [ "$pp3" = "yes" ]; then
+    eqn="-eqn"
+else
+    eqn=""
+fi
+
+if [ "$pp4" = "yes" ]; then
+    chem="-chem"
+else
+    chem=""
+fi
+
+if [ "$pp5" = "yes" ]; then
+    refer="-refer"
+else
+    refer=""
+fi
+
+# generate pdf by groff
+# vanilla groff (no macro, no preprocessor)
+if [ -z "$macro" ] && [ -z "$tbl" ] && [ -z "$pic" ] && [ -z "$eqn" ] && [ -z "$chem" ] && [ -z "$refer" ]; then
+    /usr/bin/groff -T pdf "$1" > "$output".pdf
+elif
+# macro specified, no preprocessor
+    [ -n "$macro" ] && [ -z "$tbl" ] && [ -z "$pic" ] && [ -z "$eqn" ] && [ -z "$chem" ] && [ -z "$refer" ]; then
+    /usr/bin/groff "$macro" -T pdf "$1" > "$output".pdf
+elif
+# macro specified, only tbl preprocessor
+    [ -n "$macro" ] && [ -n "$tbl" ] && [ -z "$pic" ] && [ -z "$eqn" ] && [ -z "$chem" ] && [ -z "$refer" ]; then
+    /usr/bin/groff "$macro" "$tbl" -T pdf "$1" > "$output".pdf
+elif
+# macro specified, only tbl & pic preprocessors
+    [ -n "$macro" ] && [ -n "$tbl" ] && [ -n "$pic" ] && [ -z "$eqn" ] && [ -z "$chem" ] && [ -z "$refer" ]; then
+    /usr/bin/groff "$macro" "$tbl" "$pic" -T pdf "$1" > "$output".pdf
+elif
+# macro specified, with other less used preprocessors
+    [ -n "$macro" ] && [ -n "$tbl" ] && [ -n "$pic" ] && [ -n "$eqn" ] && [ -z "$chem" ] && [ -z "$refer" ]; then
+    /usr/bin/groff "$macro" "$tbl" "$pic" "$eqn" -T pdf "$1" > "$output".pdf
+elif
+    [ -n "$macro" ] && [ -n "$tbl" ] && [ -n "$pic" ] && [ -n "$eqn" ] && [ -n "$chem" ] && [ -z "$refer" ]; then
+    /usr/bin/groff "$macro" "$tbl" "$pic" "$eqn" "$chem" -T pdf "$1" > "$output".pdf
+else
+    /usr/bin/groff "$macro" "$tbl" "$pic" "$eqn" "$chem" "$refer" -T pdf "$1" > "$output".pdf
+fi

@@ -5,71 +5,71 @@
 # check whether dmenu is present, if not check for fzf, else exit
 if ! command -v dmenu > /dev/null 2>&1; then
 	if command -v fzf > /dev/null 2>&1; then
-	chooser="$(command -v fzf)"
+	chooser="fzf"
 	else
-		/usr/bin/echo "install dmenu or fzf to proceed"
+		/usr/bin/notify-send "Error!" "Install dmenu or fzf to proceed"
 		exit 1
 	fi
 else
-	chooser="$(command -v dmenu)"
+	chooser="dmenu"
 fi
 
 # choose partition to format, abort if none selected
-if [ "$chooser" = "$(command -v dmenu)" ]; then
-	part="$(/usr/bin/lsblk -anlp | /usr/bin/grep part | /usr/bin/cut -d ' ' -f 1 | /usr/local/bin/dmenu -p "select partition to format: ")"
+if [ "$chooser" = "dmenu" ]; then
+	part="$(/usr/bin/lsblk -anlp | /usr/bin/grep part | /usr/bin/cut -d ' ' -f 1 | dmenu -p "select partition to format: ")"
 else
-	part="$(/usr/bin/lsblk -anlp | /usr/bin/grep part | /usr/bin/cut -d ' ' -f 1 | /usr/bin/fzf --prompt="select partition to format: ")"
+	part="$(/usr/bin/lsblk -anlp | /usr/bin/grep part | /usr/bin/cut -d ' ' -f 1 | fzf --prompt="select partition to format: ")"
 fi
 
 if [ -z "$(/usr/bin/lsblk -anlp | /usr/bin/grep -q "$part")" ] ; then
-	/usr/bin/printf "%s\n" "no valid partition selected. stopping.."
+	/usr/bin/notify-send "Stopping..." "No valid partition selected."
 	exit 1
 fi
 
 # if partition is mounted, warn, then proceed accordingly
 if [ -n "$(/usr/bin/findmnt "$part")" ]; then
-	if [ "$chooser" = "$(command -v dmenu)" ]; then
-		affirm="$(/usr/bin/printf "%b" "yes\nno" | /usr/local/bin/dmenu -p "proceed to unmount and format?")"
+	if [ "$chooser" = "dmenu" ]; then
+		affirm="$(/usr/bin/printf "%b" "yes\nno" | dmenu -p "proceed to unmount and format?")"
 	else
-		affirm="$(/usr/bin/printf "%b" "yes\nno" | /usr/bin/fzf --prompt="proceed to unmount and format?")"
+		affirm="$(/usr/bin/printf "%b" "yes\nno" | fzf --prompt="proceed to unmount and format?")"
 	fi
 else
-	if [ "$chooser" = "$(command -v dmenu)" ]; then
-		affirm="$(/usr/bin/printf "%b" "yes\nno" | /usr/local/bin/dmenu -p "proceed to format?")"
+	if [ "$chooser" = "dmenu" ]; then
+		affirm="$(/usr/bin/printf "%b" "yes\nno" | dmenu -p "proceed to format?")"
 	else
-		affirm="$(/usr/bin/printf "%b" "yes\nno" | /usr/bin/fzf --prompt="proceed to format?")"
+		affirm="$(/usr/bin/printf "%b" "yes\nno" | fzf --prompt="proceed to format?")"
 	fi
 fi
 
 # if choice is negative, abort
 if [ "$affirm" = "no" ]; then
-	/usr/bin/echo "Chose to stop. Stopping..."
+	/usr/bin/notify-send "Stopping..." "Chose to stop."
 	exit 1
 fi
 
 # choose filesystem type to format to
-if [ "$chooser" = "$(command -v dmenu)" ]; then
-	type="$(/usr/bin/printf "%b" "ext4\nfat32" | /usr/local/bin/dmenu -p "choose filesystem type to format to: ")"
+if [ "$chooser" = "dmenu" ]; then
+	type="$(/usr/bin/printf "%b" "ext4\nfat32" | dmenu -p "choose filesystem type to format to: ")"
 else
-	type="$(/usr/bin/printf "%b" "ext4\nfat32" | /usr/bin/fzf --prompt="choose filesystem type to format to: ")"
+	type="$(/usr/bin/printf "%b" "ext4\nfat32" | fzf --prompt="choose filesystem type to format to: ")"
 fi
 
 # give a suitable label to partition
-if [ "$chooser" = "$(command -v dmenu)" ]; then
-	label="$(/usr/local/bin/dmenu -p "give a label to partition: " < /dev/null)"
+if [ "$chooser" = "dmenu" ]; then
+	label="$(dmenu -p "give a label to partition: " < /dev/null)"
 else
 	/usr/bin/printf "%s" "give a new label to partition: " && read -r label
 fi
 
 # give a final warning
-if [ "$chooser" = "$(command -v dmenu)" ]; then
-	choice="$(/usr/bin/printf "%b" "yes\nno" | /usr/local/bin/dmenu -p "all data will be erased. really want to proceed?: ")"
+if [ "$chooser" = "dmenu" ]; then
+	choice="$(/usr/bin/printf "%b" "yes\nno" | dmenu -p "all data will be erased. really want to proceed?: ")"
 else
-	choice="$(/usr/bin/printf "%b" "yes\nno" | /usr/bin/fzf --prompt="all data will be erased. really want to proceed?: ")"
+	choice="$(/usr/bin/printf "%b" "yes\nno" | fzf --prompt="all data will be erased. really want to proceed?: ")"
 fi
 
 if [ "$choice" = "no" ]; then
-	/usr/bin/printf "%s\n" "Stopping. No format done"
+	/usr/bin/notify-send "Stopping..." "Chose to stop formatting"
 	exit 1
 fi
 
@@ -79,13 +79,13 @@ if [ "$affirm" = "yes" ] && [ -n "$(/usr/bin/findmnt "$part")" ]; then
 		if [ "$type" = "ext4" ]; then
 			/usr/bin/pumount "$part"
 			if ! /usr/bin/doas /usr/bin/mkfs.ext4 "$part" -L "$label"; then
-				/usr/bin/echo "Aborted"
+				/usr/bin/printf "%s\n" "Aborted"
 				exit 1
 			fi
 		else
 			/usr/bin/pumount "$part"
 			if ! /usr/bin/doas /usr/bin/mkfs.vfat -F 32 "$part" -n "$label"; then
-				/usr/bin/echo "Aborted"
+				/usr/bin/printf "%s\n" "Aborted"
 				exit 1
 			fi
 		fi
@@ -93,13 +93,13 @@ if [ "$affirm" = "yes" ] && [ -n "$(/usr/bin/findmnt "$part")" ]; then
 		if [ "$type" = "ext4" ]; then
 			/usr/bin/pumount "$part"
 			if ! /usr/bin/doas /usr/bin/mkfs.ext4 "$part"; then
-				/usr/bin/echo "Aborted"
+				/usr/bin/printf "%s\n" "Aborted"
 				exit 1
 			fi
 		else
 			/usr/bin/pumount "$part"
 			if ! /usr/bin/doas /usr/bin/mkfs.vfat -F 32 "$part"; then
-				/usr/bin/echo "Aborted"
+				/usr/bin/printf "%s\n" "Aborted"
 				exit 1
 			fi
 		fi
@@ -108,24 +108,24 @@ else
 	if [ -n "$label" ]; then
 		if [ "$type" = "ext4" ]; then
 			if ! /usr/bin/doas /usr/bin/mkfs.ext4 "$part" -L "$label"; then
-				/usr/bin/echo "Aborted"
+				/usr/bin/printf "%s\n" "Aborted"
 				exit 1
 			fi
 		else
 			if ! /usr/bin/doas /usr/bin/mkfs.vfat -F 32 "$part" -n "$label"; then
-				/usr/bin/echo "Aborted"
+				/usr/bin/printf "%s\n" "Aborted"
 				exit 1
 			fi
 		fi
 	else
 		if [ "$type" = "ext4" ]; then
 			if ! /usr/bin/doas /usr/bin/mkfs.ext4 "$part"; then
-				/usr/bin/echo "Aborted"
+				/usr/bin/printf "%s\n" "Aborted"
 				exit 1
 			fi
 		else
 			if ! /usr/bin/doas /usr/bin/mkfs.vfat -F 32 "$part"; then
-				/usr/bin/echo "Aborted"
+				/usr/bin/printf "%s\n" "Aborted"
 				exit 1
 			fi
 		fi

@@ -1,6 +1,0 @@
-#!/bin/sh
-#mtpdf
-# make pdf using groff -ms macro
-# supports tables, but no pics
-
-/usr/bin/groff -ms -tbl -T pdf "$1" > "$1".pdf
