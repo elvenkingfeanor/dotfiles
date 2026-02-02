@@ -23,8 +23,8 @@
       -path "$HOME"/mdi/msx -o \
       -path "$HOME"/.pki -o \
       -path "$HOME"/.ssh -o \
-      -path "$HOME"/.vbox-vols \) \
-      -prune -false -o \
+      -path "$HOME"/.vbox-vols \
+      \) -prune -false -o \
       -type f -name '*' -print | \
       /usr/bin/fzf -m | \
       /usr/bin/paste -s -d ' ' | \

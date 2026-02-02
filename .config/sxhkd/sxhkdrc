@@ -35,7 +35,7 @@ super + {_,shift +}w
 # yank & copy bookmarks
 # ( super + {_/shift} + a )
 super + {_,shift +}a
-      {bookmarkthis,dbook}
+      {dbook,bookmarkthis}
 
 # copy passwords
 # ( super + p )

@@ -1,0 +1,27 @@
+#!/bin/sh
+#yy
+# yank file path in current directory to clipboard
+# can be multiple files, select by TAB
+# to simply select single file, just press RETURN
+# final list is space-separated
+
+# check if fzf is installed first, else abort with message
+if ! command -v fzf > /dev/null 2>&1; then
+    /usr/bin/notify-send "Aborted!" "Install fzf to continue"
+    exit 1
+fi
+
+selected="$(/usr/bin/find . -type f | \
+    /usr/bin/sort -u | \
+    /usr/bin/fzf -m | \
+    /usr/bin/sed 's@^\.@'"$PWD"'@g' | \
+    /usr/bin/paste -s -d ' ' | \
+    /usr/bin/tr -d '\n')"
+
+if [ -z "$selected" ]; then
+    /usr/bin/notify-send "Aborted!" "No file selected"
+    exit 1
+else
+    /usr/bin/printf "%s" "$selected" | /usr/bin/xclip -selection clipboard
+    /usr/bin/notify-send "Success!" "$selected copied to clipboard"
+fi

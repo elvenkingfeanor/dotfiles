@@ -1,0 +1,6 @@
+#!/bin/sh
+#newsreload
+# reload all newsraft feeds
+# useful for cronjobs
+
+/usr/bin/newsraft -e reload-all

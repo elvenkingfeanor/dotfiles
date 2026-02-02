@@ -4,8 +4,11 @@
 # sudo
 alias sudo=/usr/bin/doas
 
-# zsh, in case of misspells
+# misspells
 alias zhs=/usr/bin/zsh
+alias pdw=/usr/bin/pwd
+alias sl="/usr/bin/eza -lo --no-permissions --group-directories-first --grid" # same as ls
+alias ctl="/usr/bin/clear;/usr/bin/tree -aC | /usr/bin/ov" # same as clt
 
 # xdg-mime
 alias xxff="/usr/bin/xdg-mime query filetype"
@@ -258,9 +261,6 @@ alias pll=/usr/bin/pdflatex
 
 # calendar
 alias cal="/usr/bin/cal -y"
-
-# sl
-alias ctl=/usr/bin/sl
 
 # random identity generator
 alias name=/usr/bin/rig

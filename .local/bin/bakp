@@ -18,15 +18,15 @@ if [ -n "$mountpoint" ] && [ -z "$loaded" ] && [ "$time" -ge 9 ] && [ "$time" -l
         /usr/bin/notify-send "backup aborted" "backup for today done"
         /usr/bin/echo "backup for $(/usr/bin/date '+%A %F') aborted at $(/usr/bin/date +%H%M)hrs, already done" >> "$logfile"
         exit 1
-    elif [ -n "$(/usr/bin/pgrep rsync)" ]; then
-        /usr/bin/notify-send "backup in progress" "aborting..."
-        /usr/bin/echo "backup for $(/usr/bin/date '+%A %F') aborted at $(/usr/bin/date +%H%M)hrs, backup already in progress" >> "$logfile"
-        exit 1
     else
         /usr/bin/pmount /dev/"$mountpoint" backup
         /usr/bin/notify-send "backup started" "no backup for today found"
         /usr/bin/echo "backup for $(/usr/bin/date '+%A %F') started at $(/usr/bin/date +%H%M)hrs" >> "$logfile"
     fi
+elif [ -n "$mountpoint" ] && [ -n "$loaded" ] && [ -n "$(/usr/bin/pgrep rsync)" ]; then
+    /usr/bin/notify-send "backup in progress" "aborting..."
+    /usr/bin/echo "backup for $(/usr/bin/date '+%A %F') aborted at $(/usr/bin/date +%H%M)hrs, backup already in progress" >> "$logfile"
+    exit 1
 else
     /usr/bin/notify-send "no device found" "backup aborted"
     /usr/bin/echo "backup for $(/usr/bin/date '+%A %F') aborted at $(/usr/bin/date +%H%M)hrs, no device found" >> "$logfile"

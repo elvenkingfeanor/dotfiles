@@ -1,0 +1,140 @@
+#!/bin/sh
+#fdiff
+# find two files and compare them using diff & cwdiff
+
+# check whether cwdiff and fzf are installed, else exit with warning
+if ! command -v cwdiff > /dev/null 2>&1; then
+    /usr/bin/notify-send "Error!" "Install cwdiff to proceed"
+    exit 1
+fi
+
+if ! command -v fzf > /dev/null 2>&1; then
+    /usr/bin/notify-send "Error!" "Install fzf to continue"
+    exit 1
+fi
+
+# select file1 to compare with
+file1="$(/usr/bin/find "$HOME" -type d \( \
+      -path "$HOME"/.android -o \
+      -path "$HOME"/.arx -o \
+      -path "$HOME"/.cache -o \
+      -path "$HOME"/.config/BraveSoftware -o \
+      -path "$HOME"/.config/emacs -o \
+      -path "$HOME"/.config/GIMP -o \
+      -path "$HOME"/.config/hakuneko-desktop -o \
+      -path "$HOME"/.config/inkscape -o \
+      -path "$HOME"/.config/libreoffice -o \
+      -path "$HOME"/.config/libvirt -o \
+      -path "$HOME"/.config/Signal -o \
+      -path "$HOME"/.config/VirtualBox -o \
+      -path "$HOME"/.librewolf -o \
+      -path "$HOME"/.local/share -o \
+      -path "$HOME"/.local/state -o \
+      -path "$HOME"/.mozilla -o \
+      -path "$HOME"/dl/distros -o \
+      -path "$HOME"/dl/manuals -o \
+      -path "$HOME"/dl/torrents -o \
+      -path "$HOME"/dl/youtube-viewer -o \
+      -path "$HOME"/mdi -o \
+      -path "$HOME"/.pki -o \
+      -path "$HOME"/.ssh -o \
+      -path "$HOME"/.vbox-vols \
+      \) -prune -false -o \
+      \! -path "*.git/*" \
+      \! -iname "*.jpg" \
+      \! -iname "*.jpeg" \
+      \! -iname "*.png" \
+      \! -iname "*.pdf" \
+      \! -iname "*.epub" \
+      \! -iname "*.djvu" \
+      \! -iname "*.exe" \
+      \! -iname "*.img" \
+      \! -iname "*.opus" \
+      \! -iname "*.mp3" \
+      \! -iname "*.mp4" \
+      \! -iname "*.mkv" \
+      \! -iname "*.avi" \
+      \! -iname "*.gpg" \
+      \! -iname "*.tar" \
+      \! -iname "*.gz" \
+      \! -iname "*.bz2" \
+      \! -iname "*.zstd" \
+      \! -iname "*.zip" \
+      \! -iname "*.db" \
+      \! -user root \
+      -type f -print | \
+      /usr/bin/sort -u | \
+      /usr/bin/fzf --prompt="select file1 to compare with: " | \
+      /usr/bin/tr -d '\n')"
+
+# select file2
+file2="$(/usr/bin/find "$HOME" -type d \( \
+      -path "$HOME"/.android -o \
+      -path "$HOME"/.arx -o \
+      -path "$HOME"/.cache -o \
+      -path "$HOME"/.config/BraveSoftware -o \
+      -path "$HOME"/.config/emacs -o \
+      -path "$HOME"/.config/GIMP -o \
+      -path "$HOME"/.config/hakuneko-desktop -o \
+      -path "$HOME"/.config/inkscape -o \
+      -path "$HOME"/.config/libreoffice -o \
+      -path "$HOME"/.config/libvirt -o \
+      -path "$HOME"/.config/Signal -o \
+      -path "$HOME"/.config/VirtualBox -o \
+      -path "$HOME"/.librewolf -o \
+      -path "$HOME"/.local/share -o \
+      -path "$HOME"/.local/state -o \
+      -path "$HOME"/.mozilla -o \
+      -path "$HOME"/dl/distros -o \
+      -path "$HOME"/dl/manuals -o \
+      -path "$HOME"/dl/torrents -o \
+      -path "$HOME"/dl/youtube-viewer -o \
+      -path "$HOME"/mdi -o \
+      -path "$HOME"/.pki -o \
+      -path "$HOME"/.ssh -o \
+      -path "$HOME"/.vbox-vols \
+      \) -prune -false -o \
+      \! -path "*.git/*" \
+      \! -iname "*.jpg" \
+      \! -iname "*.jpeg" \
+      \! -iname "*.png" \
+      \! -iname "*.pdf" \
+      \! -iname "*.epub" \
+      \! -iname "*.djvu" \
+      \! -iname "*.exe" \
+      \! -iname "*.img" \
+      \! -iname "*.opus" \
+      \! -iname "*.mp3" \
+      \! -iname "*.mp4" \
+      \! -iname "*.mkv" \
+      \! -iname "*.avi" \
+      \! -iname "*.gpg" \
+      \! -iname "*.tar" \
+      \! -iname "*.gz" \
+      \! -iname "*.bz2" \
+      \! -iname "*.zstd" \
+      \! -iname "*.zip" \
+      \! -iname "*.db" \
+      \! -user root \
+      -type f -print | \
+      /usr/bin/sort -u | \
+      /usr/bin/fzf --prompt="select file2: " | \
+      /usr/bin/tr -d '\n')"
+
+# user input for patch file generation or simply visualization
+choice="$(/usr/bin/printf "%b" "patchfile\nvisualize" | \
+    /usr/bin/fzf --prompt="patchfile or visualize? ")"
+
+# actual diff -u with colors from cwdiff
+# (results should be similar to git diff)
+if [ -z "$file1" ] || [ -z "$file2" ]; then
+    /usr/bin/notify-send "Diff aborted" "Stopping..."
+    exit 1
+else
+    if [ "$choice" = "patchfile" ]; then
+        /usr/bin/printf "%s" "just enter the name of the patchfile: " && read -r name
+        /usr/bin/diff -u "$file1" "$file2" > "$PWD"/"$name".diff
+    else
+        /usr/bin/diff -u "$file1" "$file2" | /usr/bin/cwdiff -D -f
+    fi
+fi

@@ -1,4 +1,4 @@
 # ~/.config/newsraft/config
-reload-period 120
+# reload-period 120
 bind m exec /usr/bin/mpv "%l"
 bind i exec ~/.local/bin/nsxiv-url "%l"

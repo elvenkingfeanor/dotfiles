@@ -3,9 +3,11 @@ DISPLAY=:0
 @reboot /usr/bin/find $HOME . > /dev/null
 0 * * * * /usr/bin/find $HOME . > /dev/null
 @reboot ~/.local/bin/unotify
-0 */6 * * * ~/.local/bin/unotify
+10 */2 * * * ~/.local/bin/unotify
 @reboot ~/.local/bin/bright
-*/5 16 * * * ~/.local/bin/bright
+*/5 9-22 * * * ~/.local/bin/bright
+@reboot ~/.local/bin/newsreload
+5 */2 * * * ~/.local/bin/newsreload
 30 9-18 * * Sun ~/.local/bin/bakp
 15 */6 * * * ~/.local/bin/fff
 @reboot ~/.local/bin/cpr /var/spool/cron/ts ~/.config/crond/ts

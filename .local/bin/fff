@@ -10,4 +10,5 @@ if [ -n "$loaded" ]; then
 	/usr/bin/notify-send "Directory tree generated"
 	else
 		/usr/bin/notify-send "Backup drive not mounted. Exiting..."
+		exit 1
 fi

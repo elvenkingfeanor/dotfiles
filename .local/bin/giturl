@@ -1,0 +1,9 @@
+#!/bin/sh
+#giturl
+# extract url from a git repo
+
+url="$(/usr/bin/grep url ./.git/config | \
+    /usr/bin/sed 's@^.*=\ @@' | \
+    /usr/bin/tr -d '\n')"
+
+/usr/bin/printf "%s" "$url" | /usr/bin/xclip -selection clipboard
