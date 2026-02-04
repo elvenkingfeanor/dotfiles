@@ -1,18 +1,62 @@
 #!/bin/sh
 #bmnt
-# mount removable backup media and cd into it
+# mount removable backup drive and cd into it
 
-# if LABEL=backup drive not mounted, mount it
-loaded=$(/usr/bin/findmnt -rn -S LABEL=backup)
-mountpoint=$(/usr/bin/lsblk -l -o +LABEL | /usr/bin/grep backup | /usr/bin/cut -c -4)
+# let's make it more extensible for future more backup drives
+# future backup drives nomenclature (LABEL) = backup-{1..n}
 
-if [ -z "$loaded" ]; then
-	/usr/bin/pmount /dev/"$mountpoint" backup
-	/usr/bin/notify-send "Backup drive mounted to /media/backup"
-	else
-		/usr/bin/notify-send "Backup drive already mounted at /media/backup"
+# logfile
+logfile="$HOME/.local/share/bmnt.log"
+
+# list of backup drives attached
+bdrive="$(/usr/bin/lsblk -anlp -o +LABEL | \
+	/usr/bin/grep backup | \
+	/usr/bin/cut -d ' ' -f 1)"
+
+# exit if no backup drive attached
+if [ -z "$bdrive" ]; then
+	/usr/bin/notify-send "No backup drive attached" "Nothing to mount"
+	exit 1
 fi
 
-# pmount mounts into /media, to cd into it
-cd /media/backup || exit
+# if number of attached backup drives -eq 1, then bypass chooser application
+if [ "$(/usr/bin/printf "%s\n" "$bdrive" | \
+	/usr/bin/wc -l)" -eq 1 ]; then
+	selected="$bdrive"
+else
+	if ! command -v dmenu > /dev/null 2>&1; then
+		if command -v fzf > /dev/null 2>&1; then
+			selected="$(/usr/bin/printf "%s\n" "$bdrive" | \
+				fzf --prompt="choose backup drive to mount: ")"
+		else
+			/usr/bin/notify-send "Error!" "Install dmenu or fzf to proceed"
+			exit 1
+		fi
+	else
+		selected="$(/usr/bin/printf "%s\n" "$bdrive" | \
+			dmenu -p "choose backup drive to mount: ")"
+	fi
+fi
+
+# mount selected backup drive as per its label
+blbl="$(/usr/bin/lsblk -anlp -o +LABEL | \
+	/usr/bin/grep "$selected" | \
+	/usr/bin/sed 's@\ \ *@\ @g' | \
+	/usr/bin/cut -d ' ' -f 7)"
+
+# check if backup drive is mounted, else proceed accordingly
+if [ -n "$(/usr/bin/findmnt "$selected")" ]; then
+	/usr/bin/notify-send "Backup drive $selected" "already mounted"
+	exit 1
+else
+	if ! /usr/bin/pmount "$selected" "$blbl" 2>>"$logfile"; then
+		/usr/bin/notify-send "Backup drive $selected" "couldnot be mounted"
+		exit 1
+	else
+		/usr/bin/notify-send "Backup drive $selected" "mounted successfully at /media/$blbl"
+	fi
+fi
+
+# cd into /media/(backup drive label)
+cd /media/"$blbl" || exit
 $SHELL

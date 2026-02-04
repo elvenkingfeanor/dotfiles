@@ -1,6 +1,6 @@
 #!/bin/sh
 #ivv
-# open all image files in directory with nsxiv
+# open all image files, without caching, in directory with nsxiv
 # display selected images absolute paths to stdout
 
 /usr/bin/find . -maxdepth 1 \
@@ -14,7 +14,7 @@
     -iname "*.webp" \
     \) -print | \
     /usr/bin/sort -t '.' -k 3,3 -n | \
-    /usr/bin/xargs /usr/bin/nsxiv -iftoq | \
+    /usr/bin/xargs /usr/bin/nsxiv -iftpoq | \
     /usr/bin/sed 's@^\.@'"$PWD"'@' | \
     /usr/bin/paste -s -d ' ' | \
     /usr/bin/tr -d '\n'

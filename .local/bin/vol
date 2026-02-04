@@ -2,23 +2,35 @@
 #vol
 # set speaker volume
 # send requisite signal to statusbar
-# max speaker volume set to 120%
+# max speaker volume set to 80% (my laptop speakers are starting to sound a bit tin-ny)
 
 lvl="$1"
-mute="$(/usr/bin/wpctl get-volume @DEFAULT_SINK@ | /usr/bin/cut -d ' ' -f 3)"
+mute="$(/usr/bin/wpctl get-volume @DEFAULT_AUDIO_SINK@ | /usr/bin/cut -d ' ' -f 3)"
 
 if [ -n "$lvl" ] && [ -n "$mute" ]; then
-    /usr/bin/wpctl set-mute @DEFAULT_SINK@ 0
-    /usr/bin/wpctl set-volume -l 1.2 @DEFAULT_SINK@ "$lvl"%
-    /usr/bin/pkill -f -RTMIN+10 /usr/local/bin/dwmblocks
-    /usr/bin/notify-send "Audio volume" "set to $lvl";
+    /usr/bin/wpctl set-mute @DEFAULT_AUDIO_SINK@ 0
+    if [ "$lvl" -ge 80 ]; then
+        /usr/bin/wpctl set-volume -l 0.8 @DEFAULT_AUDIO_SINK@ 80%
+        /usr/bin/pkill -f -RTMIN+10 /usr/local/bin/dwmblocks
+        /usr/bin/notify-send "Max vol 80!" "Audio volume set to 80"
+    else
+        /usr/bin/wpctl set-volume -l 0.8 @DEFAULT_AUDIO_SINK@ "$lvl"%
+        /usr/bin/pkill -f -RTMIN+10 /usr/local/bin/dwmblocks
+        /usr/bin/notify-send "Audio volume" "set to $lvl"
+    fi
 elif
     [ -n "$lvl" ] && [ -z "$mute" ]; then
-    /usr/bin/wpctl set-volume -l 1.2 @DEFAULT_SINK@ "$lvl"%
-    /usr/bin/pkill -f -RTMIN+10 /usr/local/bin/dwmblocks
-    /usr/bin/notify-send "Audio volume" "set to $lvl";
+    if [ "$lvl" -ge 80 ]; then
+        /usr/bin/wpctl set-volume -l 0.8 @DEFAULT_AUDIO_SINK@ 80%
+        /usr/bin/pkill -f -RTMIN+10 /usr/local/bin/dwmblocks
+        /usr/bin/notify-send "Max vol 80!" "Audio volume set to 80"
+    else
+        /usr/bin/wpctl set-volume -l 0.8 @DEFAULT_AUDIO_SINK@ 80%
+        /usr/bin/pkill -f -RTMIN+10 /usr/local/bin/dwmblocks
+        /usr/bin/notify-send "Audio volume" "set to $lvl"
+    fi
 else
-    /usr/bin/wpctl set-mute @DEFAULT_SINK@ 1;
+    /usr/bin/wpctl set-mute @DEFAULT_AUDIO_SINK@ 1;
     /usr/bin/pkill -f -RTMIN+10 /usr/local/bin/dwmblocks
     /usr/bin/notify-send "Audio muted"
 fi
