@@ -3,5 +3,5 @@
 # decrease volume of mic by fixed margin
 # send requisite signal to statusbar
 
-/usr/bin/wpctl set-volume -l 1.2 @DEFAULT_SOURCE@ 5%-
-/usr/bin/pkill -f -RTMIN+10 /usr/local/bin/dwmblocks
+/usr/bin/wpctl set-volume -l 1.2 @DEFAULT_AUDIO_SOURCE@ 5%-
+/usr/bin/pkill -f -RTMIN+11 /usr/local/bin/dwmblocks

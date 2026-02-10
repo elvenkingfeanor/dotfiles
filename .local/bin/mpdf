@@ -1,5 +1,5 @@
 #!/bin/sh
-#gpdf
+#mpdf
 # make pdf using groff
 # only 1 file at a time
 

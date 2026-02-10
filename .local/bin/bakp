@@ -22,10 +22,11 @@ if [ -n "$mountpoint" ] && [ -z "$loaded" ] && [ "$time" -ge 9 ] && [ "$time" -l
         /usr/bin/pmount /dev/"$mountpoint" backup
         /usr/bin/notify-send "backup started" "no backup for today found"
         /usr/bin/echo "backup for $(/usr/bin/date '+%A %F') started at $(/usr/bin/date +%H%M)hrs" >> "$logfile"
+        /usr/bin/pkill -RTMIN+14 -f /usr/local/bin/dwmblocks
     fi
 elif [ -n "$mountpoint" ] && [ -n "$loaded" ] && [ -n "$(/usr/bin/pgrep rsync)" ]; then
     /usr/bin/notify-send "backup in progress" "aborting..."
-    /usr/bin/echo "backup for $(/usr/bin/date '+%A %F') aborted at $(/usr/bin/date +%H%M)hrs, backup already in progress" >> "$logfile"
+    /usr/bin/echo "backup for $(/usr/bin/date '+%A %F') aborted at $(/usr/bin/date +%H%M)hrs, backup in progress" >> "$logfile"
     exit 1
 else
     /usr/bin/notify-send "no device found" "backup aborted"
@@ -238,5 +239,6 @@ fi
 
 # unmount backup drive
 /usr/bin/pumount /dev/"$mountpoint"
+/usr/bin/pkill -RTMIN+14 -f /usr/local/bin/dwmblocks
 /usr/bin/notify-send "backup drive unmounted"
 

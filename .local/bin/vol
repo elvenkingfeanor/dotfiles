@@ -11,26 +11,26 @@ if [ -n "$lvl" ] && [ -n "$mute" ]; then
     /usr/bin/wpctl set-mute @DEFAULT_AUDIO_SINK@ 0
     if [ "$lvl" -ge 80 ]; then
         /usr/bin/wpctl set-volume -l 0.8 @DEFAULT_AUDIO_SINK@ 80%
-        /usr/bin/pkill -f -RTMIN+10 /usr/local/bin/dwmblocks
+        /usr/bin/pkill -f -RTMIN+11 /usr/local/bin/dwmblocks
         /usr/bin/notify-send "Max vol 80!" "Audio volume set to 80"
     else
         /usr/bin/wpctl set-volume -l 0.8 @DEFAULT_AUDIO_SINK@ "$lvl"%
-        /usr/bin/pkill -f -RTMIN+10 /usr/local/bin/dwmblocks
+        /usr/bin/pkill -f -RTMIN+11 /usr/local/bin/dwmblocks
         /usr/bin/notify-send "Audio volume" "set to $lvl"
     fi
 elif
     [ -n "$lvl" ] && [ -z "$mute" ]; then
     if [ "$lvl" -ge 80 ]; then
         /usr/bin/wpctl set-volume -l 0.8 @DEFAULT_AUDIO_SINK@ 80%
-        /usr/bin/pkill -f -RTMIN+10 /usr/local/bin/dwmblocks
+        /usr/bin/pkill -f -RTMIN+11 /usr/local/bin/dwmblocks
         /usr/bin/notify-send "Max vol 80!" "Audio volume set to 80"
     else
         /usr/bin/wpctl set-volume -l 0.8 @DEFAULT_AUDIO_SINK@ 80%
-        /usr/bin/pkill -f -RTMIN+10 /usr/local/bin/dwmblocks
+        /usr/bin/pkill -f -RTMIN+11 /usr/local/bin/dwmblocks
         /usr/bin/notify-send "Audio volume" "set to $lvl"
     fi
 else
     /usr/bin/wpctl set-mute @DEFAULT_AUDIO_SINK@ 1;
-    /usr/bin/pkill -f -RTMIN+10 /usr/local/bin/dwmblocks
+    /usr/bin/pkill -f -RTMIN+11 /usr/local/bin/dwmblocks
     /usr/bin/notify-send "Audio muted"
 fi

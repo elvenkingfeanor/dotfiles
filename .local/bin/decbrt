@@ -4,4 +4,4 @@
 # send requisite signal to statusbar
 
 /usr/bin/light -U 5
-/usr/bin/pkill -f -RTMIN+11 /usr/local/bin/dwmblocks
+/usr/bin/pkill -f -RTMIN+12 /usr/local/bin/dwmblocks

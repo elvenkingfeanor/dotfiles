@@ -1,0 +1,15 @@
+#!/bin/sh
+#clearcache
+# periodically clean logfiles for easy execution by cron
+
+# list of all logfiles in ~/.local/share/ directory
+logfiles="$(/usr/bin/find "$HOME/.local/share" \
+    -maxdepth 1 \
+    -type f \
+    -name "*.log")"
+
+# cat /dev/null to each entry in logfiles
+for file in $logfiles;
+do
+    /usr/bin/cat /dev/null > "$file"
+done

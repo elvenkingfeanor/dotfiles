@@ -49,4 +49,5 @@
 ;; (unpin! t)
 
 
-(package! rainbow-mode)
+(package! rainbow-mode) ;; render colors from hex-code
+(package! xenops) ;; render LaTeX tables, figures, maths inside Emacs LaTeX buffer

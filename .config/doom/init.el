@@ -98,7 +98,7 @@
        (eval +overlay)     ; run code, run (also, repls)
        lookup              ; navigate your code and its documentation
        ;;llm               ; when I said you needed friends, I didn't mean...
-       lsp               ; M-x vscode
+       (lsp +eglot +booster +peek)               ; M-x vscode
        magit             ; a git porcelain for Emacs
        ;;make              ; run make tasks from Emacs
        ;;pass              ; password manager for nerds
@@ -146,7 +146,7 @@
        ;;javascript        ; all(hope(abandon(ye(who(enter(here))))))
        ;;(julia +lsp +tree-sitter)             ; a better, faster MATLAB
        ;;kotlin            ; a better, slicker Java(Script)
-       (latex +lsp +fold)             ; writing papers in Emacs has never been so fun
+       (latex +cdlatex +lsp +fold)             ; writing papers in Emacs has never been so fun
        ;;lean              ; for folks with too much to prove
        ;;ledger            ; be audit you can be
        (lua +lsp +tree-sitter)               ; one-based indices? one-based indices

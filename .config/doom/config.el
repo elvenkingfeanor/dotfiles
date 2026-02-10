@@ -108,21 +108,17 @@
 ;; convert markdown content to Org for emacs-everywhere package
 (setq emacs-everywhere-major-mode-function #'org-mode)
 
-;; Yasnippets directory
+;; Yasnippets
+(after! yasnippet
 (setq yas-snippet-dirs
-      '("~/.config/doom/snippets/snippets/"))
+      '("~/.config/doom/snippets/ts-snippets/"
+        "~/.config/doom/snippets/snippets/"))) ;; changed default snippets directory to personal snippets
+
 ;; orgmode TAB conflicts with Yasnippets TAB (https://orgmode.org/manual/Conflicts.html)
 ;; (add-hook 'org-mode-hook
 ;;           (lambda ()
 ;;             (setq-local yas/trigger-key [tab])
 ;;             (define-key yas/keymap [tab] 'yas/next-field-or-maybe-expand)))
-
-;; LaTeX parsing using AucTeX
-(use-package auctex)
-
-;; set default bibliography for RefTeX
-(setq reftex-default-bibliography
-      "~/sty/articles/bib/cite.bib")
 
 ;; path config for use of citar for vertico
 (setq! citar-bibliography '("~/sty/articles/bib/cite.bib")
@@ -262,9 +258,22 @@
 (require 'ox-md)
 ;; (setq org-export-backends '(("pandoc" "beamer" "md" "ascii" "html" "icalendar" "latex" "odt"))
 
-;; pdf-tools
-(setq +latex-viewers '("pdf-tools")) ;; set pdf-tools as default pdf viewer
-
+;; LaTeX
+;; LaTeX parsing using AucTeX
+(use-package auctex)
+;; live-preview using AucTeX to pdf-viewer
+;; (setq +latex-viewers '(pdf-tools)) ;; set pdf-tools as default pdf viewer
+(setq +latex-viewers '(zathura)) ;; set zathura as default pdf viewer
+;; LSP for LaTeX
+(setq lsp-tex-server 'texlab) ;; set texlab as default LaTeX LSP server
+;; live-preview using xenops inside Emacs LaTeX buffer
+;; use M-x xenops-mode
+;; cdlatex for autocompletion
+(map! :map cdlatex-mode-map
+      :i "TAB" #'cdlatex-tab) ;; pressing TAB while in insert mode, calls cdlatex-tab function
+;; set default bibliography for RefTeX
+(setq reftex-default-bibliography
+      "~/sty/articles/bib/cite.bib")
 
 ;; elfeed (from [[https://github.com/remyhonig/elfeed-org?tab=readme-ov-file#installation][elfeed-org]] )
 (require 'elfeed-org) ;; load elfeed-org

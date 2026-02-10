@@ -1,0 +1,91 @@
+#!/bin/sh
+#bak
+# show only when removable media/backup drive is mounted
+# or when bakp is in progress
+
+# list attached removable media(s)
+drive="$(/usr/bin/lsblk -anlp -o +LABEL | \
+    /usr/bin/grep -vE "nvme|backup" | \
+    /usr/bin/grep part | \
+    /usr/bin/cut -d ' ' -f 1)"
+
+# list attached backup drive(s)
+bdrive="$(/usr/bin/lsblk -anlp -o +LABEL | \
+    /usr/bin/grep backup | \
+    /usr/bin/cut -d ' ' -f 1)"
+
+# above variables can list multiple attached drives
+# even if any one of attached drives is mounted, show output, else show nothing
+# if removable media(s) attached, show 📁
+# if backup drive(s) attached, show 💼
+# since, generally pmount/pumount is used in my scripts, so normal mountpoint is under /media
+
+# mounted removable media(s)
+# no need to loop for empty or single entry "$drive" media variable
+# otherwise, for loop and last if statement could have been enough
+# removed findmnt, as it produced output against empty "$drive" variable
+if [ -z "$drive" ]; then
+    drivemount=""
+elif
+    [ "$(/usr/bin/printf "%s" "$drive" | \
+        /usr/bin/wc -l)" -eq 1 ]; then
+    if /usr/bin/lsblk -anlp -o +LABEL | \
+        /usr/bin/grep "$drive" | \
+        /usr/bin/grep -q "/media"; then
+        drivemount="📁"
+    fi
+else
+    for i in $drive;
+    do
+        mounted="$(/usr/bin/lsblk -anlp -o +LABEL | \
+            /usr/bin/grep "$i" | \
+            /usr/bin/grep "/media")"
+    done
+    if [ -n "$mounted" ]; then
+        drivemount="📁"
+    else
+        drivemount=""
+    fi
+fi
+
+# mounted backup drive(s)
+# similar treatment as above
+if [ -z "$bdrive" ]; then
+    bdrivemount=""
+elif
+	[ "$(/usr/bin/printf "%s" "$bdrive" | \
+    /usr/bin/wc -l)" -eq 1 ]; then
+    if /usr/bin/lsblk -anlp -o +LABEL | \
+        /usr/bin/grep "$bdrive" | \
+        /usr/bin/grep -q "/media"; then
+        bdrivemount="💼"
+    fi
+else
+    for i in $bdrive;
+    do
+        mounted="$(/usr/bin/lsblk -anlp -o +LABEL | \
+            /usr/bin/grep "$i" | \
+            /usr/bin/grep "/media")"
+    done
+    if [ -n "$mounted" ]; then
+        bdrivemount="💼"
+    else
+        bdrivemount=""
+    fi
+fi
+
+# for bakp status
+# if bakp in progress, show ♻️
+# check if bakp started for given date
+bakplog="$HOME/.local/share/bakp.log"
+
+if /usr/bin/grep -Eq "$(/usr/bin/date '+%A %F').started" "$bakplog" && \
+    [ -n "$(/usr/bin/pgrep rsync)" ] || \
+    /usr/bin/tail -n 1 "$bakplog" | \
+    /usr/bin/grep -q started; then
+    bakpstatus="♻"
+else
+    bakpstatus=""
+fi
+
+/usr/bin/printf "%s" "$drivemount$bdrivemount$bakpstatus"

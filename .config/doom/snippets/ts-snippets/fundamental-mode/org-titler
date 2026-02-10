@@ -1,0 +1,12 @@
+# -*- mode: snippet -*-
+# name: org titler to automatically create new org file with date and author autofilled
+# key: <to
+# --
+#+TITLE: ${1:title}
+#+AUTHOR: Tanmoy Sarkar
+#+DATE: `(format-time-string "%F")`
+:PROPERTIES:
+#+OPTIONS:
+:END:
+
+$0

@@ -8,26 +8,26 @@ lvl="$1"
 
 if [ -n "$lvl" ]; then
 	/usr/bin/light -S "$lvl"
-	/usr/bin/notify-send "Brightness set to $lvl"
-	/usr/bin/pkill -f -RTMIN+11 /usr/local/bin/dwmblocks
+	/usr/bin/notify-send --urgency=low "Brightness set to $lvl"
+	/usr/bin/pkill -f -RTMIN+12 /usr/local/bin/dwmblocks
 elif [ "$time" -ge 600 ] && [ "$time" -lt 1600 ]; then
 	/usr/bin/light -S 100
-	/usr/bin/notify-send "Brightness set to 100"
-	/usr/bin/pkill -f -RTMIN+11 /usr/local/bin/dwmblocks
+	/usr/bin/notify-send --urgency=low "Brightness set to 100"
+	/usr/bin/pkill -f -RTMIN+12 /usr/local/bin/dwmblocks
 elif [ "$time" -ge 1600 ] && [ "$time" -lt 1615 ]; then
 	/usr/bin/light -S 90
-	/usr/bin/notify-send "Brightness set to 90"
-	/usr/bin/pkill -f -RTMIN+11 /usr/local/bin/dwmblocks
+	/usr/bin/notify-send --urgency=low "Brightness set to 90"
+	/usr/bin/pkill -f -RTMIN+12 /usr/local/bin/dwmblocks
 elif [ "$time" -ge 1615 ] && [ "$time" -lt 1630 ]; then
 	/usr/bin/light -S 80
-	/usr/bin/notify-send "Brightness set to 80"
-	/usr/bin/pkill -f -RTMIN+11 /usr/local/bin/dwmblocks
+	/usr/bin/notify-send --urgency=low "Brightness set to 80"
+	/usr/bin/pkill -f -RTMIN+12 /usr/local/bin/dwmblocks
 elif [ "$time" -ge 1630 ] && [ "$time" -lt 1645 ]; then
 	/usr/bin/light -S 75
-	/usr/bin/notify-send "Brightness set to 75"
-	/usr/bin/pkill -f -RTMIN+11 /usr/local/bin/dwmblocks
+	/usr/bin/notify-send --urgency=low "Brightness set to 75"
+	/usr/bin/pkill -f -RTMIN+12 /usr/local/bin/dwmblocks
 else [ "$time" -ge 1645 ] || [ "$time" -lt 600 ];
 	/usr/bin/light -S 70
-	/usr/bin/notify-send "Brightness set to 70"
-	/usr/bin/pkill -f -RTMIN+11 /usr/local/bin/dwmblocks
+	/usr/bin/notify-send --urgency=low "Brightness set to 70"
+	/usr/bin/pkill -f -RTMIN+12 /usr/local/bin/dwmblocks
 fi

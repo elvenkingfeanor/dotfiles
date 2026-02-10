@@ -54,6 +54,7 @@ else
 		exit 1
 	else
 		/usr/bin/notify-send "Backup drive $selected" "mounted successfully at /media/$blbl"
+        /usr/bin/pkill -RTMIN+14 -f /usr/local/bin/dwmblocks
 	fi
 fi
 

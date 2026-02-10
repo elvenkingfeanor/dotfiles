@@ -3,5 +3,5 @@
 # toggle mute speakers
 # send requisite signal to statusbar program
 
-/usr/bin/wpctl set-mute @DEFAULT_SINK@ toggle
-/usr/bin/pkill -f -RTMIN+10 /usr/local/bin/dwmblocks
+/usr/bin/wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle
+/usr/bin/pkill -f -RTMIN+11 /usr/local/bin/dwmblocks

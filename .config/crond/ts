@@ -10,4 +10,5 @@ DISPLAY=:0
 5 */2 * * * ~/.local/bin/newsreload
 30 9-18 * * Sun ~/.local/bin/bakp
 15 */6 * * * ~/.local/bin/fff
+20 12 2 * * ~/.local/bin/clearcache
 @reboot ~/.local/bin/cpr /var/spool/cron/ts ~/.config/crond/ts

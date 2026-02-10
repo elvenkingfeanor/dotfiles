@@ -2,10 +2,10 @@
 #micvol
 # get speaker and mic volume status
 
-speakermute="$(/usr/bin/wpctl get-volume @DEFAULT_SINK@ | /usr/bin/cut -d ' ' -f 3)"
-speakervol="$(/usr/bin/wpctl get-volume @DEFAULT_SINK@ | /usr/bin/cut -d ' ' -f 2)"
-microphonemute="$(/usr/bin/wpctl get-volume @DEFAULT_SOURCE@ | /usr/bin/cut -d ' ' -f 3)"
-microphonevol="$(/usr/bin/wpctl get-volume @DEFAULT_SOURCE@ | /usr/bin/cut -d ' ' -f 2)"
+speakermute="$(/usr/bin/wpctl get-volume @DEFAULT_AUDIO_SINK@ | /usr/bin/cut -d ' ' -f 3)"
+speakervol="$(/usr/bin/wpctl get-volume @DEFAULT_AUDIO_SINK@ | /usr/bin/cut -d ' ' -f 2)"
+microphonemute="$(/usr/bin/wpctl get-volume @DEFAULT_AUDIO_SOURCE@ | /usr/bin/cut -d ' ' -f 3)"
+microphonevol="$(/usr/bin/wpctl get-volume @DEFAULT_AUDIO_SOURCE@ | /usr/bin/cut -d ' ' -f 2)"
 
 if [ -n "$speakermute" ]; then
     spk="🔇";

@@ -18,5 +18,5 @@ if ! /usr/bin/xkblayout-state set +1 2>> "$log"; then
     /usr/bin/notify-send "Oops" "something went wrong"
     exit 1
 else
-    /usr/bin/pkill -f -RTMIN+12 /usr/local/bin/dwmblocks
+    /usr/bin/pkill -f -RTMIN+13 /usr/local/bin/dwmblocks
 fi

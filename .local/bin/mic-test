@@ -1,17 +1,17 @@
 #!/bin/sh
 #mic-test
 # test microphone quality
-micmute="$(/usr/bin/wpctl get-volume @DEFAULT_SOURCE@ | /usr/bin/cut -d ' ' -f 3)"
+micmute="$(/usr/bin/wpctl get-volume @DEFAULT_AUDIO_SOURCE@ | /usr/bin/cut -d ' ' -f 3)"
 
 if [ -n "$micmute" ]; then
-    /usr/bin/wpctl set-mute @DEFAULT_SOURCE@ 0
+    /usr/bin/wpctl set-mute @DEFAULT_AUDIO_SOURCE@ 0
     /usr/bin/notify-send "Start speaking" "3 seconds"
     /usr/bin/arecord --duration=3 --format=dat ~/test-mic.wav
-    /usr/bin/wpctl set-mute @DEFAULT_SOURCE@ 1
+    /usr/bin/wpctl set-mute @DEFAULT_AUDIO_SOURCE@ 1
 else
     /usr/bin/notify-send "Start speaking" "3 seconds"
     /usr/bin/arecord --duration=3 --format=dat ~/test-mic.wav
-    /usr/bin/wpctl set-mute @DEFAULT_SOURCE@ 1
+    /usr/bin/wpctl set-mute @DEFAULT_AUDIO_SOURCE@ 1
 fi
 
 sleep 1;

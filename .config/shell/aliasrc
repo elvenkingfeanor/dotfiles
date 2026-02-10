@@ -72,12 +72,16 @@ alias pps="/usr/bin/pip show"
 # git
 alias dotfiles='/usr/bin/git --git-dir="/mnt/bak/dotfiles.git" --work-tree="$HOME"'
 alias dotfilesll='/usr/bin/git --git-dir="/mnt/bak/dotfiles.git" --work-tree="$HOME" ls-tree -r main --name-only'
+alias dotfilesuu='/usr/bin/git --git-dir="/mnt/bak/dotfiles.git" --work-tree="$HOME" ls-files --others'
 alias private='/usr/bin/git --git-dir="/mnt/bak/private.git" --work-tree="$HOME"'
 alias privatell='/usr/bin/git --git-dir="/mnt/bak/private.git" --work-tree="$HOME" ls-tree -r main --name-only'
+alias privateuu='/usr/bin/git --git-dir="/mnt/bak/private.git" --work-tree="$HOME" ls-files --others'
 alias notes='/usr/bin/git --git-dir="/mnt/bak/notes.git/" --work-tree="$HOME"'
 alias notesll='/usr/bin/git --git-dir="/mnt/bak/notes.git/" --work-tree="$HOME" ls-tree -r main --name-only'
+alias notesuu='/usr/bin/git --git-dir="/mnt/bak/notes.git/" --work-tree="$HOME" ls-files --others'
 alias dox='/usr/bin/git --git-dir="/mnt/bak/dox.git/" --work-tree="$HOME"'
 alias doxll='/usr/bin/git --git-dir="/mnt/bak/dox.git/" --work-tree="$HOME" ls-tree -r main --name-only'
+alias doxuu='/usr/bin/git --git-dir="/mnt/bak/dox.git/" --work-tree="$HOME" ls-files --others'
 alias forgeup="/usr/bin/docker-compose -f /mnt/bak/docker-compose.yaml up -d"
 alias forgedown="/usr/bin/docker-compose -f /mnt/bak/docker-compose.yaml down"
 

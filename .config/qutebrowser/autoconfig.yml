@@ -51,7 +51,10 @@ settings:
       gu: https://github.com/search?q={}&type=users
       gw: https://wiki.gentoo.org/?search={}
       lp: https://content.luanti.org/packages/?q={}
+      lf: https://forum.luanti.org/search.php?keywords={}
+      lt: https://ctan.org/search?phrase={}
       mw: https://wiki.minetest.org/{}
+      r: https://www.reddit.com/search?q={}
       s: https://stackoverflow.com/search?q={}
       sc: https://www.shellcheck.net/wiki/{}
       w: https://en.wikipedia.org/wiki/{}

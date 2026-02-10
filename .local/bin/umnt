@@ -32,13 +32,19 @@ if [ -z "$drive" ]; then
     exit 1
 fi
 
+# if only 1 removable drive attached, skip chooser application
 # select removable drive to unmount
-if [ "$chooser" = "dmenu" ]; then
-    selected="$(/usr/bin/printf "%s\n" "$drive" | \
-        dmenu -p "choose device to unmount: ")"
+if [ "$(/usr/bin/printf "%s\n" "$drive" | \
+    /usr/bin/wc -l)" -eq 1 ]; then
+    selected="$drive"
 else
-    selected="$(/usr/bin/printf "%s\n" "$drive" | \
-        fzf --prompt="choose device to unmount: ")"
+    if [ "$chooser" = "dmenu" ]; then
+        selected="$(/usr/bin/printf "%s" "$drive" | \
+            dmenu -p "choose device to unmount: ")"
+    else
+        selected="$(/usr/bin/printf "%s" "$drive" | \
+            fzf --prompt="choose device to unmount: ")"
+    fi
 fi
 
 # check whether selected drive is mounted, then unmount it, else exit
@@ -54,5 +60,6 @@ else
         exit 1
     else
         /usr/bin/notify-send "$selected unmounted successfully"
+        /usr/bin/pkill -RTMIN+14 -f /usr/local/bin/dwmblocks
     fi
 fi

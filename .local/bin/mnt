@@ -29,21 +29,27 @@ if [ -z "$drive" ]; then
     exit 1
 fi
 
+# if only 1 removable drive attached, skip chooser application
 # select removable drive to mount
-if [ "$chooser" = "dmenu" ]; then
-    selected="$(/usr/bin/printf "%s\n" "$drive" | \
-        dmenu -p "choose device to mount: ")"
+if [ "$(/usr/bin/printf "%s\n" "$drive" | \
+    /usr/bin/wc -l)" -eq 1 ]; then
+    selected="$drive"
 else
-    selected="$(/usr/bin/printf "%s\n" "$drive" | \
-        fzf --prompt="choose device to mount: ")"
+    if [ "$chooser" = "dmenu" ]; then
+        selected="$(/usr/bin/printf "%s" "$drive" | \
+            dmenu -p "choose device to mount: ")"
+    else
+        selected="$(/usr/bin/printf "%s" "$drive" | \
+            fzf --prompt="choose device to mount: ")"
+    fi
 fi
 
 # mount drive as per its label, else use device number (default)
-lbl="$(/usr/bin/lsblk -nl -o +LABEL | \
+lbl="$(/usr/bin/lsblk -anlp -o +LABEL | \
     /usr/bin/grep "$selected" | \
     /usr/bin/sed 's@\ \ *@\ @g' | \
     /usr/bin/cut -d ' ' -f 7)"
-dnum="$(/usr/bin/lsblk -nl | \
+dnum="$(/usr/bin/lsblk -anlp | \
     /usr/bin/grep "$selected" | \
     /usr/bin/cut -d ' ' -f 1)"
 
@@ -58,6 +64,7 @@ else
             exit 1
         else
             /usr/bin/notify-send "$selected successfully mounted" "at /media/$dnum"
+        	/usr/bin/pkill -RTMIN+14 -f /usr/local/bin/dwmblocks
             cd /media/"$dnum" || exit 1
         fi
     else
@@ -66,6 +73,7 @@ else
             exit 1
         else
             /usr/bin/notify-send "$selected successfully mounted" "at /media/$lbl"
+        	/usr/bin/pkill -RTMIN+14 -f /usr/local/bin/dwmblocks
             cd /media/"$lbl" || exit 1
         fi
     fi
