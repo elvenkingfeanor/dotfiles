@@ -109,11 +109,16 @@
 (setq emacs-everywhere-major-mode-function #'org-mode)
 
 ;; Yasnippets
-(after! yasnippet
-(setq yas-snippet-dirs
-      '("~/.config/doom/snippets/ts-snippets/"
-        "~/.config/doom/snippets/snippets/"))) ;; changed default snippets directory to personal snippets
-
+(use-package yasnippet
+  :defer t ;; donot load immediately on startup
+  :init
+  (setq yas-snippet-dirs
+        '("~/.config/doom/snippets/ts-snippets/" ;; personal snippets preferred
+          "~/.config/doom/snippets/snippets/"))
+  :config
+  (yas-global-mode 1)) ;; enable yasnippets globally
+  ;; (yas-reload-all)
+  ;; :hook (prog-mode . yas-minor-mode)) ;; yasnippets as non-global minor mode, activated on a per-buffer basis
 ;; orgmode TAB conflicts with Yasnippets TAB (https://orgmode.org/manual/Conflicts.html)
 ;; (add-hook 'org-mode-hook
 ;;           (lambda ()
@@ -265,17 +270,23 @@
 ;; (setq +latex-viewers '(pdf-tools)) ;; set pdf-tools as default pdf viewer
 (setq +latex-viewers '(zathura)) ;; set zathura as default pdf viewer
 ;; LSP for LaTeX
-(setq lsp-tex-server 'texlab) ;; set texlab as default LaTeX LSP server
+;; however, we're using eglot, instead of lsp-mode, as LSP server
+;; (setq lsp-tex-server 'texlab) ;; set texlab as default LaTeX LSP server with lsp-mode server
 ;; live-preview using xenops inside Emacs LaTeX buffer
 ;; use M-x xenops-mode
-;; cdlatex for autocompletion
-(map! :map cdlatex-mode-map
-      :i "TAB" #'cdlatex-tab) ;; pressing TAB while in insert mode, calls cdlatex-tab function
+;; cdlatex minor mode for all LaTeX files
+(add-hook 'LaTeX-mode-hook #'turn-on-cdlatex) ;; for AucTeX LaTeX mode
+(add-hook 'latex-mode-hook #'turn-on-cdlatex) ;; for Emacs latex mode
+;; ;; cdlatex for autocompletion in LaTeX file, in place of Yasnippets
+;; (map! :map cdlatex-mode-map
+;;       :i "TAB" #'cdlatex-tab) ;; pressing TAB while in insert mode, calls cdlatex-tab function
 ;; set default bibliography for RefTeX
 (setq reftex-default-bibliography
       "~/sty/articles/bib/cite.bib")
 
-;; elfeed (from [[https://github.com/remyhonig/elfeed-org?tab=readme-ov-file#installation][elfeed-org]] )
+;; elfeed
+;; org feed file for elfeed
+;; (from [[https://github.com/remyhonig/elfeed-org?tab=readme-ov-file#installation][elfeed-org]])
 (require 'elfeed-org) ;; load elfeed-org
 (elfeed-org) ;; initializes elfeed-org ;; hooks up elfeed-org to read configuration when =M-x elfeed=
 (setq rmh-elfeed-org-files (list "~/notx/elfeed.org"))
