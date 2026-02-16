@@ -1,0 +1,8 @@
+# -*- mode: snippet -*-
+# name: Start a shell script
+# key: <ts
+# --
+#!/bin/sh
+#${1:title}
+# ${2:short description}
+$0

@@ -131,11 +131,14 @@
        citar-notes-paths '("~/notx/notes.org"))
 
 ;; marksman for markdown (no +lsp option for markdown in Doomemacs)
-;; markdown-mode package already installed by Doomemacs
+;; LSP-mode
+;; (use-package markdown-mode
+;;   :hook (markdown-mode . lsp)
+;;   :config
+;;   (require 'lsp-marksman))
+;; Eglot
 (use-package markdown-mode
-  :hook (markdown-mode . lsp)
-  :config
-  (require 'lsp-marksman))
+  :hook (markdown-mode . eglot-{}))
 
 ;; Orgmode
 ;; Org-capture

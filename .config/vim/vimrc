@@ -1,0 +1,4 @@
+" ~/.config/vim/vimrc
+"
+" move .viminfofile file from $HOME
+set viminfofile=$XDG_STATE_HOME/vim/viminfo

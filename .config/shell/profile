@@ -1,4 +1,5 @@
 #!/bin/sh
+# ~/.config/shell/profile
 
 # defaults
 export SHELL=/usr/bin/zsh
@@ -54,8 +55,14 @@ export ANDROID_USER_HOME="${XDG_DATA_HOME:-$HOME/.local/share}/android"
 export PARALLEL_HOME="${XDG_CONFIG_HOME:-$HOME/.config}/parallel"
 export INPUTRC="${XDG_CONFIG_HOME:-$HOME/.config}/readline/inputrc"
 export RIPGREP_CONFIG_PATH="${XDG_CONFIG_HOME:-$HOME/.config}/ripgrep/config"
-export WGETRC="${XDG_CONFIG_HOME:-$HOME/.config}/wgetrc"
+export WGETRC="${XDG_CONFIG_HOME:-$HOME/.config}/wget/wgetrc"
 export FFMPEG_DATADIR="${XDG_CONFIG_HOME:-$HOME/.config}/ffmpeg"
+export DICTIONARY=en_GB-oxendict
+# export DICPATH="${XDG_DATA_HOME:-$HOME/.local/share}/hunspell/dicts/en_GB"
+export DICPATH="$(/usr/bin/find "${XDG_DATA_HOME:-$HOME/.local/share}/hunspell/dicts" \
+    -mindepth 1 -type d | \
+    /usr/bin/paste -sd ':' -)"
+export WORDLIST="${XDG_DATA_HOME:-$HOME/.local/share}/wordlist"
 
 # history files
 # Bash
