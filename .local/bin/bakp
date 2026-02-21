@@ -1,37 +1,73 @@
 #!/bin/sh
 #bakp
-# mount removable backup media, backup to it and unmount it
+# find removable backup media, mount it, backup to it and unmount it
 
-time=$(/usr/bin/date +%H)
+time="$(/usr/bin/date +%H)"
 logfile="$HOME/.local/share/bakp.log"
-loaded=$(/usr/bin/findmnt -S LABEL=backup)
-#mountpoint=$(/usr/bin/lsblk -l -o +LABEL | /usr/bin/grep backup | /usr/bin/awk '{print $1}') # too much awk!
-mountpoint=$(/usr/bin/lsblk -l -o +LABEL | /usr/bin/grep backup | /usr/bin/cut -c -4)
 
-# if no drive found, abort
-# if LABEL=backup drive found, but not mounted, then mount it
+# list of backup drives attached
+# (excludes internal NVME drives)
+bdrive="$(/usr/bin/lsblk -anlp -o +LABEL | \
+    /usr/bin/grep -v nvme | \
+    /usr/bin/grep backup | \
+    /usr/bin/cut -d ' ' -f 1)"
+
+# abort if no backup drive attached
+if [ -z "$bdrive" ]; then
+    /usr/bin/notify-send "No backup drive attached" "Aborting..."
+    /usr/bin/printf "%s\n" "backup for $(/usr/bin/date '+%A %F') aborted at $(/usr/bin/date +%H%M)hrs, no device found" >> "$logfile"
+    exit 1
+fi
+
+# if only the 1 backup drive attached, skip selection and proceed
+# automatic selection criteria:
+# 1. if no destination backup directory present, then total partition space should be more than 1 TB (1099511627776 bytes)
+# 1a. to check whether backup directory is present, need to mount first
+# 2. if destination backup directory present, then free disk space should be more than 1 GB (1073741824 bytes)
+# 2a. same as 1a.
+# 3. if multiple backup drives have backup directory present, then most-recently backed up backup location gets precedence
+# 3a. same as 1a.
+# 3b. blob for specifying backup directory in multiple backup drives
+if [ "$(/usr/bin/printf "%s\n" "$bdrive" | \
+    /usr/bin/wc -l)" -eq 1 ]; then
+    selected="$bdrive"
+fi
+
+# whether backup drive is mounted
+bmounted="$(/usr/bin/findmnt "$selected")"
+
+# label of backup drive, for use by pmount to mount
+# space-separated drive LABEL NAMES maynot work
+blbl="$(/usr/bin/lsblk -anlp -o +LABEL | \
+    /usr/bin/grep "$selected" | \
+    /usr/bin/sed 's@^.*\ @@g')"
+
 # if backup for today already done, abort, if not continue
 # backup often takes hours, stop script from re-running if another instance of rsync is present
-
-if [ -n "$mountpoint" ] && [ -z "$loaded" ] && [ "$time" -ge 9 ] && [ "$time" -lt 19 ]; then
-    if /usr/bin/grep -Eq "$(/usr/bin/date '+%A %F').completed" "$logfile"; then
-        /usr/bin/notify-send "backup aborted" "backup for today done"
-        /usr/bin/echo "backup for $(/usr/bin/date '+%A %F') aborted at $(/usr/bin/date +%H%M)hrs, already done" >> "$logfile"
-        exit 1
+# backup often takes hours, stop script if it is outside specified time range for given day
+if /usr/bin/grep -Eq "$(/usr/bin/date '+%A %F').completed" "$logfile"; then
+   /usr/bin/notify-send "Backup for today done" "Aborting..."
+   /usr/bin/printf "%s\n" "backup for $(/usr/bin/date '+%A %F') aborted at $(/usr/bin/date +%H%M)hrs, already done" >> "$logfile"
+   exit 1
+elif [ -n "$bmounted" ] && [ -n "$(/usr/bin/pgrep rsync)" ]; then
+    /usr/bin/notify-send "Backup in progress" "Exiting..."
+    /usr/bin/printf "%s\n" "backup for $(/usr/bin/date '+%A %F') aborted at $(/usr/bin/date +%H%M)hrs, backup in progress" >> "$logfile"
+    exit 1
+elif [ "$time" -ge 9 ] && [ "$time" -lt 19 ]; then
+    if [ -z "$bmounted" ]; then
+        /usr/bin/notify-send "Backup starting shortly" "Mounting external backup drive"
+        /usr/bin/pmount "$bdrive" "$blbl"
+        /usr/bin/notify-send "Backup started" "No backup for today found"
+        /usr/bin/printf "%s\n" "backup for $(/usr/bin/date '+%A %F') started at $(/usr/bin/date +%H%M)hrs" >> "$logfile"
+        /usr/bin/pkill -RTMIN+14 -f /usr/local/bin/dwmblocks
     else
-        /usr/bin/pmount /dev/"$mountpoint" backup
-        /usr/bin/notify-send "backup started" "no backup for today found"
-        /usr/bin/echo "backup for $(/usr/bin/date '+%A %F') started at $(/usr/bin/date +%H%M)hrs" >> "$logfile"
+        /usr/bin/notify-send "Backup started" "No backup for today found"
+        /usr/bin/printf "%s\n" "backup for $(/usr/bin/date '+%A %F') started at $(/usr/bin/date +%H%M)hrs" >> "$logfile"
         /usr/bin/pkill -RTMIN+14 -f /usr/local/bin/dwmblocks
     fi
-elif [ -n "$mountpoint" ] && [ -n "$loaded" ] && [ -n "$(/usr/bin/pgrep rsync)" ]; then
-    /usr/bin/notify-send "backup in progress" "aborting..."
-    /usr/bin/echo "backup for $(/usr/bin/date '+%A %F') aborted at $(/usr/bin/date +%H%M)hrs, backup in progress" >> "$logfile"
-    exit 1
-else
-    /usr/bin/notify-send "no device found" "backup aborted"
-    /usr/bin/echo "backup for $(/usr/bin/date '+%A %F') aborted at $(/usr/bin/date +%H%M)hrs, no device found" >> "$logfile"
-    exit 1
+else /usr/bin/notify-send "Aborting" "Try again later"
+     /usr/bin/printf "%s\n" "backup for $(/usr/bin/date '+%A %F') aborted at $(/usr/bin/date +%H%M)hrs, out of time" >> "$logfile"
+     exit 1
 fi
 
 # start syncing to backup and back, logging each individual rsync errors to logfile
@@ -45,7 +81,7 @@ if ! /usr/bin/rsync --archive --checksum --partial --recursive ~/.bak/crypt-bak/
  -t ~/.bak/crypt-bak \
  2>> "$logfile"; then
     /usr/bin/notify-send "secret backup failed" "check error log"
-    /usr/bin/echo "secret backup for $(/usr/bin/date '+%A %F') failed at $(/usr/bin/date +%H%M)hrs" >> "$logfile"
+    /usr/bin/printf "%s\n" "secret backup for $(/usr/bin/date '+%A %F') failed at $(/usr/bin/date +%H%M)hrs" >> "$logfile"
 else
     /usr/bin/notify-send "secret backup done"
 fi
@@ -58,7 +94,7 @@ if ! /usr/bin/rsync --archive --checksum --partial --recursive ~/.bak/etc-bak/ \
  -t ~/.bak/etc-bak \
  2>> "$logfile"; then
     /usr/bin/notify-send "etc backup failed" "check error log"
-    /usr/bin/echo "etc backup for $(/usr/bin/date '+%A %F') failed at $(/usr/bin/date +%H%M)hrs" >> "$logfile"
+    /usr/bin/printf "%s\n" "etc backup for $(/usr/bin/date '+%A %F') failed at $(/usr/bin/date +%H%M)hrs" >> "$logfile"
 else
     /usr/bin/notify-send "etc backup done"
 fi
@@ -110,7 +146,7 @@ if ! /usr/bin/rsync --archive --checksum --partial --recursive \
  -t ~/.config \
  2>> "$logfile"; then
     /usr/bin/notify-send "config backup failed" "check error log"
-    /usr/bin/echo "config backup for $(/usr/bin/date '+%A %F') failed at $(/usr/bin/date +%H%M)hrs" >> "$logfile"
+    /usr/bin/printf "%s\n" "config backup for $(/usr/bin/date '+%A %F') failed at $(/usr/bin/date +%H%M)hrs" >> "$logfile"
 else
     /usr/bin/notify-send "config backup done"
 fi
@@ -123,7 +159,7 @@ if ! /usr/bin/rsync --archive --checksum --partial --recursive ~/.local/bin/ \
  -t ~/.local/bin \
  2>> "$logfile"; then
     /usr/bin/notify-send "local/bin backup failed" "check error log"
-    /usr/bin/echo "local/bin backup for $(/usr/bin/date '+%A %F') failed at $(/usr/bin/date +%H%M)hrs" >> "$logfile"
+    /usr/bin/printf "%s\n" "local/bin backup for $(/usr/bin/date '+%A %F') failed at $(/usr/bin/date +%H%M)hrs" >> "$logfile"
 else
     /usr/bin/notify-send "local/bin backup done"
 fi
@@ -138,7 +174,7 @@ if ! /usr/bin/rsync --archive --checksum --partial --recursive \
  -t ~/.local/share \
  2>> "$logfile"; then
     /usr/bin/notify-send "local/share backup failed" "check error log"
-    /usr/bin/echo "local/share backup for $(/usr/bin/date '+%A %F') failed at $(/usr/bin/date +%H%M)hrs" >> "$logfile"
+    /usr/bin/printf "%s\n" "local/share backup for $(/usr/bin/date '+%A %F') failed at $(/usr/bin/date +%H%M)hrs" >> "$logfile"
 else
     /usr/bin/notify-send "local/share backup done"
 fi
@@ -151,7 +187,7 @@ if ! /usr/bin/rsync --archive --checksum --partial --recursive ~/.arx/ \
  -t ~/.arx \
  2>> "$logfile"; then
     /usr/bin/notify-send "archive backup failed" "check error log"
-    /usr/bin/echo "archive backup for $(/usr/bin/date '+%A %F') failed at $(/usr/bin/date +%H%M)hrs" >> "$logfile"
+    /usr/bin/printf "%s\n" "archive backup for $(/usr/bin/date '+%A %F') failed at $(/usr/bin/date +%H%M)hrs" >> "$logfile"
 else
     /usr/bin/notify-send "archive backup done"
 fi
@@ -164,7 +200,7 @@ if ! /usr/bin/rsync --archive --checksum --partial --recursive ~/dox/ \
  -t ~/dox \
  2>> "$logfile"; then
     /usr/bin/notify-send "dox backup failed" "check error log"
-    /usr/bin/echo "dox backup for $(/usr/bin/date '+%A %F') failed at $(/usr/bin/date +%H%M)hrs" >> "$logfile"
+    /usr/bin/printf "%s\n" "dox backup for $(/usr/bin/date '+%A %F') failed at $(/usr/bin/date +%H%M)hrs" >> "$logfile"
 else
     /usr/bin/notify-send "dox backup done"
 fi
@@ -177,7 +213,7 @@ if ! /usr/bin/rsync --archive --checksum --partial --recursive ~/notx/ \
  -t ~/notx \
  2>> "$logfile"; then
     /usr/bin/notify-send "notx backup failed" "check error log"
-    /usr/bin/echo "notx backup for $(/usr/bin/date '+%A %F') failed at $(/usr/bin/date +%H%M)hrs" >> "$logfile"
+    /usr/bin/printf "%s\n" "notx backup for $(/usr/bin/date '+%A %F') failed at $(/usr/bin/date +%H%M)hrs" >> "$logfile"
 else
     /usr/bin/notify-send "notx backup done"
 fi
@@ -190,7 +226,7 @@ if ! /usr/bin/rsync --archive --checksum --partial --recursive ~/nvl/ \
  -t ~/nvl \
  2>> "$logfile"; then
     /usr/bin/notify-send "nvl backup failed" "check error log"
-    /usr/bin/echo "nvl backup for $(/usr/bin/date '+%A %F') failed at $(/usr/bin/date +%H%M)hrs" >> "$logfile"
+    /usr/bin/printf "%s\n" "nvl backup for $(/usr/bin/date '+%A %F') failed at $(/usr/bin/date +%H%M)hrs" >> "$logfile"
 else
     /usr/bin/notify-send "nvl backup done"
 fi
@@ -203,7 +239,7 @@ if ! /usr/bin/rsync --archive --checksum --partial --recursive ~/rsc/ \
  -t ~/rsc \
  2>> "$logfile"; then
     /usr/bin/notify-send "rsc backup failed" "check error log"
-    /usr/bin/echo "rsc backup for $(/usr/bin/date '+%A %F') failed at $(/usr/bin/date +%H%M)hrs" >> "$logfile"
+    /usr/bin/printf "%s\n" "rsc backup for $(/usr/bin/date '+%A %F') failed at $(/usr/bin/date +%H%M)hrs" >> "$logfile"
 else
     /usr/bin/notify-send "rsc backup done"
 fi
@@ -216,7 +252,7 @@ if ! /usr/bin/rsync --archive --checksum --partial --recursive ~/sty/ \
  -t ~/sty \
  2>> "$logfile"; then
     /usr/bin/notify-send "sty backup failed" "check error log"
-    /usr/bin/echo "sty backup for $(/usr/bin/date '+%A %F') failed at $(/usr/bin/date +%H%M)hrs" >> "$logfile"
+    /usr/bin/printf "%s\n" "sty backup for $(/usr/bin/date '+%A %F') failed at $(/usr/bin/date +%H%M)hrs" >> "$logfile"
 else
     /usr/bin/notify-send "sty backup done"
 fi
@@ -229,16 +265,15 @@ if ! /usr/bin/rsync --archive --checksum --partial --recursive ~/wfu/ \
  -t ~/wfu \
  2>> "$logfile"; then
     /usr/bin/notify-send "wfu backup failed" "check error log"
-    /usr/bin/echo "wfu backup for $(/usr/bin/date '+%A %F') failed at $(/usr/bin/date +%H%M)hrs" >> "$logfile"
+    /usr/bin/printf "%s\n" "wfu backup for $(/usr/bin/date '+%A %F') failed at $(/usr/bin/date +%H%M)hrs" >> "$logfile"
 else
     /usr/bin/notify-send "wfu backup done"
 fi
 
 /usr/bin/notify-send "backup complete"
-/usr/bin/echo "backup for $(/usr/bin/date '+%A %F') completed at $(/usr/bin/date +%H%M)hrs" >> "$logfile"
+/usr/bin/printf "%s\n" "backup for $(/usr/bin/date '+%A %F') completed at $(/usr/bin/date +%H%M)hrs" >> "$logfile"
 
 # unmount backup drive
-/usr/bin/pumount /dev/"$mountpoint"
+/usr/bin/pumount "$bdrive"
 /usr/bin/pkill -RTMIN+14 -f /usr/local/bin/dwmblocks
 /usr/bin/notify-send "backup drive unmounted"
-

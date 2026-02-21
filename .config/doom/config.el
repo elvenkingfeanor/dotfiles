@@ -101,12 +101,15 @@
 (unless (server-running-p)
   (server-start))
 
+;; Fonts
 ;; doom fonts not working. setting emacs init frame parameters
 ;;(add-to-list 'default-frame-alist '(font-spec :family "JetBrainsMono Nerd Font" :size 20)) ;; font-spec not working
 (add-to-list 'default-frame-alist '(font . "JetBrainsMono Nerd Font-20")) ;; works
 
-;; convert markdown content to Org for emacs-everywhere package
-(setq emacs-everywhere-major-mode-function #'org-mode)
+;; Emacs-Everywhere
+(use-package emacs-everywhere
+  :config
+  (setq emacs-everywhere-major-mode-function #'org-mode))
 
 ;; Yasnippets
 (use-package yasnippet
@@ -125,12 +128,14 @@
 ;;             (setq-local yas/trigger-key [tab])
 ;;             (define-key yas/keymap [tab] 'yas/next-field-or-maybe-expand)))
 
+;; Citar
 ;; path config for use of citar for vertico
 (setq! citar-bibliography '("~/sty/articles/bib/cite.bib")
        citar-library-paths '("~/sty/articles/")
        citar-notes-paths '("~/notx/notes.org"))
 
-;; marksman for markdown (no +lsp option for markdown in Doomemacs)
+;; Marksman
+;; marksman for markdown (no +lsp option for markdown in Doomemacs init.el file)
 ;; LSP-mode
 ;; (use-package markdown-mode
 ;;   :hook (markdown-mode . lsp)
@@ -144,10 +149,8 @@
 ;; Org-capture
 (require 'org-protocol) ;; org-protocol to capture directly from browser
 (require 'org-id) ;; generate unique IDs for captured items for future linking
-
 (after! org
   (add-to-list 'org-modules 'org-id 'org-protocol))
-
 ;; A few custom keybindings, mostly for Orgmode
 (map! :after org
       :map org-mode-map
@@ -155,8 +158,11 @@
       :desc "org-paste-subtree"
       :prefix "s"
       "p" #'org-paste-subtree)
-
-;; Doom presets
+;; Org-id
+(setq org-id-method 'uuid)
+(setq org-id-link-to-org-use-id t)
+;; Org-capture templates
+;; Doom org-capture presets
 ;; (setq org-capture-templates
 ;;       '(("t" "Personal todo" entry (file+headline +org-capture-todo-file "Inbox")
 ;;          "* [ ] %?\n%i\n%a" :prepend t)
@@ -181,10 +187,6 @@
 ;;          "* %U %?\n %i\n %a" :heading "Notes" :prepend t)
 ;;         ("oc" "Project changelog" entry #'+org-capture-central-project-changelog-file
 ;;          "* %U %?\n %i\n %a" :heading "Changelog" :prepend t)))
-
-(setq org-id-method 'uuid)
-(setq org-id-link-to-org-use-id t)
-
 (setq org-capture-templates
       '(("b" "bookmark" entry (file+headline "~/notx/links.org" "Bookmarks")
          "* %a %^G\n:PROPERTIES:\n:CREATED: %U\n:END:\n\n** %:initial%?"
@@ -223,15 +225,13 @@
         ("mdb" "BBC" entry (file+headline "~/notx/media.org" "Documentaries" "BBC")
          "* %?\n%U\n%i")
         ))
-
 ;; Org-agenda
 (setq org-agenda-files (list "~/notx/inbox.org" org-directory))
 (setq org-agenda-start-with-log-mode t)
 (setq org-log-into-drawer t)
 (setq org-log-done 'time)
 (setq org-agenda-include-diary t) ;; diary integration with org-agenda
-
-;; Doom presets
+;; Doom org-agenda presets
 ;; (setq org-todo-keywords
 ;;       '((sequence "TODO(t)" "PROJ(p)" "LOOP(r)" "STRT(s)" "WAIT(w)" "HOLD(h)" "IDEA(i)"
 ;;          "|" "DONE(d)" "KILL(k)")
@@ -240,7 +240,7 @@
 (setq org-todo-keywords
       '((sequence "TODO(t)" "MAYBE(m)" "|" "DONE(d!)" "CANCELLED(c)")
         (sequence "[ ](T)" "[-](S)" "|" "[X](D)")))
-
+;; Org-refile
 ;; org-refile targets and save org buffers
 (setq org-refile-targets
       '((org-agenda-files . (:maxlevel . 8))
@@ -252,15 +252,11 @@
 (setq org-reverse-note-order nil)
 (setq org-refile-use-outline-path 'file)
 (setq org-outline-path-complete-in-steps nil) ;; already use completion, no need for step completions
-
 (advice-add 'org-refile :after 'org-save-all-org-buffers)
-
 ;; org-archive
 (setq org-archive-location "~/notx/archive.org::* From %s") ;; string-type syntax for org-archive-location
-
 ;; org-contacts
 (setq org-contacts-files '("~/notx/contacts.org")) ;; (repeat file)-type symbol property
-
 ;; org export backends
 ;; add markdown export as org export backend (mostly for rendering git readmes)
 (require 'ox-md)
@@ -293,3 +289,10 @@
 (require 'elfeed-org) ;; load elfeed-org
 (elfeed-org) ;; initializes elfeed-org ;; hooks up elfeed-org to read configuration when =M-x elfeed=
 (setq rmh-elfeed-org-files (list "~/notx/elfeed.org"))
+
+;; auth-sources
+;; use pass
+(auth-source-pass-enable)
+(auth-source-pass-file-name-p (list "~/.local/share/pass/"))
+
+;; mu4e

@@ -39,10 +39,11 @@ else
 fi
 
 # mount selected backup drive as per its label
+# LABEL is last word of lsblk output line
+# space-separated drive LABEL, maynot work
 blbl="$(/usr/bin/lsblk -anlp -o +LABEL | \
 	/usr/bin/grep "$selected" | \
-	/usr/bin/sed 's@\ \ *@\ @g' | \
-	/usr/bin/cut -d ' ' -f 7)"
+	/usr/bin/sed 's@^.*\ @@g')"
 
 # check if backup drive is mounted, else proceed accordingly
 if [ -n "$(/usr/bin/findmnt "$selected")" ]; then

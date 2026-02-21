@@ -53,15 +53,15 @@ super + e ; {k,u,r}
 super + s ; {j,k,m,d}
       {st -e newsraft,emfeed,alacritty -e aerc,signal-desktop}
 
-## other less commonly used browsers - librewolf, torbrowser-launcher, w3m, lynx, surf, youtube-viewer
-## ( super + g ; {f,y,t,w,l,s} )
-super + t ; {e,o,f,w,u,d}
-      {librewolf,st -e youtube-viewer,torbrowser-launcher,alacritty -e w3m,alacritty -e lynx,surf}
+## other less commonly used browsers - librewolf, youtube-viewer, qbittorrent, torbrowser-launcher, w3m, lynx, surf
+## ( super + g ; {f,y,q,t,w,l,s} )
+super + t ; {e,o,q,f,w,u,d}
+      {librewolf,st -e youtube-viewer,qbittorrent,torbrowser-launcher,alacritty -e w3m,alacritty -e lynx,surf}
 
-## other less commonly used applications - emojify, slock, luanti, gcompris-qt, qbittorrent, htop
-## ( super + d ; {e,l,m,c,t,h} )
-super + g ; {k,u,m,c,f,h}
-      {emojify,slock,luanti,gcompris-qt,qbittorrent,st-e htop}
+## other less commonly used applications - emojify, slock, luanti, gcompris-qt, htop, btop
+## ( super + d ; {e,l,m,c,q,h,b} )
+super + g ; {k,u,m,c,h}
+      {emojify,slock,luanti,gcompris-qt,st-e htop,st-e btop}
 
 # Audio, brightness, screenshot & keyboard layout scripts
 # speaker volume commands
