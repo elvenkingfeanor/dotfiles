@@ -141,12 +141,28 @@ orienteering:quadcorder 1
 wrench:wrench 1
 torch_bomb:torch_crossbow_steel 1
 torch_bomb:torch_grenade 1
+headlamp:headlamp_off 1
 farmtools:rake_diamond 1
 farmtools:rake_steel 1
 farmtools:scythe_diamond 1
 farmtools:scythe_steel 1
 farmtools:sickle_diamond 1
 farmtools:sickle_steel 1
+basic_machines:autocrafter 1
+basic_machines:ball_spawner 1
+basic_machines:battery_0 1
+basic_machines:clockgen 1
+basic_machines:constructor 1
+basic_machines:detector 1
+basic_machines:distributor 1
+basic_machines:enviro 1
+basic_machines:generator 1
+basic_machines:grinder 1
+basic_machines:keypad 1
+basic_machines:light_on 1
+basic_machines:mesecon_adapter 1
+basic_machines:mover 1
+basic_machines:recycler 1
 
 # Items Default
 default:obsidian 1
@@ -205,6 +221,14 @@ default:blueberry_bush_sapling 27
 default:apple 27
 default:blueberries 27
 flowers:mushroom_brown 27
+flowers:rose 27
+flowers:tulip 27
+flowers:tulip_black 27
+flowers:geranium 27
+flowers:chrysanthemum_green 27
+flowers:dandelion_yellow 27
+flowers:dandelion_white 27
+flowers:viola 27
 farming:seed_cotton 12
 farming:cotton 36
 farming:string 36

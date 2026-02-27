@@ -106,6 +106,11 @@
 ;;(add-to-list 'default-frame-alist '(font-spec :family "JetBrainsMono Nerd Font" :size 20)) ;; font-spec not working
 (add-to-list 'default-frame-alist '(font . "JetBrainsMono Nerd Font-20")) ;; works
 
+;; Grep
+;; default grep-command
+;; "grep --color=auto -nH --null -e "
+(setopt grep-command "grep --color=auto -rnHiI -C2 -e ")
+
 ;; Emacs-Everywhere
 (use-package emacs-everywhere
   :config
