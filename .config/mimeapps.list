@@ -58,6 +58,8 @@ message/rfc822=aerc.desktop
 application/x-extension-eml=aerc.desktop
 application/rss+xml=newsraft.desktop
 application/x-extension-rss=newsraft.desktop
+x-scheme-handler/sgnl=signal.desktop
+x-scheme-handler/signalcaptcha=signal.desktop
 
 [Added Associations]
 text/markdown=nvim.desktop

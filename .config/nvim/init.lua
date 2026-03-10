@@ -88,7 +88,6 @@ require('lazy').setup({
 
   -- Edit R files
   'R-nvim/R.nvim',
-  'R-nvim/cmp-r',
 
   -- Edit OpenSCAD files
   'Leathong/openscad-LSP',

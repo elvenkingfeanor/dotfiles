@@ -1,21 +1,52 @@
 #!/bin/sh
 #dpass
 # use dmenu to retrieve pass entries
-# credits to Luke Smith
+# alternative to passmenu
+# credits to Luke Smith and Arch-Wiki
 
-password="$(/usr/bin/find "$XDG_DATA_HOME"/pass/ -type f -name '*.gpg' | \
-    /usr/local/bin/dmenu -i -l 15 | \
-    /usr/bin/sed 's@^.*pass/@@' | \
-    /usr/bin/sed 's/\.gpg$//g')"
+passfile="$(/usr/bin/find "$XDG_DATA_HOME"/pass/ -type f -name '*.gpg' | \
+    /usr/bin/sed 's@^.*pass/@@;s/\.gpg$//' | \
+    /usr/local/bin/dmenu -i -l 7)"
 
-if [ -n "$password" ]; then
- if ! /usr/bin/pass show -c "$password"; then
-  /usr/bin/notify-send "Oops!" "try again"
-  exit 1
+if [ -n "$passfile" ]; then
+ export PASSWORD_STORE_CLIP_TIME=15 # how long to store variable
+ if /usr/bin/printf "%s" "$passfile" | /usr/bin/grep -q "WBSSC"; then
+  if ! /usr/bin/pass -c2 "$passfile"; then
+   /usr/bin/notify-send "Oops!" "try again"
+   exit 1
+  else
+      /usr/bin/notify-send "Username copied" "for $passfile\nto clipboard"
+  fi
+  sleep 10;
+  if ! /usr/bin/pass -c5 "$passfile"; then
+   /usr/bin/notify-send  "Oops!" "try again"
+   exit 1
+  else
+      /usr/bin/notify-send "Phone copied" "for $passfile\nto clipboard"
+  fi
+  sleep 5;
+  if ! /usr/bin/pass -c "$passfile"; then
+   /usr/bin/notify-send "Oops!" "try again"
+   exit 1
+  else
+      /usr/bin/notify-send "Password copied" "for $passfile\nto clipboard"
+  fi
  else
-    /usr/bin/notify-send "Success!" "$password copied to clipboard"
+     if ! /usr/bin/pass -c2 "$passfile"; then
+      /usr/bin/notify-send "Oops!" "try again"
+      exit 1
+     else
+         /usr/bin/notify-send "Username copied" "for $passfile\nto clipboard"
+     fi
+     sleep 10;
+     if ! /usr/bin/pass -c "$passfile"; then
+      /usr/bin/notify-send "Oops!" "try again"
+      exit 1
+     else
+         /usr/bin/notify-send "Password copied" "for $passfile\nto clipboard"
+     fi
  fi
 else
-    /usr/bin/notify-send "Exiting..." "no pass selected"
+    /usr/bin/notify-send "No password selected" "Exiting..."
     exit 1
 fi
