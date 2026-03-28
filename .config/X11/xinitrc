@@ -6,6 +6,7 @@
 /usr/bin/touch /tmp/Xauthority
 #/usr/bin/xauth -q -f /tmp/Xauthority &
 "$HOME"/.local/bin/xinfo &
+[ -f "$XDG_CONFIG_HOME"/X11/xmodmap ] && /usr/bin/xmodmap "$XDG_CONFIG_HOME"/X11/xmodmap &
 /usr/bin/xrdb -load "$XDG_CONFIG_HOME"/X11/xresources &
 "$HOME"/.local/bin/bright &
 "$XDG_CONFIG_HOME"/xwallpaper/swall &

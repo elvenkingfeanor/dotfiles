@@ -104,7 +104,8 @@
 ;; Fonts
 ;; doom fonts not working. setting emacs init frame parameters
 ;;(add-to-list 'default-frame-alist '(font-spec :family "JetBrainsMono Nerd Font" :size 20)) ;; font-spec not working
-(add-to-list 'default-frame-alist '(font . "JetBrainsMono Nerd Font-20")) ;; works
+(add-to-list 'default-frame-alist
+             '(font . "JetBrainsMono Nerd Font-20")) ;; works
 
 ;; Grep
 ;; default grep-command
@@ -138,6 +139,11 @@
 (setq! citar-bibliography '("~/sty/articles/bib/cite.bib")
        citar-library-paths '("~/sty/articles/")
        citar-notes-paths '("~/notx/notes.org"))
+
+;; Eglot-booster
+(use-package eglot-booster
+  :after eglot
+  :config (eglot-booster-mode))
 
 ;; Marksman
 ;; marksman for markdown (no +lsp option for markdown in Doomemacs init.el file)
@@ -296,8 +302,16 @@
 (setq rmh-elfeed-org-files (list "~/notx/elfeed.org"))
 
 ;; auth-sources
+(setq auth-sources '("~/.local/share/authinfo.gpg"))
 ;; use pass
 (auth-source-pass-enable)
 (auth-source-pass-file-name-p (list "~/.local/share/pass/"))
 
 ;; mu4e
+
+;; common lisp, mostly for nyxt browser
+;; use slime
+(setq inferior-lisp-program "/usr/bin/clisp")
+(add-to-list 'load-path "/usr/share/emacs/site-lisp/slime/")
+(require 'slime)
+(evil-collection-slime-setup)

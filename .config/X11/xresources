@@ -68,6 +68,9 @@ URxvt.keysym.M-u: perl:url-select:select_next
 URxvt.keysym.M-Escape: perl:keyboard-select:activate
 URxvt.keysym.M-s: perl:keyboard-select:search
 
+!! emacs
+emacs.font: JetBrainsMono Nerd Font-20
+
 !! nsxiv
 Nsxiv.bar.font:         JetBrainsMono:size=18:antialias=true
 Nsxiv.window.background: #282c34
