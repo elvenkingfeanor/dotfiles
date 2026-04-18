@@ -50,9 +50,10 @@ settings:
       gh: https://github.com/search?q={}&type=repositories
       gu: https://github.com/search?q={}&type=users
       gw: https://wiki.gentoo.org/?search={}
-      lp: https://content.luanti.org/packages/?q={}
       lf: https://forum.luanti.org/search.php?keywords={}
+      lp: https://content.luanti.org/packages/?q={}
       lt: https://ctan.org/search?phrase={}
+      lw: https://en.wikibooks.org/wiki/Special:Search?search={}&prefix=LaTeX%2F&fulltext=Search+this+book&fulltext=Search
       mw: https://wiki.minetest.org/{}
       r: https://www.reddit.com/search?q={}
       s: https://stackoverflow.com/search?q={}

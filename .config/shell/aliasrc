@@ -182,6 +182,9 @@ alias kill="/usr/bin/kill -9"
 # web ports
 alias port="/usr/bin/lsof -i -P -n"
 
+# sxhkd
+alias sxrestart="/usr/bin/pkill -USR1 -x sxhkd"
+
 # nsxiv
 alias pp=/usr/bin/nsxiv
 
@@ -204,7 +207,7 @@ alias edd="/usr/bin/killall emacs && /usr/bin/emacs --daemon"
 alias eee="/usr/bin/emacsclient -q -nw"
 
 # ping
-alias ping="/usr/bin/ping 8.8.8.8 -c 5"
+alias ping="/usr/bin/ping -c5 ping.archlinux.org"
 
 # space
 alias df="/usr/bin/df -h"
@@ -270,7 +273,7 @@ alias cal="/usr/bin/cal -y"
 alias name=/usr/bin/rig
 
 # random string generator
-alias random="/usr/bin/tr -dc A-Za-z0-9 < /dev/urandom | /usr/bin/head -c 15; /usr/bin/echo"
+alias random="/usr/bin/tr -dc A-Za-z0-9 < /dev/urandom | /usr/bin/head -c 18; /usr/bin/echo"
 
 # fontpreview
 alias font=/usr/bin/fontpreview

@@ -61,10 +61,10 @@ super + r ; {n,e,m,s}
 super + g ; {f,y,q,t,w,l,s}
       {librewolf,st -e youtube-viewer,qbittorrent,torbrowser-launcher,alacritty -e w3m,alacritty -e lynx,surf}
 
-## other less commonly used applications - emojify, slock, luanti, gcompris-qt, htop, btop
-# super + g ; {k,u,m,c,h}
-super + d ; {e,l,m,c,q,h,b}
-      {emojify,slock,luanti,gcompris-qt,st-e htop,st-e btop}
+## other less commonly used applications - emojify, slock, luanti, gcompris-qt, htop, btop, default emacs (tutorial)
+# super + g ; {k,u,m,c,h,b,g}
+super + d ; {e,l,m,c,h,b,d}
+      {emojify,slock,luanti,gcompris-qt,st-e htop,st-e btop,edbuffer}
 
 # Audio, brightness, screenshot & keyboard layout scripts
 # speaker volume commands

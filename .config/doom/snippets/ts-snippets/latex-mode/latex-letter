@@ -1,0 +1,21 @@
+# -*- mode: snippet -*-
+# name: create general LaTeX letter, with no subject
+# key: <lgl
+# condition: t
+# --
+\\documentclass[12pt,a4paper]{letter}
+%
+\\signature{${1:Author}}
+\\address{${2:Author Address}}
+%
+\\longindentation=0pt            % to move the closing and signature parts to the left
+%
+\\begin{document}
+\\begin{letter}{${3:Recepient Address}}
+%
+\\opening{${4:Salutation},}
+$0
+\\closing{Yours sincerely,}
+%
+\\end{letter}
+\\end{document}

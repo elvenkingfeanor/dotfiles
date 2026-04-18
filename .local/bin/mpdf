@@ -5,7 +5,7 @@
 
 # check if file path present to format out extensions, else exit
 if [ -z "$1" ]; then
-    /usr/bin/notify-send "Error!" "No file selected"
+    /usr/bin/notify-send "Error" "No file selected"
     exit 1
 else
     output="$(/usr/bin/printf "%s" "$1" | /usr/bin/rev | /usr/bin/cut -d '.' -f 2- | /usr/bin/rev)"

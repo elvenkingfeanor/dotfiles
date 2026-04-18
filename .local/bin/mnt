@@ -10,7 +10,7 @@ if ! command -v dmenu > /dev/null 2>&1; then
 	if command -v fzf > /dev/null 2>&1; then
 	chooser="fzf"
 	else
-		/usr/bin/notify-send "Error!" "Install dmenu or fzf to proceed"
+		/usr/bin/notify-send "Error" "Install dmenu or fzf to proceed"
 		exit 1
 	fi
 else

@@ -4,7 +4,7 @@
 
 # check whether cwdiff and fzf are installed, else exit with warning
 if ! command -v cwdiff > /dev/null 2>&1; then
-    /usr/bin/notify-send "Error!" "Install cwdiff to proceed"
+    /usr/bin/notify-send "Error" "Install cwdiff to proceed"
     exit 1
 fi
 

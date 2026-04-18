@@ -27,7 +27,7 @@ else
 			selected="$(/usr/bin/printf "%s\n" "$bdrive" | \
 				fzf --prompt="choose backup drive to unmount: ")"
 		else
-			/usr/bin/notify-send "Error!" "Install dmenu or fzf to proceed"
+			/usr/bin/notify-send "Error" "Install dmenu or fzf to proceed"
 			exit 1
 		fi
 	else

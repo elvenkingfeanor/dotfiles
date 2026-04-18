@@ -1,0 +1,49 @@
+# -*- mode: snippet -*-
+# name: create official LaTeX letter, with subject
+# key: <lol
+# condition: t
+# --
+\\documentclass[12pt,a4paper]{article}
+%
+\\pagestyle{empty} % disable page numbering
+\\setlength{\parindent}{0pt} % disable paragraph indent
+%
+\\begin{document}
+\\hspace*{0.6\\linewidth}
+\\begin{minipage}{0.4\\linewidth}
+    From: \\par
+    ${1:Name of Sender} \\par
+    ${2:Street Address of Sender} \\par
+    ${3:City of Sender} \\par
+    ${4:District, State, Country of Sender} \\par
+    PIN-${5:PIN code of Sender} \\par \\bigskip
+    \\today
+\\end{minipage}
+
+\\medskip
+
+\\begin{minipage}{0.4\\linewidth}
+    To: \\par
+    ${6:Name of Receiver} \\par
+    ${7:Address of Receiver with PIN code} \\par
+\\end{minipage}
+
+\\vspace*{0.025\\pdfpageheight}
+
+\\hspace*{0.025\\linewidth}
+\\begin{minipage}{0.8\\linewidth}
+    { \\bfseries Subject: ${7:Subject} } \\par \\bigskip
+\\end{minipage}
+
+${8:Salutation}, \\par \\medskip
+
+$0
+
+\\par \\bigskip
+
+Yours sincerely, \\par
+
+\\vspace*{0.05\\pdfpageheight}
+$1, \\par
+$3
+\\end{document}

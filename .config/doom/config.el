@@ -286,10 +286,10 @@
 ;; use M-x xenops-mode
 ;; cdlatex minor mode for all LaTeX files
 (add-hook 'LaTeX-mode-hook #'turn-on-cdlatex) ;; for AucTeX LaTeX mode
-(add-hook 'latex-mode-hook #'turn-on-cdlatex) ;; for Emacs latex mode
-;; ;; cdlatex for autocompletion in LaTeX file, in place of Yasnippets
-;; (map! :map cdlatex-mode-map
-;;       :i "TAB" #'cdlatex-tab) ;; pressing TAB while in insert mode, calls cdlatex-tab function
+;; (add-hook 'latex-mode-hook #'turn-on-cdlatex) ;; for Emacs latex mode
+;; prioritize cdlatex for autocompletion in LaTeX file, over Yasnippets
+(map! :map cdlatex-mode-map
+      :i "TAB" #'cdlatex-tab) ;; pressing TAB while in insert mode, calls cdlatex-tab function
 ;; set default bibliography for RefTeX
 (setq reftex-default-bibliography
       "~/sty/articles/bib/cite.bib")
