@@ -1,0 +1,31 @@
+#!/bin/sh
+#confbak
+# backup /etc and /mnt config files for easier git management
+# to be used by cron
+logfile="$HOME/.local/share/confbak.log"
+
+{
+/usr/bin/id 1000 > ~/.bak/userinfo/groups.txt
+/usr/bin/pacman -Qqen > ~/.bak/userinfo/pacman.lst
+/usr/bin/pacman -Qqem > ~/.bak/userinfo/aur.lst
+/usr/bin/rsync -aPc /etc/conf.d/pacman-contrib -t ~/.bak/etc-bak/conf.d-bak/
+/usr/bin/rsync -aPc /etc/libvirt/*.conf -t ~/.bak/etc-bak/libvirt-bak/
+/usr/bin/rsync -aPc /etc/ssh/sshd_config -t ~/.bak/etc-bak/ssh-bak/
+/usr/bin/rsync -aPc /etc/X11/xorg.conf.d/00-keyboard.conf -t ~/.bak/etc-bak/X11-bak/xorg.conf.d-bak/
+/usr/bin/rsync -aPc /etc/X11/xinit/xinitrc.d/50-systemd-user.sh -t ~/.bak/etc-bak/X11-bak/xinitrc.d-bak/
+/usr/bin/rsync -aPc /etc/xdg/picom.conf -t ~/.bak/etc-bak/xdg-bak/
+/usr/bin/rsync -aPc /etc/mkinitcpio.conf -t ~/.bak/etc-bak/mkinitcpio.conf.bak
+/usr/bin/rsync -aPc /etc/nsswitch.conf -t ~/.bak/etc-bak/nsswitch.conf.bak
+/usr/bin/rsync -aPc /etc/ntpd.conf -t ~/.bak/etc-bak/ntpd.conf.bak
+/usr/bin/rsync -aPc /etc/pacman.conf -t ~/.bak/etc-bak/pacman.conf.bak
+/usr/bin/rsync -aPc /etc/resolv.conf -t ~/.bak/etc-bak/resolv.conf.bak
+/usr/bin/rsync -aPc /etc/vconsole.conf -t ~/.bak/etc-bak/vconsole.conf.bak
+/usr/bin/rsync -aPc /mnt/bak/docker-compose.yaml -t ~/.bak/git/docker/docker-compose.yaml
+/usr/bin/rsync -aPc /mnt/bak/forgejo/gitea/conf/app.ini -t ~/.bak/git/forgejo/app.ini
+/usr/bin/rsync -aPc /mnt/bak/dotfiles.git/info/exclude -t ~/.bak/git/dotfiles.git.bak/
+/usr/bin/rsync -aPc /mnt/bak/dox.git/info/exclude -t ~/.bak/git/dox.git.bak/
+/usr/bin/rsync -aPc /mnt/bak/notes.git/info/exclude -t ~/.bak/git/notes.git.bak/
+/usr/bin/rsync -aPc /mnt/bak/private.git/info/exclude -t ~/.bak/git/private.git.bak/
+} 1>/dev/null 2>>"$logfile"
+
+/usr/bin/notify-send "/etc and /mnt config files backup complete"

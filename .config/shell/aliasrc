@@ -257,6 +257,8 @@ alias fetch=/usr/bin/neofetch
 # cron
 alias cronl="/usr/bin/crontab -l"
 alias crone="/usr/bin/crontab -e"
+alias scronl="/usr/bin/doas /usr/bin/crontab -l"
+alias scrone="/usr/bin/doas /usr/bin/crontab -e"
 
 # network status
 alias wifi="/usr/bin/iwctl station wlan0 show"

@@ -11,5 +11,5 @@ DISPLAY=:0
 30 9-18 * * Sun ~/.local/bin/bakp
 15 */2 * * * ~/.local/bin/fff
 20 12 2 * * ~/.local/bin/clearcache
-@reboot ~/.local/bin/cpr /var/spool/cron/ts ~/.config/crond/ts
 @reboot ~/.local/bin/confbak
+@reboot ~/.local/bin/cronbak
