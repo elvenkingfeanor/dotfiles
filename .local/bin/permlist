@@ -1,0 +1,7 @@
+#!/bin/sh
+#permlist
+# generate permission status for specified files to specified files
+# normally, permissions don't change
+# hence, for yearly cron
+
+/usr/bin/stat --printf="%a %n\n" "/var/spool/cron/ts" "/var/spool/cron/root" > ~/.config/crond/perms.txt

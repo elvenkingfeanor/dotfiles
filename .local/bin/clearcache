@@ -1,6 +1,7 @@
 #!/bin/sh
 #clearcache
-# periodically clean logfiles for easy execution by cron
+# periodically clean logfiles
+# for monthly cron
 
 # list of all logfiles in ~/.local/share/ directory
 logfiles="$(/usr/bin/find "$HOME/.local/share" \

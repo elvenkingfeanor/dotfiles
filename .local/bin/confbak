@@ -1,24 +1,36 @@
 #!/bin/sh
 #confbak
 # backup /etc and /mnt config files for easier git management
-# to be used by cron
-logfile="$HOME/.local/share/confbak.log"
+# for daily cron
+
+# which files to backup? can be indicated by following command:
+# pacman -Qii | awk '/\[modified\]/ {print $(NF - 1)}'
 
 {
-/usr/bin/id 1000 > ~/.bak/userinfo/groups.txt
-/usr/bin/pacman -Qqen > ~/.bak/userinfo/pacman.lst
-/usr/bin/pacman -Qqem > ~/.bak/userinfo/aur.lst
 /usr/bin/rsync -aPc /etc/conf.d/pacman-contrib -t ~/.bak/etc-bak/conf.d-bak/
+/usr/bin/rsync -aPc /etc/default/grub -t ~/.bak/etc-bak/default-bak/
+/usr/bin/rsync -aPc /etc/dict/dictd.conf -t ~/.bak/etc-bak/dict-bak/
 /usr/bin/rsync -aPc /etc/libvirt/*.conf -t ~/.bak/etc-bak/libvirt-bak/
+/usr/bin/rsync -aPc /etc/pacman.d/mirrorlist -t ~/.bak/etc-bak/pacman.d-bak/
 /usr/bin/rsync -aPc /etc/ssh/sshd_config -t ~/.bak/etc-bak/ssh-bak/
-/usr/bin/rsync -aPc /etc/X11/xorg.conf.d/00-keyboard.conf -t ~/.bak/etc-bak/X11-bak/xorg.conf.d-bak/
 /usr/bin/rsync -aPc /etc/X11/xinit/xinitrc.d/50-systemd-user.sh -t ~/.bak/etc-bak/X11-bak/xinitrc.d-bak/
+/usr/bin/rsync -aPc /etc/X11/xorg.conf.d/00-keyboard.conf -t ~/.bak/etc-bak/X11-bak/xorg.conf.d-bak/
 /usr/bin/rsync -aPc /etc/xdg/picom.conf -t ~/.bak/etc-bak/xdg-bak/
+/usr/bin/rsync -aPc /etc/zsh/zprofile -t ~/.bak/etc-bak/zsh-bak/
+/usr/bin/rsync -aPc /etc/bash.bashrc -t ~/.bak/etc-bak/bash.bashrc.bak
+/usr/bin/rsync -aPc /etc/fstab -t ~/.bak/etc-bak/fstab.bak
+/usr/bin/rsync -aPc /etc/group -t ~/.bak/etc-bak/group.bak
+/usr/bin/rsync -aPc /etc/hosts -t ~/.bak/etc-bak/hosts.bak
+/usr/bin/rsync -aPc /etc/locale.gen -t ~/.bak/etc-bak/locale.gen.bak
 /usr/bin/rsync -aPc /etc/mkinitcpio.conf -t ~/.bak/etc-bak/mkinitcpio.conf.bak
 /usr/bin/rsync -aPc /etc/nsswitch.conf -t ~/.bak/etc-bak/nsswitch.conf.bak
 /usr/bin/rsync -aPc /etc/ntpd.conf -t ~/.bak/etc-bak/ntpd.conf.bak
 /usr/bin/rsync -aPc /etc/pacman.conf -t ~/.bak/etc-bak/pacman.conf.bak
+/usr/bin/rsync -aPc /etc/passwd -t ~/.bak/etc-bak/passwd.bak
 /usr/bin/rsync -aPc /etc/resolv.conf -t ~/.bak/etc-bak/resolv.conf.bak
+/usr/bin/rsync -aPc /etc/shells -t ~/.bak/etc-bak/shells.bak
+/usr/bin/rsync -aPc /etc/subgid -t ~/.bak/etc-bak/subgid.bak
+/usr/bin/rsync -aPc /etc/subuid -t ~/.bak/etc-bak/subuid.bak
 /usr/bin/rsync -aPc /etc/vconsole.conf -t ~/.bak/etc-bak/vconsole.conf.bak
 /usr/bin/rsync -aPc /mnt/bak/docker-compose.yaml -t ~/.bak/git/docker/docker-compose.yaml
 /usr/bin/rsync -aPc /mnt/bak/forgejo/gitea/conf/app.ini -t ~/.bak/git/forgejo/app.ini
@@ -26,6 +38,6 @@ logfile="$HOME/.local/share/confbak.log"
 /usr/bin/rsync -aPc /mnt/bak/dox.git/info/exclude -t ~/.bak/git/dox.git.bak/
 /usr/bin/rsync -aPc /mnt/bak/notes.git/info/exclude -t ~/.bak/git/notes.git.bak/
 /usr/bin/rsync -aPc /mnt/bak/private.git/info/exclude -t ~/.bak/git/private.git.bak/
-} 1>/dev/null 2>>"$logfile"
+} 1>/dev/null 2>&1
 
-/usr/bin/notify-send "/etc and /mnt config files backup complete"
+/usr/bin/notify-send "/etc and /mnt files backup done"

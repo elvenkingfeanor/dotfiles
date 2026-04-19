@@ -62,12 +62,12 @@ alias jctl="/usr/bin/journalctl -p 3 -xb" # show errors from journalctl
 alias ggrestart="/usr/bin/gpg-connect-agent --quiet reloadagent /bye"
 alias ggkill="/usr/bin/gpgconf --kill gpg-agent"
 
-# pip
-alias ppi="/usr/bin/pip install"
-alias ppu="/usr/bin/pip uninstall"
-alias ppl="/usr/bin/pip list"
-alias ppc="/usr/bin/pip check"
-alias pps="/usr/bin/pip show"
+# # pip
+# alias ppi="/usr/bin/pip install"
+# alias ppu="/usr/bin/pip uninstall"
+# alias ppl="/usr/bin/pip list"
+# alias ppc="/usr/bin/pip check"
+# alias pps="/usr/bin/pip show"
 
 # git
 alias dotfiles='/usr/bin/git --git-dir="/mnt/bak/dotfiles.git" --work-tree="$HOME"'

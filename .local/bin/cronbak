@@ -1,6 +1,6 @@
 #!/bin/sh
 #cronbak
 # backup user crontab
+# for daily cron
 
-/usr/bin/rsync -aPc /var/spool/cron/ts -t ~/.config/crond/ts
-/usr/bin/stat --printf="%a %n\n" "/var/spool/cron/ts" "/var/spool/cron/root" > ~/.config/crond/perms.txt
+/usr/bin/rsync -aPc /var/spool/cron/ts -t ~/.config/crond/ts 1>/dev/null 2>&1
