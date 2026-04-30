@@ -14,4 +14,4 @@ DISPLAY=:0
 30 9-18 * * Sun ~/.local/bin/bakp
 15 */2 * * * ~/.local/bin/fff
 20 12 2 * * ~/.local/bin/clearcache
-30 12 * * * ~/.local/bin/cronbak
+30 12 * * Mon ~/.local/bin/cronbak

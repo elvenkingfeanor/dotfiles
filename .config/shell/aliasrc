@@ -155,17 +155,20 @@ alias rm="/usr/bin/rm -vI"
 alias rrm="/usr/bin/doas /usr/bin/rm -vI"
 alias mkd="/usr/bin/mkdir -vp"
 alias mmkd="/usr/bin/doas /usr/bin/mkdir -vp"
+alias rmd="/usr/bin/rmdir -vp --ignore-fail-on-non-empty"
+alias rmdd="/usr/bin/find . -depth -type d -empty -delete" # recursively delete empty sub-directories
+alias rmddd="/usr/bin/find . -depth -empty -delete" # recursively delete empty sub-directories and empty files
 
 # chown
 alias tt=/usr/bin/touch
 alias modx="/usr/bin/chmod +x"
 alias modu="/usr/bin/chmod -x"
-alias own="/usr/bin/doas /usr/bin/chown -R $(/usr/bin/echo $(/usr/bin/id -un):$(/usr/bin/id -gn))"
+alias own='/usr/bin/doas /usr/bin/chown -R $(/usr/bin/echo $(/usr/bin/id -un):$(/usr/bin/id -gn))'
 
 # ls
 alias ls="/usr/bin/eza -lo --no-permissions --group-directories-first --grid"
 alias lsa="/usr/bin/eza -alo --group-directories-first --grid"
-alias cc="/usr/bin/ls -A | /usr/bin/wc -l"
+alias lsl="/usr/bin/ls -A | /usr/bin/wc -l"
 
 # rust alternatives
 alias cat=/usr/bin/bat

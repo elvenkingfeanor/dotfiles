@@ -1,0 +1,6 @@
+#!/bin/sh
+#edbuffer
+# run vanilla (default) emacs
+# to learn more about emacs and default keybindings
+
+/usr/bin/emacs --init-directory="~/.config/emacs.bak/"

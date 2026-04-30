@@ -4,6 +4,8 @@
 
 time="$(/usr/bin/date +%H)"
 logfile="$HOME/.local/share/bakp.log"
+confinclfile="$HOME/.config/bakpincl.txt"
+confexclfile="$HOME/.config/bakpexcl.txt"
 
 # list of backup drives attached
 # (excludes internal NVME drives)
@@ -72,203 +74,142 @@ fi
 
 # start syncing to backup and back, logging each individual rsync errors to logfile
 # /usr/bin/rsync --verbose --itemize-changes --archive --checksum -hh --partial --progress --info=stats1 --recursive --modify-window=1 ~/.bak/crypt-bak/ -t /media/backup/ts-bak/bak/crypt-bak && /usr/bin/rsync --verbose --itemize-changes --archive --checksum -hh --partial --progress --info=stats1 --recursive --modify-window=1 /media/backup/ts-bak/bak/crypt-bak/ -t ~/.bak/crypt-bak; # keeping line for old arguments
-/usr/bin/notify-send "secret backup started"
-
-if ! /usr/bin/rsync --archive --checksum --partial --recursive ~/.bak/crypt-bak/ \
- -t /media/backup/ts-bak/bak/crypt-bak \
- 2>> "$logfile" \
-    && /usr/bin/rsync --archive --checksum --partial --recursive /media/backup/ts-bak/bak/crypt-bak/ \
- -t ~/.bak/crypt-bak \
- 2>> "$logfile"; then
-    /usr/bin/notify-send "secret backup failed" "check error log"
-    /usr/bin/printf "%s\n" "secret backup for $(/usr/bin/date '+%A %F') failed at $(/usr/bin/date +%H%M)hrs" >> "$logfile"
-else
-    /usr/bin/notify-send "secret backup done"
-fi
 
 /usr/bin/notify-send "etc backup started"
-if ! /usr/bin/rsync --archive --checksum --partial --recursive ~/.bak/etc-bak/ \
- -t /media/backup/ts-bak/bak/etc-bak \
- 2>> "$logfile" \
-    && /usr/bin/rsync --archive --checksum --partial --recursive /media/backup/ts-bak/bak/etc-bak/ \
- -t ~/.bak/etc-bak \
- 2>> "$logfile"; then
-    /usr/bin/notify-send "etc backup failed" "check error log"
-    /usr/bin/printf "%s\n" "etc backup for $(/usr/bin/date '+%A %F') failed at $(/usr/bin/date +%H%M)hrs" >> "$logfile"
-else
-    /usr/bin/notify-send "etc backup done"
-fi
+/usr/bin/rsync -aPc \
+    ~/.bak/ \
+    -t /media/backup/ts-bak/bak/ \
+    2>>"$logfile" &
+/usr/bin/pkill -RTMIN+14 -f /usr/local/bin/dwmblocks
+/usr/bin/rsync -aPc \
+    /media/backup/ts-bak/bak/ \
+    -t ~/.bak/ \
+    2>>"$logfile"
+/usr/bin/notify-send "etc backup done"
 
 /usr/bin/notify-send "config backup started"
-if ! /usr/bin/rsync --archive --checksum --partial --recursive \
-    --exclude '*.o' \
-    --exclude 'dmenu' \
-    --exclude 'dwm' \
-    --exclude 'dwmblocks' \
-    --exclude 'sent' \
-    --exclude 'st' \
-    --exclude 'stest' \
-    ~/.config/aerc \
-    ~/.config/alacritty \
-    ~/.config/bash \
-    ~/.config/crond \
-    ~/.config/doom \
-    ~/.config/dunst \
-    ~/.config/gallery-dl \
-    ~/.config/gcompris \
-    ~/.config/git \
-    ~/.config/gtk-2.0 \
-    ~/.config/gtk-3.0 \
-    ~/.config/mpv \
-    ~/.config/newsraft \
-    ~/.config/npm \
-    ~/.config/nsxiv \
-    ~/.config/nvim \
-    ~/.config/octodroid \
-    ~/.config/pcmanfm \
-    ~/.config/qutebrowser \
-    ~/.config/readline \
-    ~/.config/shell \
-    ~/.config/suckless \
-    ~/.config/X11 \
-    ~/.config/xwallpaper \
-    ~/.config/youtube-viewer \
-    ~/.config/yt-dlp \
-    ~/.config/zathura \
-    ~/.config/zsh \
-    ~/.config/mimeapps.list \
-    ~/.config/rmwrc \
-    ~/.config/user-dirs.dirs \
-    ~/.config/user-dirs.locale \
- -t /media/backup/ts-bak/bak/conf-bak \
- 2>> "$logfile" \
-    && /usr/bin/rsync --archive --checksum --partial --recursive /media/backup/ts-bak/bak/conf-bak/ \
- -t ~/.config \
- 2>> "$logfile"; then
-    /usr/bin/notify-send "config backup failed" "check error log"
-    /usr/bin/printf "%s\n" "config backup for $(/usr/bin/date '+%A %F') failed at $(/usr/bin/date +%H%M)hrs" >> "$logfile"
-else
-    /usr/bin/notify-send "config backup done"
-fi
+/usr/bin/rsync -aPcr \
+    --files-from="$confinclfile" \
+    --exclude-from="$confexclfile" \
+    ~/.config/ \
+    -t /media/backup/ts-bak/dotbak/conf-bak/ \
+    2>>"$logfile" &
+/usr/bin/pkill -RTMIN+14 -f /usr/local/bin/dwmblocks
+/usr/bin/rsync -aPc \
+    /media/backup/ts-bak/dotbak/conf-bak/ \
+    -t ~/.config/ \
+    2>>"$logfile"
+/usr/bin/notify-send "config backup done"
 
 /usr/bin/notify-send "local/bin backup started"
-if ! /usr/bin/rsync --archive --checksum --partial --recursive ~/.local/bin/ \
- -t /media/backup/ts-bak/bak/local-bak/bin \
- 2>> "$logfile" \
- && /usr/bin/rsync --archive --checksum --partial --recursive /media/backup/ts-bak/bak/local-bak/bin/ \
- -t ~/.local/bin \
- 2>> "$logfile"; then
-    /usr/bin/notify-send "local/bin backup failed" "check error log"
-    /usr/bin/printf "%s\n" "local/bin backup for $(/usr/bin/date '+%A %F') failed at $(/usr/bin/date +%H%M)hrs" >> "$logfile"
-else
-    /usr/bin/notify-send "local/bin backup done"
-fi
+/usr/bin/rsync -aPc \
+    ~/.local/bin/ \
+    -t /media/backup/ts-bak/dotbak/local-bak/bin/ \
+    2>>"$logfile" &
+/usr/bin/pkill -RTMIN+14 -f /usr/local/bin/dwmblocks
+/usr/bin/rsync -aPc \
+    /media/backup/ts-bak/dotbak/local-bak/bin/ \
+    -t ~/.local/bin/ \
+    2>>"$logfile"
+/usr/bin/notify-send "local/bin backup done"
 
 /usr/bin/notify-send "local/share backup started"
-if ! /usr/bin/rsync --archive --checksum --partial --recursive \
+/usr/bin/rsync -aPc \
     ~/.local/share/bookmarks \
     ~/.local/share/emoji.txt \
- -t /media/backup/ts-bak/bak/local-bak/share \
- 2>> "$logfile" \
- && /usr/bin/rsync --archive --checksum --partial --recursive /media/backup/ts-bak/bak/local-bak/share/ \
- -t ~/.local/share \
- 2>> "$logfile"; then
-    /usr/bin/notify-send "local/share backup failed" "check error log"
-    /usr/bin/printf "%s\n" "local/share backup for $(/usr/bin/date '+%A %F') failed at $(/usr/bin/date +%H%M)hrs" >> "$logfile"
-else
-    /usr/bin/notify-send "local/share backup done"
-fi
+    ~/.local/share/wordlist \
+    -t /media/backup/ts-bak/dotbak/local-bak/share \
+    2>>"$logfile" &
+/usr/bin/pkill -RTMIN+14 -f /usr/local/bin/dwmblocks
+/usr/bin/rsync -aPc \
+    /media/backup/ts-bak/dotbak/local-bak/share/ \
+    -t ~/.local/share/ \
+    2>>"$logfile"
+/usr/bin/notify-send "local/share backup done"
 
 /usr/bin/notify-send "archive backup started"
-if ! /usr/bin/rsync --archive --checksum --partial --recursive ~/.arx/ \
- -t /media/backup/ts-bak/arx \
- 2>> "$logfile" \
- && /usr/bin/rsync --archive --checksum --partial --recursive /media/backup/ts-bak/arx/ \
- -t ~/.arx \
- 2>> "$logfile"; then
-    /usr/bin/notify-send "archive backup failed" "check error log"
-    /usr/bin/printf "%s\n" "archive backup for $(/usr/bin/date '+%A %F') failed at $(/usr/bin/date +%H%M)hrs" >> "$logfile"
-else
-    /usr/bin/notify-send "archive backup done"
-fi
+/usr/bin/rsync -aPc \
+    ~/.arx/ \
+    -t /media/backup/ts-bak/arx/ \
+    2>>"$logfile" &
+/usr/bin/pkill -RTMIN+14 -f /usr/local/bin/dwmblocks
+/usr/bin/rsync -aPc \
+    /media/backup/ts-bak/arx/ \
+    -t ~/.arx/ \
+    2>>"$logfile"
+/usr/bin/notify-send "archive backup done"
 
 /usr/bin/notify-send "dox backup started"
-if ! /usr/bin/rsync --archive --checksum --partial --recursive ~/dox/ \
- -t /media/backup/ts-bak/dox \
- 2>> "$logfile" \
- && /usr/bin/rsync --archive --checksum --partial --recursive /media/backup/ts-bak/dox/ \
- -t ~/dox \
- 2>> "$logfile"; then
-    /usr/bin/notify-send "dox backup failed" "check error log"
-    /usr/bin/printf "%s\n" "dox backup for $(/usr/bin/date '+%A %F') failed at $(/usr/bin/date +%H%M)hrs" >> "$logfile"
-else
-    /usr/bin/notify-send "dox backup done"
-fi
+/usr/bin/rsync -aPc \
+    ~/dox/ \
+    -t /media/backup/ts-bak/dox/ \
+    2>>"$logfile" &
+/usr/bin/pkill -RTMIN+14 -f /usr/local/bin/dwmblocks
+/usr/bin/rsync -aPc \
+    /media/backup/ts-bak/dox/ \
+    -t ~/dox/ \
+    2>>"$logfile"
+/usr/bin/notify-send "dox backup done"
 
 /usr/bin/notify-send "notx backup started"
-if ! /usr/bin/rsync --archive --checksum --partial --recursive ~/notx/ \
- -t /media/backup/ts-bak/notx \
- 2>> "$logfile" \
- && /usr/bin/rsync --archive --checksum --partial --recursive /media/backup/ts-bak/notx/ \
- -t ~/notx \
- 2>> "$logfile"; then
-    /usr/bin/notify-send "notx backup failed" "check error log"
-    /usr/bin/printf "%s\n" "notx backup for $(/usr/bin/date '+%A %F') failed at $(/usr/bin/date +%H%M)hrs" >> "$logfile"
-else
-    /usr/bin/notify-send "notx backup done"
-fi
+/usr/bin/rsync -aPc \
+    ~/notx/ \
+    -t /media/backup/ts-bak/notx/ \
+    2>>"$logfile" &
+/usr/bin/pkill -RTMIN+14 -f /usr/local/bin/dwmblocks
+/usr/bin/rsync -aPc \
+    /media/backup/ts-bak/notx/ \
+    -t ~/notx/ \
+    2>>"$logfile"
+/usr/bin/notify-send "notx backup done"
 
 /usr/bin/notify-send "nvl backup started"
-if ! /usr/bin/rsync --archive --checksum --partial --recursive ~/nvl/ \
- -t /media/backup/ts-bak/nvl \
- 2>> "$logfile" \
- && /usr/bin/rsync --archive --checksum --partial --recursive /media/backup/ts-bak/nvl/ \
- -t ~/nvl \
- 2>> "$logfile"; then
-    /usr/bin/notify-send "nvl backup failed" "check error log"
-    /usr/bin/printf "%s\n" "nvl backup for $(/usr/bin/date '+%A %F') failed at $(/usr/bin/date +%H%M)hrs" >> "$logfile"
-else
-    /usr/bin/notify-send "nvl backup done"
-fi
+/usr/bin/rsync -aPc \
+    ~/nvl/ \
+    -t /media/backup/ts-bak/nvl/ \
+    2>>"$logfile" &
+/usr/bin/pkill -RTMIN+14 -f /usr/local/bin/dwmblocks
+/usr/bin/rsync -aPc \
+    /media/backup/ts-bak/nvl/ \
+    -t ~/nvl/ \
+    2>>"$logfile"
+/usr/bin/notify-send "nvl backup done"
 
 /usr/bin/notify-send "rsc backup started"
-if ! /usr/bin/rsync --archive --checksum --partial --recursive ~/rsc/ \
- -t /media/backup/ts-bak/rsc \
- 2>> "$logfile" \
- && /usr/bin/rsync --archive --checksum --partial --recursive /media/backup/ts-bak/rsc/ \
- -t ~/rsc \
- 2>> "$logfile"; then
-    /usr/bin/notify-send "rsc backup failed" "check error log"
-    /usr/bin/printf "%s\n" "rsc backup for $(/usr/bin/date '+%A %F') failed at $(/usr/bin/date +%H%M)hrs" >> "$logfile"
-else
-    /usr/bin/notify-send "rsc backup done"
-fi
+/usr/bin/rsync -aPc \
+    ~/rsc/ \
+    -t /media/backup/ts-bak/rsc/ \
+    2>>"$logfile" &
+/usr/bin/pkill -RTMIN+14 -f /usr/local/bin/dwmblocks
+/usr/bin/rsync -aPc \
+    /media/backup/ts-bak/rsc/ \
+    -t ~/rsc/ \
+    2>>"$logfile"
+/usr/bin/notify-send "rsc backup done"
 
 /usr/bin/notify-send "sty backup started"
-if ! /usr/bin/rsync --archive --checksum --partial --recursive ~/sty/ \
- -t /media/backup/ts-bak/sty \
- 2>> "$logfile" \
- && /usr/bin/rsync --archive --checksum --partial --recursive /media/backup/ts-bak/sty/ \
- -t ~/sty \
- 2>> "$logfile"; then
-    /usr/bin/notify-send "sty backup failed" "check error log"
-    /usr/bin/printf "%s\n" "sty backup for $(/usr/bin/date '+%A %F') failed at $(/usr/bin/date +%H%M)hrs" >> "$logfile"
-else
-    /usr/bin/notify-send "sty backup done"
-fi
+/usr/bin/rsync -aPc \
+    ~/sty/ \
+    -t /media/backup/ts-bak/sty/ \
+    2>>"$logfile" &
+/usr/bin/pkill -RTMIN+14 -f /usr/local/bin/dwmblocks
+/usr/bin/rsync -aPc \
+    /media/backup/ts-bak/sty/ \
+    -t ~/sty/ \
+    2>>"$logfile"
+/usr/bin/notify-send "sty backup done"
 
 /usr/bin/notify-send "wfu backup started"
-if ! /usr/bin/rsync --archive --checksum --partial --recursive ~/wfu/ \
- -t /media/backup/ts-bak/wfu \
- 2>> "$logfile" \
- && /usr/bin/rsync --archive --checksum --partial --recursive /media/backup/ts-bak/wfu/ \
- -t ~/wfu \
- 2>> "$logfile"; then
-    /usr/bin/notify-send "wfu backup failed" "check error log"
-    /usr/bin/printf "%s\n" "wfu backup for $(/usr/bin/date '+%A %F') failed at $(/usr/bin/date +%H%M)hrs" >> "$logfile"
-else
-    /usr/bin/notify-send "wfu backup done"
-fi
+/usr/bin/rsync -aPc \
+    ~/wfu/ \
+    -t /media/backup/ts-bak/wfu/ \
+    2>>"$logfile" &
+/usr/bin/pkill -RTMIN+14 -f /usr/local/bin/dwmblocks
+/usr/bin/rsync -aPc \
+    /media/backup/ts-bak/wfu/ \
+    -t ~/wfu/ \
+    2>>"$logfile"
+/usr/bin/notify-send "wfu backup done"
 
 /usr/bin/notify-send "backup complete"
 /usr/bin/printf "%s\n" "backup for $(/usr/bin/date '+%A %F') completed at $(/usr/bin/date +%H%M)hrs" >> "$logfile"
