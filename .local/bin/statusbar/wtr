@@ -1,5 +1,5 @@
 #!/bin/sh
-#weatherupdate
+#wtr
 # fetch hourly weather report from daily weather file
 
 hour="$(/usr/bin/date '+%H')"

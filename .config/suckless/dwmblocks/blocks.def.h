@@ -8,7 +8,7 @@ static const Block blocks[] = {
 	{"", "~/.local/bin/statusbar/batt",	60,		0},
 	{"", "~/.local/bin/statusbar/cpumem",	10,		0},
 	{"", "~/.local/bin/statusbar/datime",	60,		0},
-	{"", "~/.local/bin/statusbar/weatherupdate",	3600,		0},
+	{"", "~/.local/bin/statusbar/wtr",	3600,		0},
 	{"", "~/.local/bin/statusbar/bak",	0,		14},
 	{"", "~/.local/bin/statusbar/keebstate",	0,		13},
 };
