@@ -1,0 +1,104 @@
+#!/bin/sh
+#weatherupdate
+# fetch hourly weather report from daily weather file
+
+hour="$(/usr/bin/date '+%H')"
+wfile="$HOME/.local/share/weather.txt"
+
+# if wfile not present or blank, then exit
+if [ -z "$wfile" ]; then
+    exit 1
+fi
+
+# weather data to be shown on statusbar (updated hourly): 1. weather description, 2. tempC, 3. chanceofrain
+# additional weather data on statusbar (updated daily): 4. moon_phase
+
+# hourly weather data divided into 8 phases for each day:
+if [ "$hour" -ge 0 ] && [ "$hour" -lt 3 ]; then
+    # cron updates weather file after 0900hrs,
+    # so data from 0000hrs to 0859hrs comes from 2nd field of previous weather update
+    desc="$(/usr/bin/jq -r '.weather[1].hourly[0].weatherDesc[0].value' "$wfile")"
+    temp="$(/usr/bin/jq -r '.weather[1].hourly[0].tempC' "$wfile")"
+    rain="$(/usr/bin/jq -r '.weather[1].hourly[0].chanceofrain' "$wfile")"
+elif [ "$hour" -ge 3 ] && [ "$hour" -lt 6 ]; then
+    desc="$(/usr/bin/jq -r '.weather[1].hourly[1].weatherDesc[0].value' "$wfile")"
+    temp="$(/usr/bin/jq -r '.weather[1].hourly[1].tempC' "$wfile")"
+    rain="$(/usr/bin/jq -r '.weather[1].hourly[1].chanceofrain' "$wfile")"
+elif [ "$hour" -ge 6 ] && [ "$hour" -lt 9 ]; then
+    desc="$(/usr/bin/jq -r '.weather[1].hourly[2].weatherDesc[0].value' "$wfile")"
+    temp="$(/usr/bin/jq -r '.weather[1].hourly[2].tempC' "$wfile")"
+    rain="$(/usr/bin/jq -r '.weather[1].hourly[2].chanceofrain' "$wfile")"
+elif [ "$hour" -ge 9 ] && [ "$hour" -lt 12 ]; then
+    # stat and date commands giving equal strings means file updated on given date
+    # meaning, cron updated weather file, so take data accordingly
+    if [ "$(/usr/bin/stat -c %y "$wfile" | /usr/bin/cut -d ' ' -f1)" = "$(/usr/bin/date '+%Y-%m-%d')" ]; then
+        desc="$(/usr/bin/jq -r '.weather[0].hourly[3].weatherDesc[0].value' "$wfile")"
+        temp="$(/usr/bin/jq -r '.weather[0].hourly[3].tempC' "$wfile")"
+        rain="$(/usr/bin/jq -r '.weather[0].hourly[3].chanceofrain' "$wfile")"
+    else
+        desc="$(/usr/bin/jq -r '.weather[1].hourly[3].weatherDesc[0].value' "$wfile")"
+        temp="$(/usr/bin/jq -r '.weather[1].hourly[3].tempC' "$wfile")"
+        rain="$(/usr/bin/jq -r '.weather[1].hourly[3].chanceofrain' "$wfile")"
+    fi
+elif [ "$hour" -ge 12 ] && [ "$hour" -lt 15 ]; then
+    if [ "$(/usr/bin/stat -c %y "$wfile" | /usr/bin/cut -d ' ' -f1)" = "$(/usr/bin/date '+%Y-%m-%d')" ]; then
+        desc="$(/usr/bin/jq -r '.weather[0].hourly[4].weatherDesc[0].value' "$wfile")"
+        temp="$(/usr/bin/jq -r '.weather[0].hourly[4].tempC' "$wfile")"
+        rain="$(/usr/bin/jq -r '.weather[0].hourly[4].chanceofrain' "$wfile")"
+    else
+        desc="$(/usr/bin/jq -r '.weather[1].hourly[4].weatherDesc[0].value' "$wfile")"
+        temp="$(/usr/bin/jq -r '.weather[1].hourly[4].tempC' "$wfile")"
+        rain="$(/usr/bin/jq -r '.weather[1].hourly[4].chanceofrain' "$wfile")"
+    fi
+elif [ "$hour" -ge 15 ] && [ "$hour" -lt 18 ]; then
+    if [ "$(/usr/bin/stat -c %y "$wfile" | /usr/bin/cut -d ' ' -f1)" = "$(/usr/bin/date '+%Y-%m-%d')" ]; then
+        desc="$(/usr/bin/jq -r '.weather[0].hourly[5].weatherDesc[0].value' "$wfile")"
+        temp="$(/usr/bin/jq -r '.weather[0].hourly[5].tempC' "$wfile")"
+        rain="$(/usr/bin/jq -r '.weather[0].hourly[5].chanceofrain' "$wfile")"
+    else
+        desc="$(/usr/bin/jq -r '.weather[1].hourly[5].weatherDesc[0].value' "$wfile")"
+        temp="$(/usr/bin/jq -r '.weather[1].hourly[5].tempC' "$wfile")"
+        rain="$(/usr/bin/jq -r '.weather[1].hourly[5].chanceofrain' "$wfile")"
+    fi
+elif [ "$hour" -ge 18 ] && [ "$hour" -lt 21 ]; then
+    if [ "$(/usr/bin/stat -c %y "$wfile" | /usr/bin/cut -d ' ' -f1)" = "$(/usr/bin/date '+%Y-%m-%d')" ]; then
+        desc="$(/usr/bin/jq -r '.weather[0].hourly[6].weatherDesc[0].value' "$wfile")"
+        temp="$(/usr/bin/jq -r '.weather[0].hourly[6].tempC' "$wfile")"
+        rain="$(/usr/bin/jq -r '.weather[0].hourly[6].chanceofrain' "$wfile")"
+    else
+        desc="$(/usr/bin/jq -r '.weather[1].hourly[6].weatherDesc[0].value' "$wfile")"
+        temp="$(/usr/bin/jq -r '.weather[1].hourly[6].tempC' "$wfile")"
+        rain="$(/usr/bin/jq -r '.weather[1].hourly[6].chanceofrain' "$wfile")"
+    fi
+else
+    if [ "$(/usr/bin/stat -c %y "$wfile" | /usr/bin/cut -d ' ' -f1)" = "$(/usr/bin/date '+%Y-%m-%d')" ]; then
+        desc="$(/usr/bin/jq -r '.weather[0].hourly[7].weatherDesc[0].value' "$wfile")"
+        temp="$(/usr/bin/jq -r '.weather[0].hourly[7].tempC' "$wfile")"
+        rain="$(/usr/bin/jq -r '.weather[0].hourly[7].chanceofrain' "$wfile")"
+    else
+        desc="$(/usr/bin/jq -r '.weather[1].hourly[7].weatherDesc[0].value' "$wfile")"
+        temp="$(/usr/bin/jq -r '.weather[1].hourly[7].tempC' "$wfile")"
+        rain="$(/usr/bin/jq -r '.weather[1].hourly[7].chanceofrain' "$wfile")"
+    fi
+fi
+
+# Moon phases
+if [ "$(/usr/bin/stat -c %y "$wfile" | /usr/bin/cut -d ' ' -f1)" = "$(/usr/bin/date '+%Y-%m-%d')" ]; then
+    phase="$(/usr/bin/jq -r '.weather[0].astronomy[0].moon_phase' "$wfile")"
+else
+    phase="$(/usr/bin/jq -r '.weather[1].astronomy[0].moon_phase' "$wfile")"
+fi
+
+case "$phase" in
+    "New Moon") moon="🌑" ;;
+    "Waxing Crescent") moon="🌒" ;;
+    "First Quarter") moon="🌓" ;;
+    "Waxing Gibbous") moon="🌔" ;;
+    "Full Moon") moon="🌕" ;;
+    "Waning Gibbous") moon="🌖" ;;
+    "Third Quarter") moon="🌗" ;;
+    "Waning Crescent") moon="🌘" ;;
+esac
+
+# Combine all variables
+/usr/bin/printf "%s" "$desc☀️$temp°C💦$rain%$moon"

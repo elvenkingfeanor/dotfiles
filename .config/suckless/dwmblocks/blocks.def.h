@@ -2,12 +2,13 @@
 static const Block blocks[] = {
 	/*Icon*/	/*Command*/		/*Update Interval*/	/*Update Signal*/
 	{"", "~/.local/bin/statusbar/micvol",	0,		11},
-	{"", "~/.local/bin/statusbar/net",	5,		0},
+	/* {"", "~/.local/bin/statusbar/net",	5,		0}, */
 	{"", "~/.local/bin/statusbar/brtt",	0,		12},
 	{"", "~/.local/bin/statusbar/freedisk",	60,		0},
 	{"", "~/.local/bin/statusbar/batt",	60,		0},
 	{"", "~/.local/bin/statusbar/cpumem",	10,		0},
 	{"", "~/.local/bin/statusbar/datime",	60,		0},
+	{"", "~/.local/bin/statusbar/weatherupdate",	3600,		0},
 	{"", "~/.local/bin/statusbar/bak",	0,		14},
 	{"", "~/.local/bin/statusbar/keebstate",	0,		13},
 };

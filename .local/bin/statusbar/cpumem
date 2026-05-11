@@ -69,4 +69,4 @@ ramtotal="$(/usr/bin/free | \
 ramuse="$((100 * ramused / ramtotal))"
 
 # output final result fully formatted
-/usr/bin/printf "%s" "💻$cpuuse🌡️$cputemp📟$ramuse"
+/usr/bin/printf "%s" "💻$cpuuse♨️$cputemp📟$ramuse"
