@@ -11,8 +11,8 @@ if [ -z "$wfile" ]; then
     exit 1
 fi
 
-# check if wfile updated for the day, then proceed accordingly
-if [ "$(/usr/bin/stat -c %y "$wfile" | /usr/bin/cut -d ' ' -f1)" = "$(/usr/bin/date '+%Y-%m-%d')" ]; then
+# check if wfile updated for the day, then return daily total sun-hours and maximum temperature
+if [ "$(/usr/bin/jq -r '.weather[0].date' "$wfile" | /usr/bin/tr -d '-')" -eq "$(/usr/bin/date '+%Y%m%d')" ]; then
     sunhour="$(/usr/bin/jq -r '.weather[0].sunHour' "$wfile")"
     maxtemp="$(/usr/bin/jq -r '.weather[0].maxtempC' "$wfile")"
 else
@@ -20,8 +20,9 @@ else
     maxtemp="$(/usr/bin/jq -r '.weather[1].maxtempC' "$wfile")"
 fi
 
+# check if wfile updated for the day, then return hourly uv-index and hourly chance of high temperature
 if [ "$hour" -ge 0 ] && [ "$hour" -lt 3 ]; then
-    if [ "$(/usr/bin/stat -c %y "$wfile" | /usr/bin/cut -d ' ' -f1)" = "$(/usr/bin/date '+%Y-%m-%d')" ]; then
+    if [ "$(/usr/bin/jq -r '.weather[0].date' "$wfile" | /usr/bin/tr -d '-')" -eq "$(/usr/bin/date '+%Y%m%d')" ]; then
         desc="$(/usr/bin/jq -r '.weather[0].hourly[0].weatherDesc[0].value' "$wfile")"
         uvindex="$(/usr/bin/jq -r '.weather[0].hourly[0].uvIndex' "$wfile")"
         hightemp="$(/usr/bin/jq -r '.weather[0].hourly[0].chanceofhightemp' "$wfile")"
@@ -31,7 +32,7 @@ if [ "$hour" -ge 0 ] && [ "$hour" -lt 3 ]; then
         hightemp="$(/usr/bin/jq -r '.weather[1].hourly[0].chanceofhightemp' "$wfile")"
     fi
 elif [ "$hour" -ge 3 ] && [ "$hour" -lt 6 ]; then
-    if [ "$(/usr/bin/stat -c %y "$wfile" | /usr/bin/cut -d ' ' -f1)" = "$(/usr/bin/date '+%Y-%m-%d')" ]; then
+    if [ "$(/usr/bin/jq -r '.weather[0].date' "$wfile" | /usr/bin/tr -d '-')" -eq "$(/usr/bin/date '+%Y%m%d')" ]; then
         desc="$(/usr/bin/jq -r '.weather[0].hourly[1].weatherDesc[0].value' "$wfile")"
         uvindex="$(/usr/bin/jq -r '.weather[0].hourly[1].uvIndex' "$wfile")"
         hightemp="$(/usr/bin/jq -r '.weather[0].hourly[1].chanceofhightemp' "$wfile")"
@@ -41,7 +42,7 @@ elif [ "$hour" -ge 3 ] && [ "$hour" -lt 6 ]; then
         hightemp="$(/usr/bin/jq -r '.weather[1].hourly[1].chanceofhightemp' "$wfile")"
     fi
 elif [ "$hour" -ge 6 ] && [ "$hour" -lt 9 ]; then
-    if [ "$(/usr/bin/stat -c %y "$wfile" | /usr/bin/cut -d ' ' -f1)" = "$(/usr/bin/date '+%Y-%m-%d')" ]; then
+    if [ "$(/usr/bin/jq -r '.weather[0].date' "$wfile" | /usr/bin/tr -d '-')" -eq "$(/usr/bin/date '+%Y%m%d')" ]; then
         desc="$(/usr/bin/jq -r '.weather[0].hourly[2].weatherDesc[0].value' "$wfile")"
         uvindex="$(/usr/bin/jq -r '.weather[0].hourly[2].uvIndex' "$wfile")"
         hightemp="$(/usr/bin/jq -r '.weather[0].hourly[2].chanceofhightemp' "$wfile")"
@@ -51,7 +52,7 @@ elif [ "$hour" -ge 6 ] && [ "$hour" -lt 9 ]; then
         hightemp="$(/usr/bin/jq -r '.weather[1].hourly[2].chanceofhightemp' "$wfile")"
     fi
 elif [ "$hour" -ge 9 ] && [ "$hour" -lt 12 ]; then
-    if [ "$(/usr/bin/stat -c %y "$wfile" | /usr/bin/cut -d ' ' -f1)" = "$(/usr/bin/date '+%Y-%m-%d')" ]; then
+    if [ "$(/usr/bin/jq -r '.weather[0].date' "$wfile" | /usr/bin/tr -d '-')" -eq "$(/usr/bin/date '+%Y%m%d')" ]; then
         desc="$(/usr/bin/jq -r '.weather[0].hourly[3].weatherDesc[0].value' "$wfile")"
         uvindex="$(/usr/bin/jq -r '.weather[0].hourly[3].uvIndex' "$wfile")"
         hightemp="$(/usr/bin/jq -r '.weather[0].hourly[3].chanceofhightemp' "$wfile")"
@@ -61,7 +62,7 @@ elif [ "$hour" -ge 9 ] && [ "$hour" -lt 12 ]; then
         hightemp="$(/usr/bin/jq -r '.weather[1].hourly[3].chanceofhightemp' "$wfile")"
     fi
 elif [ "$hour" -ge 12 ] && [ "$hour" -lt 15 ]; then
-    if [ "$(/usr/bin/stat -c %y "$wfile" | /usr/bin/cut -d ' ' -f1)" = "$(/usr/bin/date '+%Y-%m-%d')" ]; then
+    if [ "$(/usr/bin/jq -r '.weather[0].date' "$wfile" | /usr/bin/tr -d '-')" -eq "$(/usr/bin/date '+%Y%m%d')" ]; then
         desc="$(/usr/bin/jq -r '.weather[0].hourly[4].weatherDesc[0].value' "$wfile")"
         uvindex="$(/usr/bin/jq -r '.weather[0].hourly[4].uvIndex' "$wfile")"
         hightemp="$(/usr/bin/jq -r '.weather[0].hourly[4].chanceofhightemp' "$wfile")"
@@ -71,7 +72,7 @@ elif [ "$hour" -ge 12 ] && [ "$hour" -lt 15 ]; then
         hightemp="$(/usr/bin/jq -r '.weather[1].hourly[4].chanceofhightemp' "$wfile")"
     fi
 elif [ "$hour" -ge 15 ] && [ "$hour" -lt 18 ]; then
-    if [ "$(/usr/bin/stat -c %y "$wfile" | /usr/bin/cut -d ' ' -f1)" = "$(/usr/bin/date '+%Y-%m-%d')" ]; then
+    if [ "$(/usr/bin/jq -r '.weather[0].date' "$wfile" | /usr/bin/tr -d '-')" -eq "$(/usr/bin/date '+%Y%m%d')" ]; then
         desc="$(/usr/bin/jq -r '.weather[0].hourly[5].weatherDesc[0].value' "$wfile")"
         uvindex="$(/usr/bin/jq -r '.weather[0].hourly[5].uvIndex' "$wfile")"
         hightemp="$(/usr/bin/jq -r '.weather[0].hourly[5].chanceofhightemp' "$wfile")"
@@ -81,7 +82,7 @@ elif [ "$hour" -ge 15 ] && [ "$hour" -lt 18 ]; then
         hightemp="$(/usr/bin/jq -r '.weather[1].hourly[5].chanceofhightemp' "$wfile")"
     fi
 elif [ "$hour" -ge 18 ] && [ "$hour" -lt 21 ]; then
-    if [ "$(/usr/bin/stat -c %y "$wfile" | /usr/bin/cut -d ' ' -f1)" = "$(/usr/bin/date '+%Y-%m-%d')" ]; then
+    if [ "$(/usr/bin/jq -r '.weather[0].date' "$wfile" | /usr/bin/tr -d '-')" -eq "$(/usr/bin/date '+%Y%m%d')" ]; then
         desc="$(/usr/bin/jq -r '.weather[0].hourly[6].weatherDesc[0].value' "$wfile")"
         uvindex="$(/usr/bin/jq -r '.weather[0].hourly[6].uvIndex' "$wfile")"
         hightemp="$(/usr/bin/jq -r '.weather[0].hourly[6].chanceofhightemp' "$wfile")"
@@ -91,7 +92,7 @@ elif [ "$hour" -ge 18 ] && [ "$hour" -lt 21 ]; then
         hightemp="$(/usr/bin/jq -r '.weather[1].hourly[6].chanceofhightemp' "$wfile")"
     fi
 else
-    if [ "$(/usr/bin/stat -c %y "$wfile" | /usr/bin/cut -d ' ' -f1)" = "$(/usr/bin/date '+%Y-%m-%d')" ]; then
+    if [ "$(/usr/bin/jq -r '.weather[0].date' "$wfile" | /usr/bin/tr -d '-')" -eq "$(/usr/bin/date '+%Y%m%d')" ]; then
         desc="$(/usr/bin/jq -r '.weather[0].hourly[7].weatherDesc[0].value' "$wfile")"
         uvindex="$(/usr/bin/jq -r '.weather[0].hourly[7].uvIndex' "$wfile")"
         hightemp="$(/usr/bin/jq -r '.weather[0].hourly[7].chanceofhightemp' "$wfile")"

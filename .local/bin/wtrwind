@@ -13,7 +13,7 @@ fi
 
 # check if wfile updated for the day, then proceed accordingly
 if [ "$hour" -ge 0 ] && [ "$hour" -lt 3 ]; then
-    if [ "$(/usr/bin/stat -c %y "$wfile" | /usr/bin/cut -d ' ' -f1)" = "$(/usr/bin/date '+%Y-%m-%d')" ]; then
+    if [ "$(/usr/bin/jq -r '.weather[0].date' "$wfile" | /usr/bin/tr -d '-')" -eq "$(/usr/bin/date '+%Y%m%d')" ]; then
         desc="$(/usr/bin/jq -r '.weather[0].hourly[0].weatherDesc[0].value' "$wfile")"
         windspeed="$(/usr/bin/jq -r '.weather[0].hourly[0].windspeedKmph' "$wfile")"
         winddir="$(/usr/bin/jq -r '.weather[0].hourly[0].winddir16Point' "$wfile")"
@@ -27,7 +27,7 @@ if [ "$hour" -ge 0 ] && [ "$hour" -lt 3 ]; then
         windgust="$(/usr/bin/jq -r '.weather[1].hourly[0].WindGustKmph' "$wfile")"
     fi
 elif [ "$hour" -ge 3 ] && [ "$hour" -lt 6 ]; then
-    if [ "$(/usr/bin/stat -c %y "$wfile" | /usr/bin/cut -d ' ' -f1)" = "$(/usr/bin/date '+%Y-%m-%d')" ]; then
+    if [ "$(/usr/bin/jq -r '.weather[0].date' "$wfile" | /usr/bin/tr -d '-')" -eq "$(/usr/bin/date '+%Y%m%d')" ]; then
         desc="$(/usr/bin/jq -r '.weather[0].hourly[1].weatherDesc[0].value' "$wfile")"
         windspeed="$(/usr/bin/jq -r '.weather[0].hourly[1].windspeedKmph' "$wfile")"
         winddir="$(/usr/bin/jq -r '.weather[0].hourly[1].winddir16Point' "$wfile")"
@@ -41,7 +41,7 @@ elif [ "$hour" -ge 3 ] && [ "$hour" -lt 6 ]; then
         windgust="$(/usr/bin/jq -r '.weather[1].hourly[1].WindGustKmph' "$wfile")"
     fi
 elif [ "$hour" -ge 6 ] && [ "$hour" -lt 9 ]; then
-    if [ "$(/usr/bin/stat -c %y "$wfile" | /usr/bin/cut -d ' ' -f1)" = "$(/usr/bin/date '+%Y-%m-%d')" ]; then
+    if [ "$(/usr/bin/jq -r '.weather[0].date' "$wfile" | /usr/bin/tr -d '-')" -eq "$(/usr/bin/date '+%Y%m%d')" ]; then
         desc="$(/usr/bin/jq -r '.weather[0].hourly[2].weatherDesc[0].value' "$wfile")"
         windspeed="$(/usr/bin/jq -r '.weather[0].hourly[2].windspeedKmph' "$wfile")"
         winddir="$(/usr/bin/jq -r '.weather[0].hourly[2].winddir16Point' "$wfile")"
@@ -55,7 +55,7 @@ elif [ "$hour" -ge 6 ] && [ "$hour" -lt 9 ]; then
         windgust="$(/usr/bin/jq -r '.weather[1].hourly[2].WindGustKmph' "$wfile")"
     fi
 elif [ "$hour" -ge 9 ] && [ "$hour" -lt 12 ]; then
-    if [ "$(/usr/bin/stat -c %y "$wfile" | /usr/bin/cut -d ' ' -f1)" = "$(/usr/bin/date '+%Y-%m-%d')" ]; then
+    if [ "$(/usr/bin/jq -r '.weather[0].date' "$wfile" | /usr/bin/tr -d '-')" -eq "$(/usr/bin/date '+%Y%m%d')" ]; then
         desc="$(/usr/bin/jq -r '.weather[0].hourly[3].weatherDesc[0].value' "$wfile")"
         windspeed="$(/usr/bin/jq -r '.weather[0].hourly[3].windspeedKmph' "$wfile")"
         winddir="$(/usr/bin/jq -r '.weather[0].hourly[3].winddir16Point' "$wfile")"
@@ -69,7 +69,7 @@ elif [ "$hour" -ge 9 ] && [ "$hour" -lt 12 ]; then
         windgust="$(/usr/bin/jq -r '.weather[1].hourly[3].WindGustKmph' "$wfile")"
     fi
 elif [ "$hour" -ge 12 ] && [ "$hour" -lt 15 ]; then
-    if [ "$(/usr/bin/stat -c %y "$wfile" | /usr/bin/cut -d ' ' -f1)" = "$(/usr/bin/date '+%Y-%m-%d')" ]; then
+    if [ "$(/usr/bin/jq -r '.weather[0].date' "$wfile" | /usr/bin/tr -d '-')" -eq "$(/usr/bin/date '+%Y%m%d')" ]; then
         desc="$(/usr/bin/jq -r '.weather[0].hourly[4].weatherDesc[0].value' "$wfile")"
         windspeed="$(/usr/bin/jq -r '.weather[0].hourly[4].windspeedKmph' "$wfile")"
         winddir="$(/usr/bin/jq -r '.weather[0].hourly[4].winddir16Point' "$wfile")"
@@ -83,7 +83,7 @@ elif [ "$hour" -ge 12 ] && [ "$hour" -lt 15 ]; then
         windgust="$(/usr/bin/jq -r '.weather[1].hourly[4].WindGustKmph' "$wfile")"
     fi
 elif [ "$hour" -ge 15 ] && [ "$hour" -lt 18 ]; then
-    if [ "$(/usr/bin/stat -c %y "$wfile" | /usr/bin/cut -d ' ' -f1)" = "$(/usr/bin/date '+%Y-%m-%d')" ]; then
+    if [ "$(/usr/bin/jq -r '.weather[0].date' "$wfile" | /usr/bin/tr -d '-')" -eq "$(/usr/bin/date '+%Y%m%d')" ]; then
         desc="$(/usr/bin/jq -r '.weather[0].hourly[5].weatherDesc[0].value' "$wfile")"
         windspeed="$(/usr/bin/jq -r '.weather[0].hourly[5].windspeedKmph' "$wfile")"
         winddir="$(/usr/bin/jq -r '.weather[0].hourly[5].winddir16Point' "$wfile")"
@@ -97,7 +97,7 @@ elif [ "$hour" -ge 15 ] && [ "$hour" -lt 18 ]; then
         windgust="$(/usr/bin/jq -r '.weather[1].hourly[5].WindGustKmph' "$wfile")"
     fi
 elif [ "$hour" -ge 18 ] && [ "$hour" -lt 21 ]; then
-    if [ "$(/usr/bin/stat -c %y "$wfile" | /usr/bin/cut -d ' ' -f1)" = "$(/usr/bin/date '+%Y-%m-%d')" ]; then
+    if [ "$(/usr/bin/jq -r '.weather[0].date' "$wfile" | /usr/bin/tr -d '-')" -eq "$(/usr/bin/date '+%Y%m%d')" ]; then
         desc="$(/usr/bin/jq -r '.weather[0].hourly[6].weatherDesc[0].value' "$wfile")"
         windspeed="$(/usr/bin/jq -r '.weather[0].hourly[6].windspeedKmph' "$wfile")"
         winddir="$(/usr/bin/jq -r '.weather[0].hourly[6].winddir16Point' "$wfile")"
@@ -111,7 +111,7 @@ elif [ "$hour" -ge 18 ] && [ "$hour" -lt 21 ]; then
         windgust="$(/usr/bin/jq -r '.weather[1].hourly[6].WindGustKmph' "$wfile")"
     fi
 else
-    if [ "$(/usr/bin/stat -c %y "$wfile" | /usr/bin/cut -d ' ' -f1)" = "$(/usr/bin/date '+%Y-%m-%d')" ]; then
+    if [ "$(/usr/bin/jq -r '.weather[0].date' "$wfile" | /usr/bin/tr -d '-')" -eq "$(/usr/bin/date '+%Y%m%d')" ]; then
         desc="$(/usr/bin/jq -r '.weather[0].hourly[7].weatherDesc[0].value' "$wfile")"
         windspeed="$(/usr/bin/jq -r '.weather[0].hourly[7].windspeedKmph' "$wfile")"
         winddir="$(/usr/bin/jq -r '.weather[0].hourly[7].winddir16Point' "$wfile")"
@@ -126,4 +126,4 @@ else
     fi
 fi
 
-/usr/bin/printf "%s\n" "$desc conditions with $windchance% chance of winds. $windspeed kmph wind speeds from $winddir direction, with gusts of $windgust kmph."
+/usr/bin/printf "%s\n" "$desc conditions with $windchance% chance of winds. $windspeed kmph avg. wind speeds from $winddir direction, with gusts of $windgust kmph."

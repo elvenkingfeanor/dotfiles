@@ -6,13 +6,13 @@ DISPLAY=:0
 */5 9-22 * * * ~/.local/bin/bright
 @reboot ~/.local/bin/newsreload
 5 */2 * * * ~/.local/bin/newsreload
+@reboot ~/.local/bin/unotify
 10 */2 * * * ~/.local/bin/unotify
 15 */2 * * * ~/.local/bin/fff
 20 9-18 * * * ~/.local/bin/wtrupdate
 25 12 * * * ~/.local/bin/confbak
-30 11 * * Fri ~/.local/bin/packagelist
-15 11 10 10 * ~/.local/bin/permlist
-@reboot ~/.local/bin/unotify
 30 9-18 * * Sun ~/.local/bin/bakp
-20 12 2 * * ~/.local/bin/clearcache
 30 12 * * Mon ~/.local/bin/cronbak
+30 11 * * Fri ~/.local/bin/packagelist
+20 12 2 * * ~/.local/bin/clearcache
+15 11 10 10 * ~/.local/bin/permlist

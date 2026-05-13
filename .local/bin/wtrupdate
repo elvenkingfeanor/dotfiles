@@ -7,7 +7,7 @@ wfile="$HOME/.local/share/weather.txt"
 
 # check modification time of wfile, and update once daily
 if [ -s "$wfile" ] && \
-    [ "$(/usr/bin/stat -c %y "$wfile" | /usr/bin/cut -d ' ' -f1)" = "$(/usr/bin/date '+%Y-%m-%d')" ]; then
+    [ "$(/usr/bin/jq -r '.weather[0].date' "$wfile" | /usr/bin/tr -d '-')" -eq "$(/usr/bin/date '+%Y%m%d')" ]; then
     /usr/bin/notify-send "weather report up-to-date for today $(/usr/bin/date '+%Y-%m-%d')"
     exit 1
 else

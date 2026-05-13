@@ -13,7 +13,7 @@ fi
 
 # check if wfile updated for the day, then proceed accordingly
 if [ "$hour" -ge 0 ] && [ "$hour" -lt 3 ]; then
-    if [ "$(/usr/bin/stat -c %y "$wfile" | /usr/bin/cut -d ' ' -f1)" = "$(/usr/bin/date '+%Y-%m-%d')" ]; then
+    if [ "$(/usr/bin/jq -r '.weather[0].date' "$wfile" | /usr/bin/tr -d '-')" -eq "$(/usr/bin/date '+%Y%m%d')" ]; then
         desc="$(/usr/bin/jq -r '.weather[0].hourly[0].weatherDesc[0].value' "$wfile")"
         rainchance="$(/usr/bin/jq -r '.weather[0].hourly[0].chanceofrain' "$wfile")"
         rainmm="$(/usr/bin/jq -r '.weather[0].hourly[0].precipMM' "$wfile")"
@@ -27,7 +27,7 @@ if [ "$hour" -ge 0 ] && [ "$hour" -lt 3 ]; then
         cloudcover="$(/usr/bin/jq -r '.weather[1].hourly[0].cloudcover' "$wfile")"
     fi
 elif [ "$hour" -ge 3 ] && [ "$hour" -lt 6 ]; then
-    if [ "$(/usr/bin/stat -c %y "$wfile" | /usr/bin/cut -d ' ' -f1)" = "$(/usr/bin/date '+%Y-%m-%d')" ]; then
+    if [ "$(/usr/bin/jq -r '.weather[0].date' "$wfile" | /usr/bin/tr -d '-')" -eq "$(/usr/bin/date '+%Y%m%d')" ]; then
         desc="$(/usr/bin/jq -r '.weather[0].hourly[1].weatherDesc[0].value' "$wfile")"
         rainchance="$(/usr/bin/jq -r '.weather[0].hourly[1].chanceofrain' "$wfile")"
         rainmm="$(/usr/bin/jq -r '.weather[0].hourly[1].precipMM' "$wfile")"
@@ -41,7 +41,7 @@ elif [ "$hour" -ge 3 ] && [ "$hour" -lt 6 ]; then
         cloudcover="$(/usr/bin/jq -r '.weather[1].hourly[1].cloudcover' "$wfile")"
     fi
 elif [ "$hour" -ge 6 ] && [ "$hour" -lt 9 ]; then
-    if [ "$(/usr/bin/stat -c %y "$wfile" | /usr/bin/cut -d ' ' -f1)" = "$(/usr/bin/date '+%Y-%m-%d')" ]; then
+    if [ "$(/usr/bin/jq -r '.weather[0].date' "$wfile" | /usr/bin/tr -d '-')" -eq "$(/usr/bin/date '+%Y%m%d')" ]; then
         desc="$(/usr/bin/jq -r '.weather[0].hourly[2].weatherDesc[0].value' "$wfile")"
         rainchance="$(/usr/bin/jq -r '.weather[0].hourly[2].chanceofrain' "$wfile")"
         rainmm="$(/usr/bin/jq -r '.weather[0].hourly[2].precipMM' "$wfile")"
@@ -55,7 +55,7 @@ elif [ "$hour" -ge 6 ] && [ "$hour" -lt 9 ]; then
         cloudcover="$(/usr/bin/jq -r '.weather[1].hourly[2].cloudcover' "$wfile")"
     fi
 elif [ "$hour" -ge 9 ] && [ "$hour" -lt 12 ]; then
-    if [ "$(/usr/bin/stat -c %y "$wfile" | /usr/bin/cut -d ' ' -f1)" = "$(/usr/bin/date '+%Y-%m-%d')" ]; then
+    if [ "$(/usr/bin/jq -r '.weather[0].date' "$wfile" | /usr/bin/tr -d '-')" -eq "$(/usr/bin/date '+%Y%m%d')" ]; then
         desc="$(/usr/bin/jq -r '.weather[0].hourly[3].weatherDesc[0].value' "$wfile")"
         rainchance="$(/usr/bin/jq -r '.weather[0].hourly[3].chanceofrain' "$wfile")"
         rainmm="$(/usr/bin/jq -r '.weather[0].hourly[3].precipMM' "$wfile")"
@@ -69,7 +69,7 @@ elif [ "$hour" -ge 9 ] && [ "$hour" -lt 12 ]; then
         cloudcover="$(/usr/bin/jq -r '.weather[1].hourly[3].cloudcover' "$wfile")"
     fi
 elif [ "$hour" -ge 12 ] && [ "$hour" -lt 15 ]; then
-    if [ "$(/usr/bin/stat -c %y "$wfile" | /usr/bin/cut -d ' ' -f1)" = "$(/usr/bin/date '+%Y-%m-%d')" ]; then
+    if [ "$(/usr/bin/jq -r '.weather[0].date' "$wfile" | /usr/bin/tr -d '-')" -eq "$(/usr/bin/date '+%Y%m%d')" ]; then
         desc="$(/usr/bin/jq -r '.weather[0].hourly[4].weatherDesc[0].value' "$wfile")"
         rainchance="$(/usr/bin/jq -r '.weather[0].hourly[4].chanceofrain' "$wfile")"
         rainmm="$(/usr/bin/jq -r '.weather[0].hourly[4].precipMM' "$wfile")"
@@ -83,7 +83,7 @@ elif [ "$hour" -ge 12 ] && [ "$hour" -lt 15 ]; then
         cloudcover="$(/usr/bin/jq -r '.weather[1].hourly[4].cloudcover' "$wfile")"
     fi
 elif [ "$hour" -ge 15 ] && [ "$hour" -lt 18 ]; then
-    if [ "$(/usr/bin/stat -c %y "$wfile" | /usr/bin/cut -d ' ' -f1)" = "$(/usr/bin/date '+%Y-%m-%d')" ]; then
+    if [ "$(/usr/bin/jq -r '.weather[0].date' "$wfile" | /usr/bin/tr -d '-')" -eq "$(/usr/bin/date '+%Y%m%d')" ]; then
         desc="$(/usr/bin/jq -r '.weather[0].hourly[5].weatherDesc[0].value' "$wfile")"
         rainchance="$(/usr/bin/jq -r '.weather[0].hourly[5].chanceofrain' "$wfile")"
         rainmm="$(/usr/bin/jq -r '.weather[0].hourly[5].precipMM' "$wfile")"
@@ -97,7 +97,7 @@ elif [ "$hour" -ge 15 ] && [ "$hour" -lt 18 ]; then
         cloudcover="$(/usr/bin/jq -r '.weather[1].hourly[5].cloudcover' "$wfile")"
     fi
 elif [ "$hour" -ge 18 ] && [ "$hour" -lt 21 ]; then
-    if [ "$(/usr/bin/stat -c %y "$wfile" | /usr/bin/cut -d ' ' -f1)" = "$(/usr/bin/date '+%Y-%m-%d')" ]; then
+    if [ "$(/usr/bin/jq -r '.weather[0].date' "$wfile" | /usr/bin/tr -d '-')" -eq "$(/usr/bin/date '+%Y%m%d')" ]; then
         desc="$(/usr/bin/jq -r '.weather[0].hourly[6].weatherDesc[0].value' "$wfile")"
         rainchance="$(/usr/bin/jq -r '.weather[0].hourly[6].chanceofrain' "$wfile")"
         rainmm="$(/usr/bin/jq -r '.weather[0].hourly[6].precipMM' "$wfile")"
@@ -111,7 +111,7 @@ elif [ "$hour" -ge 18 ] && [ "$hour" -lt 21 ]; then
         cloudcover="$(/usr/bin/jq -r '.weather[1].hourly[6].cloudcover' "$wfile")"
     fi
 else
-    if [ "$(/usr/bin/stat -c %y "$wfile" | /usr/bin/cut -d ' ' -f1)" = "$(/usr/bin/date '+%Y-%m-%d')" ]; then
+    if [ "$(/usr/bin/jq -r '.weather[0].date' "$wfile" | /usr/bin/tr -d '-')" -eq "$(/usr/bin/date '+%Y%m%d')" ]; then
         desc="$(/usr/bin/jq -r '.weather[0].hourly[7].weatherDesc[0].value' "$wfile")"
         rainchance="$(/usr/bin/jq -r '.weather[0].hourly[7].chanceofrain' "$wfile")"
         rainmm="$(/usr/bin/jq -r '.weather[0].hourly[7].precipMM' "$wfile")"
