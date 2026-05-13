@@ -100,5 +100,19 @@ case "$phase" in
     "Waning Crescent") moon="🌘" ;;
 esac
 
+# Weather description
+case "$desc" in
+    "Partly Cloudy ") wtr="🌤️" ;;
+    "Cloudy") wtr="🌥️" ;;
+    "Haze") wtr="🌬️" ;;
+    "Mist") wtr="🌫️" ;;
+    "Fog") wtr="🌫️" ;;
+    "Clear ") wtr="🌞" ;;
+    "Sunny") wtr="☀️" ;;
+    "Moderate rain at times") wtr="🌦️" ;;
+    "Patchy rain nearby") wtr="☔" ;;
+    *) wtr="🌂" ;;
+esac
+
 # Combine all variables
-/usr/bin/printf "%s" "$desc☀️$temp°C💦$rain%$moon"
+/usr/bin/printf "%s" "$wtr$temp°C💦$rain%$moon"

@@ -1,0 +1,145 @@
+#!/bin/sh
+#wtrhum
+# show hourly humidity and pressure
+# also, show visibility in km and chance of fog
+
+hour="$(/usr/bin/date '+%H')"
+wfile="$HOME/.local/share/weather.txt"
+
+# exit if wfile not present or empty
+if [ -z "$wfile" ]; then
+    exit 1
+fi
+
+# check if wfile updated for the day, then proceed accordingly
+if [ "$hour" -ge 0 ] && [ "$hour" -lt 3 ]; then
+    if [ "$(/usr/bin/stat -c %y "$wfile" | /usr/bin/cut -d ' ' -f1)" = "$(/usr/bin/date '+%Y-%m-%d')" ]; then
+        desc="$(/usr/bin/jq -r '.weather[0].hourly[0].weatherDesc[0].value' "$wfile")"
+        humidity="$(/usr/bin/jq -r '.weather[0].hourly[0].humidity' "$wfile")"
+        pressure="$(/usr/bin/jq -r '.weather[0].hourly[0].pressure' "$wfile")"
+        fog="$(/usr/bin/jq -r '.weather[0].hourly[0].chanceoffog' "$wfile")"
+        visibility="$(/usr/bin/jq -r '.weather[0].hourly[0].visibility' "$wfile")"
+        feelslike="$(/usr/bin/jq -r '.weather[0].hourly[0].FeelsLikeC' "$wfile")"
+    else
+        desc="$(/usr/bin/jq -r '.weather[1].hourly[0].weatherDesc[0].value' "$wfile")"
+        humidity="$(/usr/bin/jq -r '.weather[1].hourly[0].humidity' "$wfile")"
+        pressure="$(/usr/bin/jq -r '.weather[1].hourly[0].pressure' "$wfile")"
+        fog="$(/usr/bin/jq -r '.weather[1].hourly[0].chanceoffog' "$wfile")"
+        visibility="$(/usr/bin/jq -r '.weather[1].hourly[0].visibility' "$wfile")"
+        feelslike="$(/usr/bin/jq -r '.weather[1].hourly[0].FeelsLikeC' "$wfile")"
+    fi
+elif [ "$hour" -ge 3 ] && [ "$hour" -lt 6 ]; then
+    if [ "$(/usr/bin/stat -c %y "$wfile" | /usr/bin/cut -d ' ' -f1)" = "$(/usr/bin/date '+%Y-%m-%d')" ]; then
+        desc="$(/usr/bin/jq -r '.weather[0].hourly[1].weatherDesc[0].value' "$wfile")"
+        humidity="$(/usr/bin/jq -r '.weather[0].hourly[1].humidity' "$wfile")"
+        pressure="$(/usr/bin/jq -r '.weather[0].hourly[1].pressure' "$wfile")"
+        fog="$(/usr/bin/jq -r '.weather[0].hourly[1].chanceoffog' "$wfile")"
+        visibility="$(/usr/bin/jq -r '.weather[0].hourly[1].visibility' "$wfile")"
+        feelslike="$(/usr/bin/jq -r '.weather[0].hourly[1].FeelsLikeC' "$wfile")"
+    else
+        desc="$(/usr/bin/jq -r '.weather[1].hourly[1].weatherDesc[0].value' "$wfile")"
+        humidity="$(/usr/bin/jq -r '.weather[1].hourly[1].humidity' "$wfile")"
+        pressure="$(/usr/bin/jq -r '.weather[1].hourly[1].pressure' "$wfile")"
+        fog="$(/usr/bin/jq -r '.weather[1].hourly[1].chanceoffog' "$wfile")"
+        visibility="$(/usr/bin/jq -r '.weather[1].hourly[1].visibility' "$wfile")"
+        feelslike="$(/usr/bin/jq -r '.weather[1].hourly[1].FeelsLikeC' "$wfile")"
+    fi
+elif [ "$hour" -ge 6 ] && [ "$hour" -lt 9 ]; then
+    if [ "$(/usr/bin/stat -c %y "$wfile" | /usr/bin/cut -d ' ' -f1)" = "$(/usr/bin/date '+%Y-%m-%d')" ]; then
+        desc="$(/usr/bin/jq -r '.weather[0].hourly[2].weatherDesc[0].value' "$wfile")"
+        humidity="$(/usr/bin/jq -r '.weather[0].hourly[2].humidity' "$wfile")"
+        pressure="$(/usr/bin/jq -r '.weather[0].hourly[2].pressure' "$wfile")"
+        fog="$(/usr/bin/jq -r '.weather[0].hourly[2].chanceoffog' "$wfile")"
+        visibility="$(/usr/bin/jq -r '.weather[0].hourly[2].visibility' "$wfile")"
+        feelslike="$(/usr/bin/jq -r '.weather[0].hourly[2].FeelsLikeC' "$wfile")"
+    else
+        desc="$(/usr/bin/jq -r '.weather[1].hourly[2].weatherDesc[0].value' "$wfile")"
+        humidity="$(/usr/bin/jq -r '.weather[1].hourly[2].humidity' "$wfile")"
+        pressure="$(/usr/bin/jq -r '.weather[1].hourly[2].pressure' "$wfile")"
+        fog="$(/usr/bin/jq -r '.weather[1].hourly[2].chanceoffog' "$wfile")"
+        visibility="$(/usr/bin/jq -r '.weather[1].hourly[2].visibility' "$wfile")"
+        feelslike="$(/usr/bin/jq -r '.weather[1].hourly[2].FeelsLikeC' "$wfile")"
+    fi
+elif [ "$hour" -ge 9 ] && [ "$hour" -lt 12 ]; then
+    if [ "$(/usr/bin/stat -c %y "$wfile" | /usr/bin/cut -d ' ' -f1)" = "$(/usr/bin/date '+%Y-%m-%d')" ]; then
+        desc="$(/usr/bin/jq -r '.weather[0].hourly[3].weatherDesc[0].value' "$wfile")"
+        humidity="$(/usr/bin/jq -r '.weather[0].hourly[3].humidity' "$wfile")"
+        pressure="$(/usr/bin/jq -r '.weather[0].hourly[3].pressure' "$wfile")"
+        fog="$(/usr/bin/jq -r '.weather[0].hourly[3].chanceoffog' "$wfile")"
+        visibility="$(/usr/bin/jq -r '.weather[0].hourly[3].visibility' "$wfile")"
+        feelslike="$(/usr/bin/jq -r '.weather[0].hourly[3].FeelsLikeC' "$wfile")"
+    else
+        desc="$(/usr/bin/jq -r '.weather[1].hourly[3].weatherDesc[0].value' "$wfile")"
+        humidity="$(/usr/bin/jq -r '.weather[1].hourly[3].humidity' "$wfile")"
+        pressure="$(/usr/bin/jq -r '.weather[1].hourly[3].pressure' "$wfile")"
+        fog="$(/usr/bin/jq -r '.weather[1].hourly[3].chanceoffog' "$wfile")"
+        visibility="$(/usr/bin/jq -r '.weather[1].hourly[3].visibility' "$wfile")"
+        feelslike="$(/usr/bin/jq -r '.weather[1].hourly[3].FeelsLikeC' "$wfile")"
+    fi
+elif [ "$hour" -ge 12 ] && [ "$hour" -lt 15 ]; then
+    if [ "$(/usr/bin/stat -c %y "$wfile" | /usr/bin/cut -d ' ' -f1)" = "$(/usr/bin/date '+%Y-%m-%d')" ]; then
+        desc="$(/usr/bin/jq -r '.weather[0].hourly[4].weatherDesc[0].value' "$wfile")"
+        humidity="$(/usr/bin/jq -r '.weather[0].hourly[4].humidity' "$wfile")"
+        pressure="$(/usr/bin/jq -r '.weather[0].hourly[4].pressure' "$wfile")"
+        fog="$(/usr/bin/jq -r '.weather[0].hourly[4].chanceoffog' "$wfile")"
+        visibility="$(/usr/bin/jq -r '.weather[0].hourly[4].visibility' "$wfile")"
+        feelslike="$(/usr/bin/jq -r '.weather[0].hourly[4].FeelsLikeC' "$wfile")"
+    else
+        desc="$(/usr/bin/jq -r '.weather[1].hourly[4].weatherDesc[0].value' "$wfile")"
+        humidity="$(/usr/bin/jq -r '.weather[1].hourly[4].humidity' "$wfile")"
+        pressure="$(/usr/bin/jq -r '.weather[1].hourly[4].pressure' "$wfile")"
+        fog="$(/usr/bin/jq -r '.weather[1].hourly[4].chanceoffog' "$wfile")"
+        visibility="$(/usr/bin/jq -r '.weather[1].hourly[4].visibility' "$wfile")"
+        feelslike="$(/usr/bin/jq -r '.weather[1].hourly[4].FeelsLikeC' "$wfile")"
+    fi
+elif [ "$hour" -ge 15 ] && [ "$hour" -lt 18 ]; then
+    if [ "$(/usr/bin/stat -c %y "$wfile" | /usr/bin/cut -d ' ' -f1)" = "$(/usr/bin/date '+%Y-%m-%d')" ]; then
+        desc="$(/usr/bin/jq -r '.weather[0].hourly[5].weatherDesc[0].value' "$wfile")"
+        humidity="$(/usr/bin/jq -r '.weather[0].hourly[5].humidity' "$wfile")"
+        pressure="$(/usr/bin/jq -r '.weather[0].hourly[5].pressure' "$wfile")"
+        fog="$(/usr/bin/jq -r '.weather[0].hourly[5].chanceoffog' "$wfile")"
+        visibility="$(/usr/bin/jq -r '.weather[0].hourly[5].visibility' "$wfile")"
+        feelslike="$(/usr/bin/jq -r '.weather[0].hourly[5].FeelsLikeC' "$wfile")"
+    else
+        desc="$(/usr/bin/jq -r '.weather[1].hourly[5].weatherDesc[0].value' "$wfile")"
+        humidity="$(/usr/bin/jq -r '.weather[1].hourly[5].humidity' "$wfile")"
+        pressure="$(/usr/bin/jq -r '.weather[1].hourly[5].pressure' "$wfile")"
+        fog="$(/usr/bin/jq -r '.weather[1].hourly[5].chanceoffog' "$wfile")"
+        visibility="$(/usr/bin/jq -r '.weather[1].hourly[5].visibility' "$wfile")"
+        feelslike="$(/usr/bin/jq -r '.weather[1].hourly[5].FeelsLikeC' "$wfile")"
+    fi
+elif [ "$hour" -ge 18 ] && [ "$hour" -lt 21 ]; then
+    if [ "$(/usr/bin/stat -c %y "$wfile" | /usr/bin/cut -d ' ' -f1)" = "$(/usr/bin/date '+%Y-%m-%d')" ]; then
+        desc="$(/usr/bin/jq -r '.weather[0].hourly[6].weatherDesc[0].value' "$wfile")"
+        humidity="$(/usr/bin/jq -r '.weather[0].hourly[6].humidity' "$wfile")"
+        pressure="$(/usr/bin/jq -r '.weather[0].hourly[6].pressure' "$wfile")"
+        fog="$(/usr/bin/jq -r '.weather[0].hourly[6].chanceoffog' "$wfile")"
+        visibility="$(/usr/bin/jq -r '.weather[0].hourly[6].visibility' "$wfile")"
+        feelslike="$(/usr/bin/jq -r '.weather[0].hourly[6].FeelsLikeC' "$wfile")"
+    else
+        desc="$(/usr/bin/jq -r '.weather[1].hourly[6].weatherDesc[0].value' "$wfile")"
+        humidity="$(/usr/bin/jq -r '.weather[1].hourly[6].humidity' "$wfile")"
+        pressure="$(/usr/bin/jq -r '.weather[1].hourly[6].pressure' "$wfile")"
+        fog="$(/usr/bin/jq -r '.weather[1].hourly[6].chanceoffog' "$wfile")"
+        visibility="$(/usr/bin/jq -r '.weather[1].hourly[6].visibility' "$wfile")"
+        feelslike="$(/usr/bin/jq -r '.weather[1].hourly[6].FeelsLikeC' "$wfile")"
+    fi
+else
+    if [ "$(/usr/bin/stat -c %y "$wfile" | /usr/bin/cut -d ' ' -f1)" = "$(/usr/bin/date '+%Y-%m-%d')" ]; then
+        desc="$(/usr/bin/jq -r '.weather[0].hourly[7].weatherDesc[0].value' "$wfile")"
+        humidity="$(/usr/bin/jq -r '.weather[0].hourly[7].humidity' "$wfile")"
+        pressure="$(/usr/bin/jq -r '.weather[0].hourly[7].pressure' "$wfile")"
+        fog="$(/usr/bin/jq -r '.weather[0].hourly[7].chanceoffog' "$wfile")"
+        visibility="$(/usr/bin/jq -r '.weather[0].hourly[7].visibility' "$wfile")"
+        feelslike="$(/usr/bin/jq -r '.weather[0].hourly[7].FeelsLikeC' "$wfile")"
+    else
+        desc="$(/usr/bin/jq -r '.weather[1].hourly[7].weatherDesc[0].value' "$wfile")"
+        humidity="$(/usr/bin/jq -r '.weather[1].hourly[7].humidity' "$wfile")"
+        pressure="$(/usr/bin/jq -r '.weather[1].hourly[7].pressure' "$wfile")"
+        fog="$(/usr/bin/jq -r '.weather[1].hourly[7].chanceoffog' "$wfile")"
+        visibility="$(/usr/bin/jq -r '.weather[1].hourly[7].visibility' "$wfile")"
+        feelslike="$(/usr/bin/jq -r '.weather[1].hourly[7].FeelsLikeC' "$wfile")"
+    fi
+fi
+
+/usr/bin/printf "%s\n" "$desc conditions with $fog% chances of fog and with visibility of $visibility km. Humidity is $humidity% and feels like $feelslike°C indoors. Barometric pressure is $pressure mm Hg."

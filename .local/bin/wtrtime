@@ -1,0 +1,27 @@
+#!/bin/sh
+#wtrtime
+# show daily sunrise, sunset, moonrise and moonset times
+
+wfile="$HOME/.local/share/weather.txt"
+
+# exit if wfile not present or empty
+if [ -z "$wfile" ]; then
+    exit 1
+fi
+
+# check if wfile updated for the day, then proceed accordingly
+if [ "$(/usr/bin/stat -c %y "$wfile" | /usr/bin/cut -d ' ' -f1)" = "$(/usr/bin/date '+%Y-%m-%d')" ]; then
+    sunrise="$(/usr/bin/jq -r '.weather[0].astronomy[0].sunrise' "$wfile")"
+    sunset="$(/usr/bin/jq -r '.weather[0].astronomy[0].sunset' "$wfile")"
+    moonrise="$(/usr/bin/jq -r '.weather[0].astronomy[0].moonrise' "$wfile")"
+    moonset="$(/usr/bin/jq -r '.weather[0].astronomy[0].moonset' "$wfile")"
+    moonphase="$(/usr/bin/jq -r '.weather[0].astronomy[0].moon_phase' "$wfile")"
+else
+    sunrise="$(/usr/bin/jq -r '.weather[1].astronomy[0].sunrise' "$wfile")"
+    sunset="$(/usr/bin/jq -r '.weather[1].astronomy[0].sunset' "$wfile")"
+    moonrise="$(/usr/bin/jq -r '.weather[1].astronomy[0].moonrise' "$wfile")"
+    moonset="$(/usr/bin/jq -r '.weather[1].astronomy[0].moonset' "$wfile")"
+    moonphase="$(/usr/bin/jq -r '.weather[1].astronomy[0].moon_phase' "$wfile")"
+fi
+
+/usr/bin/printf "%s\n" "Sunrise today at $sunrise. Sunset at $sunset. Moon to rise at $moonrise and set at $moonset. Moon is at $moonphase phase."
