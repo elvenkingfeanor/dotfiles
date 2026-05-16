@@ -1,0 +1,10 @@
+#!/bin/sh
+#mailupdate
+# update maildir and mu index
+# to be used by hourly cron
+
+/usr/bin/mbsync -c "$HOME/.config/isync/mbsyncrc" -aq
+
+sleep 5
+
+/usr/bin/mu index -q

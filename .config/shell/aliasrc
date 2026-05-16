@@ -245,8 +245,8 @@ alias sr="/usr/bin/sr duckduckgo"
 #alias mail="/usr/bin/mbsync -a -c $XDG_CONFIG_HOME/isync/mbsyncrc && /usr/bin/neomutt"
 
 # mbsync
-#alias mbsync="/usr/bin/mbsync -c $XDG_CONFIG_HOME/isync/mbsyncrc"
-#alias sync="/usr/bin/mbsync -a -c $XDG_CONFIG_HOME/isync/mbsyncrc"
+alias mbsync="/usr/bin/mbsync -c $XDG_CONFIG_HOME/isync/mbsyncrc"
+alias sync="/usr/bin/mbsync -a -c $XDG_CONFIG_HOME/isync/mbsyncrc"
 
 # scim
 #alias sc=/usr/bin/sc-im

@@ -131,6 +131,7 @@ case "$desc" in
     "Sunny") wtr="☀️" ;;
     "Moderate rain at times") wtr="🌦️" ;;
     "Patchy rain nearby") wtr="☔" ;;
+    "Thundery outbreaks in nearby") wtr=🌩️ ;;
     *) wtr="🌂" ;;
 esac
 
