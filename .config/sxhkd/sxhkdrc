@@ -64,7 +64,7 @@ super + g ; {f,y,q,t,w,l,s}
 ## other less commonly used applications - emojify, slock, luanti, gcompris-qt, htop, btop, default emacs (tutorial)
 # super + g ; {k,u,m,c,h,b,g}
 super + d ; {e,l,m,c,h,b,d}
-      {emojify,slock,luanti,gcompris-qt,st-e htop,st-e btop,edbuffer}
+      {emojify,slock,luanti,gcompris-qt,st -e htop,st -e btop,edbuffer}
 
 # Audio, brightness, screenshot & keyboard layout scripts
 # speaker volume commands

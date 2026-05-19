@@ -3,8 +3,20 @@
 # update maildir and mu index
 # to be used by hourly cron
 
+maildir="$HOME/.local/share/maildir/"
+
+# update maildir and index mu first
 /usr/bin/mbsync -c "$HOME/.config/isync/mbsyncrc" -aq
 
 sleep 5
 
 /usr/bin/mu index -q
+
+# check for new mail and count 'em
+mail="$(/usr/bin/find $maildir/*/Inbox -path '*/new/*' -type f -print | /usr/bin/wc -l)"
+
+if [ "$mail" -eq 0 ]; then
+    /usr/bin/notify-send "You have no new mail"
+else
+    /usr/bin/notify-send "You have $mail new mail"
+fi
