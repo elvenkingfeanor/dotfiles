@@ -1,0 +1,5 @@
+# ~/.config/shellcheckrc
+# User config for Shellcheck
+# 
+# allow Shellcheck to include files pointed-to by 'source <xyz>'
+external-sources=true
