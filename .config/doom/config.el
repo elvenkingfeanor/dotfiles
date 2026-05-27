@@ -310,12 +310,17 @@
 (use-package mu4e
   :ensure nil
   :config
-  ;; use mu4e for email in emacs
+  ;; use mu4e to compose email in emacs
   (setq mail-user-agent 'mu4e-user-agent)
+  ;; use mu4e to read email in emacs
+  (set-variable 'read-mail-command 'mu4e)
+  ;; rename files while moving between directories
+  ;; to not trouble the default UID naming scheme of mbsync
   (setq mu4e-change-filenames-when-moving t)
   (setq mu4e-get-mail-command "/usr/bin/mbsync -c ~/.config/isync/mbsyncrc -a")
   ;; (setq mu4e-update-interval (* 10 60))
   (setq mu4e-maildir "~/.local/share/maildir/")
+  (setq mu4e-attachment-dir "~/dl/")
   (setq sendmail-program "/usr/bin/msmtp")
   ;; don't save messages to Sent messages, Gmail/IMAP takes care of this
   (setq mu4e-sent-messages-behavior 'delete)
@@ -323,6 +328,10 @@
   (add-hook 'mu4e-compose-mode-hook #'(lambda () (auto-save-mode -1)))
   ;; don't keep message buffers around
   (setq message-kill-buffer-on-exit t)
+  ;; show images
+  (setq mu4e-show-images t)
+  ;; don't limit search results to 500 (default)
+  (setq mu4e-search-results-limit -1)
   (load "~/.config/doom/mu4e-credentials.el")
   )
 

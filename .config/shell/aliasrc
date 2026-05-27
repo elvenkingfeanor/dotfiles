@@ -198,12 +198,11 @@ alias minfo="/usr/bin/ffmpeg -i"
 # thumbnailer
 alias txx="/usr/bin/vcs -i 1m -c 4"
 
-# nvim
-alias vi="/usr/bin/nvim -i NONE"
-alias vim=/usr/bin/vi
-alias svim="/usr/bin/doas /usr/bin/nvim"
-alias vdiff="/usr/bin/nvim -d"
-alias vimdiff="/usr/bin/nvim -d"
+# vim/nvim
+alias vi="/usr/bin/vim -i NONE"
+alias svim="/usr/bin/doas /usr/bin/vim"
+alias vdiff="/usr/bin/vim -d"
+alias vimdiff="/usr/bin/vim -d"
 
 # emacs
 alias edd="/usr/bin/killall emacs && /usr/bin/emacs --daemon"
@@ -284,9 +283,12 @@ alias random="/usr/bin/tr -dc A-Za-z0-9 < /dev/urandom | /usr/bin/head -c 18; /u
 alias font=/usr/bin/fontpreview
 
 # xdg-ninja
-alias adb="HOME=$XDG_DATA_HOME/android adb"
-alias abook="/usr/bin/abook --config $XDG_CONFIG_HOME/abook/abookrc --datafile $XDG_DATA_HOME/abook/addressbook"
-alias dict="/usr/bin/dict -c $XDG_CONFIG_HOME/dict/dictrc"
-alias www="/usr/bin/w3m -config $XDG_CONFIG_HOME/w3m/config"
-alias wget="/usr/bin/wget --hsts-file=$XDG_DATA_HOME/wget-hsts"
-alias units="/usr/bin/units --history $XDG_CACHE_HOME/units_history"
+alias adb='HOME=$XDG_DATA_HOME/android adb'
+alias abook='/usr/bin/abook --config $XDG_CONFIG_HOME/abook/abookrc --datafile $XDG_DATA_HOME/abook/addressbook'
+alias dict='/usr/bin/dict -c $XDG_CONFIG_HOME/dict/dictrc'
+alias www='/usr/bin/w3m -config $XDG_CONFIG_HOME/w3m/config'
+alias wget='/usr/bin/wget --hsts-file=$XDG_DATA_HOME/wget-hsts'
+alias units='/usr/bin/units --history $XDG_CACHE_HOME/units_history'
+
+# diffpdf
+alias pdfdiff=/usr/bin/diffpdf

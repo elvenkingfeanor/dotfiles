@@ -1,5 +1,6 @@
 #!/bin/bash
-
+# ~/.config/bash/bashrc
+# 
 # If not running interactively, don't do anything
 [[ $- != *i* ]] && return
 
@@ -7,9 +8,15 @@
 
 PS1='[\u@\h \W]\$ '
 
-source $HOME/.config/shell/profile
-source $HOME/.config/shell/aliasrc
-source $HOME/.config/shell/private
-source $HOME/.config/shell/logout
+# shellcheck disable=1090
+for f in "${XDG_CONFIG_HOME:-$HOME/.config}"/shell/*; do source "$f"; done
 
-[ -f ~/.fzf.bash ] && source ~/.fzf.bash
+# fzf keybindings and completion for bash
+eval "$(fzf --bash)"
+
+# find out if bash-completion is present, so as to enable for doas
+if complete -p | /usr/bin/grep -q 'complete -F'; then
+    complete -cf doas
+else
+    complete -F _command doas
+fi

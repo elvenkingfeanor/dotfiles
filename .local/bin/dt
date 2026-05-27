@@ -2,4 +2,4 @@
 #dt
 # lookup term in dictionary
 
-/usr/bin/dict "$1" | /usr/bin/colorit
+/usr/bin/dict -c "$XDG_CONFIG_HOME"/dict/dictrc "$1" | /usr/bin/colorit

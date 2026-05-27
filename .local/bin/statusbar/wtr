@@ -123,7 +123,7 @@ esac
 # Weather description
 case "$desc" in
     "Partly Cloudy ") wtr="🌤️" ;;
-    "Cloudy") wtr="🌥️" ;;
+    "Cloudy ") wtr="🌥️" ;;
     "Haze") wtr="🌬️" ;;
     "Mist") wtr="🌫️" ;;
     "Fog") wtr="🌫️" ;;
@@ -131,6 +131,8 @@ case "$desc" in
     "Sunny") wtr="☀️" ;;
     "Moderate rain at times") wtr="🌦️" ;;
     "Patchy rain nearby") wtr="☔" ;;
+    "Patchy light rain in area with thunder") wtr="☔" ;;
+    "Heavy rain") wtr="⛈️" ;;
     "Thundery outbreaks in nearby") wtr=🌩️ ;;
     *) wtr="🌂" ;;
 esac

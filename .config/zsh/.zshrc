@@ -28,7 +28,7 @@ setopt share_history # terminals share history
 # ignore these commands in history
 zshaddhistory() {
 	case "${1%% *}" in
-		(man|cat|less|echo|nvim|vi|pss|psi|yss|ysi|cl|cll|cdd|cd|clc|clear|tree|clt|gss|gpp|fcc|df|du|brtt|batt|mute|vol|mic|mic-test|iv|pp|mm|mmm|torr|wttr|cu|cn|yt|yta|zathura|zz) return 1;;
+		(man|cat|less|echo|nvim|vi|pss|psi|yss|ysi|cl|cll|cdd|cd|clc|clear|tree|clt|gss|gpp|fcc|df|du|iv|mm|mmm|cu|cn|yt|yta|zz) return 1;;
 	esac
 	return 0;
 }
@@ -92,6 +92,9 @@ fi
 
 source ~/.config/zsh/zsh-autopair/autopair.zsh
 autopair-init
+
+# fzf keybindings and completion
+source <(/usr/bin/fzf --zsh)
 
 # Syntax highlighting; should be last:
 source /usr/share/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
