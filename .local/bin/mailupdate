@@ -15,8 +15,7 @@ sleep 5
 # check for new mail and count 'em
 mail="$(/usr/bin/find $maildir/*/Inbox -path '*/new/*' -type f -print | /usr/bin/wc -l)"
 
-if [ "$mail" -eq 0 ]; then
-    /usr/bin/notify-send "You have no new mail"
-else
+# only send notifications, when there's new mail
+if [ "$mail" -ne 0 ]; then
     /usr/bin/notify-send "You have $mail new mail"
 fi

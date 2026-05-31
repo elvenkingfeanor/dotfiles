@@ -5,12 +5,9 @@
 
 wfile="$HOME/.local/share/weather.txt"
 
-# check modification time of wfile, and update once daily
+# check modification time of wfile, and update once daily, notifying once
 if [ -s "$wfile" ] && \
-    [ "$(/usr/bin/jq -r '.weather[0].date' "$wfile" | /usr/bin/tr -d '-')" -eq "$(/usr/bin/date '+%Y%m%d')" ]; then
-    /usr/bin/notify-send "weather report up-to-date for today $(/usr/bin/date '+%Y-%m-%d')"
-    exit 1
-else
+    [ "$(/usr/bin/jq -r '.weather[0].date' "$wfile" | /usr/bin/tr -d '-')" -ne "$(/usr/bin/date '+%Y%m%d')" ]; then
     /usr/bin/curl -sf wttr.in/"$place"\?format=j1 > "$wfile"
     /usr/bin/notify-send "weather report updated for today $(/usr/bin/date '+%Y-%m-%d')"
 fi
