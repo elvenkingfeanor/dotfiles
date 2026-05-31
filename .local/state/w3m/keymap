@@ -1,0 +1,11 @@
+# ~/.local/state/w3m/keymap
+
+# qutebrowser-like link navigation
+keymap f COMMAND "RESHAPE ; LINK_BEGIN ; GOTO_LINK"
+keymap F COMMAND "RESHAPE ; LINK_BEGIN ; TAB_LINK"
+# qutebrowser-style search shortcuts
+# user-input keywords to search
+keymap sd COMMAND "SET_OPTION dictcommand=file:///cgi-bin/duckduckgo.cgi ; DICT_WORD"
+keymap sg COMMAND "SET_OPTION dictcommand=file:///cgi-bin/google.cgi ; DICT_WORD"
+keymap sw COMMAND "SET_OPTION dictcommand=file:///cgi-bin/wikipedia.cgi ; DICT_WORD"
+# search keyword under cursor

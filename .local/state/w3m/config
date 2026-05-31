@@ -1,5 +1,5 @@
-# ~/.config/w3m/config
-#
+# ~/.local/state/w3m/config
+
 tabstop 8
 indent_incr 4
 maxcols 0
@@ -60,7 +60,7 @@ pagerline 10000
 use_history 1
 history 100
 save_hist 1
-confirm_qq 1
+confirm_qq 0
 exit_on_last 0
 close_tab_back 0
 mark 0
@@ -81,17 +81,17 @@ clear_buffer 1
 decode_cte 0
 auto_uncompress 0
 preserve_timestamp 1
-keymap_file ~/.config/w3m/keymap
+keymap_file ~/.local/state/w3m/keymap
 document_root 
 personal_document_root 
-cgi_bin ~/.config/w3m/cgi_bin/
+cgi_bin ~/.local/state/w3m/cgi_bin:/usr/lib/w3m/cgi-bin
 index_file 
 tmp_dir 
 dl_dir ~/dl/
-mime_types ~/.config/mime.types, /usr/etc/mime.types
-mailcap ~/.config/w3m/mailcap, /usr/etc/w3m/mailcap
-urimethodmap ~/.config/w3m/urimethodmap, /usr/etc/w3m/urimethodmap
-editor ~/.local/bin/etbuffer
+mime_types ~/.config/mimeapps.list, /usr/etc/mime.types
+mailcap ~/.local/state/w3m/mailcap, /usr/etc/w3m/mailcap
+urimethodmap ~/.local/state/w3m/urimethodmap, /usr/etc/w3m/urimethodmap
+editor ~/.local/state/w3m/keymap
 mailto_options 1
 mailer /usr/bin/msmtp
 extbrowser sh -c '/usr/bin/printf %s "$0" | /usr/bin/xclip -selection clipboard'
@@ -105,12 +105,12 @@ extbrowser8
 extbrowser9 
 bgextviewer 1
 use_lessopen 0
-passwd_file ~/.config/w3m/passwd
+passwd_file ~/.local/state/w3m/passwd
 disable_secret_security_check 0
 ftppasswd 
 ftppass_hostnamegen 1
-pre_form_file ~/.config/w3m/pre_form
-siteconf_file ~/.config/w3m/siteconf
+pre_form_file ~/.local/state/w3m/pre_form
+siteconf_file ~/.local/state/w3m/siteconf
 user_agent 
 no_referer 0
 cross_origin_referer 1
