@@ -1,0 +1,6 @@
+# -*- mode: snippet -*-
+# name: insert choice in exam class documents
+# key: ch
+# condition: t
+# --
+\choice{$0}

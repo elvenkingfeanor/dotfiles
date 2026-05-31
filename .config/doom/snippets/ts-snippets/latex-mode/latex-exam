@@ -1,0 +1,24 @@
+# -*- mode: snippet -*-
+# name: exam
+# key: <lex
+# condition: t
+# --
+\\documentclass[a4paper,14pt]{exam}
+%
+\\pagestyle{headandfoot}
+\\firstpageheader{\\textbf{${1:Exam}}}{\\textbf{${2:Class}}}{\\textbf{${3:Subject}}}
+\\runningheader{$1 (continued)}{$2}{$3}
+\\headrule
+\\footrule
+\\footer{${4:Institute}}{${5:Date}}{Page \\textbf{\\thepage} of \\textbf{\\totalnumpages}}
+\\pointsinrightmargin
+\\pointpoints{mark}{marks}
+%
+\\begin{document}
+
+\\begin{questions}
+
+\\question{$0}
+
+\\end{questions}
+\\end{document}

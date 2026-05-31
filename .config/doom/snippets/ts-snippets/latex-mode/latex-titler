@@ -1,0 +1,23 @@
+# -*- mode: snippet -*-
+# name: create LaTeX document
+# key: <tl
+# --
+\\documentclass[a4paper,11pt]{article}
+\\usepackage[margin=1.5cm]{geometry} % better margin management
+\\usepackage{multirow} % provides multirow & multicolumn
+\\usepackage{array} % provides p{}, m{} & b{} arguments within tabular
+\\usepackage{color} % provides colors
+\\usepackage{colortbl} % provides rowcolor, columncolor & cellcolor
+\\usepackage{setspace} % provides spacing to control line-spacing
+%
+\\definecolor{mgray}{gray}{0.9}
+%
+\\title{$1}
+\\author{Tanmoy Sarkar}
+\\date{}
+%
+\\begin{document}
+\\maketitle{}
+%
+$0
+\\end{document}
