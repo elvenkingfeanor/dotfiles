@@ -324,6 +324,8 @@
   (setq sendmail-program "/usr/bin/msmtp")
   ;; don't save messages to Sent messages, Gmail/IMAP takes care of this
   (setq mu4e-sent-messages-behavior 'delete)
+  ;; skip duplicate messages, due to representation of Gmail labels/virtual folders by mbsync
+  (setq mu4e-search-skip-duplicates t)
   ;; don't autosave drafts
   (add-hook 'mu4e-compose-mode-hook #'(lambda () (auto-save-mode -1)))
   ;; don't keep message buffers around
