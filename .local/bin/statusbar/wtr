@@ -125,10 +125,12 @@ case "$desc" in
     "Partly Cloudy ") wtr="🌤️" ;;
     "Cloudy ") wtr="🌥️" ;;
     "Haze") wtr="🌬️" ;;
+    "Smoky haze") wtr="🌬️" ;;
     "Mist") wtr="🌫️" ;;
     "Fog") wtr="🌫️" ;;
     "Clear ") wtr="🌞" ;;
     "Sunny") wtr="☀️" ;;
+    "Light rain shower") wtr="🌦️" ;;
     "Moderate rain at times") wtr="🌦️" ;;
     "Patchy rain nearby") wtr="☔" ;;
     "Patchy light rain in area with thunder") wtr="☔" ;;
