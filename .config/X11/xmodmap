@@ -250,3 +250,5 @@ keycode 255 = XF86RFKill NoSymbol XF86RFKill NoSymbol XF86RFKill
 !! Logitech M100r left-click not-working, right-click still working
 !! stopgap measure
 pointer = 3 2 1
+!! !! normal usage for other mice
+!! pointer = 1 2 3
