@@ -42,8 +42,12 @@ setopt interactive_comments
 # tell compinstall where zstyle statements are installed
 zstyle :compinstall filename '~/.config/zsh/.zshrc'
 
+# Autocompletion
+# completion files for zsh to look for
+fpath=(~/.local/share/zsh/site-functions/ $fpath)
 # enable zsh completion
 autoload -Uz compinit
+compinit
 # For autocompletion with arrow driven interface
 # press Tab twice, to activate menu
 zstyle ':completion:*' menu select
@@ -51,9 +55,12 @@ zstyle ':completion:*' menu select
 zstyle ':completion::complete:*' gain-privileges 1
 # Completion history with XDG dirs
 [ -d "$XDG_CACHE_HOME"/zsh ] || /usr/bin/mkdir -p "$XDG_CACHE_HOME"/zsh
+# autocompletion with arrows
 zstyle ':completion:*' cache-path "$XDG_CACHE_HOME"/zsh/zcompcache
+# store completion history
 compinit -d "$XDG_CACHE_HOME"/zsh/zcompdump-$ZSH_VERSION
-_comp_options+=(globdots) # include hidden files
+# include hidden files
+_comp_options+=(globdots)
 
 # History search
 autoload -Uz up-line-or-beginning-search down-line-or-beginning-search
