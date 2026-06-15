@@ -1,4 +1,15 @@
 # ~/.config/newsraft/config
+# selected entry (cursor) in middle of list menu
+scrolloff 500
+# colors
+ignore-no-color true
 # reload-period 120
-bind m exec /usr/bin/mpv "%l"
 bind i exec ~/.local/bin/nsxiv-url "%l"
+bind m exec /usr/bin/mpv "%l"
+bind M exec /usr/bin/setsid /usr/bin/mpv --terminal=no "%l" &
+unbind o
+bind o exec /usr/bin/qutebrowser --target window "%l"
+# # less-like bindings
+# unbind space
+# bind space select-next-page
+# bind b select-prev-page
