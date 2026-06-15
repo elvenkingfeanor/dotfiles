@@ -42,7 +42,7 @@ export XDG_CONFIG_DIRS=/etc/xdg
 export XDG_RUNTIME_DIR="/run/user/$userid"
 
 # Video acceleration VDPAU, nouveau instead of NVIDIA
-export VDPAU_DRIVER="nouveau"
+export VDPAU_DRIVER="va_gl"
 
 # Set GTK theme for Qt
 export GTK_THEME=Adwaita:dark
@@ -159,6 +159,19 @@ export PYTHON_EGG_CACHE="${XDG_CACHE_HOME:-$HOME/.cache}/python-eggs"
 export PYTHON_HISTORY="${XDG_STATE_HOME:-$HOME/.local/state}/python_history"
 export PYTHONCACHEPREFIX="${XDG_CACHE_HOME:-$HOME/.cache}/python"
 export PYTHONUSERBASE="${XDG_DATA_HOME:-$HOME/.local/share}/python"
+# Jupyter notebook
+# if [ "$(/usr/bin/pacman -Qs python-jupyter-core | \
+    # /usr/bin/head -n1 | \
+    # /usr/bin/cut -d ' ' -f2 | \
+    # /usr/bin/cut -d '-' -f1 | \
+    # /usr/bin/tr -d '\.')" -lt 500 ]; then
+# same as above
+if [ "$(/usr/bin/pacman -Qs python-jupyter-core | \
+    /usr/bin/sed '2d;s/^.*\ //;s/\(^.*\)-.*$/\1/;s/\.//g')" -lt 500 ]; then
+   export JUPYTER_CONFIG_DIR="${XDG_CONFIG_HOME:-$HOME/.config}/jupyter" 
+else
+   export JUPYTER_PLATFORM_DIRS="1"
+fi
 
 # npm
 export NPM_CONFIG_USERCONFIG="${XDG_CONFIG_HOME:-$HOME/.config}/npm/npmrc"

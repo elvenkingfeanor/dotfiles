@@ -112,6 +112,7 @@ cd "$(/usr/bin/find . -type d | /usr/bin/fzf)" || exit;/usr/bin/clear;/usr/bin/t
 
 # clear
 alias cl=/usr/bin/clear
+alias lc=/usr/bin/clear
 alias clc="/usr/bin/clear;cd"
 alias cll="/usr/bin/clear;/usr/bin/eza -lo --no-permissions --group-directories-first --grid"
 alias clt="/usr/bin/clear;/usr/bin/tree -aC | /usr/bin/ov"
@@ -127,8 +128,9 @@ alias tt2="/usr/bin/tree -C -d -L 2"
 alias tt3="/usr/bin/tree -C -d -L 3"
 alias tt4="/usr/bin/tree -C -d -L 4"
 
-# whereis
+# whereis & which
 alias ww=/usr/bin/whereis
+alias www=/usr/bin/which
 
 # checkbashisms
 alias bism=/usr/bin/checkbashisms
@@ -286,7 +288,9 @@ alias font=/usr/bin/fontpreview
 alias adb='HOME=$XDG_DATA_HOME/android adb'
 alias abook='/usr/bin/abook --config $XDG_CONFIG_HOME/abook/abookrc --datafile $XDG_DATA_HOME/abook/addressbook'
 alias dict='/usr/bin/dict -c $XDG_CONFIG_HOME/dict/dictrc'
-alias www='/usr/bin/w3m -config $XDG_CONFIG_HOME/w3m/config'
+alias w3='/usr/bin/w3m -config $XDG_STATE_HOME/w3m/config'
+alias w3m='/usr/bin/w3m -config $XDG_STATE_HOME/w3m/config'
+alias wwww='/usr/bin/w3m -config $XDG_STATE_HOME/w3m/config'
 alias wget='/usr/bin/wget --hsts-file=$XDG_DATA_HOME/wget-hsts'
 alias units='/usr/bin/units --history $XDG_CACHE_HOME/units_history'
 
