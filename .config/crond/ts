@@ -3,11 +3,11 @@ DISPLAY=:0
 @reboot /usr/bin/find $HOME . > /dev/null
 0 * * * * /usr/bin/find $HOME . > /dev/null
 @reboot ~/.local/bin/bright
-*/5 9-22 * * * ~/.local/bin/bright
+*/10 9-22 * * * ~/.local/bin/bright
 @reboot ~/.local/bin/newsreload
 5 */2 * * * ~/.local/bin/newsreload
 @reboot ~/.local/bin/unotify
-10,40 * * * * ~/.local/bin/mailupdate
+*/10 * * * * ~/.local/bin/mailupdate
 10 */2 * * * ~/.local/bin/unotify
 15 */2 * * * ~/.local/bin/fff
 20 9-18 * * * ~/.local/bin/wtrupdate
@@ -16,4 +16,5 @@ DISPLAY=:0
 30 12 * * Mon ~/.local/bin/cronbak
 30 11 * * Fri ~/.local/bin/packagelist
 20 12 2 * * ~/.local/bin/clearcache
+30 12 2 * * /usr/bin/tldr --update
 15 11 10 10 * ~/.local/bin/permlist
