@@ -1,0 +1,53 @@
+#!/bin/sh
+#html2pdf
+# convert indexable PDFs from HTMLs using pandoc
+# generally to be used for conversion of HTML-only GNU manuals to PDFs
+# so as to stop continually pinging GNU servers
+
+input="$*"
+
+# check if file is HTML, else quit
+if [ -f "$input" ]; then
+    if /usr/bin/file "$input" | \
+        /usr/bin/grep -Eoq 'HTML document'; then
+        inputname="$(/usr/bin/printf "%s" "$input" | \
+            /usr/bin/sed 's/^/./' | \
+            /usr/bin/rev | \
+            /usr/bin/cut -d '.' -f2- | \
+            /usr/bin/rev | \
+            /usr/bin/cut -c2-)"
+        # inputext="$(/usr/bin/printf "%s" "$input" | \
+        #     /usr/bin/sed 's/^/./' | \
+        #     /usr/bin/rev | \
+        #     /usr/bin/cut -d '.' -f1 | \
+        #     /usr/bin/rev)"
+    fi
+else
+    /usr/bin/printf "%s\n" "Make sure input is html."
+    exit 1
+fi
+
+# use pandoc to convert to indexable pdf
+# -s for standalone, else internal refs dont work
+# -N for numbered sections
+/usr/bin/pandoc -s \
+    -f html -t pdf \
+    --shift-heading-level-by=-1 \
+    --pdf-engine=lualatex \
+    -V 'hyperrefoptions:linktoc=all' \
+    -V 'babeloptions:provide=english' \
+    -V 'mainfont:DejaVuSerif' \
+    -V 'mainfontoptions:Extension=.ttf, UprightFont=*, BoldFont=*-Bold, ItalicFont=*-Italic, BoldItalicFont=*-BoldItalic' \
+    -V 'sansfont:DejaVuSans' \
+    -V 'monofont:DejaVuSansMono' \
+    -V 'mathfont:DejaVuMathTeXGyre-Regular' \
+    -V 'mainfontfallback:FreeSans:' \
+    -V 'mainfontfallback:NotoColorEmoji:' \
+    -V 'fontsize:12pt' \
+    -V 'colorlinks:linkcolor=blue' \
+    -V 'urlstyle:tt' \
+    --toc \
+    --lof --lot \
+    "$inputname".html \
+    -o "$inputname".pdf \
+    2>/dev/null
