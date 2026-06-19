@@ -229,10 +229,6 @@ alias zz=/usr/bin/zathura
 # torrent
 alias torr=/usr/bin/attractorr
 
-# libg
-alias booka="cd $XDG_DOWNLOAD_DIR/libg && $HOME/.local/bin/libg -b author"
-alias bookt="cd $XDG_DOWNLOAD_DIR/libg && $HOME/.local/bin/libg -b title"
-
 # curl
 alias ccc="/usr/bin/curl --remote-name"
 
@@ -296,3 +292,6 @@ alias units='/usr/bin/units --history $XDG_CACHE_HOME/units_history'
 
 # diffpdf
 alias pdfdiff=/usr/bin/diffpdf
+
+# custom scripts in ~/.local/bin/
+alias pdfresize=~/.local/bin/resizepdf
