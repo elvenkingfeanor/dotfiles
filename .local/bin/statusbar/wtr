@@ -123,21 +123,22 @@ esac
 # Weather description
 case "$desc" in
     "Partly Cloudy ") wtr="🌤️" ;;
-    "Cloudy ") wtr="🌥️" ;;
+    "Cloudy ") wtr="☁️" ;;
     "Haze") wtr="🌬️" ;;
     "Smoky haze") wtr="🌬️" ;;
-    "Mist") wtr="🌫️" ;;
-    "Fog") wtr="🌫️" ;;
-    "Clear ") wtr="🌞" ;;
+    "Mist") wtr="🌁" ;;
+    "Fog") wtr="🌁" ;;
+    "Clear ") wtr="☀️" ;;
     "Sunny") wtr="☀️" ;;
     "Light rain shower") wtr="🌦️" ;;
-    "Moderate rain at times") wtr="🌦️" ;;
-    "Patchy rain nearby") wtr="☔" ;;
-    "Patchy light rain in area with thunder") wtr="☔" ;;
-    "Heavy rain") wtr="⛈️" ;;
+    "Patchy rain nearby") wtr="🌦️" ;;
+    "Patchy light rain in area with thunder") wtr="⛈️" ;;
+    "Moderate or heavy rain with thunder") wtr="⛈️" ;;
+    "Moderate rain at times") wtr="🌧️" ;;
+    "Heavy rain") wtr="🌧️" ;;
     "Thundery outbreaks in nearby") wtr=🌩️ ;;
     *) wtr="🌂" ;;
 esac
 
 # Combine all variables
-/usr/bin/printf "%s" "$wtr$temp°C💦$rain%$moon"
+/usr/bin/printf "%s" "$wtr$temp°C☔$rain%$moon"
