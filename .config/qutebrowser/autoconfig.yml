@@ -53,6 +53,8 @@ settings:
       aw: https://wiki.archlinux.org/?search={}
       b: https://search.brave.com/search?q={}
       d: https://duckduckgo.com/?q={}
+      el: https://elpa.gnu.org/packages/{}.html
+      em : https://melpa.org/#/?q={}
       fk: https://www.flipkart.com/search?q={}
       g: https://www.google.com/search?hl=en&q={}
       gh: https://github.com/search?q={}&type=repositories
@@ -64,7 +66,9 @@ settings:
       lw: https://en.wikibooks.org/wiki/Special:Search?search={}&prefix=LaTeX%2F&fulltext=Search+this+book&fulltext=Search
       man: https://man.archlinux.org/man/{}.1
       mw: https://wiki.minetest.org/{}
-      r: https://www.reddit.com/search?q={}
+      p: https://metacpan.org/search?size=20&q={}
+      r: https://cran.r-project.org/package={}
+      rd: https://www.reddit.com/search?q={}
       s: https://stackoverflow.com/search?q={}
       sc: https://www.shellcheck.net/wiki/{}
       w: https://en.wikipedia.org/wiki/{}
