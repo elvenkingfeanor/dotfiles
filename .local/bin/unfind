@@ -1,0 +1,32 @@
+#!/usr/bin/env sh
+#unfind
+# find subdirectories not having certain files
+# generally used for batch operations and extensions matching
+
+name="$*"
+
+# SC2044
+# for dir in $(find . -type d); do
+#     if [ -z "$(find "$dir" -type f -iname "*$name*")" ]; then
+#         printf "%s\n" "$dir"
+#     fi
+# done
+
+# above will break on whitespace in $dir
+# IFS= trims inter-word whitespaces, leaving leading and trailing whitespaces alone
+# -r prevents interpretation of \ as escape character
+# find . -type d -print0 | \
+#     while IFS= read -r -d '' dir; do
+#         if [ -z "$(find "$dir" -type f -iname "*$name*")" ]; then
+#             printf "%s\n" "$dir"
+#         fi
+#     done
+
+# above causing warnings from shellcheck:
+# read -d is undefined in POSIX sh (SC3045)
+find . -type d -print | \
+    while IFS= read -r dir; do
+        if [ -z "$(find "$dir" -type f -iname "*$name*")" ]; then
+            printf "%s\n" "$dir"
+        fi
+    done
