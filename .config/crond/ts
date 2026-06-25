@@ -6,7 +6,6 @@ DISPLAY=:0
 */10 9-22 * * * ~/.local/bin/bright
 @reboot ~/.local/bin/newsreload
 5 */2 * * * ~/.local/bin/newsreload
-@reboot ~/.local/bin/unotify
 */10 * * * * ~/.local/bin/mailupdate
 10 */2 * * * ~/.local/bin/unotify
 15 */2 * * * ~/.local/bin/fff
