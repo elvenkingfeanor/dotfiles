@@ -4,10 +4,28 @@
 # for use with daily cron
 
 wfile="$HOME/.local/share/weather.txt"
+wttrlog="$HOME/.local/share/wttr.log"
+
+# create these files, if not present
+if [ -z "$wfile" ]; then /usr/bin/touch "$wfile"; fi
+if [ -z "$wttrlog" ]; then /usr/bin/touch "$wttrlog"; fi
 
 # check modification time of wfile, and update once daily, notifying once
+# shellcheck disable=2154
 if [ -s "$wfile" ] && \
     [ "$(/usr/bin/jq -r '.weather[0].date' "$wfile" | /usr/bin/tr -d '-')" -ne "$(/usr/bin/date '+%Y%m%d')" ]; then
-    /usr/bin/curl -sf wttr.in/"$place"\?format=j1 > "$wfile"
-    /usr/bin/notify-send "weather report updated for today $(/usr/bin/date '+%Y-%m-%d')"
+    if ! /usr/bin/curl -sf wttr.in/"$place"\?format=j1 > "$wfile" 2>>"$wttrlog"; then
+        /usr/bin/notify-send "weather update failed for today $(/usr/bin/date '+%Y-%m-%d')"
+    else
+        /usr/bin/notify-send "weather report updated for today $(/usr/bin/date '+%Y-%m-%d')"
+    fi
+elif
+    [ -f "$wfile" ]; then
+    if ! /usr/bin/curl -sf wttr.in/"$place"\?format=j1 > "$wfile" 2>>"$wttrlog"; then
+        /usr/bin/notify-send "weather update failed for today $(/usr/bin/date '+%Y-%m-%d')"
+    else
+        /usr/bin/notify-send "weather report updated for today $(/usr/bin/date '+%Y-%m-%d')"
+    fi
+else
+    /usr/bin/notify-send "weather report up-to-date for today $(/usr/bin/date '+%Y-%m-%d')"
 fi

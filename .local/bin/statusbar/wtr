@@ -132,6 +132,7 @@ case "$desc" in
     "Sunny") wtr="☀️" ;;
     "Light rain shower") wtr="🌦️" ;;
     "Patchy rain nearby") wtr="🌦️" ;;
+    "Patchy light drizzle") wtr="🌦️" ;;
     "Patchy light rain in area with thunder") wtr="⛈️" ;;
     "Moderate or heavy rain with thunder") wtr="⛈️" ;;
     "Moderate rain at times") wtr="🌧️" ;;
