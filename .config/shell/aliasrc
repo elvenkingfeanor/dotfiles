@@ -8,7 +8,7 @@ alias sudo=/usr/bin/doas
 alias zhs=/usr/bin/zsh
 alias pdw=/usr/bin/pwd
 alias sl="/usr/bin/eza -lo --no-permissions --group-directories-first --grid" # same as ls
-alias ctl="/usr/bin/clear;/usr/bin/tree -aC | /usr/bin/ov" # same as clt
+alias ctl="/usr/bin/clear;/usr/bin/tree -aC | /usr/bin/less" # same as clt
 
 # xdg-mime
 alias xxff="/usr/bin/xdg-mime query filetype"
@@ -91,23 +91,23 @@ alias ...="cd ../..;/usr/bin/clear;/usr/bin/eza -lo --no-permissions --group-dir
 alias ....="cd ../../..;/usr/bin/clear;/usr/bin/eza -lo --no-permissions --group-directories-first --grid"
 alias .....="cd ../../../..;/usr/bin/clear;/usr/bin/eza -lo --no-permissions --group-directories-first --grid"
 alias ......="cd ../../../../..;/usr/bin/clear;/usr/bin/eza -lo --no-permissions --group-directories-first --grid"
-alias ..t="cd ..;/usr/bin/clear;/usr/bin/tree -C | /usr/bin/ov"
-alias ..tt="cd ..;/usr/bin/clear;/usr/bin/tree -d -C | /usr/bin/ov"
-alias ...t="cd ../..;/usr/bin/clear;/usr/bin/tree -C | /usr/bin/ov"
-alias ...tt="cd ../..;/usr/bin/clear;/usr/bin/tree -d -C | /usr/bin/ov"
-alias ....t="cd ../../..;/usr/bin/clear;/usr/bin/tree -C | /usr/bin/ov"
-alias ....tt="cd ../../..;/usr/bin/clear;/usr/bin/tree -d -C | /usr/bin/ov"
-alias .....t="cd ../../../..;/usr/bin/clear;/usr/bin/tree -C | /usr/bin/ov"
-alias .....tt="cd ../../../..;/usr/bin/clear;/usr/bin/tree -d -C | /usr/bin/ov"
-alias ......t="cd ../../../../..;/usr/bin/clear;/usr/bin/tree -C | /usr/bin/ov"
-alias ......tt="cd ../../../../..;/usr/bin/clear;/usr/bin/tree -d -C | /usr/bin/ov"
+alias ..t="cd ..;/usr/bin/clear;/usr/bin/tree -C | /usr/bin/less"
+alias ..tt="cd ..;/usr/bin/clear;/usr/bin/tree -d -C | /usr/bin/less"
+alias ...t="cd ../..;/usr/bin/clear;/usr/bin/tree -C | /usr/bin/less"
+alias ...tt="cd ../..;/usr/bin/clear;/usr/bin/tree -d -C | /usr/bin/less"
+alias ....t="cd ../../..;/usr/bin/clear;/usr/bin/tree -C | /usr/bin/less"
+alias ....tt="cd ../../..;/usr/bin/clear;/usr/bin/tree -d -C | /usr/bin/less"
+alias .....t="cd ../../../..;/usr/bin/clear;/usr/bin/tree -C | /usr/bin/less"
+alias .....tt="cd ../../../..;/usr/bin/clear;/usr/bin/tree -d -C | /usr/bin/less"
+alias ......t="cd ../../../../..;/usr/bin/clear;/usr/bin/tree -C | /usr/bin/less"
+alias ......tt="cd ../../../../..;/usr/bin/clear;/usr/bin/tree -d -C | /usr/bin/less"
 
 # cd
 cdd() {
 cd "$(/usr/bin/find . -type d | /usr/bin/fzf)" || exit;/usr/bin/clear;/usr/bin/eza -lo --no-permissions --group-directories-first --grid
 }
 ctt() {
-cd "$(/usr/bin/find . -type d | /usr/bin/fzf)" || exit;/usr/bin/clear;/usr/bin/tree -aC | /usr/bin/ov
+cd "$(/usr/bin/find . -type d | /usr/bin/fzf)" || exit;/usr/bin/clear;/usr/bin/tree -aC | /usr/bin/less
 }
 
 # clear
@@ -115,11 +115,11 @@ alias cl=/usr/bin/clear
 alias lc=/usr/bin/clear
 alias clc="/usr/bin/clear;cd"
 alias cll="/usr/bin/clear;/usr/bin/eza -lo --no-permissions --group-directories-first --grid"
-alias clt="/usr/bin/clear;/usr/bin/tree -aC | /usr/bin/ov"
-alias ct1="/usr/bin/clear;/usr/bin/tree -C -d -L 1 | /usr/bin/ov"
-alias ct2="/usr/bin/clear;/usr/bin/tree -C -d -L 2 | /usr/bin/ov"
-alias ct3="/usr/bin/clear;/usr/bin/tree -C -d -L 3 | /usr/bin/ov"
-alias ct4="/usr/bin/clear;/usr/bin/tree -C -d -L 4 | /usr/bin/ov"
+alias clt="/usr/bin/clear;/usr/bin/tree -aC | /usr/bin/less -R --use-color"
+alias ct1="/usr/bin/clear;/usr/bin/tree -C -d -L 1 | /usr/bin/less -R --use-color"
+alias ct2="/usr/bin/clear;/usr/bin/tree -C -d -L 2 | /usr/bin/less -R --use-color"
+alias ct3="/usr/bin/clear;/usr/bin/tree -C -d -L 3 | /usr/bin/less -R --use-color"
+alias ct4="/usr/bin/clear;/usr/bin/tree -C -d -L 4 | /usr/bin/less -R --use-color"
 
 # tree
 alias tree="/usr/bin/tree -aC"
