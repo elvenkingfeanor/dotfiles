@@ -1,0 +1,8 @@
+#!/usr/bin/env sh
+#junk.sh
+# remove junk files from pdflatex (auctex) operations
+# include all .aux, .log, .toc, .lof, .lot files
+
+for f in *.aux *.log *.toc *.lof *.lot; do
+    rmw "$f"
+done
