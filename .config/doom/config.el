@@ -116,6 +116,23 @@
   :config
   (setq emacs-everywhere-major-mode-function #'org-mode))
 
+;; Consult
+;; since, locate is not used on my system, let's replace it with fd
+;; Doomemacs binds <SPC>-s-f to consult-locate, rebind it to consult-fd
+(map!
+ :leader
+ :prefix ("s" . "search")
+ :desc "Find file"
+ "f" (cmd! (consult-fd "~")))
+
+;; Other keybindings
+;; helpful-at-point
+(map!
+ :leader
+ :prefix ("h" . "help")
+ :desc "Help at point"
+ "h" #'helpful-at-point)
+
 ;; Yasnippets
 (use-package yasnippet
   :defer t ;; donot load immediately on startup
