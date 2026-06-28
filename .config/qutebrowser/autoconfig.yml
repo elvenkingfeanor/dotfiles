@@ -66,6 +66,7 @@ settings:
       lw: https://en.wikibooks.org/wiki/Special:Search?search={}&prefix=LaTeX%2F&fulltext=Search+this+book&fulltext=Search
       man: https://man.archlinux.org/man/{}.1
       mw: https://wiki.minetest.org/{}
+      ng: http://savannah.nongnu.org/search/?search=Search&words0=*{}&type_of_search=soft&exact=0&max_rows=25&type=2#options
       p: https://metacpan.org/search?size=20&q={}
       r: https://cran.r-project.org/package={}
       rd: https://www.reddit.com/search?q={}
