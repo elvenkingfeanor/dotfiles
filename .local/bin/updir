@@ -1,0 +1,10 @@
+#!/usr/bin/env sh
+#updir
+# move subdirectories at 2 level down to present level
+
+set -o noclobber
+
+/usr/bin/find . -mindepth 2 -maxdepth 2 -type d -print | \
+    while IFS= read -r dir; do
+        mv -iv "$dir" -t .
+    done
