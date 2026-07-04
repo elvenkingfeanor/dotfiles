@@ -1,0 +1,94 @@
+#!/bin/sh
+#vthumb
+# create thumbnails using ffmpeg and ffprobe
+
+input="$*"
+
+# check if file is video file, else exit
+if [ -f "$input" ]; then
+    if /usr/bin/file "$input" | \
+        /usr/bin/grep -iEoq '(video|avi|matroska|webm|mp4|ac-3)'; then
+        inputname="$(/usr/bin/printf "%s" "$input" | \
+            /usr/bin/sed 's/^/./' | \
+            /usr/bin/rev | \
+            /usr/bin/cut -d '.' -f2- | \
+            /usr/bin/rev | \
+            /usr/bin/cut -c2-)"
+        # inputext="$(/usr/bin/printf "%s" "$input" | \
+        #     /usr/bin/sed 's/^/./' | \
+        #     /usr/bin/rev | \
+        #     /usr/bin/cut -d '.' -f1 | \
+        #     /usr/bin/rev)"
+    else
+        /usr/bin/printf "%s\n" "Make sure $input is a video file."   
+    fi
+else
+    /usr/bin/printf "%s\n" "Is $input a file?"
+    exit 1
+fi
+
+# 2 approaches:
+# 1. divide entire video into specific number of equally spaced frames, or
+# 2. just get frames every specified interval
+
+# # for, the specific number approach:
+# # first, get duration of video from ffprobe and sed
+# inputdur="$(/usr/bin/ffprobe -v quiet -i "$input" -show_format | \
+#     /usr/bin/sed -n 's/duration=//p')"
+# # # or, get duration just from ffprobe directly
+# # inputdur="$(/usr/bin/ffprobe -v error -i "$input" -show_entries format=duration -of default=noprint_wrappers=1:nokey=1)"
+# # next, get frame rate of video using ffprobe and grep
+# inputfps="$(/usr/bin/ffprobe -v quiet -show_streams -select_streams v:0 -i "$input" | \
+#     /usr/bin/sed -n 's/r_frame_rate=//p')"
+# # # or, if using only ffprobe,
+# # inputfps="$(/usr/bin/ffprobe -v error -i "$input" -select_streams v:0 -of default=noprint_wrappers=1:nokey=1 -show_entries stream=r_frame_rate)"
+
+# # next, get number of frames required via user input
+# # user prompts for input are to be handled by dmenu or printf
+# # check whether dmenu is present, else use printf
+# if ! command -v dmenu > /dev/null 2>&1; then
+#     /usr/bin/printf "%s" "number of frames to be generated (integer): " && read -r num
+# else
+# 	num="$(dmenu -p "number of frames to be generated (integer): " < /dev/null)"
+# fi
+# # check if provided num is integer, not string
+# # SC3015 shellcheck error
+# # POSIX shell cannot handle regex matching
+# # if ! [ "$num" =~ ^[0-9]+$ ]; then
+# #     /usr/bin/printf "%s" "enter valid integer"
+# # fi
+# # case "$num" in
+# #     (*[a-zA-Z]*) /usr/bin/printf "%s\n" "$num is not an integer" && exit 1 ;;
+# #     (*[0-9a-zA-Z]*) /usr/bin/printf "%s\n" "$num is not an integer" && exit 1 ;;
+# #     (*[0-9]*) return 0 ;;
+# #     (*) /usr/bin/printf "%s\n" "$num is not an integer" && exit 1
+# # esac
+# # # check using expr
+# # SC2003 shellcheck warning
+# # /usr/bin/expr "$num" + 1 1>/dev/null 2>/dev/null
+# # if ! /usr/bin/printf "%s" "$((num + 1))" 1>/dev/null 2>/dev/null; then
+# #     /usr/bin/printf "%s\n" "$num is not an integer"
+# #     exit 1
+# # fi
+# # alphanumeric passes above test
+# if [ -n "$num" ] && ! [ "$num" -eq "$num" ]; then
+#     /usr/bin/printf "%s\n" "$num is not an integer"
+#     exit 1
+# fi
+
+# # next, calculate frame quotient for modulus function of select 'not(mod(n, quotient))' to work
+# # quotient=(duration*framerate)/frames
+# q="$(/usr/bin/echo "$((inputdur*inputfps/num))")"
+
+# # lastly, use ffmpeg to create png thumbnails
+# /usr/bin/ffmpeg -i "$input" -vf "select='not(mod(n,$q))'" -fps_mode vfr image."$inputname".%03d.png
+
+
+# for, the specific interval approach:
+# let interval be fixed at 1 min ( 60 secs ):
+t=60
+
+# ffmpeg to generate png thumbnails
+/usr/bin/ffmpeg -i "$input" -vf "select='not(mod(t,$t))'" -fps_mode vfr image."$inputname".%03d.png
+# # alternate method
+# /usr/bin/ffmpeg -i "$input" -vf "select='not(mod(t,$t))',setpts=N/FRAME_RATE/TB" image."$inputname".%03d.png 
