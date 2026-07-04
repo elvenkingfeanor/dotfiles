@@ -5,10 +5,11 @@
 alias sudo=/usr/bin/doas
 
 # misspells
-alias zhs=/usr/bin/zsh
+alias ctl="/usr/bin/clear;/usr/bin/tree -aC | /usr/bin/less -R --use-color" # same as clt
+alias grp=/usr/bin/grep
 alias pdw=/usr/bin/pwd
 alias sl="/usr/bin/eza -lo --no-permissions --group-directories-first --grid" # same as ls
-alias ctl="/usr/bin/clear;/usr/bin/tree -aC | /usr/bin/less -R --use-color" # same as clt
+alias zhs=/usr/bin/zsh
 
 # xdg-mime
 alias xxff="/usr/bin/xdg-mime query filetype"
@@ -145,9 +146,6 @@ alias ninja="cd $HOME && /usr/bin/clear && /usr/bin/xdg-ninja"
 alias nn=/usr/bin/vimv
 alias nnn="/usr/bin/doas /usr/bin/vimv"
 
-# glow
-alias gg="/usr/bin/glow -p"
-
 # confirm before overwriting something
 alias cp="/usr/bin/cp -vir"
 alias ccp="/usr/bin/doas /usr/bin/cp -vir"
@@ -197,9 +195,6 @@ alias pp=/usr/bin/nsxiv
 alias mm=/usr/bin/mpv
 alias minfo="/usr/bin/ffmpeg -i"
 
-# thumbnailer
-alias txx="/usr/bin/vcs -i 1m -c 4"
-
 # vim/nvim
 alias vi="/usr/bin/vim -i NONE"
 alias svim="/usr/bin/doas /usr/bin/vim"
@@ -211,12 +206,13 @@ alias edd="/usr/bin/killall emacs && /usr/bin/emacs --daemon"
 alias eee="/usr/bin/emacsclient -q -nw"
 
 # ping
-alias ping="/usr/bin/ping -c5 ping.archlinux.org"
+alias pinga="/usr/bin/ping -c5 ping.archlinux.org"
+alias pingg="/usr/bin/ping -c3 www.gnu.org"
 
 # space
 alias df="/usr/bin/df -h"
 alias du=/usr/bin/ncdu
-alias freemem="/usr/bin/free -h -s 1 -c 3"
+alias mem="/usr/bin/free -h -s 1 -c 3"
 
 # ytdl
 alias yt="/usr/bin/yt-dlp -ic"
@@ -233,10 +229,29 @@ alias torr=/usr/bin/attractorr
 alias ccc="/usr/bin/curl --remote-name"
 
 # weather
-alias wttr="/usr/bin/curl wttr.in/$place"
+# shellcheck disable=2154
+alias wttr='/usr/bin/curl wttr.in/$place'
 
 # surfraw
-alias sr="/usr/bin/sr duckduckgo"
+alias saw="/usr/bin/sr archwiki"
+alias sap="/usr/bin/sr archpkg"
+alias sdd="/usr/bin/sr duckduckgo"
+alias sdw="/usr/bin/sr debwiki"
+alias sgh="/usr/bin/sr github"
+alias sgp="/usr/bin/sr genportage"
+alias sgs="/usr/bin/sr scholar"
+alias sls="/usr/bin/sr l1sp"
+alias slt="/usr/bin/sr ctan"
+alias snb="/usr/bin/sr netbsd"
+alias sob="/usr/bin/sr openbsd"
+alias spb="/usr/bin/sr piratebay"
+alias spg="/usr/bin/sr pgdoc"
+alias sph="/usr/bin/sr phpdoc"
+alias spm="/usr/bin/sr pubmed"
+alias spl="/usr/bin/sr scpan"
+alias ssq="/usr/bin/sr mysqldoc"
+alias sst="/usr/bin/sr stack"
+alias sww="/usr/bin/sr wikipedia"
 
 # mail
 #alias mail="/usr/bin/mbsync -a -c $XDG_CONFIG_HOME/isync/mbsyncrc && /usr/bin/neomutt"
