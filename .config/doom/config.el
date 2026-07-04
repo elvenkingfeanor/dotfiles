@@ -22,25 +22,11 @@
 ;;
 ;; See 'C-h v doom-font' for documentation and more examples of what they
 ;; accept. For example:
-;;
-;;(setq doom-font (font-spec :family "Fira Code" :size 12 :weight 'semi-light)
-;;      doom-variable-pitch-font (font-spec :family "Fira Sans" :size 13))
-;;
-;;(setq doom-font (font-spec :family "JetBrainsMono Nerd Font" :size 24 :weight 'regular)
-;;      doom-variable-pitch-font (font-spec :family "Source Sans Pro" :size 26)
-;;      doom-serif-font (font-spec :family "IBM Plex Serif")
-;;      doom-symbol-font (font-spec :family "Noto Color Emoji" :size 26)
-;;      ) ;; not working
-;;
-;; "JetBrainsMono Nerd Font:pixelsize=16:foundry=JB:weight=regular:slant=normal:width=normal:spacing=100:scalable=true"
-;; "Source Sans Pro:pixelsize=16:foundry=ADBO:weight=regular:slant=normal:width=normal:scalable=true"
-;; "IBM Plex Serif:pixelsize=16:foundry=IBM :weight=regular:slant=normal:width=normal:scalable=true"
-;; "Noto Color Emoji:pixelsize=16:foundry=GOOG:weight=regular:slant=normal:width=normal:spacing=100:scalable=true"
-;;
-;;(setq doom-font "JetBrainsMono Nerd Font:pixelsize=20:antialias=off"
-;;      doom-variable-pitch-font "Source Sans Pro:pixelsize=22"
-;;      doom-serif-font "IBM Plex Serif"
-;;      doom-symbol-font "Noto Color Emoji:pixelsize=22") ;; not working
+
+(setq doom-font (font-spec :family "JetBrains Mono" :weight 'regular :size 24)
+      doom-variable-pitch-font (font-spec :family "Source Sans Pro")
+      doom-serif-font (font-spec :family "DejaVu Serif")
+      doom-symbol-font (font-spec :family "Noto Color Emoji" :size 26))
 
 ;; If you or Emacs can't find your font, use 'M-x describe-font' to look them
 ;; up, `M-x eval-region' to execute elisp code, and 'M-x doom/reload-font' to
@@ -103,8 +89,8 @@
 ;; Fonts
 ;; doom fonts not working. setting emacs init frame parameters
 ;;(add-to-list 'default-frame-alist '(font-spec :family "JetBrainsMono Nerd Font" :size 20)) ;; font-spec not working
-(add-to-list 'default-frame-alist
-             '(font . "JetBrainsMono Nerd Font-20")) ;; works
+;; (add-to-list 'default-frame-alist
+;;              '(font . "JetBrainsMono Nerd Font-20")) ;; works
 
 ;; Grep
 ;; default grep-command
@@ -116,8 +102,9 @@
   :config
   (setq emacs-everywhere-major-mode-function #'org-mode))
 
-;; Consult
-;; since, locate is not used on my system, let's replace it with fd
+;; Custom Keybindings
+;; consult-fd
+;; since, locate is not used on my system, let's replace consult-locate with consult-fd
 ;; Doomemacs binds <SPC>-s-f to consult-locate, rebind it to consult-fd
 (map!
  :leader
@@ -125,13 +112,22 @@
  :desc "Find file"
  "f" (cmd! (consult-fd "~")))
 
-;; Other keybindings
 ;; helpful-at-point
 (map!
  :leader
  :prefix ("h" . "help")
  :desc "Help at point"
  "h" #'helpful-at-point)
+
+;; org-paste-subtree
+(map!
+ :after org
+ :map org-mode-map
+ :localleader
+ :prefix "s"
+ :desc "org-paste-subtree"
+ "p" #'org-paste-subtree)
+
 
 ;; Yasnippets
 (use-package yasnippet
@@ -150,17 +146,12 @@
 ;;             (setq-local yas/trigger-key [tab])
 ;;             (define-key yas/keymap [tab] 'yas/next-field-or-maybe-expand)))
 
-;; Citar
-;; path config for use of citar for vertico
-(setq! citar-bibliography '("~/sty/articles/bib/cite.bib")
-       citar-library-paths '("~/sty/articles/")
-       citar-notes-paths '("~/notx/notes.org"))
 
 ;; Eglot-booster
-(use-package eglot-booster
-  :after eglot
-  :config (eglot-booster-mode))
-
+;; not needed since Emacs v30, project archived by creator since 30 Jun 2026
+;; (use-package eglot-booster
+;;   :after eglot
+;;   :config (eglot-booster-mode))
 ;; Marksman
 ;; marksman for markdown (no +lsp option for markdown in Doomemacs init.el file)
 ;; LSP-mode
@@ -169,8 +160,10 @@
 ;;   :config
 ;;   (require 'lsp-marksman))
 ;; Eglot
-(use-package markdown-mode
-  :hook (markdown-mode . eglot-{}))
+;; (not needed since Marksman is implicitly added to Eglot)
+;; (use-package markdown-mode
+;;   :hook (markdown-mode . eglot-{}))
+
 
 ;; Orgmode
 ;; Org-capture
@@ -178,13 +171,6 @@
 (require 'org-id) ;; generate unique IDs for captured items for future linking
 (after! org
   (add-to-list 'org-modules 'org-id 'org-protocol))
-;; A few custom keybindings, mostly for Orgmode
-(map! :after org
-      :map org-mode-map
-      :localleader
-      :desc "org-paste-subtree"
-      :prefix "s"
-      "p" #'org-paste-subtree)
 ;; Org-id
 (setq org-id-method 'uuid)
 (setq org-id-link-to-org-use-id t)
@@ -289,12 +275,22 @@
 (require 'ox-md)
 ;; (setq org-export-backends '(("pandoc" "beamer" "md" "ascii" "html" "icalendar" "latex" "odt"))
 
+
 ;; LaTeX
 ;; LaTeX parsing using AucTeX
 (use-package auctex)
 ;; live-preview using AucTeX to pdf-viewer
 ;; (setq +latex-viewers '(pdf-tools)) ;; set pdf-tools as default pdf viewer
 (setq +latex-viewers '(zathura)) ;; set zathura as default pdf viewer
+;; set default bibliography for RefTeX
+(setq reftex-default-bibliography
+      "~/sty/articles/bib/cite.bib")
+;; citations using Citar
+;; path config for use of citar for vertico
+(setq! citar-bibliography '("~/sty/articles/bib/cite.bib")
+       citar-library-paths '("~/sty/articles/")
+       citar-notes-paths '("~/notx/notes.org"))
+
 ;; LSP for LaTeX
 ;; however, we're using eglot, instead of lsp-mode, as LSP server
 ;; (setq lsp-tex-server 'texlab) ;; set texlab as default LaTeX LSP server with lsp-mode server
@@ -306,9 +302,7 @@
 ;; prioritize cdlatex for autocompletion in LaTeX file, over Yasnippets
 (map! :map cdlatex-mode-map
       :i "TAB" #'cdlatex-tab) ;; pressing TAB while in insert mode, calls cdlatex-tab function
-;; set default bibliography for RefTeX
-(setq reftex-default-bibliography
-      "~/sty/articles/bib/cite.bib")
+
 
 ;; elfeed
 ;; org feed file for elfeed
@@ -322,6 +316,7 @@
 ;; use pass
 (auth-source-pass-enable)
 (auth-source-pass-file-name-p (list "~/.local/share/pass/"))
+
 
 ;; mu4e
 (use-package mu4e

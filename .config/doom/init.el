@@ -98,7 +98,7 @@
        (eval +overlay)     ; run code, run (also, repls)
        lookup              ; navigate your code and its documentation
        ;; llm               ; when I said you needed friends, I didn't mean...
-       (lsp +eglot +booster)               ; M-x vscode
+       (lsp +eglot)               ; M-x vscode
        magit             ; a git porcelain for Emacs
        ;; make              ; run make tasks from Emacs
        pass              ; password manager for nerds
@@ -150,11 +150,11 @@
        ;; lean              ; for folks with too much to prove
        ;; ledger            ; be audit you can be
        (lua +lsp +tree-sitter)               ; one-based indices? one-based indices
-       markdown          ; writing docs for people to ignore
+       (markdown +lsp +tree-sitter)          ; writing docs for people to ignore
        ;; nim               ; python + lisp at the speed of c
        ;; nix               ; I hereby declare "nix geht mehr!"
        ;; ocaml             ; an objective camel
-       (org +contacts +dragndrop +pandoc +present)               ; organize your plain life in plain text
+       (org +pandoc +present +contacts)               ; organize your plain life in plain text
        ;; php               ; perl's insecure younger brother
        ;; plantuml         ; diagrams for confusing people more
        ;; graphviz         ; diagrams for confusing yourself even more
