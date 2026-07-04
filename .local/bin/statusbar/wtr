@@ -130,12 +130,14 @@ case "$desc" in
     "Fog") wtr="🌁" ;;
     "Clear ") wtr="☀️" ;;
     "Sunny") wtr="☀️" ;;
+    "Light drizzle") wtr="🌦️" ;;
     "Light rain shower") wtr="🌦️" ;;
+    "Light rain") wtr="🌦️" ;;
     "Patchy rain nearby") wtr="🌦️" ;;
     "Patchy light drizzle") wtr="🌦️" ;;
     "Patchy light rain in area with thunder") wtr="⛈️" ;;
-    "Moderate or heavy rain with thunder") wtr="⛈️" ;;
     "Moderate rain at times") wtr="🌧️" ;;
+    "Moderate or heavy rain with thunder") wtr="⛈️" ;;
     "Heavy rain") wtr="🌧️" ;;
     "Thundery outbreaks in nearby") wtr=🌩️ ;;
     *) wtr="🌂" ;;
