@@ -5,32 +5,36 @@
 # max speaker volume set to 80% (my laptop speakers are starting to sound a bit tin-ny)
 
 lvl="$1"
-mute="$(/usr/bin/wpctl get-volume @DEFAULT_AUDIO_SINK@ | /usr/bin/cut -d ' ' -f 3)"
+# lvl has to be an integer, with value range from 0 to 80
+if [ -n "$lvl" ] && ! [ "$lvl" -eq "$lvl" ]; then
+    /usr/bin/notify-send "has to be an integer" "accepted range from 0 to 80"
+    exit 1
+elif [ "$lvl" -lt 0 ] || [ "$lvl" -gt 80 ]; then
+    /usr/bin/notify-send "accepted range from 0 to 80"
+    exit 1
+fi
 
-if [ -n "$lvl" ] && [ -n "$mute" ]; then
-    /usr/bin/wpctl set-mute @DEFAULT_AUDIO_SINK@ 0
-    if [ "$lvl" -ge 80 ]; then
-        /usr/bin/wpctl set-volume -l 0.8 @DEFAULT_AUDIO_SINK@ 80%
-        /usr/bin/pkill -f -RTMIN+11 /usr/local/bin/dwmblocks
-        /usr/bin/notify-send "Max vol 80!" "Audio volume set to 80"
-    else
+mute="$(/usr/bin/wpctl get-volume @DEFAULT_AUDIO_SINK@ | /usr/bin/grep -ioq muted)"
+
+if [ -n "$mute" ]; then
+    if [ -n "$lvl" ]; then
+        /usr/bin/wpctl set-mute @DEFAULT_AUDIO_SINK@ 0
         /usr/bin/wpctl set-volume -l 0.8 @DEFAULT_AUDIO_SINK@ "$lvl"%
         /usr/bin/pkill -f -RTMIN+11 /usr/local/bin/dwmblocks
         /usr/bin/notify-send "Audio volume" "set to $lvl"
-    fi
-elif
-    [ -n "$lvl" ] && [ -z "$mute" ]; then
-    if [ "$lvl" -ge 80 ]; then
-        /usr/bin/wpctl set-volume -l 0.8 @DEFAULT_AUDIO_SINK@ 80%
-        /usr/bin/pkill -f -RTMIN+11 /usr/local/bin/dwmblocks
-        /usr/bin/notify-send "Max vol 80!" "Audio volume set to 80"
     else
-        /usr/bin/wpctl set-volume -l 0.8 @DEFAULT_AUDIO_SINK@ 80%
+        /usr/bin/wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle
         /usr/bin/pkill -f -RTMIN+11 /usr/local/bin/dwmblocks
         /usr/bin/notify-send "Audio volume" "set to $lvl"
     fi
 else
-    /usr/bin/wpctl set-mute @DEFAULT_AUDIO_SINK@ 1;
-    /usr/bin/pkill -f -RTMIN+11 /usr/local/bin/dwmblocks
-    /usr/bin/notify-send "Audio muted"
+    if [ -n "$lvl" ]; then
+        /usr/bin/wpctl set-volume -l 0.8 @DEFAULT_AUDIO_SINK@ "$lvl"%
+        /usr/bin/pkill -f -RTMIN+11 /usr/local/bin/dwmblocks
+        /usr/bin/notify-send "Audio volume" "set to $lvl"
+    else
+        /usr/bin/wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle
+        /usr/bin/pkill -f -RTMIN+11 /usr/local/bin/dwmblocks
+        /usr/bin/notify-send "Audio muted"
+    fi
 fi

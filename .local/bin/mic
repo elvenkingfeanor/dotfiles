@@ -5,20 +5,36 @@
 # max mic audio set to 120%
 
 lvl="$1"
-mute="$(/usr/bin/wpctl get-volume @DEFAULT_AUDIO_SOURCE@ | /usr/bin/cut -d ' ' -f 3)"
+# lvl has to be an integer, with value range from 0 to 120
+if [ -n "$lvl" ] && ! [ "$lvl" -eq "$lvl" ]; then
+    /usr/bin/notify-send "has to be an integer" "accepted range from 0 to 120"
+    exit 1
+elif [ "$lvl" -lt 0 ] || [ "$lvl" -gt 120 ]; then
+    /usr/bin/notify-send "accepted range from 0 to 120"
+    exit 1
+fi
 
-if [ -n "$lvl" ] && [ -n "$mute" ]; then
-    /usr/bin/wpctl set-mute @DEFAULT_AUDIO_SOURCE@ 0
-    /usr/bin/wpctl set-volume -l 1.2 @DEFAULT_AUDIO_SOURCE@ "$lvl"%
-    /usr/bin/pkill -f -RTMIN+11 /usr/local/bin/dwmblocks
-    /usr/bin/notify-send "Mic volume" "set to $lvl";
-elif
-    [ -n "$lvl" ] && [ -z "$mute" ]; then
-    /usr/bin/wpctl set-volume -l 1.2 @DEFAULT_AUDIO_SOURCE@ "$lvl"%
-    /usr/bin/pkill -f -RTMIN+11 /usr/local/bin/dwmblocks
-    /usr/bin/notify-send "Mic volume" "set to $lvl";
+mute="$(/usr/bin/wpctl get-volume @DEFAULT_AUDIO_SOURCE@ | /usr/bin/grep -ioq muted)"
+
+if [ -n "$mute" ]; then
+    if [ -n "$lvl" ]; then
+        /usr/bin/wpctl set-mute @DEFAULT_AUDIO_SOURCE@ 0
+        /usr/bin/wpctl set-volume -l 1.2 @DEFAULT_AUDIO_SOURCE@ "$lvl"%
+        /usr/bin/pkill -f -RTMIN+11 /usr/local/bin/dwmblocks
+        /usr/bin/notify-send "Mic volume" "set to $lvl"
+    else
+        /usr/bin/wpctl set-mute @DEFAULT_AUDIO_SOURCE@ toggle
+        /usr/bin/pkill -f -RTMIN+11 /usr/local/bin/dwmblocks
+        /usr/bin/notify-send "Mic volume" "set to $lvl"
+    fi
 else
-    /usr/bin/wpctl set-mute @DEFAULT_AUDIO_SOURCE@ 1;
-    /usr/bin/pkill -f -RTMIN+11 /usr/local/bin/dwmblocks
-    /usr/bin/notify-send "Mic muted"
+    if [ -n "$lvl" ]; then
+        /usr/bin/wpctl set-volume -l 1.2 @DEFAULT_AUDIO_SOURCE@ "$lvl"%
+        /usr/bin/pkill -f -RTMIN+11 /usr/local/bin/dwmblocks
+        /usr/bin/notify-send "Mic volume" "set to $lvl"
+    else
+        /usr/bin/wpctl set-mute @DEFAULT_AUDIO_SOURCE@ toggle
+        /usr/bin/pkill -f -RTMIN+11 /usr/local/bin/dwmblocks
+        /usr/bin/notify-send "Mic muted"
+    fi
 fi
