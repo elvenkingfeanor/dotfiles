@@ -19,7 +19,7 @@ set selection-clipboard clipboard
 # No padding
 set statusbar-h-padding 0
 set statusbar-v-padding 0
-set page-padding 1
+# set page-padding 1
 
 # Replace $HOME with ~
 set statusbar-home-tilde
@@ -29,7 +29,7 @@ set window-title-home-tilde
 set double-click-follow
 
 # icon
-set window-icon on
+# set window-icon on
 
 # Recolor
 set recolor-keephue
