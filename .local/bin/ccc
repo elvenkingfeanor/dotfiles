@@ -1,0 +1,101 @@
+#!/bin/sh
+#ccc
+# curl URL to desired output
+# if using URL, yank to primary clipboard
+
+# check clipboard or for a '*.url' named file in directory, before continuing
+# check if file is empty or if URL link is valid, before continuing
+# if URL only named 'readme', change output to name of parent directory
+
+# if [ -z "$(/usr/bin/xclip -o)" ]; then
+#     if [ -z "$(/usr/bin/find . -maxdepth 1 -mindepth 1 -type f -name '*url')" ]; then
+#         /usr/bin/printf "%s\n" "Error, neither URL link nor URL file found"
+#         exit 1
+#     elif /usr/bin/find . -maxdepth 1 -mindepth 1 -type f -name '*url' | /usr/bin/xargs /usr/bin/grep -Eiq 'http[s]://[^ ]+'; then
+#             /usr/bin/notify-send -u low "readme URL file found"
+#             projdir="$(/usr/bin/pwd | /usr/bin/sed 's@.*/@@')"
+#             exturl="$(/usr/bin/find . -maxdepth 1 -mindepth 1 -type f -name '*url' | \
+#                 /usr/bin/xargs /usr/bin/grep -Eio 'http[s]://[^ ]+' | \
+#                 /usr/bin/sed 's@.*\.@@')"
+#             if [ -z "$exturl" ]; then
+#                 /usr/bin/curl -O "$(/usr/bin/cat "$(/usr/bin/find . -maxdepth 1 -mindepth 1 -type f -name '*url')")"
+#             else
+#                 /usr/bin/curl -o "$projdir.$exturl" "$(/usr/bin/cat "$(/usr/bin/find . -maxdepth 1 -mindepth 1 -type f -name '*url')")"
+#             fi
+#     else
+#         /usr/bin/printf "%s\n" "Error, no valid URL found in file"
+#         exit 1
+#     fi
+# elif /usr/bin/printf "%s" "$(/usr/bin/xclip -o)" | /usr/bin/grep -Eiq 'http[s]://[^ ]+'; then
+#         /usr/bin/notify-send -u low "valid URL link found"
+#         projdir="$(/usr/bin/pwd | /usr/bin/sed 's@.*/@@')"
+#         projurl="$(/usr/bin/printf "%s" "$(/usr/bin/xclip -o)" | \
+#             /usr/bin/xargs /usr/bin/basename | /usr/bin/sed 's@\..*$@@')"
+#         exturl="$(/usr/bin/printf "%s" "$(/usr/bin/xclip -o)" | /usr/bin/sed 's@.*\.@@')"
+#         if [ "$projdir" = "$projurl" ]; then
+#             if [ -z "$exturl" ]; then
+#                 /usr/bin/curl -O "$(/usr/bin/printf "%s" "$(/usr/bin/xclip -o)")"    
+#             else
+#                 /usr/bin/curl -o "$projdir.$exturl" "$(/usr/bin/printf "%s" "$(/usr/bin/xclip -o)")"
+#             fi
+#         elif
+#             /usr/bin/printf "%s" "$(/usr/bin/xclip -o)" | /usr/bin/grep -q "$projdir"; then
+#             if [ -z "$exturl" ]; then
+#                 /usr/bin/curl -O "$(/usr/bin/printf "%s" "$(/usr/bin/xclip -o)")"    
+#             else
+#                 /usr/bin/curl -o "$projdir.$exturl" "$(/usr/bin/printf "%s" "$(/usr/bin/xclip -o)")"
+#             fi
+#         else
+#             /usr/bin/printf "%s\n" "Error, URL and dirname donot match."
+#             exit 1
+#         fi
+# else
+#     /usr/bin/printf "%s\n" "Error, not a valid URL"
+#     exit 1
+# fi
+
+# instead of starting the if-else statement with checking clipboard for URL, start with checking file for URL
+
+if ! /usr/bin/find . -maxdepth 1 -mindepth 1 -type f -name '*url' | /usr/bin/xargs /usr/bin/grep -Eiq 'http[s]://[^ ]+'; then
+    if [ -z "$(/usr/bin/xclip -o)" ]; then
+        /usr/bin/printf "%s\n" "Error, neither URL link nor URL file found"
+        exit 1
+    elif /usr/bin/printf "%s" "$(/usr/bin/xclip -o)" | /usr/bin/grep -Eiq 'http[s]://[^ ]+'; then
+        /usr/bin/notify-send -u low "valid URL link found"
+        projdir="$(/usr/bin/pwd | /usr/bin/sed 's@.*/@@')"
+        projurl="$(/usr/bin/printf "%s" "$(/usr/bin/xclip -o)" | \
+            /usr/bin/xargs /usr/bin/basename | /usr/bin/sed 's@\..*$@@')"
+        exturl="$(/usr/bin/printf "%s" "$(/usr/bin/xclip -o)" | /usr/bin/sed 's@.*\.@@')"
+        if [ "$projdir" = "$projurl" ]; then
+            if [ -z "$exturl" ]; then
+                /usr/bin/curl -O "$(/usr/bin/printf "%s" "$(/usr/bin/xclip -o)")"    
+            else
+                /usr/bin/curl -o "$projdir.$exturl" "$(/usr/bin/printf "%s" "$(/usr/bin/xclip -o)")"
+            fi
+        elif
+            /usr/bin/printf "%s" "$(/usr/bin/xclip -o)" | /usr/bin/grep -q "$projdir"; then
+            if [ -z "$exturl" ]; then
+                /usr/bin/curl -O "$(/usr/bin/printf "%s" "$(/usr/bin/xclip -o)")"    
+            else
+                /usr/bin/curl -o "$projdir.$exturl" "$(/usr/bin/printf "%s" "$(/usr/bin/xclip -o)")"
+            fi
+        else
+            /usr/bin/printf "%s\n" "Error, URL and dirname donot match"
+            exit 1
+        fi
+    else
+        /usr/bin/printf "%s\n" "Error, no valid URL found in file"
+        exit 1
+    fi
+else 
+    /usr/bin/notify-send -u low "URL file found"
+    projdir="$(/usr/bin/pwd | /usr/bin/sed 's@.*/@@')"
+    exturl="$(/usr/bin/find . -maxdepth 1 -mindepth 1 -type f -name '*url' | \
+        /usr/bin/xargs /usr/bin/grep -Eio 'http[s]://[^ ]+' | \
+        /usr/bin/sed 's@.*\.@@')"
+    if [ -z "$exturl" ]; then
+        /usr/bin/curl -O "$(/usr/bin/cat "$(/usr/bin/find . -maxdepth 1 -mindepth 1 -type f -name '*url')")"
+    else
+        /usr/bin/curl -o "$projdir.$exturl" "$(/usr/bin/cat "$(/usr/bin/find . -maxdepth 1 -mindepth 1 -type f -name '*url')")"
+    fi
+fi

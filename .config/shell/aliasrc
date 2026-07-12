@@ -225,9 +225,6 @@ alias zz=/usr/bin/zathura
 # torrent
 alias torr=/usr/bin/attractorr
 
-# curl
-alias ccc="/usr/bin/curl --remote-name"
-
 # weather
 # shellcheck disable=2154
 alias wttr='/usr/bin/curl wttr.in/$place'
