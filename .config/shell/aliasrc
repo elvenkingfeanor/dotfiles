@@ -208,6 +208,7 @@ alias eee="/usr/bin/emacsclient -q -nw"
 # ping
 alias pinga="/usr/bin/ping -c5 ping.archlinux.org"
 alias pingg="/usr/bin/ping -c3 www.gnu.org"
+alias pingw="/usr/bin/ping -c2 wttr.in"
 
 # space
 alias df="/usr/bin/df -h"
