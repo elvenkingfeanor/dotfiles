@@ -1,0 +1,1669 @@
+#+title: Doom Emacs config
+#+author: Tanmoy Sarkar
+#+date: <2026-06-29 Mon> 
+#+startup: overview
+#+property: header-args:emacs-lisp :results silent
+#+property: header-args:emacs-lisp :lexical yes
+#+property: header-args:emacs-lisp :tangle ~/.config/doom/test.el
+
+This Org file configures my Doom Emacs setup.
+
+* Table of Contents :toc:
+- [[#introduction][Introduction]]
+  - [[#why-an-orgmode-config-file][Why an Orgmode config file?]]
+- [[#scope][Scope]]
+- [[#daemon][Daemon]]
+- [[#user][User]]
+- [[#password-management][Password management]]
+  - [[#auth-sources][auth-sources]]
+  - [[#pass-integration][pass integration]]
+- [[#ui][UI]]
+  - [[#font][Font]]
+  - [[#theme][Theme]]
+  - [[#line-numbers][Line numbers]]
+  - [[#grep][Grep]]
+  - [[#word-wrap][Word-wrap]]
+- [[#doom-package-info][Doom package info]]
+  - [[#install-package][Install package]]
+  - [[#reconfigure-a-package][Reconfigure a package]]
+  - [[#configure-a-package][Configure a package]]
+  - [[#info-on-macros-and-functions][Info on macros and functions]]
+- [[#extras][Extras]]
+  - [[#no-byte-compile-directive][no-byte-compile directive]]
+  - [[#rainbow-mode][rainbow-mode]]
+- [[#org][Org]]
+  - [[#org-directory][org-directory]]
+  - [[#org-modules][org-modules]]
+  - [[#org-capture][org-capture]]
+  - [[#org-insert][org-insert]]
+  - [[#org-agenda][org-agenda]]
+  - [[#org-refile][org-refile]]
+  - [[#org-archive][org-archive]]
+  - [[#org-export][org-export]]
+  - [[#org-other][org-other]]
+- [[#eglot][Eglot]]
+- [[#yasnippet][Yasnippet]]
+  - [[#doom-snippets-installation][doom-snippets installation]]
+  - [[#disabling-built-in-doom-snippets-for-yasnippet-snippets][Disabling built-in doom-snippets for yasnippet-snippets]]
+  - [[#yasnippet-as-a-global-minor-mode][Yasnippet as a global minor mode]]
+  - [[#yasnippet-as-a-non-global-minor-mode][Yasnippet as a non-global minor mode]]
+- [[#latex][LaTeX]]
+  - [[#auctex][AucTeX]]
+  - [[#cdlatex][CDLaTeX]]
+  - [[#reftex][RefTeX]]
+- [[#mu4e][Mu4e]]
+  - [[#mail-user-agent][mail-user-agent]]
+  - [[#read-mail-command][read-mail-command]]
+  - [[#mu4e-change-filenames-when-moving][mu4e-change-filenames-when-moving]]
+  - [[#mu4e-update-interval][mu4e-update-interval]]
+  - [[#mu4e-root-maildir][mu4e-root-maildir]]
+  - [[#mu4e-attachment-dir][mu4e-attachment-dir]]
+  - [[#sendmail-program][sendmail-program]]
+  - [[#mu4e-sent-messages-behavior][mu4e-sent-messages-behavior]]
+  - [[#mu4e-search-skip-duplicates][mu4e-search-skip-duplicates]]
+  - [[#message-kill-buffer-on-exit][message-kill-buffer-on-exit]]
+  - [[#mu4e-search-results-limit][mu4e-search-results-limit]]
+  - [[#mu4e-show-images][mu4e-show-images]]
+  - [[#auto-save-mode][auto-save-mode]]
+  - [[#load-personal-config][load personal config]]
+- [[#elfeed][Elfeed]]
+- [[#emacs-everywhere][Emacs-everywhere]]
+- [[#custom-keybindings][Custom Keybindings]]
+  - [[#consult-fd][consult-fd]]
+  - [[#helpful-at-point][helpful-at-point]]
+  - [[#org-paste-subtree][org-paste-subtree]]
+
+* Introduction :intro:
+This is my central [[https://github.com/doomemacs/][Doom Emacs]] [[https://orgmode.org/manual/index.html][org-mode]] configuration file, generating (or, /tangling/ as in `org-babel talk') the =config.el= Doom Emacs config file.
+
+This file is an example of Donald Knuth's [[https://org-babel.readthedocs.io/en/latest/#literate-programming][literate programming]].
+
+** Why an Orgmode config file? :orgmode:
+
+*** Organization
+My old =config.el= Doom Emacs config file is very disorganized. Orgmode definitely helps in organization, with each code block having its own section, etc.
+*** Centralization
+Orgmode's =org-babel-tangle= makes it easy to export code blocks to any file, including files in a =~/.config= directory. Thus, allowing one file to maintain other config files.
+#+begin_quote
+One file to rule `em all.
+#+end_quote
+*** Ease of use
+Using Orgmode in Emacs is dead easy.
+* Scope :scoping:
+:PROPERTIES:
+:ID:       73f9bfa1-3fe6-4ca7-899f-7e500b1c5867
+:END:
+
+Let's set, Emacs-Lisp scoping behaviour for =config.el=.
+
+This should be the very first line of any Emacs-Lisp file, specifying =lexical-binding=, instead of =dynamic-binding=
+
+#+begin_src emacs-lisp
+;;; $DOOMDIR/config.el -*- lexical-binding: t; -*-
+;;; tangled from ~/.config/doom.org, read it for documentation
+#+end_src
+* Daemon :daemon:server:
+:PROPERTIES:
+:ID:       07af48b9-1c03-4f40-a5e5-9d3ea00652d4
+:END:
+
+Start Emacs as a server.
+
+#+begin_src emacs-lisp
+(use-package server
+  :ensure t
+  :config
+  (unless (server-running-p) (server-start)))
+#+end_src
+
+Here's the same of the above, without =use-package=.
+
+#+begin_example
+(require 'server)
+(unless (server-running-p)
+  (server-start))
+#+end_example
+* User :user:
+:PROPERTIES:
+:ID:       759b6e77-f4aa-4dcd-bf4a-6ebf660dd281
+:END:
+
+#+begin_quote
+Some functionality uses this to identify you, e.g. GPG configuration, email clients, file templates and snippets. It is optional.
+#+end_quote
+
+#+begin_src emacs-lisp
+(setq user-full-name "ts")
+#+end_src
+* Password management :password:authentication:
+** auth-sources :auth:
+:PROPERTIES:
+:ID:       963bb083-5516-4949-bab3-eab1fa45a387
+:END:
+
+Emacs looks for passwords and other information in the =auth-source= library.  The variable =auth-sources= tells the library location of the info.
+
+#+begin_src emacs-lisp
+(setq auth-sources '("~/.local/share/authinfo.gpg"))
+#+end_src
+
+By default, the =authinfo= file is in unencrypted plain-text format.  For obvious safety purposes, we encrypt it with the Emacs EasyPG Assistant.  Firstly, create the file at the desired location.  Next, use the =epa-encrypt-file= function to encrypt the file.  After encryption, delete the original unencrypted file, and set the encrypted file as the =auth-sources= location.
+** pass integration :pass:
+:PROPERTIES:
+:ID:       6591c2ce-b94b-46d7-815f-d98204b46234
+:END:
+
+Since, we use [[https://www.passwordstore.org/][pass]], we add our password-store to the [[id:963bb083-5516-4949-bab3-eab1fa45a387][auth-sources]] variable, using the =auth-source-pass-enable= function.
+
+Similarly, we pass the location of our password-store to =auth-source= via the =auth-source-ass-filename= variable, which defaults to =~/.password-store= directory.
+
+#+begin_src emacs-lisp
+(auth-source-pass-enable)
+(auth-source-pass-file-name-p (list "~/.local/share/pass/"))
+#+end_src
+* UI :ui:
+
+** Font :font:
+:PROPERTIES:
+:ID:       7f47e418-fa44-4cf2-812b-42c36b81963d
+:END:
+ 
+*** Doom fonts
+
+#+begin_quote
+ Doom exposes five (optional) variables for controlling fonts in Doom:
+#+end_quote
+
+**** doom-font
+
+#+begin_quote
+the primary font to use
+#+end_quote
+
+**** doom-variable-pitch-font
+
+#+begin_quote
+a non-monospace font (where applicable)
+#+end_quote
+
+**** doom-big-font
+
+#+begin_quote
+used for `doom-big-font-mode'; use this for presentations or streaming.
+#+end_quote
+
+**** doom-symbol-font
+
+#+begin_quote
+for symbols
+#+end_quote
+
+**** doom-serif-font
+
+#+begin_quote
+for the `fixed-pitch-serif' face
+#+end_quote
+
+*** Setting Doom fonts
+:PROPERTIES:
+:ID:       e72f49b3-9ac2-4914-a463-3fe5ebb2e5e8
+:END:
+
+#+begin_quote
+See =C-h v doom-font= for documentation and more examples of what they accept. For example:
+#+end_quote
+
+#+begin_example
+(setq doom-font (font-spec :family "Fira Code" :size 12 :weight 'semi-light)
+      doom-variable-pitch-font (font-spec :family "Fira Sans" :size 13))
+#+end_example
+
+#+begin_src emacs-lisp 
+(setq doom-font (font-spec :family "JetBrains Mono" :weight 'regular :size 24)
+      doom-variable-pitch-font (font-spec :family "Source Sans Pro")
+      doom-serif-font (font-spec :family "DejaVu Serif")
+      doom-symbol-font (font-spec :family "Noto Color Emoji"))
+#+end_src
+
+*** Troubleshooting
+
+#+begin_quote
+If you or Emacs can't find your font,
+#+end_quote
+
+use the following:
+**** Describe font
+
+#+begin_quote
+use 'M-x describe-font' to look them up
+#+end_quote
+**** Eval Emacs-Lisp code
+
+#+begin_quote
+use `M-x eval-region' to execute emacs-lisp code
+#+end_quote
+**** Reload Doom font
+
+#+begin_quote
+use 'M-x doom/reload-font' to refresh your font settings
+#+end_quote
+*** Fallback Font configuration
+
+#+begin_quote
+If Emacs still can't find your font, it likely wasn't installed correctly. Font issues are rarely Doom issues!
+#+end_quote
+
+**** First identify font file as per fontconfig
+
+The shell command =fc-list= lists all fonts installed on system. Narrow down list to required font using =grep=.
+#+begin_example
+fc-list | grep -i <fontname>
+#+end_example
+
+The above returns a list of font files under =/usr/share/fonts= directory, belonging to given font name.
+
+**** Next identify font parameters 
+
+The shell command =fc-query= outputs font parameters like 'family', 'name', 'weight', 'slant'. Use =grep= to suitably narrow down.
+#+begin_example
+fc-query /usr/share/fonts/path/to/font/file | grep -E '(family|name|weight|slant)'
+#+end_example
+**** Modify Emacs's frame parameters variable to set font
+
+To specify a font, add it to a list specifying the =default-frame-alist= variable, controlling the frame parameters for Emacs:
+#+begin_example
+(add-to-list 'default-frame-alist
+             '(font . "JetBrainsMono Nerd Font-20"))
+#+end_example
+
+** Theme :theme:
+:PROPERTIES:
+:ID:       ad7d1047-e013-46a4-a3c9-489e59d469fc
+:END:
+
+#+begin_quote
+There are two ways to load a theme. Both assume the theme is installed and available. You can either set `doom-theme' or manually load a theme with the `load-theme' function. 
+#+end_quote
+*** Doom theming method
+:PROPERTIES:
+:ID:       adc8e437-fc3c-4107-88a7-64a9c9c36c6b
+:END:
+
+#+begin_quote
+This is the default:
+#+end_quote
+
+#+begin_src emacs-lisp :results silent
+(setq doom-theme 'doom-one)
+#+end_src
+*** Manual theming method
+
+To manually load a theme
+#+begin_example
+(load-theme 'doom-gruvbox)
+#+end_example
+** Line numbers :linenumbers:
+:PROPERTIES:
+:ID:       eb56e51d-4b3a-4a90-a500-7f949b24740a
+:END:
+
+#+begin_quote
+This determines the style of line numbers in effect. If set to `nil', line numbers are disabled. For relative line numbers, set this to `relative'.
+#+end_quote
+
+Doom preset:
+#+begin_example
+(setq display-line-numbers-type t)
+#+end_example
+
+#+begin_src emacs-lisp
+(setq display-line-numbers-type 'relative)
+#+end_src
+** Grep :grep:
+:PROPERTIES:
+:ID:       cbdc8287-512e-49df-8c11-24939f093184
+:END:
+
+Change the default Emacs Grep buffer from
+#+begin_example
+"grep --color=auto -nH --null -e "
+#+end_example
+
+to
+#+begin_example
+"grep --color=auto -rnHiI -C2 -e "
+#+end_example
+
+#+begin_src emacs-lisp
+(setopt grep-command "grep --color=auto -rnHiI -C2 -e ")
+#+end_src
+** Word-wrap :word_wrap:
+
+Enable Doom module =word-wrap= everywhere:
+#+begin_src emacs-lisp
+(+global-word-wrap-mode +1)
+#+end_src
+*** [[https://www.gnu.org/software/emacs/manual/html_node/emacs/Fill-Commands.html][fill-column]] :fill_column:
+:PROPERTIES:
+:ID:       7d169ed9-493d-4844-a5e2-362605f3fea7
+:END:
+
+This is a buffer-local built-in Emacs variable, for setting the maximum line-width for filling (i.e. breaking text up into lines to fit specified width). 
+
+#+begin_example
+(setq fill-column 70)
+#+end_example
+*** [[https://www.gnu.org/software/emacs/manual/html_node/emacs/Visual-Line-Mode.html][visual-line-mode]] :visual_line_mode:
+:PROPERTIES:
+:ID:       f13fdc37-4930-4e8c-a11a-cb4a2d7f6948
+:END:
+
+This is a built-in Emacs minor mode, providing =word-wrap=, to divide a line into /visual-lines/.
+
+*** [[https://codeberg.org/joostkremers/visual-fill-column][visual-fill-column]]
+
+This is an external package, which wraps long lines at [[id:7d169ed9-493d-4844-a5e2-362605f3fea7][fill-column]], to /soft-wrap/ text in buffers that use [[id:f13fdc37-4930-4e8c-a11a-cb4a2d7f6948][visual-line-mode]].
+
+To use it, we add a hook to [[id:f13fdc37-4930-4e8c-a11a-cb4a2d7f6948][visual-line-mode]], using the =visual-fill-column-for-vline= function:  
+
+#+begin_example
+(add-hook 'visual-line-mode-hook #'visual-fill-column-for-vline)
+#+end_example
+
+To enable it everywhere, we use:
+
+#+begin_example
+(global-visual-line-mode 1)
+#+end_example
+
+* Doom package info :packages:
+
+Doom Emacs does all the work regarding package management, especially its =init.el= modules. All the user has to do, is tweak the packages to one's liking.
+
+** Install package
+#+begin_quote
+To install a package with Doom you must declare them here and run 'doom sync' on the command line, then restart Emacs for the changes to take effect
+#+end_quote
+
+Declare package entries in the =packages.el= file, like the following:
+*** if package source is ELPA or MELPA or emacsmirror
+use =package!= macro
+#+begin_example
+(package! some-package)
+#+end_example
+*** if package source is a remote git repo :recipe:
+specify a ~:recipe~
+#+begin_example
+(package! another-package
+  :recipe (:host github :repo "username/repo"))
+#+end_example
+Read further info on ~:recipe~ at [[https://github.com/radian-software/straight.el#the-recipe-format][straight.el]] repo page.
+*** Other rare scenarios :recipe:
+**** if package has no .el file or a specific subdirectory of repo required :files:
+specify ~:files~ in the ~:recipe~ entry
+#+begin_example
+(package! this-package
+  :recipe (:host github :repo "username/repo"
+           :files ("some-file.el" "src/lisp/*.el")))
+#+end_example
+**** disable built-in Doom package :disable:
+use ~:disable~
+#+begin_quote
+If you'd like to disable a package included with Doom, you can do so here with the `:disable' property:
+#+end_quote
+#+begin_example
+(package! builtin-package :disable t)
+#+end_example
+**** override built-in package recipe
+#+begin_quote
+You can override the recipe of a built in package without having to specify all the properties for `:recipe'. These will inherit the rest of its recipe
+from Doom or MELPA/ELPA/Emacsmirror:
+#+end_quote
+
+#+begin_example
+(package! builtin-package :recipe (:nonrecursive t))
+(package! builtin-package-2 :recipe (:repo "myfork/package"))
+#+end_example
+**** install package from specific branch :branch:
+#+begin_quote
+Specify a `:branch' to install a package from a particular branch or tag. This is required for some packages whose default branch isn't 'master' (which
+our package manager can't deal with; see radian-software/straight.el#279)
+#+end_quote
+
+#+begin_example
+(package! builtin-package :recipe (:branch "develop"))
+#+end_example
+**** specify a particular commit to install :pin:
+use ~:pin~
+#+begin_example
+(package! builtin-package :pin "1a2b3c4d5e")
+#+end_example
+**** release commit specifications for package :unpin:
+use =unpin!= macro
+#+begin_quote
+Doom's packages are pinned to a specific commit and updated from release to release. The `unpin!' macro allows you to unpin single packages...
+#+end_quote
+#+begin_example
+(unpin! pinned-package)
+#+end_example
+#+begin_quote
+...or multiple packages
+#+end_quote
+#+begin_example
+(unpin! pinned-package another-pinned-package)
+#+end_example
+#+begin_quote
+...Or *all* packages (NOT RECOMMENDED; will likely break things)
+#+end_quote
+#+begin_example
+(unpin! t)
+#+end_example
+** Reconfigure a package
+use =after!= macro
+#+begin_quote
+Whenever you reconfigure a package, make sure to wrap your config in an `after!' block, otherwise Doom's defaults may override your settings. E.g.
+#+end_quote
+#+begin_example
+  (after! PACKAGE
+    (setq x y))
+#+end_example
+
+*** Exceptions
+#+begin_quote
+The exceptions to this rule:
+
+  - Setting file/directory variables (like `org-directory')
+  - Setting variables which explicitly tell you to set them before their package is loaded (see 'C-h v VARIABLE' to look up their documentation).
+  - Setting doom variables (which start with 'doom-' or '+').
+#+end_quote
+
+** Configure a package
+#+begin_quote
+Here are some additional functions/macros that will help you configure Doom.
+#+end_quote
+
+*** Load external .el files :load:
+#+begin_quote
+`load!' for loading external *.el files relative to this one
+#+end_quote
+*** use-package :usepackage:
+#+begin_quote
+`use-package!' for configuring packages
+#+end_quote
+
+=use-package= is a Emacs built-in macro to automatically load and configure a package.
+**** load a package
+
+To unconditionally loads a package, we use:
+
+#+begin_example
+(use-package foo)
+#+end_example
+
+The above form is similar to:
+
+#+begin_example
+(require foo)
+#+end_example
+**** evaluate some Lisp before loading package
+
+Use keyword ~:init~ to evaluate the code just before loading the package.
+
+#+begin_example
+(use-package foo
+	:init
+        (setq foo-variable t))
+#+end_example
+**** execute code after loading package
+:PROPERTIES:
+:ID:       8c86bd32-9c04-4802-a939-5937040a11eb
+:END:
+
+use keyword ~:config~
+#+begin_example
+(use-package foo
+	:init
+        (setq foo-variable t)
+        :config
+        (foo-mode 1))
+#+end_example
+**** autoload a package
+
+Use keyword ~:defer t~ to only load package when needed, not at Emacs startup.  Generally, we should pair ~:defer t~ with [[id:8c86bd32-9c04-4802-a939-5937040a11eb][:config]].
+#+begin_example
+(use-package foo
+	:defer t)
+#+end_example
+*** after! package :after:
+use =after!= macro
+#+begin_quote
+`after!' for running code after a package has loaded
+#+end_quote
+*** add-load-path :loadpath:
+add directories having .el files to path, relative to =config.el=.
+#+begin_quote
+`add-load-path!' for adding directories to the `load-path', relative to this file. Emacs searches the `load-path' when you load packages with `require' or `use-package'.
+#+end_quote
+*** New keybindings 
+#+begin_quote
+`map!' for binding new keys
+#+end_quote
+
+** Info on macros and functions
+
+*** Lookup documentation of symbol at point
+#+begin_quote
+To get information about any of these functions/macros, move the cursor over the highlighted symbol at press 'K' (non-evil users must press 'C-c c k'). This will open documentation for it, including demos of how they are used.
+#+end_quote
+*** Describe any symbol
+#+begin_quote
+Alternatively, use `C-h o' to look up a symbol (functions, variables, faces, etc).
+#+end_quote
+*** Lookup definition of symbol at point
+#+begin_quote
+You can also try 'gd' (or 'C-c c d') to jump to their definition and see how they are implemented.
+#+end_quote
+* Extras :extra:packages_el:
+
+Doom modules are very adequate for daily purposes, and very few packages are actually required over and above those.
+
+These are extra packages not part of Doom modules.  Doom's framework specifies including these packages in =packages.el= file in the Doom directory.
+** no-byte-compile directive
+:PROPERTIES:
+:ID:       125efeab-3b3f-4b6e-b050-ebeb1cf000a4
+:END:
+
+The first line of =packages.el= has to have the =-*- no-byte-compile -*-= directive.
+#+begin_src emacs-lisp :tangle ~/.config/doom/test-packages.el
+;; -*- no-byte-compile: t; -*-
+#+end_src
+** [[https://elpa.gnu.org/packages/rainbow-mode.html][rainbow-mode]] :rainbowmode:
+:PROPERTIES:
+:ID:       5d7194f2-0915-4022-bfbe-547ff05cbb50
+:END:
+colourize HEX or otherwise colour names in buffer
+#+begin_src emacs-lisp :tangle ~/.config/doom/test-packages.el
+(package! rainbow-mode)
+#+end_src
+* [[https://orgmode.org/manual/index.html][Org]] :org:
+:PROPERTIES:
+:ID:       532ad511-e0ec-498c-9384-4e3af38b8602
+:END:
+
+=Orgmode= is a built-in Emacs feature.  It's very powerful and is one of Emacs's most popular tools.  Check out [[https://orgmode.org/worg/]] to learn more about =Org=.
+
+Org has so many features, that to combine them all into a single =use-package= config is difficult.  But, we'll give it a shot anyway.  Discussion of the variables used follows right after the source code block.
+
+#+begin_src emacs-lisp
+(use-package org
+  :defer t
+  :ensure t
+  :config
+  (setq org-directory "~/notx/"))
+#+end_src
+
+** org-directory :directory:
+:PROPERTIES:
+:ID:       1be82f38-118e-4b74-88c0-ff0dd7f174e3
+:END:
+
+Set before loading Orgmode.
+
+#+begin_quote
+If you use `org' and don't want your org files in the default location below, change `org-directory'. It must be set before org loads!
+#+end_quote
+
+Doom preset, points to =/home/user/org= directory.
+
+#+begin_example
+(setq org-directory "~/org/")
+#+end_example
+
+Our =org-directory= set to =/home/user/notx= ('notx' stands for "notes").
+** org-modules :module:
+
+List of active internal =org-modules=
+
+Default preset:
+#+begin_example
+(setq org-modules '(ol-doi ol-w3m ol-bbdb ol-bibtex ol-docview ol-gnus ol-info ol-irc ol-mhe ol-rmail ol-eww))
+#+end_example
+
+*** org-id :org_id:id:
+:PROPERTIES:
+:ID:       8f600356-48bf-4cc8-ab03-190399f4591e
+:END:
+
+Let us configure, =org-id= using =use-package=:
+
+#+begin_src emacs-lisp
+
+#+end_src
+
+Activate =org-id= by adding to =org-modules= list:
+#+begin_src emacs-lisp
+(use-package org-id
+  :after org
+  :config
+  (setq org-id-method 'uuid
+        org-id-link-to-org-use-id t))
+#+end_src
+
+#+begin_example
+(after! org
+  (add-to-list 'org-modules 'org-id))
+#+end_example
+
+The above also achieved by:
+#+begin_example
+(require 'org-id)
+#+end_example
+
+**** org-id-method :method:
+:PROPERTIES:
+:ID:       4294c8cd-5dcf-4ee7-b6d4-007606f2fc36
+:END:
+
+The method used to create an =org-id=.
+**** org-id-link-to-org-use-id :usage:
+:PROPERTIES:
+:ID:       c055d0aa-3beb-4b8a-8fcd-26f91b65df68
+:END:
+
+Only create an =org-id= when specifically asked to create it.
+*** org-protocol :org_protocol:
+:PROPERTIES:
+:ID:       d3d8da17-b34d-44d3-adb9-0a10e9590399
+:END:
+
+Controls actions in Emacs when triggered from external applications.
+
+=org-protocol= supports any application which supports invoking external programs with a URL as an argument.
+
+To activate it:
+#+begin_src emacs-lisp
+(use-package org-protocol
+  :defer t)
+#+end_src
+
+To activate it without using =use-protocol=, we use:
+#+begin_example
+(require 'org-protocol)
+#+end_example
+**** browser settings :browser:
+
+Although, Firefox settings via clicking is available, I use =qutebrowser= whose settings can be found elsewhere:
+- [[https://github.com/yantar92/org-capture-ref#integration-with-qutebrowser]]
+- [[https://blog.sidhartharya.com/posts/integrating-org-protocol-with-qutebrowser/]]
+- [[https://www.reddit.com/r/qutebrowser/comments/nzjlde/integrating_org_protocol_with_qutebrowser/]]
+- [[https://github.com/alcah/qute-capture]]
+- [[https://www.reddit.com/r/emacs/s/7jVeb7FMxL]]
+- [[https://github.com/keegancsmith/dotfiles/blob/master/qutebrowser/userscripts/org-capture.py]]
+** org-capture :capture:
+*** org-capture-templates :capture_templates:
+:PROPERTIES:
+:ID:       9d7308b8-04a4-40d0-9945-a9ac3bfa0270
+:END:
+
+Doom preset:
+#+begin_example
+(setq org-capture-templates
+      '(("t" "Personal todo" entry (file+headline +org-capture-todo-file "Inbox")
+         "* [ ] %?\n%i\n%a" :prepend t)
+        ("n" "Personal notes" entry (file+headline +org-capture-notes-file "Inbox")
+         "* %u %?\n%i\n%a" :prepend t)
+        ("j" "Journal" entry (file+olp+datetree +org-capture-journal-file)
+         "* %U %?\n%i\n%a" :prepend t)
+        ("p" "Templates for projects")
+        ("pt" "Project-local todo" entry
+         (file+headline +org-capture-project-todo-file "Inbox") "* TODO %?\n%i\n%a"
+         :prepend t)
+        ("pn" "Project-local notes" entry
+         (file+headline +org-capture-project-notes-file "Inbox") "* %U %?\n%i\n%a"
+         :prepend t)
+        ("pc" "Project-local changelog" entry
+         (file+headline +org-capture-project-changelog-file "Unreleased")
+         "* %U %?\n%i\n%a" :prepend t)
+        ("o" "Centralized templates for projects")
+        ("ot" "Project todo" entry #'+org-capture-central-project-todo-file
+         "* TODO %?\n %i\n %a" :heading "Tasks" :prepend nil)
+        ("on" "Project notes" entry #'+org-capture-central-project-notes-file
+         "* %U %?\n %i\n %a" :heading "Notes" :prepend t)
+        ("oc" "Project changelog" entry #'+org-capture-central-project-changelog-file
+         "* %U %?\n %i\n %a" :heading "Changelog" :prepend t)))
+#+end_example
+
+Present setup:
+#+begin_src emacs-lisp
+(setq org-capture-templates
+      '(("b" "bookmark" entry (file+headline "~/notx/links.org" "Bookmarks")
+         "* %a %^G\n:PROPERTIES:\n:CREATED: %U\n:END:\n\n** %:initial%?"
+         :empty-lines 1)
+        ("c" "contact" entry (file "~/notx/contacts.org")
+         "* %^{Name} %^G\n:PROPERTIES:\n:EMAIL: %^{email}\n:PHONE: %^{phone}\n:ALIAS: %^{nickname}\n:ADDRESS: %^{address}\n:BIRTHDAY: %^{birthday}t\n:CREATED: %U\n:END:\n %?"
+         :empty-lines 1)
+        ("i" "inbox")
+        ("ii" "ideas" entry (file+headline "~/notx/inbox.org" "Ideas")
+         "* %?\n%U\n%i"
+         :empty-lines 1)
+        ("ip" "problems" entry (file+headline "~/notx/inbox.org" "Problems")
+         "* %?\n%U\n%i"
+         :empty-lines 1)
+        ("it" "task" entry (file+headline "~/notx/inbox.org" "TODOs")
+         "* TODO %?\n%U\n%a\n%i"
+         :empty-lines 1)
+        ("n" "notes")
+        ("na" "article-notes" entry (file+headline "~/notx/notes.org" "Articles")
+         "* %^{title} %^G\n:PROPERTIES:\n:CREATED: %U\n:END:\n\n#+NAME: %^{key}\n#+BEGIN_SRC bibtex\n@article{%\\2,\ntitle={%\\1},\nauthor={%^{authors}},\njournal={%^{journal}},\nyear={%^{year}},\ndoi={%^{doi}},\nkeywords={%^{keywords}}\n}\n#+END_SRC\n\n** %:initial%?"
+         :empty-lines 1)
+        ("nb" "book-notes" entry (file+headline "~/notx/notes.org" "Books")
+         "* %^{booktitle} %^{edition}E\n** %^{chapter-num}. %^{chapter-name} %^G\n:PROPERTIES:\n:CREATED: %U\n:END:\n\n#+NAME: %^{key}:%\\3\n#+BEGIN_SRC bibtex\n@inbook{%\\5:%\\3,\ntitle={%\\1},\nchapter={%\\3},\nauthor={%^{authors}},\npublisher={%^{publisher}},\nyear={%^{year}},\nedition={%\\2},\ndoi={%^{doi}},\nisbn={%^{isbn}},\nkeywords={%^{keywords}}\n}\n#+END_SRC\n\n*** %:initial%?"
+         :empty-lines 1)
+        ("d" "dailies")
+        ("dd" "daily" entry (file+olp+datetree "~/notx/journal.org" "Journals")
+         "* %(format-time-string \"%H:%M\") - Journal :journal:\n\n%?\n\n"
+         :empty-lines 1)
+        ("dw" "wishlist" entry (file+headline "~/notx/journal.org" "Wishlists")
+         "* %?\n%U\n%i"
+         :empty-lines 1)
+        ("m" "media")
+        ("mm" "movies" entry (file+headline "~/notx/media.org" "Movies")
+         "* %?\n%U\n%i")
+        ("md" "documentaries")
+        ("mdb" "BBC" entry (file+headline "~/notx/media.org" "Documentaries" "BBC")
+         "* %?\n%U\n%i")
+        ))
+#+end_src
+** org-insert :insert:
+*** org-structure-template-alist :structure_template:list:
+** org-agenda :agenda:
+*** org-agenda-files :agendafiles:
+:PROPERTIES:
+:ID:       410444f2-8ef0-433c-9234-8200c3ba50f3
+:END:
+
+Files storing TODO items
+
+Present setup:
+Org directory is part of this list, opening all files whenever jumping to single TODO item
+#+begin_src emacs-lisp
+(setq org-agenda-files (list "~/notx/inbox.org" org-directory))
+#+end_src
+
+Possible setup:
+Only =inbox.org= stores TODO items, and should open on visiting TODO item. This however, causes problems during =org-refile= as it looks in =org-agenda-files= to refile
+#+begin_example
+(setq org-agenda-files "~/notx/inbox.org")
+#+end_example
+*** org-agenda-start-with-log-mode :log:
+
+Not required since, it is not permitted in TODO view of Agenda buffer
+
+Previous setup:
+#+begin_example
+(setq org-agenda-start-with-log-mode t)
+#+end_example
+*** org-log-into-drawer :todostate:log:
+:PROPERTIES:
+:ID:       4830edcd-73f4-420f-9c6d-1ea268ce1030
+:END:
+
+track TODO state changes into LOGBOOK
+#+begin_src emacs-lisp
+(setq org-log-into-drawer t
+      org-log-done 'time)
+#+end_src
+
+*** org-todo-keywords :todokeywords:
+:PROPERTIES:
+:ID:       884c9576-0e69-4caf-80c3-b5119f880aa6
+:END:
+
+List of TODO keywords for Org.
+
+Doom presets:
+#+begin_example
+(setq org-todo-keywords
+      '((sequence "TODO(t)" "PROJ(p)" "LOOP(r)" "STRT(s)" "WAIT(w)" "HOLD(h)" "IDEA(i)"
+         "|" "DONE(d)" "KILL(k)")
+        (sequence "[ ](T)" "[-](S)" "[?](W)" "|" "[X](D)")
+        (sequence "|" "OKAY(o)" "YES(y)" "NO(n)")))
+#+end_example
+
+Present setup:
+#+begin_src emacs-lisp
+(setq org-todo-keywords
+      '((sequence "TODO(t)" "MAYBE(m)" "|" "DONE(d!)" "CANCELLED(c)")
+        (sequence "[ ](T)" "[-](S)" "|" "[X](D)")))
+#+end_src
+** org-refile :refile:
+*** refile-targets :targets:
+:PROPERTIES:
+:ID:       aa54645d-f531-42ab-a61f-d70f82c69445
+:END:
+
+Present setup:
+#+begin_src emacs-lisp
+(setq org-refile-targets
+      '((org-agenda-files . (:maxlevel . 8))
+        (org-agenda-files . (:tag . "refile"))
+        (nil . (:maxlevel . 8)))
+      org-refile-allow-creating-parent-nodes 'confirm
+      org-refile-use-cache t
+      org-reverse-note-order nil
+      org-refile-use-outline-path 'file
+      org-outline-path-complete-in-steps nil)
+#+end_src
+Explanation follows:
+**** org-refile-targets :agendafiles:
+:PROPERTIES:
+:ID:       9775e3f5-0d8f-418a-b6e6-39430c722ef5
+:END:
+
+Instead of only targeting Level 1 headers of current Org buffer, refile to any [[id:410444f2-8ef0-433c-9234-8200c3ba50f3][org-agenda-files]], upto Level 8 headers.
+
+Use tags within org-agenda-files as filters for refile-targets, by:
+#+begin_example
+(org-agenda-files . (:tag . "refile"))
+#+end_example
+
+Setting the value 'nil' equates to showing headlines of current buffer.
+**** org-refile-allow-creating-parent-nodes :nodes:
+:PROPERTIES:
+:ID:       62e21d70-9624-4798-ab0e-39e1115b99f7
+:END:
+
+Confirm before creating newly refiled nodes as new parents.
+**** org-refile-use-cache :cache:
+:PROPERTIES:
+:ID:       f4da9e24-d434-4871-ba7f-4fce23bc9249
+:END:
+
+Turn on caching of refile-targets.
+
+Clear org-refile-cache to allow org-refile to see new targets by:
+#+begin_example
+(org-cache-refile-clear)
+#+end_example
+**** org-reverse-note-order :order:
+:PROPERTIES:
+:ID:       fd767683-e775-40d6-a7b0-88975b77ca83
+:END:
+
+Always append refiled entry as last item, by setting this variable to 'nil'.
+
+To temporarily prepend a refiled entry as first item, use:
+#+begin_example
+(org-refile-reverse)
+#+end_example
+**** org-refile-use-outline-path :outline:
+:PROPERTIES:
+:ID:       a0b11e15-833c-4116-84b1-348b8d663095
+:END:
+
+Set refile-targets akin to file outline paths in a completion buffer. So a level 3 headline will be available as level1/level2/level3.
+
+We disable step completion of refile-target-outline-path, as we already use in-buffer completion via [[https://github.com/minad/vertico][vertico]], by:
+#+begin_example
+org-outline-path-complete-in-steps nil
+#+end_example
+*** org-log-refile :log:
+:PROPERTIES:
+:ID:       768d4b41-0eba-4f3a-ad77-dce2339bc261
+:END:
+
+Save a timestamp, when refiling an entry.
+#+begin_src emacs-lisp
+(setq org-log-refile 'time)
+#+end_src
+*** automatically save Org buffers after refiling :save:
+:PROPERTIES:
+:ID:       b9dd9d1f-99c8-4cb7-9643-7388b066ae06
+:END:
+
+#+begin_src emacs-lisp
+(advice-add 'org-refile :after 'org-save-all-org-buffers)
+#+end_src
+
+** org-archive :archive:
+:PROPERTIES:
+:ID:       c48770a6-88cb-4c2e-8d38-2da34eccd85d
+:END:
+
+Set org-archive-location and level
+#+begin_src emacs-lisp
+(setq org-archive-location "~/notx/archive.org::* From %s")
+#+end_src
+** org-export :export:
+*** org-export-backend :backend:
+:PROPERTIES:
+:ID:       2860d451-d62f-4b57-9b34-35cba96878c5
+:END:
+
+Default value of =org-export-backends=
+#+begin_example
+(ascii html icalendar LaTeX odt)
+#+end_example
+
+Present value
+#+begin_example
+(pandoc LaTeX html beamer md ascii icalendar odt)
+#+end_example
+#+begin_src emacs-lisp
+(setq org-export-backends '(("pandoc" "latex" "html" "beamer" "md" "ascii" "icalendar" "odt"))
+#+end_src
+*** ox-md :markdown:
+:PROPERTIES:
+:ID:       b18836a2-0709-43d3-9b15-2a5b3d19503f
+:END:
+
+For markdown export backend, package =ox-md= required.
+
+#+begin_src emacs-lisp
+(require 'ox-md)
+#+end_src
+*** org-latex :latex:
+**** org-latex-compiler :compiler:
+:PROPERTIES:
+:ID:       85f5c35b-ab5e-460d-bcfe-a3e064a5527c
+:END:
+
+The pdf engine for Org.
+
+Preset value:
+#+begin_example
+(defcustom org-latex-compiler "pdflatex")
+#+end_example
+
+list of acceptable compilers present in =org-latex-compilers= variable
+
+Change it to =lualatex=
+#+begin_src emacs-lisp
+(setq org-latex-compiler "lualatex")
+#+end_src
+**** org-latex-pdf-process :make_process:
+:PROPERTIES:
+:ID:       b2682dda-3148-464e-809b-c41735ea0d38
+:END:
+
+The build sequence for the [[id:85f5c35b-ab5e-460d-bcfe-a3e064a5527c][pdf-compiler]] to follow.
+
+Preset value:
+#+begin_example
+(setq org-latex-pdf-process "latexmk -f -pdf -%latex -interaction=nonstopmode -output-directory=%o %f")
+#+end_example
+**** org-latex-default-packages-alist :default_packages:
+:PROPERTIES:
+:ID:       e5acbd2d-14ae-431b-bbca-eeed2574aa45
+:END:
+
+The default packages to include in every LaTeX header for any Org file.
+
+Each cell in the =org-latex-default-packages-alist= variable cons has the following format, so donot get confused by the 'nil':
+#+begin_example
+("options" "package" SNIPPET-FLAG COMPILERS)
+#+end_example
+
+#+begin_example
+(defcustom org-latex-default-packages-alist
+  '(;; amsmath before fontspec for lualatex and xetex
+    (""     "amsmath"   t ("lualatex" "xelatex"))
+    ;; fontspec ASAP for lualatex and xetex
+    (""     "fontspec"  t ("lualatex" "xelatex"))
+    ;; inputenc and fontenc are for pdflatex only
+    ("AUTO" "inputenc"  t ("pdflatex"))
+    ("T1"   "fontenc"   t ("pdflatex"))
+    (""     "graphicx"  t)
+    (""     "longtable" nil)
+    (""     "wrapfig"   nil)
+    (""     "rotating"  nil)
+    ("normalem" "ulem"  t)
+    ;; amsmath and amssymb after inputenc/fontenc for pdflatex
+    (""     "amsmath"   t ("pdflatex"))
+    (""     "amssymb"   t ("pdflatex"))
+    (""     "capt-of"   nil)
+    (""     "hyperref"  nil)))
+#+end_example
+**** org-latex-packages-alist :packages:
+
+Other needed LaTeX packages for insertion in every LaTeX header for an Org document.  It loads after [[id:e5acbd2d-14ae-431b-bbca-eeed2574aa45][org-latex-default-packages-alist]] has loaded.
+
+Preset value:
+#+begin_example
+(setq org-latex-packages-alist nil)
+#+end_example
+**** org-latex-bib-compiler :bibtex:
+
+The bibliography compiler for LaTeX headers in an Org file.
+
+Preset value:
+#+begin_example
+(defcustom org-latex-bib-compiler "bibtex")
+#+end_example
+**** org-latex-hyperref-template :metadata:hyperref:
+:PROPERTIES:
+:ID:       fb545500-ec74-45bf-a704-f746fe34997b
+:END:
+
+Utilizes the LaTeX =hyperref= package (loaded as part of the [[id:e5acbd2d-14ae-431b-bbca-eeed2574aa45][org-latex-default-packages-alist]] variable), to provide the following metadata into the output document:
+- author name
+- keywords 
+- title
+- subject
+- creator
+- language
+
+Default preset:
+#+begin_example
+(defcustom org-latex-hyperref-template
+  "\\hypersetup{\n pdfauthor={%a},\n pdftitle={%t},\n pdfkeywords={%k},
+ pdfsubject={%d},\n pdfcreator={%c},\n pdflang={%L}}\n")
+#+end_example
+
+Presently =org-latex-hyperref-template= includes /linktoc=section/, /backref=section/, /colorlinks=true/, /linkcolor=red/, /urlcolor=magenta/ and /breaklinks=true/.
+
+#+begin_src emacs-lisp
+(setq org-latex-hyperref-template
+      "\\hypersetup{\n linktoc=section,\n backref=section,\n breaklinks=true,\n colorlinks=true,\n linkcolor=red,\n urlcolor=magenta,\n pdfauthor={%a},\n pdftitle={%t},\n pdfkeywords={%k},\n pdfsubject={%d},\n pdfcreator={%c},\n pdflang={%L}}\n")
+#+end_src
+**** org-latex-title-command :title:
+
+Controls the LaTeX document output PDF title generated by Org-export
+
+Provides the LaTeX command used to generate the output PDF title
+
+=maketitle= uses elements from the [[id:fb545500-ec74-45bf-a704-f746fe34997b][metadata]] above to format document titles into front matter
+
+Default preset:
+#+begin_example
+(defcustom org-latex-title-command "\\maketitle")
+#+end_example
+**** org-latex-subtitle-format :subtitle:
+
+Provides the output document =subtitle=, usually located below the title.
+
+Default preset:
+#+begin_example
+(defcustom org-latex-subtitle-format "\\\\\\medskip\n\\large %s")
+#+end_example
+
+***** org-latex-subtitle-separate :separate:
+
+subtitle is generally printed within the =\title= macro, as specified by the =org-latex-subtitle-separate= variable
+#+begin_example
+(defcustom org-latex-subtitle-separate nil)
+#+end_example
+**** org-export-default-language :language:babel:
+:PROPERTIES:
+:ID:       bddea9d0-1e10-41ab-91cb-7c8ab4b2c3da
+:END:
+
+Provides the language code of the primary document language.
+
+Preset defaults to =en= for American English.
+#+begin_example
+(defcustom org-export-default-language "en")
+#+end_example
+
+Obtain the list of all languages supported by Org and their corresponding codes from =org-latex-language-alist=.
+
+We change it to =en-gb= variant for UK English.
+#+begin_src emacs-lisp
+(setq org-export-default-language "en-gb")
+#+end_src
+**** org-latex-classes :class:latexclass:
+:PROPERTIES:
+:ID:       93443a9f-46ac-4d58-b790-7030b3837fd4
+:END:
+
+Provides a list of LaTeX document classes and associated header structures supported by Org.
+
+Default LaTeX classes defined are =article=, =report= and =book=.
+#+begin_example
+(defcustom org-latex-classes
+  '(("article"
+     "\\documentclass[11pt]{article}"
+     ("\\section{%s}" . "\\section*{%s}")
+     ("\\subsection{%s}" . "\\subsection*{%s}")
+     ("\\subsubsection{%s}" . "\\subsubsection*{%s}")
+     ("\\paragraph{%s}" . "\\paragraph*{%s}")
+     ("\\subparagraph{%s}" . "\\subparagraph*{%s}"))
+    ("report"
+     "\\documentclass[11pt]{report}"
+     ("\\part{%s}" . "\\part*{%s}")
+     ("\\chapter{%s}" . "\\chapter*{%s}")
+     ("\\section{%s}" . "\\section*{%s}")
+     ("\\subsection{%s}" . "\\subsection*{%s}")
+     ("\\subsubsection{%s}" . "\\subsubsection*{%s}"))
+    ("book"
+     "\\documentclass[11pt]{book}"
+     ("\\part{%s}" . "\\part*{%s}")
+     ("\\chapter{%s}" . "\\chapter*{%s}")
+     ("\\section{%s}" . "\\section*{%s}")
+     ("\\subsection{%s}" . "\\subsection*{%s}")
+     ("\\subsubsection{%s}" . "\\subsubsection*{%s}"))))
+#+end_example
+
+Present value has =beamer= as a =org-latex-classes= class, fontsize fixed at /12pt/ and papersize fixed at /a4paper/.
+#+begin_example
+(setq org-latex-classes
+  '(("beamer" "\\documentclass[presentation]{beamer}"
+      ("\\section{%s}" . "\\section*{%s}")
+      ("\\subsection{%s}" . "\\subsection*{%s}")
+      ("\\subsubsection{%s}" . "\\subsubsection*{%s}"))
+    ("article"
+     "\\documentclass[12pt,a4paper]{article}"
+     ("\\section{%s}" . "\\section*{%s}")
+     ("\\subsection{%s}" . "\\subsection*{%s}")
+     ("\\subsubsection{%s}" . "\\subsubsection*{%s}")
+     ("\\paragraph{%s}" . "\\paragraph*{%s}")
+     ("\\subparagraph{%s}" . "\\subparagraph*{%s}"))
+    ("report"
+     "\\documentclass[12pt,a4paper]{report}"
+     ("\\part{%s}" . "\\part*{%s}")
+     ("\\chapter{%s}" . "\\chapter*{%s}")
+     ("\\section{%s}" . "\\section*{%s}")
+     ("\\subsection{%s}" . "\\subsection*{%s}")
+     ("\\subsubsection{%s}" . "\\subsubsection*{%s}"))
+    ("book"
+     "\\documentclass[12pt,a4paper]{book}"
+     ("\\part{%s}" . "\\part*{%s}")
+     ("\\chapter{%s}" . "\\chapter*{%s}")
+     ("\\section{%s}" . "\\section*{%s}")
+     ("\\subsection{%s}" . "\\subsection*{%s}")
+     ("\\subsubsection{%s}" . "\\subsubsection*{%s}"))))
+#+end_example
+
+The [[id:fb545500-ec74-45bf-a704-f746fe34997b][org-latex-hyperref-template]] variable provides the LaTeX package =hyperref= (loaded as part of the [[id:e5acbd2d-14ae-431b-bbca-eeed2574aa45][org-latex-default-packages-alist]] variable) metadata.  Although =hyperref= loads LaTeX package =url=, which provides the =urlstyle= command, =hypersetup= (controlling =hyperref= behaviour) doesnot includes the =urlstyle= parameter.  Also to maintain compatibility, insert =urlstyle= only after =hyperref= has loaded.
+
+To achieve the above, modify the header-string of the =org-latex-classes= variable to include the =urlstyle= parameter. The modified header-strings below copied from the =org-format-latex-header= variable, and modified further by appending /\n\\urlstyle{tt}/ and removing /\n\\pagestyle{empty}/.
+#+begin_src emacs-lisp
+(setq org-latex-classes
+      '(("beamer"
+         "\\documentclass[presentation]{beamer}\n\\usepackage[usenames]{color}\n[DEFAULT-PACKAGES]\n[PACKAGES]\n\\urlstyle{tt}"
+         ("\\section{%s}" . "\\section*{%s}")
+         ("\\subsection{%s}" . "\\subsection*{%s}")
+         ("\\subsubsection{%s}" . "\\subsubsection*{%s}"))
+        ("article"
+         "\\documentclass[12pt,a4paper]{article}\n\\usepackage[usenames]{color}\n[DEFAULT-PACKAGES]\n[PACKAGES]\n\\urlstyle{tt}"
+         ("\\section{%s}" . "\\section*{%s}")
+         ("\\subsection{%s}" . "\\subsection*{%s}")
+         ("\\subsubsection{%s}" . "\\subsubsection*{%s}")
+         ("\\paragraph{%s}" . "\\paragraph*{%s}")
+         ("\\subparagraph{%s}" . "\\subparagraph*{%s}"))
+        ("report"
+         "\\documentclass[12pt,a4paper]{report}\n\\usepackage[usenames]{color}\n[DEFAULT-PACKAGES]\n[PACKAGES]\n\\urlstyle{tt}"
+         ("\\part{%s}" . "\\part*{%s}")
+         ("\\chapter{%s}" . "\\chapter*{%s}")
+         ("\\section{%s}" . "\\section*{%s}")
+         ("\\subsection{%s}" . "\\subsection*{%s}")
+         ("\\subsubsection{%s}" . "\\subsubsection*{%s}"))
+        ("book"
+         "\\documentclass[12pt,a4paper]{book}\n\\usepackage[usenames]{color}\n[DEFAULT-PACKAGES]\n[PACKAGES]\n\\urlstyle{tt}"
+         ("\\part{%s}" . "\\part*{%s}")
+         ("\\chapter{%s}" . "\\chapter*{%s}")
+         ("\\section{%s}" . "\\section*{%s}")
+         ("\\subsection{%s}" . "\\subsection*{%s}")
+         ("\\subsubsection{%s}" . "\\subsubsection*{%s}"))))
+#+end_src
+***** default class :default:
+
+default class defined by the =org-latex-default-class= variable
+
+default preset
+#+begin_example
+(defcustom org-latex-default-class "article")
+#+end_example
+**** LaTeX specific org-export settings :settings:
+***** org-headers :org_headers:
+
+Defined per LaTeX class in the [[id:93443a9f-46ac-4d58-b790-7030b3837fd4][org-latex-classes]] variable, formatted similar to the =org-format-latex-header= variable.
+
+***** org-keywords :org_keywords:
+
+Controlled by the [[id:fb545500-ec74-45bf-a704-f746fe34997b][=org-latex-hyperref-template=]] variable, utilizing the LaTeX =hyperref= package, for providing LaTeX keywords in the output document.
+
+in the Org file, use multiple =#+keywords:= if necessary
+**** org-latex-remove-logfiles :logfiles:log:
+
+Whether to remove logfiles generated by the [[id:85f5c35b-ab5e-460d-bcfe-a3e064a5527c][org-latex-compiler]] during the [[id:b2682dda-3148-464e-809b-c41735ea0d38][org-latex-pdf-process]].
+
+Determined by the =org-latex-remove-logfiles= variable.
+
+Default preset to =t=
+#+begin_example
+(setq org-latex-remove-logfiles t)
+#+end_example
+*** [[https://github.com/kawabata/ox-pandoc#customizing-user-option-variables][ox-pandoc]] :pandoc:
+
+This is an external package, exporting Org files to other formats using pandoc.
+
+Installed as part of Doom Emacs's =org= module, with the =+pandoc= flag enabled.
+**** org-pandoc-options :general:options:
+:PROPERTIES:
+:ID:       96c5bb9f-33bc-48ba-baf7-453ff6a5e29d
+:END:
+
+General Pandoc options
+
+List of general pandoc options found by:
+#+begin_example
+(print org-pandoc-valid-options)
+#+end_example
+
+Doom preset
+#+begin_example
+(setq org-pandoc-options '((standalone . t) (mathjax . t) (variable . "revealjs-url=https://revealjs.com")))
+#+end_example
+
+Present setup adds =toc=
+#+begin_src emacs-lisp
+(add-to-list 'org-pandoc-options '(toc . t))
+#+end_src
+**** org-pandoc-options-for-latex-pdf :latex:pdf:hyperref:font:url:compiler:latexclass:
+:PROPERTIES:
+:ID:       63097bde-492e-4b76-81d5-59f6aba9e911
+:END:
+
+LaTeX specific options for Pandoc to use
+
+Doom preset
+#+begin_example
+nil
+#+end_example
+
+Present setup changes =pdf-engine=, adds font parameters and other document metadata, similar to the default [[id:fb545500-ec74-45bf-a704-f746fe34997b][org-latex-hyperref-template]] described above
+#+begin_src emacs-lisp
+(setq org-pandoc-options-for-latex-pdf '((pdf-engine . "lualatex")
+                                         (shift-heading-level-by . "-1")
+                                         (variable . "papersize:a4")
+                                         (variable . "babeloptions:provide=english")
+                                         (variable . "mainfont:DejaVuSerif")
+                                         (variable . "mainfontoptions:Extensions=.ttf, UprightFont=*, BoldFont=*-Bold, ItalicFont=*-Italic, BoldItalicFont=*-BoldItalic")
+                                         (variable . "sansfont:DejaVuSans")
+                                         (variable . "monofont:DejaVuSansMono")
+                                         (variable . "mathfont:DejaVuMathTeXGyre-Regular")
+                                         (variable . "mainfontfallback:FreeSans:")
+                                         (variable . "mainfontfallback:NotoColorEmoji:")
+                                         (variable . "fontsize:12pt")
+                                         (variable . "hyperrefoptions:linktoc=all")
+                                         (variable . "hyperrefoptions:backref=section")
+                                         (variable . "hyperrefoptions:breaklinks=true")
+                                         (variable . "hyperrefoptions:colorlinks=true")
+                                         (variable . "colorlinks:linkcolor=red")
+                                         (variable . "colorlinks:urlcolor=magenta")
+                                         (variable . "urlstyle:tt")))
+#+end_src
+*** org-export-with-broken-links :broken_links:
+:PROPERTIES:
+:ID:       750fa2e9-c7d3-43e0-b732-1ef5444b0fdb
+:END:
+
+Ignore broken links
+
+Default preset =nil=
+#+begin_example
+(defcustom org-export-with-broken-links nil)
+#+end_example
+
+Set it to =t=
+#+begin_src emacs-lisp
+(setq org-export-with-broken-links t)
+#+end_src
+
+** org-other
+
+Configurations for other Org-related packages.
+*** [[https://github.com/emacs-citar/citar][citar]] :citar:
+:PROPERTIES:
+:ID:       d8976625-e43f-47f6-9e04-17af79b7447b
+:END:
+
+Citar is to Org (and other document formats), as [[id:f7bf49ed-d5e0-4eb8-8b49-ee2a8a8fa0da][RefTeX]] is to LaTeX.  Both manage bibliographies for insertion into respective documents.
+
+In addition, citar presents =completion-at-point= (CAPF) functionality, which translates to enabling TAB completion of citation entries. 
+
+For use in Org, we add the following =org-cite= variables to citar.
+
+Similarly, to call [[https://github.com/oantolin/embark][embark]] functions while at point, we use =citar-at-point-function=.
+
+#+begin_src emacs-lisp
+(use-package citar
+  :no-require
+  :custom
+  (org-cite-global-bibliography '("~/sty/articles/bib/cite.bib"))
+  (org-cite-insert-processor 'citar)
+  (org-cite-follow-processor 'citar)
+  (org-cite-activate-processor 'citar)
+  (citar-bibliography org-cite-global-bibliography)
+  (citar-library-paths '("~/sty/articles/"))
+  (citar-notes-paths '("~/notx/notes.org"))
+  :config
+  (setq citar-at-point-function 'embark-act)
+  :hook
+  (org-mode . citar-capf-setup))
+#+end_src
+*** [[https://elpa.gnu.org/packages/org-contacts.html][org-contacts]] :contacts:
+:PROPERTIES:
+:ID:       9282fb56-5add-42ad-8f55-ce50c3d9b98d
+:END:
+
+Was installed as part of Doom Emacs's =org= module with the =+contacts= flag, now sadly removed.
+#+begin_src emacs-lisp
+(setq org-contacts-files '("~/notx/contacts.org"))
+#+end_src
+* Eglot :eglot:lsp:
+
+Eglot is Emacs's built-in LSP client.
+
+Activating it just requires passing =+eglot= flag to Doom Emacs's =lsp= module.
+
+To check full list of server programs supported by Eglot, run:
+
+#+begin_example
+(print eglot-server-programs)
+#+end_example
+* [[http://joaotavora.github.io/yasnippet/][Yasnippet]] :yasnippet:snippet:
+:PROPERTIES:
+:ID:       86643ae5-d926-4606-9e39-cdd574b28f6e
+:END:
+
+Yasnippet manages snippets (shortcuts/abbreviations to function templates) in Emacs.
+
+Doom Emacs installs Yasnippets via the ~:editor snippets~ module. To get the location of the Doom Snippets directory, lookup the variable ~doom-snippets-dir~.
+
+# Personal snippets directory set to =~/.config/doom/snippets/ts-snippets=, and should have precedence over the default [[https://github.com/AndreaCrotti/yasnippet-snippets][snippets]] directory.
+
+Since, Doom Emacs already loads the Doom Snippets directory, we don't need to load the [[https://github.com/AndreaCrotti/yasnippet-snippets][yasnippet-snippets]] package.  We simply set =yas-snippet-dirs= for our custom snippets in =~/.config/doom/snippets=.  Reload Yasnippets after.
+
+#+begin_src emacs-lisp :results silent
+(use-package yasnippet
+  :defer t
+  :init
+  (setq yas-snippet-dirs
+        '("~/.config/doom/snippets/"))
+  :config
+  (yas-global-mode 1)) ;; enable yasnippets globally
+#+end_src
+
+** doom-snippets installation
+
+Doom Emacs users simply enable the ~:editor snippets~ module in the ~init.el~ file of their Doom directories.  For non-Doom users using [[https://github.com/raxod502/straight.el][straight.el]]:
+
+#+begin_example
+(use-package doom-snippets
+  :after yasnippet
+  :straight (doom-snippets :type git :host github :repo "doomemacs/snippets" :files ("*.el" "*")))
+#+end_example
+
+** Disabling built-in doom-snippets for [[https://github.com/AndreaCrotti/yasnippet-snippets][yasnippet-snippets]]
+
+Doom Emacs users wanting to use yasnippet-snippets in place of the built-in doom-snippets, have to disable doom-snippets in the =packages.el= file in their Doom directories.
+
+#+begin_example
+(package! doom-snippets :ignore t)
+(package! yasnippet-snippets)
+#+end_example
+
+** Yasnippet as a global minor mode
+
+as used above
+
+#+begin_example
+(use-package yasnippet
+	:config
+        (yas-global-mode 1))
+#+end_example
+** Yasnippet as a non-global minor mode
+
+to load on a per-buffer basis
+
+#+begin_example
+(use-package yasnippet
+	:config
+        (yas-reload-all)
+        (add-hook 'prog-mode-hook #'yas-minor-mode))
+#+end_example
+
+* LaTeX :latex:
+
+Emacs has LaTeX support baked into it via the awesome [[id:ba0ecfbb-2c75-4da2-a25c-e31b168fc040][AucTeX]] package.  Additionally [[id:f40a58bd-0c4f-43ed-a94e-bf8e31453b41][CDLaTeX]] and [[id:86643ae5-d926-4606-9e39-cdd574b28f6e][Yasnippet]] packages support fast LaTeX environment template insertions.
+
+Another inbuilt Emacs package, [[id:f7bf49ed-d5e0-4eb8-8b49-ee2a8a8fa0da][RefTeX]] manages labels, references and citations in a LaTeX document.
+
+** [[https://elpa.gnu.org/packages/doc/auctex.html][AucTeX]] :auctex:
+:PROPERTIES:
+:ID:       ba0ecfbb-2c75-4da2-a25c-e31b168fc040
+:END:
+
+AucTeX comes preinstalled in Emacs v30.  We configure and load it via =use-package=.
+#+begin_src emacs-lisp
+(use-package auctex
+  :ensure t
+  :config
+  (setq TeX-auto-save t
+        TeX-parse-self t))
+#+end_src
+
+The above 'config' options enable document parsing for LaTeX packages for use with =auctex=.
+** [[https://github.com/cdominik/cdlatex][CDLaTeX]] :cdlatex:
+:PROPERTIES:
+:ID:       f40a58bd-0c4f-43ed-a94e-bf8e31453b41
+:END:
+
+CDLaTeX provides some very helpful maths environment templates for LaTeX.  We add the following to configure cdlatex for all LaTeX files in Emacs:
+#+begin_src emacs-lisp
+(use-package cdlatex
+  :defer t
+  :init
+  (add-hook 'LaTeX-mode-hook #'turn-on-cdlatex)
+  :config
+  (map! :map cdlatex-mode-map
+        :desc "Press TAB while in Insert mode in a LaTeX document to invoke CDLaTeX Tab function"
+        :i "TAB" #'cdlatex-tab)) 
+#+end_src
+
+The above =add-hook= activates cdlatex-mode only upon loading a LaTeX document in Emacs.
+** [[https://www.gnu.org/software/auctex/manual/reftex.html][RefTeX]] :reftex:
+:PROPERTIES:
+:ID:       f7bf49ed-d5e0-4eb8-8b49-ee2a8a8fa0da
+:END:
+
+RefTeX also comes preinstalled in Emacs.  We configure reftex as follows:
+#+begin_src emacs-lisp
+(use-package reftex
+  :defer t
+  :init
+  (add-hook 'LaTeX-mode-hook #'turn-on-reftex)
+  :config
+  (setq reftex-default-bibliography "~/sty/articles/bib/cite.bib"
+        reftex-plug-into-AUCTeX t
+        reftex-cite-format 'natbib))
+#+end_src
+
+*** RefTeX supports TAB completion of citation keys
+
+According to the RefTeX manual:
+
+#+begin_quote
+In order to create a citation, press C-c [. RefTeX then prompts for a regular expression which will be used to search through the database and present the list of matches to choose from...
+...In the selection buffer, the following keys provide special commands. A summary of this information is always available from the selection process by pressing ?...
+...<TAB>
+Enter a citation key with completion. This may also be a key which does not yet exist.
+#+end_quote
+
+* [[https://djcbsoftware.nl/code/mu/mu4e/index.html][Mu4e]] :mu4e:email:
+:PROPERTIES:
+:ID:       dfd73aff-4926-401f-8a85-5cab4359adb2
+:END:
+
+Mu4e is an email client for Emacs.
+
+Doom Emacs installs =mu4e= via the ~:email mu4e~ module in the ~init.el~ file of the Doom directory.
+
+Mu4e depends on the =mu= email indexer, which manages email stored in local maildirs.  To sync emails between remote and local maildirs, we use email synchronizers.
+
+We use =mbsync= as our email synchronizer.  To activate mbsync as a backend for mu4e, we add the =+mbsync= flag to our ~:email mu4e~ module.
+
+Additional Doom Emacs =mu4e= module flags used are, the =+org= flag to compose multipart MIME HTML messages and the =+gmail= flag to enable gmail-specific email configurations.
+
+Below is our configuration of =mu4e=.  Explanations for the various variables used, is after the source block code.
+
+#+begin_src emacs-lisp
+(use-package mu4e
+  :defer t
+  :custom
+  (set-variable 'read-mail-command 'mu4e)
+  (setq mail-user-agent 'mu4e-user-agent
+        mu4e-change-filenames-when-moving t
+        mu4e-get-mail-command "/usr/bin/mbsync -c ~/.config/isync/mbsyncrc -a"
+        mu4e-attachment-dir "~/dl/"
+        sendmail-program "/usr/bin/msmtp"
+        mu4e-sent-messages-behavior 'delete
+        mu4e-search-skip-duplicates t
+        message-kill-buffer-on-exit t
+        mu4e-search-results-limit -1)
+  :config
+  (load "~/.config/doom/mu4e-credentials.el")
+  (add-hook 'mu4e-compose-mode-hook #'(lambda () (auto-save-mode -1))))
+#+end_src
+
+** mail-user-agent :mail_user_agent:
+
+Specify the =mu4e= mail user agent as the default agent for editing and sending emails in Emacs.
+** read-mail-command :read_mail_command:
+
+Specify the =mu4e= mail user agent as the default email reader in Emacs.
+** mu4e-change-filenames-when-moving :mu4e_change_filenames_when_moving:
+
+Rename files while moving between directories, to not trouble the default UID naming scheme of mbsync
+** mu4e-update-interval :mu4e_update_interval:
+
+Disabled it, since [[https://crontab.io/cron-intervals][cron]] handles it for us.
+
+#+begin_example
+(setq mu4e-update-interval (* 10 60))
+#+end_example
+** mu4e-root-maildir :mu4e_root_maildir:
+
+Provides the location of the =mu=-indexed maildir.
+
+#+begin_example
+(setq mu4e-root-maildir "~/.local/share/maildir/")
+#+end_example
+** mu4e-attachment-dir
+
+The local saved location for email attachments.
+** sendmail-program
+
+The executable used to actually send the email messages.
+** mu4e-sent-messages-behavior
+
+Don't save messages to Sent messages, Gmail/IMAP takes care of this.
+** mu4e-search-skip-duplicates
+
+Skip duplicate messages, due to representation of Gmail labels/virtual folders by mbsync.
+** message-kill-buffer-on-exit
+
+Don't keep message buffers around.
+** mu4e-search-results-limit
+
+Don't limit search results to 500 (default).
+** mu4e-show-images
+
+Old, deprecated variable, no longer in use.
+
+#+begin_example
+(setq mu4e-show-images t)
+#+end_example
+** auto-save-mode
+
+Don't autosave drafts.
+** load personal config
+ 
+#+begin_example
+(load "~/.config/doom/mu4e-credentials.el")
+#+end_example
+* [[https://github.com/emacs-elfeed/elfeed][Elfeed]] :elfeed:feed:
+:PROPERTIES:
+:ID:       53a9d769-abbf-4752-8758-9a459aa7767e
+:END:
+
+Elfeed is a feedreader for Emacs.
+
+Doom Emacs automatically installs Elfeed and [[https://github.com/jeetelongname/elfeed-goodies][Elfeed-Goodies]] via the ~:app rss~ module in the ~init.el~ file of Doom directory.
+
+Setting up Elfeed feeds using Orgmode is easy via [[https://github.com/remyhonig/elfeed-org][elfeed-org]].  Doom Emacs installs it via the =+org= flag in the aforementioned ~:app rss~ module.  Configuring elfeed-org via use-package:
+
+#+begin_src emacs-lisp
+(use-package elfeed-org
+  :defer t
+  :init
+  (elfeed-org)
+  :config
+  (setq rmh-elfeed-org-files (list "~/notx/elfeed.org")))
+#+end_src
+
+* [[https://github.com/tecosaur/emacs-everywhere][Emacs-everywhere]] :emacs_everywhere:
+:PROPERTIES:
+:ID:       2d1cd7ed-a99b-4c10-96fe-039600b182c0
+:END:
+
+Set the major mode of the Emacs-Everywhere buffer to Org-mode.
+
+#+begin_src emacs-lisp
+(use-package emacs-everywhere
+  :config
+  (setq emacs-everywhere-major-mode-function #'org-mode))
+#+end_src
+* Custom Keybindings :keybinding:
+Most Doom Emacs keybindings are fine, with some additions
+** consult-fd :consult:
+:PROPERTIES:
+:ID:       a8d79ec5-154e-4daf-bdea-f01b695d2477
+:END:
+=<Spc>-s-f= to find files anywhere from user's home directory.
+
+Doom Emacs uses =consult-locate=, which uses the shell command =locate=, not used by my system. Replace =consult-locate= with =consult-fd=.
+
+Doom preset
+#+begin_example
+(consult-locate)
+#+end_example
+
+#+begin_src emacs-lisp
+(map!
+ :leader
+ :prefix ("s" . "search")
+ :desc "Find file"
+ "f" (cmd! (consult-fd "~")))
+#+end_src
+** helpful-at-point :helpful:
+:PROPERTIES:
+:ID:       6151e430-cf18-43f2-a628-d17f436fec00
+:END:
+=<Spc>-h-h= to show help for symbol at point.
+
+#+begin_src emacs-lisp
+(map!
+ :leader
+ :prefix ("h" . "help")
+ :desc "Help at point"
+ "h" #'helpful-at-point)
+#+end_src
+** org-paste-subtree
+:PROPERTIES:
+:ID:       a1006633-6d14-40cb-b21e-85dd70d36b18
+:END:
+While in Orgmode, =<Spc>-s-p= pastes the clipboard as a subtree, with modification of headline level.
+#+begin_src emacs-lisp
+(map!
+ :after org
+ :map org-mode-map
+ :localleader
+ :prefix "s"
+ :desc "org-paste-subtree"
+ "p" #'org-paste-subtree)
+#+end_src
+
+
