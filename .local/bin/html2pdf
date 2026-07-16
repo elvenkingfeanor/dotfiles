@@ -34,7 +34,7 @@ fi
     -f html -t pdf \
     --shift-heading-level-by=-1 \
     --pdf-engine=lualatex \
-    -V 'hyperrefoptions:linktoc=all' \
+    -V 'papersize:a4' \
     -V 'babeloptions:provide=english' \
     -V 'mainfont:DejaVuSerif' \
     -V 'mainfontoptions:Extension=.ttf, UprightFont=*, BoldFont=*-Bold, ItalicFont=*-Italic, BoldItalicFont=*-BoldItalic' \
@@ -44,7 +44,12 @@ fi
     -V 'mainfontfallback:FreeSans:' \
     -V 'mainfontfallback:NotoColorEmoji:' \
     -V 'fontsize:12pt' \
-    -V 'colorlinks:linkcolor=blue' \
+    -V 'hyperrefoptions:linktoc=all' \
+    -V 'hyperrefoptions:backref=section' \
+    -V 'hyperrefoptions:breaklinks=true' \
+    -V 'hyperrefoptions:colorlinks=true' \
+    -V 'colorlinks:linkcolor=red' \
+    -V 'colorlinks:urlcolor=magenta' \
     -V 'urlstyle:tt' \
     --toc \
     --lof --lot \
