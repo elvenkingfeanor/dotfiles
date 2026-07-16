@@ -46,7 +46,7 @@
 ;; If you use `org' and don't want your org files in the default location below,
 ;; change `org-directory'. It must be set before org loads!
 ;;(setq org-directory "~/org/")
-(setq org-directory "~/notx/")
+;; (setq org-directory "~/notx/")
 
 
 ;; Whenever you reconfigure a package, make sure to wrap your config in an
@@ -82,9 +82,13 @@
 ;; they are implemented.
 
 ;; start emacs as server
-(require 'server)
-(unless (server-running-p)
-  (server-start))
+(use-package server
+  :ensure t
+  :config
+  (unless (server-running-p) (server-start)))
+;; (require 'server)
+;; (unless (server-running-p)
+;;   (server-start))
 
 ;; Fonts
 ;; doom fonts not working. setting emacs init frame parameters
@@ -131,13 +135,20 @@
 
 ;; Yasnippets
 (use-package yasnippet
-  :defer t ;; donot load immediately on startup
+  :defer t
   :init
   (setq yas-snippet-dirs
-        '("~/.config/doom/snippets/ts-snippets/" ;; personal snippets preferred
-          "~/.config/doom/snippets/snippets/"))
+        '("~/.config/doom/snippets/"))
   :config
   (yas-global-mode 1)) ;; enable yasnippets globally
+;; (use-package yasnippet
+;;   :defer t ;; donot load immediately on startup
+;;   :init
+;;   (setq yas-snippet-dirs
+;;         '("~/.config/doom/snippets/ts-snippets/" ;; personal snippets preferred
+;;           "~/.config/doom/snippets/snippets/"))
+;;   :config
+;;   (yas-global-mode 1)) ;; enable yasnippets globally
   ;; (yas-reload-all)
   ;; :hook (prog-mode . yas-minor-mode)) ;; yasnippets as non-global minor mode, activated on a per-buffer basis
 ;; orgmode TAB conflicts with Yasnippets TAB (https://orgmode.org/manual/Conflicts.html)
@@ -164,16 +175,51 @@
 ;; (use-package markdown-mode
 ;;   :hook (markdown-mode . eglot-{}))
 
+;; Citar
+;; citations using Citar
+;; path config for use of citar for vertico
+(use-package citar
+  :no-require
+  :custom
+  (org-cite-global-bibliography '("~/sty/articles/bib/cite.bib"))
+  (org-cite-insert-processor 'citar)
+  (org-cite-follow-processor 'citar)
+  (org-cite-activate-processor 'citar)
+  (citar-bibliography org-cite-global-bibliography)
+  (citar-library-paths '("~/sty/articles/"))
+  (citar-notes-paths '("~/notx/notes.org"))
+  :config
+  (setq citar-at-point-function 'embark-act)
+  :hook
+  (org-mode . citar-capf-setup))
+;; (setq! citar-bibliography '("~/sty/articles/bib/cite.bib")
+;;        citar-library-paths '("~/sty/articles/")
+;;        citar-notes-paths '("~/notx/notes.org"))
+
 
 ;; Orgmode
-;; Org-capture
-(require 'org-protocol) ;; org-protocol to capture directly from browser
-(require 'org-id) ;; generate unique IDs for captured items for future linking
-(after! org
-  (add-to-list 'org-modules 'org-id 'org-protocol))
-;; Org-id
-(setq org-id-method 'uuid)
-(setq org-id-link-to-org-use-id t)
+(use-package org
+  :defer t
+  :ensure t
+  :config
+  (setq org-directory "~/notx/"))
+
+(use-package org-id
+  :after org
+  :config
+  (setq org-id-method 'uuid
+        org-id-link-to-org-use-id t))
+
+(use-package org-protocol
+  :defer t)
+;; ;; Org-capture
+;; (require 'org-protocol) ;; org-protocol to capture directly from browser
+;; (require 'org-id) ;; generate unique IDs for captured items for future linking
+;; (after! org
+;;   (add-to-list 'org-modules 'org-id 'org-protocol))
+;; ;; Org-id
+;; (setq org-id-method 'uuid)
+;; (setq org-id-link-to-org-use-id t)
 ;; Org-capture templates
 ;; Doom org-capture presets
 ;; (setq org-capture-templates
@@ -278,38 +324,62 @@
 
 ;; LaTeX
 ;; LaTeX parsing using AucTeX
-(use-package auctex)
-;; live-preview using AucTeX to pdf-viewer
-;; (setq +latex-viewers '(pdf-tools)) ;; set pdf-tools as default pdf viewer
-(setq +latex-viewers '(zathura)) ;; set zathura as default pdf viewer
-;; set default bibliography for RefTeX
-(setq reftex-default-bibliography
-      "~/sty/articles/bib/cite.bib")
-;; citations using Citar
-;; path config for use of citar for vertico
-(setq! citar-bibliography '("~/sty/articles/bib/cite.bib")
-       citar-library-paths '("~/sty/articles/")
-       citar-notes-paths '("~/notx/notes.org"))
+(use-package auctex
+  :ensure t
+  :config
+  (setq TeX-auto-save t
+        TeX-parse-self t))
 
-;; LSP for LaTeX
-;; however, we're using eglot, instead of lsp-mode, as LSP server
-;; (setq lsp-tex-server 'texlab) ;; set texlab as default LaTeX LSP server with lsp-mode server
-;; live-preview using xenops inside Emacs LaTeX buffer
-;; use M-x xenops-mode
-;; cdlatex minor mode for all LaTeX files
-(add-hook 'LaTeX-mode-hook #'turn-on-cdlatex) ;; for AucTeX LaTeX mode
-;; (add-hook 'latex-mode-hook #'turn-on-cdlatex) ;; for Emacs latex mode
-;; prioritize cdlatex for autocompletion in LaTeX file, over Yasnippets
-(map! :map cdlatex-mode-map
-      :i "TAB" #'cdlatex-tab) ;; pressing TAB while in insert mode, calls cdlatex-tab function
+(use-package cdlatex
+  :defer t
+  :init
+  (add-hook 'LaTeX-mode-hook #'turn-on-cdlatex)
+  :config
+  (map! :map cdlatex-mode-map
+        :desc "Press TAB while in Insert mode in a LaTeX document to invoke CDLaTeX Tab function"
+        :i "TAB" #'cdlatex-tab))
+
+(use-package reftex
+  :defer t
+  :init
+  (add-hook 'LaTeX-mode-hook #'turn-on-reftex)
+  :config
+  (setq reftex-default-bibliography "~/sty/articles/bib/cite.bib"
+        reftex-plug-into-AUCTeX t
+        reftex-cite-format 'natbib))
+;; (use-package auctex)
+;; ;; live-preview using AucTeX to pdf-viewer
+;; ;; (setq +latex-viewers '(pdf-tools)) ;; set pdf-tools as default pdf viewer
+;; (setq +latex-viewers '(zathura)) ;; set zathura as default pdf viewer
+;; ;; set default bibliography for RefTeX
+;; (setq reftex-default-bibliography
+;;       "~/sty/articles/bib/cite.bib")
+;; ;; LSP for LaTeX
+;; ;; however, we're using eglot, instead of lsp-mode, as LSP server
+;; ;; (setq lsp-tex-server 'texlab) ;; set texlab as default LaTeX LSP server with lsp-mode server
+;; ;; live-preview using xenops inside Emacs LaTeX buffer
+;; ;; use M-x xenops-mode
+;; ;; cdlatex minor mode for all LaTeX files
+;; (add-hook 'LaTeX-mode-hook #'turn-on-cdlatex) ;; for AucTeX LaTeX mode
+;; ;; (add-hook 'latex-mode-hook #'turn-on-cdlatex) ;; for Emacs latex mode
+;; ;; prioritize cdlatex for autocompletion in LaTeX file, over Yasnippets
+;; (map! :map cdlatex-mode-map
+;;       :i "TAB" #'cdlatex-tab) ;; pressing TAB while in insert mode, calls cdlatex-tab function
 
 
 ;; elfeed
 ;; org feed file for elfeed
 ;; (from [[https://github.com/remyhonig/elfeed-org?tab=readme-ov-file#installation][elfeed-org]])
-(require 'elfeed-org) ;; load elfeed-org
-(elfeed-org) ;; initializes elfeed-org ;; hooks up elfeed-org to read configuration when =M-x elfeed=
-(setq rmh-elfeed-org-files (list "~/notx/elfeed.org"))
+(use-package elfeed-org
+  :defer t
+  :init
+  (elfeed-org)
+  :config
+  (setq rmh-elfeed-org-files (list "~/notx/elfeed.org")))
+;; (require 'elfeed-org) ;; load elfeed-org
+;; (elfeed-org) ;; initializes elfeed-org ;; hooks up elfeed-org to read configuration when =M-x elfeed=
+;; (setq rmh-elfeed-org-files (list "~/notx/elfeed.org"))
+
 
 ;; auth-sources
 (setq auth-sources '("~/.local/share/authinfo.gpg"))
@@ -320,34 +390,50 @@
 
 ;; mu4e
 (use-package mu4e
-  :ensure nil
-  :config
-  ;; use mu4e to compose email in emacs
-  (setq mail-user-agent 'mu4e-user-agent)
-  ;; use mu4e to read email in emacs
+  :defer t
+  :custom
   (set-variable 'read-mail-command 'mu4e)
-  ;; rename files while moving between directories
-  ;; to not trouble the default UID naming scheme of mbsync
-  (setq mu4e-change-filenames-when-moving t)
-  (setq mu4e-get-mail-command "/usr/bin/mbsync -c ~/.config/isync/mbsyncrc -a")
-  ;; (setq mu4e-update-interval (* 10 60))
-  (setq mu4e-maildir "~/.local/share/maildir/")
-  (setq mu4e-attachment-dir "~/dl/")
-  (setq sendmail-program "/usr/bin/msmtp")
-  ;; don't save messages to Sent messages, Gmail/IMAP takes care of this
-  (setq mu4e-sent-messages-behavior 'delete)
-  ;; skip duplicate messages, due to representation of Gmail labels/virtual folders by mbsync
-  (setq mu4e-search-skip-duplicates t)
-  ;; don't autosave drafts
-  (add-hook 'mu4e-compose-mode-hook #'(lambda () (auto-save-mode -1)))
-  ;; don't keep message buffers around
-  (setq message-kill-buffer-on-exit t)
-  ;; show images
-  (setq mu4e-show-images t)
-  ;; don't limit search results to 500 (default)
-  (setq mu4e-search-results-limit -1)
+  (setq mail-user-agent 'mu4e-user-agent
+        mu4e-change-filenames-when-moving t
+        mu4e-get-mail-command "/usr/bin/mbsync -c ~/.config/isync/mbsyncrc -a"
+        mu4e-attachment-dir "~/dl/"
+        sendmail-program "/usr/bin/msmtp"
+        mu4e-sent-messages-behavior 'delete
+        mu4e-search-skip-duplicates t
+        message-kill-buffer-on-exit t
+        mu4e-search-results-limit -1)
+  :config
   (load "~/.config/doom/mu4e-credentials.el")
-  )
+  (add-hook 'mu4e-compose-mode-hook #'(lambda () (auto-save-mode -1))))
+;; (use-package mu4e
+;;   :ensure nil
+;;   :config
+;;   ;; use mu4e to compose email in emacs
+;;   (setq mail-user-agent 'mu4e-user-agent)
+;;   ;; use mu4e to read email in emacs
+;;   (set-variable 'read-mail-command 'mu4e)
+;;   ;; rename files while moving between directories
+;;   ;; to not trouble the default UID naming scheme of mbsync
+;;   (setq mu4e-change-filenames-when-moving t)
+;;   (setq mu4e-get-mail-command "/usr/bin/mbsync -c ~/.config/isync/mbsyncrc -a")
+;;   ;; (setq mu4e-update-interval (* 10 60))
+;;   (setq mu4e-maildir "~/.local/share/maildir/")
+;;   (setq mu4e-attachment-dir "~/dl/")
+;;   (setq sendmail-program "/usr/bin/msmtp")
+;;   ;; don't save messages to Sent messages, Gmail/IMAP takes care of this
+;;   (setq mu4e-sent-messages-behavior 'delete)
+;;   ;; skip duplicate messages, due to representation of Gmail labels/virtual folders by mbsync
+;;   (setq mu4e-search-skip-duplicates t)
+;;   ;; don't autosave drafts
+;;   (add-hook 'mu4e-compose-mode-hook #'(lambda () (auto-save-mode -1)))
+;;   ;; don't keep message buffers around
+;;   (setq message-kill-buffer-on-exit t)
+;;   ;; show images
+;;   (setq mu4e-show-images t)
+;;   ;; don't limit search results to 500 (default)
+;;   (setq mu4e-search-results-limit -1)
+;;   (load "~/.config/doom/mu4e-credentials.el")
+;;   )
 
 ;; common lisp, mostly for nyxt browser
 ;; use slime
