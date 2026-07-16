@@ -124,8 +124,9 @@ esac
 case "$desc" in
     "Partly Cloudy ") wtr="🌤️" ;;
     "Cloudy ") wtr="☁️" ;;
-    "Haze") wtr="🌬️" ;;
+    "Overcast ") wtr="☁️" ;;
     "Smoky haze") wtr="🌬️" ;;
+    "Haze") wtr="🌬️" ;;
     "Mist") wtr="🌁" ;;
     "Fog") wtr="🌁" ;;
     "Clear ") wtr="☀️" ;;
@@ -136,8 +137,10 @@ case "$desc" in
     "Patchy rain nearby") wtr="🌦️" ;;
     "Patchy light drizzle") wtr="🌦️" ;;
     "Patchy light rain in area with thunder") wtr="⛈️" ;;
+    "Patchy light rain") wtr="⛈️" ;;
     "Moderate rain at times") wtr="🌧️" ;;
     "Moderate or heavy rain with thunder") wtr="⛈️" ;;
+    "Moderate or heavy rain shower") wtr="⛈️" ;;
     "Heavy rain") wtr="🌧️" ;;
     "Thundery outbreaks in nearby") wtr=🌩️ ;;
     *) wtr="🌂" ;;
