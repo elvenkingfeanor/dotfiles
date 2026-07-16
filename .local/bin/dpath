@@ -20,7 +20,7 @@
       -path "$HOME"/mdi/ani -o \
       -path "$HOME"/mdi/msx -o \
       -path "$HOME"/.pki -o \
-      -path "$HOME"/.ssh -o \
+      -path "$HOME"/.ssh \
       \) -prune -false -o \
       -type d -name '*' -print | \
       /usr/bin/fzf -m | \

@@ -30,4 +30,4 @@
     \! -user root \
     -type f -print | \
     /usr/bin/sort -u | \
-    /usr/bin/xargs /usr/bin/grep -iIrn -C 2 --color "$1"
+    /usr/bin/xargs /usr/bin/grep -iIrn -C2 --color -E "$1"
