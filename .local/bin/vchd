@@ -1,0 +1,46 @@
+#!/bin/sh
+#vchd
+# convert video from 1080p to 720p using ffmpeg
+# Caveat: this only works for the following naming convention:
+# Name of Video.Year.Resolution.*.ext
+
+input="$*"
+
+# check if file is video file, else exit
+# next check if file is of specified resolution, else exit
+if [ -f "$input" ]; then
+    # if /usr/bin/file "$input" | \
+    #     /usr/bin/grep -iEoq '(video|avi|matroska|webm|mp4|ac-3)'; then
+    if /usr/bin/ffprobe -v quiet -i "$input" \
+        -select_streams v:0 \
+        -show_entries stream=codec_type \
+        -of default=nw=1 | \
+        /usr/bin/grep -iq video; then
+        if /usr/bin/ffprobe -v quiet -i "$input" \
+            -select_streams v:0 \
+            -show_entries stream=width,height \
+            -of default=nw=1 | \
+            /usr/bin/grep -Eiq '(width=1920|height=1080)'; then
+            inputname="$(/usr/bin/printf "%s" "$input" | \
+                /usr/bin/sed 's/^\(.*\)\.1080p.*$/\1/')"
+            inputext="$(/usr/bin/printf "%s" "$input" | \
+                /usr/bin/sed 's/^.*\.\(.*\)$/\1/')"
+        else
+            /usr/bin/printf "%s\n" "$input is not 1080p, sorry."
+        fi
+    else
+        /usr/bin/printf "%s\n" "Make sure $input is a video file."
+    fi
+else
+    /usr/bin/printf "%s\n" "Is $input a file?"
+    exit 1
+fi
+
+# use ffmpeg to convert to 720p video resolution
+/usr/bin/ffmpeg -i "$input" \
+    -vf scale=-1:720 \
+    -c:v libx264 \
+    -preset slow \
+    -crf 18 \
+    -c:a copy \
+    "$inputname.720p.$inputext"
