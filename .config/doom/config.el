@@ -117,6 +117,14 @@
 ;;   (server-start))
 
 
+;; smartparens-mode
+(use-package smartparens
+  :defer t
+  :ensure t
+  :config
+  (require 'smartparens-config))
+
+
 ;; Orgmode
 (use-package org
   :defer t

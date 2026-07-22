@@ -29,6 +29,8 @@ This Org file configures my Doom Emacs setup.
   - [[#reconfigure-a-package][Reconfigure a package]]
   - [[#configure-a-package][Configure a package]]
   - [[#info-on-macros-and-functions][Info on macros and functions]]
+- [[#smartparens][smartparens]]
+  - [[#smartparens-config][smartparens-config]]
 - [[#extras][Extras]]
   - [[#no-byte-compile-directive][no-byte-compile directive]]
   - [[#rainbow-mode][rainbow-mode]]
@@ -152,7 +154,7 @@ The built-in =auth-source= package provides for easy management of usernames and
   (auth-source-pass-file-name-p (list "~/.local/share/pass/")))
 #+end_src
 
-** auth-sources :auth:
+** auth-sources :authsources:
 :PROPERTIES:
 :ID:       963bb083-5516-4949-bab3-eab1fa45a387
 :END:
@@ -570,6 +572,24 @@ Alternatively, use `C-h o' to look up a symbol (functions, variables, faces, etc
 #+begin_quote
 You can also try 'gd' (or 'C-c c d') to jump to their definition and see how they are implemented.
 #+end_quote
+* [[https://github.com/Fuco1/smartparens][smartparens]] :smartparens:
+:PROPERTIES:
+:ID:       4ef94a2a-2675-45a3-8f25-533ab17c0b8b
+:END:
+
+=smartparens= is an external package to deal with pairs, like a pair of parentheses, in Emacs.
+
+#+begin_src emacs-lisp
+(use-package smartparens
+  :ensure t
+  :defer t
+  :config
+  (require 'smartparens-config))
+#+end_src
+
+** smartparens-config
+
+The default config for =smartparens=.
 * Extras :extra:packages_el:
 
 Doom modules are very adequate for daily purposes, and very few packages are actually required over and above those.
