@@ -9,39 +9,64 @@
 ;; (setq user-full-name "John Doe"
 ;;       user-mail-address "john@doe.com")
 ;;
-(setq user-full-name "Tanmoy Sarkar")
+(setq user-full-name "ts")
 
-;; Doom exposes five (optional) variables for controlling fonts in Doom:
-;;
-;; - `doom-font' -- the primary font to use
-;; - `doom-variable-pitch-font' -- a non-monospace font (where applicable)
-;; - `doom-big-font' -- used for `doom-big-font-mode'; use this for
-;;   presentations or streaming.
-;; - `doom-symbol-font' -- for symbols
-;; - `doom-serif-font' -- for the `fixed-pitch-serif' face
-;;
-;; See 'C-h v doom-font' for documentation and more examples of what they
-;; accept. For example:
 
-(setq doom-font (font-spec :family "JetBrains Mono" :weight 'regular :size 24)
-      doom-variable-pitch-font (font-spec :family "Source Sans Pro")
-      doom-serif-font (font-spec :family "DejaVu Serif")
-      doom-symbol-font (font-spec :family "Noto Color Emoji" :size 26))
+;; Doom-UI
+(use-package doom-ui
+  :ensure t
+  :config
+  (setq doom-font (font-spec :family "JetBrains Mono" :weight 'regular :size 24)
+        doom-variable-pitch-font (font-spec :family "Source Sans Pro")
+        doom-serif-font (font-spec :family "DejaVu Serif")
+        doom-symbol-font (font-spec :family "Noto Color Emoji")
+        doom-theme 'doom-one))
+;; ;; Doom exposes five (optional) variables for controlling fonts in Doom:
+;; ;;
+;; ;; - `doom-font' -- the primary font to use
+;; ;; - `doom-variable-pitch-font' -- a non-monospace font (where applicable)
+;; ;; - `doom-big-font' -- used for `doom-big-font-mode'; use this for
+;; ;;   presentations or streaming.
+;; ;; - `doom-symbol-font' -- for symbols
+;; ;; - `doom-serif-font' -- for the `fixed-pitch-serif' face
+;; ;;
+;; ;; See 'C-h v doom-font' for documentation and more examples of what they
+;; ;; accept. For example:
 
-;; If you or Emacs can't find your font, use 'M-x describe-font' to look them
-;; up, `M-x eval-region' to execute elisp code, and 'M-x doom/reload-font' to
-;; refresh your font settings. If Emacs still can't find your font, it likely
-;; wasn't installed correctly. Font issues are rarely Doom issues!
+;; (setq doom-font (font-spec :family "JetBrains Mono" :weight 'regular :size 24)
+;;       doom-variable-pitch-font (font-spec :family "Source Sans Pro")
+;;       doom-serif-font (font-spec :family "DejaVu Serif")
+;;       doom-symbol-font (font-spec :family "Noto Color Emoji" :size 26))
 
-;; There are two ways to load a theme. Both assume the theme is installed and
-;; available. You can either set `doom-theme' or manually load a theme with the
-;; `load-theme' function. This is the default:
-(setq doom-theme 'doom-one)
+;; ;; If you or Emacs can't find your font, use 'M-x describe-font' to look them
+;; ;; up, `M-x eval-region' to execute elisp code, and 'M-x doom/reload-font' to
+;; ;; refresh your font settings. If Emacs still can't find your font, it likely
+;; ;; wasn't installed correctly. Font issues are rarely Doom issues!
+
+;; ;; There are two ways to load a theme. Both assume the theme is installed and
+;; ;; available. You can either set `doom-theme' or manually load a theme with the
+;; ;; `load-theme' function. This is the default:
+;; (setq doom-theme 'doom-one)
+
 
 ;; This determines the style of line numbers in effect. If set to `nil', line
 ;; numbers are disabled. For relative line numbers, set this to `relative'.
 ;;(setq display-line-numbers-type t)
 (setq display-line-numbers-type 'relative)
+
+
+;; Fonts
+;; doom fonts not working. setting emacs init frame parameters
+;;(add-to-list 'default-frame-alist '(font-spec :family "JetBrainsMono Nerd Font" :size 20)) ;; font-spec not working
+;; (add-to-list 'default-frame-alist
+;;              '(font . "JetBrainsMono Nerd Font-20")) ;; works
+
+
+;; Grep
+;; default grep-command
+;; "grep --color=auto -nH --null -e "
+(setopt grep-command "grep --color=auto -rnHiI -C2 -e ")
+
 
 ;; If you use `org' and don't want your org files in the default location below,
 ;; change `org-directory'. It must be set before org loads!
@@ -81,6 +106,7 @@
 ;; You can also try 'gd' (or 'C-c c d') to jump to their definition and see how
 ;; they are implemented.
 
+
 ;; start emacs as server
 (use-package server
   :ensure t
@@ -90,47 +116,240 @@
 ;; (unless (server-running-p)
 ;;   (server-start))
 
-;; Fonts
-;; doom fonts not working. setting emacs init frame parameters
-;;(add-to-list 'default-frame-alist '(font-spec :family "JetBrainsMono Nerd Font" :size 20)) ;; font-spec not working
-;; (add-to-list 'default-frame-alist
-;;              '(font . "JetBrainsMono Nerd Font-20")) ;; works
 
-;; Grep
-;; default grep-command
-;; "grep --color=auto -nH --null -e "
-(setopt grep-command "grep --color=auto -rnHiI -C2 -e ")
-
-;; Emacs-Everywhere
-(use-package emacs-everywhere
+;; Orgmode
+(use-package org
+  :defer t
+  :ensure t
   :config
-  (setq emacs-everywhere-major-mode-function #'org-mode))
+  (setq org-directory "~/notx/"
+        org-agenda-files (list "~/notx/inbox.org" org-directory)
+        org-agenda-start-with-log-mode t
+        org-log-into-drawer t
+        org-log-done 'time
+        org-todo-keywords '((sequence "TODO(t)" "MAYBE(m)" "|" "DONE(d!)" "CANCELLED(c)")
+                            (sequence "[ ](T)" "[-](S)" "|" "[X](D)"))
+        org-capture-templates '(("b" "bookmark" entry (file+headline "~/notx/links.org" "Bookmarks")
+                                 "* %a %^G\n:PROPERTIES:\n:CREATED: %U\n:END:\n\n** %:initial%?"
+                                 :empty-lines 1)
+                                ("c" "contact" entry (file "~/notx/contacts.org")
+                                 "* %^{Name} %^G\n:PROPERTIES:\n:EMAIL: %^{email}\n:PHONE: %^{phone}\n:ALIAS: %^{nickname}\n:ADDRESS: %^{address}\n:BIRTHDAY: %^{birthday}t\n:CREATED: %U\n:END:\n %?"
+                                 :empty-lines 1)
+                                ("i" "inbox")
+                                ("ii" "ideas" entry (file+headline "~/notx/inbox.org" "Ideas")
+                                 "* %?\n%U\n%i"
+                                 :empty-lines 1)
+                                ("ip" "problems" entry (file+headline "~/notx/inbox.org" "Problems")
+                                 "* %?\n%U\n%i"
+                                 :empty-lines 1)
+                                ("it" "task" entry (file+headline "~/notx/inbox.org" "TODOs")
+                                 "* TODO %?\n%U\n%a\n%i"
+                                 :empty-lines 1)
+                                ("n" "notes")
+                                ("na" "article-notes" entry (file+headline "~/notx/notes.org" "Articles")
+                                 "* %^{title} %^G\n:PROPERTIES:\n:CREATED: %U\n:END:\n\n#+NAME: %^{key}\n#+BEGIN_SRC bibtex\n@article{%\\2,\ntitle={%\\1},\nauthor={%^{authors}},\njournal={%^{journal}},\nyear={%^{year}},\ndoi={%^{doi}},\nkeywords={%^{keywords}}\n}\n#+END_SRC\n\n** %:initial%?"
+                                 :empty-lines 1)
+                                ("nb" "book-notes" entry (file+headline "~/notx/notes.org" "Books")
+                                 "* %^{booktitle} %^{edition}E\n** %^{chapter-num}. %^{chapter-name} %^G\n:PROPERTIES:\n:CREATED: %U\n:END:\n\n#+NAME: %^{key}:%\\3\n#+BEGIN_SRC bibtex\n@inbook{%\\5:%\\3,\ntitle={%\\1},\nchapter={%\\3},\nauthor={%^{authors}},\npublisher={%^{publisher}},\nyear={%^{year}},\nedition={%\\2},\ndoi={%^{doi}},\nisbn={%^{isbn}},\nkeywords={%^{keywords}}\n}\n#+END_SRC\n\n*** %:initial%?"
+                                 :empty-lines 1)
+                                ("d" "dailies")
+                                ("dd" "daily" entry (file+olp+datetree "~/notx/journal.org" "Journals")
+                                 "* %(format-time-string \"%H:%M\") - Journal :journal:\n\n%?\n\n"
+                                 :empty-lines 1)
+                                ("dw" "wishlist" entry (file+headline "~/notx/journal.org" "Wishlists")
+                                 "* %?\n%U\n%i"
+                                 :empty-lines 1)
+                                ("m" "media")
+                                ("mm" "movies" entry (file+headline "~/notx/media.org" "Movies")
+                                 "* %?\n%U\n%i")
+                                ("md" "documentaries")
+                                ("mdb" "BBC" entry (file+headline "~/notx/media.org" "Documentaries" "BBC")
+                                 "* %?\n%U\n%i"))
+        org-archive-location "~/notx/archive.org::* From %s"
+        org-refile-targets '((org-agenda-files . (:maxlevel . 8))
+                             (org-agenda-files . (:tag . "refile"))
+                             (nil . (:maxlevel . 8)))
+        org-refile-allow-creating-parent-nodes 'confirm
+        org-refile-use-cache t
+        org-reverse-note-order nil
+        org-refile-use-outline-path 'file
+        org-outline-path-complete-in-steps nil
+        org-log-refile 'time
+        org-export-backends '("pandoc" "latex" "html" "beamer" "md" "ascii" "icalendar" "odt")
+        org-latex-compiler "lualatex"
+        org-latex-hyperref-template "\\hypersetup{\n linktoc=all,\n backref=section,\n breaklinks=true,\n colorlinks=true,\n linkcolor=red,\n urlcolor=magenta,\n pdfauthor={%a},\n pdftitle={%t},\n pdfkeywords={%k},\n pdfsubject={%d},\n pdfcreator={%c},\n pdflang={%L}}\n"
+        org-export-default-language "en-gb"
+        org-latex-classes '(("beamer"
+                             "\\documentclass[presentation]{beamer}\n\\usepackage[usenames]{color}\n[DEFAULT-PACKAGES]\n[PACKAGES]\n\\urlstyle{tt}"
+                             ("\\section{%s}" . "\\section*{%s}")
+                             ("\\subsection{%s}" . "\\subsection*{%s}")
+                             ("\\subsubsection{%s}" . "\\subsubsection*{%s}"))
+                            ("article"
+                             "\\documentclass[12pt,a4paper]{article}\n\\usepackage[usenames]{color}\n[DEFAULT-PACKAGES]\n[PACKAGES]\n\\urlstyle{tt}"
+                             ("\\section{%s}" . "\\section*{%s}")
+                             ("\\subsection{%s}" . "\\subsection*{%s}")
+                             ("\\subsubsection{%s}" . "\\subsubsection*{%s}")
+                             ("\\paragraph{%s}" . "\\paragraph*{%s}")
+                             ("\\subparagraph{%s}" . "\\subparagraph*{%s}"))
+                            ("report"
+                             "\\documentclass[12pt,a4paper]{report}\n\\usepackage[usenames]{color}\n[DEFAULT-PACKAGES]\n[PACKAGES]\n\\urlstyle{tt}"
+                             ("\\part{%s}" . "\\part*{%s}")
+                             ("\\chapter{%s}" . "\\chapter*{%s}")
+                             ("\\section{%s}" . "\\section*{%s}")
+                             ("\\subsection{%s}" . "\\subsection*{%s}")
+                             ("\\subsubsection{%s}" . "\\subsubsection*{%s}"))
+                            ("book"
+                             "\\documentclass[12pt,a4paper]{book}\n\\usepackage[usenames]{color}\n[DEFAULT-PACKAGES]\n[PACKAGES]\n\\urlstyle{tt}"
+                             ("\\part{%s}" . "\\part*{%s}")
+                             ("\\chapter{%s}" . "\\chapter*{%s}")
+                             ("\\section{%s}" . "\\section*{%s}")
+                             ("\\subsection{%s}" . "\\subsection*{%s}")
+                             ("\\subsubsection{%s}" . "\\subsubsection*{%s}")))
+        org-latex-remove-logfiles t
+        org-pandoc-options '((standalone . t) (toc . t) (mathjax . t) (variable . "revealjs-url=https://revealjs.com"))
+        org-pandoc-options-for-latex-pdf '((pdf-engine . "lualatex")
+                                         (shift-heading-level-by . "-1")
+                                         (variable . "papersize:a4")
+                                         (variable . "babeloptions:provide=english")
+                                         (variable . "mainfont:DejaVuSerif")
+                                         (variable . "mainfontoptions:Extensions=.ttf, UprightFont=*, BoldFont=*-Bold, ItalicFont=*-Italic, BoldItalicFont=*-BoldItalic")
+                                         (variable . "sansfont:DejaVuSans")
+                                         (variable . "monofont:DejaVuSansMono")
+                                         (variable . "mathfont:DejaVuMathTeXGyre-Regular")
+                                         (variable . "mainfontfallback:FreeSans:")
+                                         (variable . "mainfontfallback:NotoColorEmoji:")
+                                         (variable . "fontsize:12pt")
+                                         (variable . "hyperrefoptions:linktoc=all")
+                                         (variable . "hyperrefoptions:backref=section")
+                                         (variable . "hyperrefoptions:breaklinks=true")
+                                         (variable . "hyperrefoptions:colorlinks=true")
+                                         (variable . "colorlinks:linkcolor=red")
+                                         (variable . "colorlinks:urlcolor=magenta")
+                                         (variable . "urlstyle:tt"))
+        org-export-with-broken-links t
+        org-contacts-files '("~/notx/contacts.org"))
+  (advice-add 'org-refile :after 'org-save-all-org-buffers))
 
-;; Custom Keybindings
-;; consult-fd
-;; since, locate is not used on my system, let's replace consult-locate with consult-fd
-;; Doomemacs binds <SPC>-s-f to consult-locate, rebind it to consult-fd
-(map!
- :leader
- :prefix ("s" . "search")
- :desc "Find file"
- "f" (cmd! (consult-fd "~")))
+(use-package org-id
+  :after org
+  :config
+  (setq org-id-method 'uuid
+        org-id-link-to-org-use-id t))
 
-;; helpful-at-point
-(map!
- :leader
- :prefix ("h" . "help")
- :desc "Help at point"
- "h" #'helpful-at-point)
+(use-package org-protocol
+  :defer t)
 
-;; org-paste-subtree
-(map!
- :after org
- :map org-mode-map
- :localleader
- :prefix "s"
- :desc "org-paste-subtree"
- "p" #'org-paste-subtree)
+(use-package ox-md
+  :after org
+  :defer t)
+;; ;; ;; Org-capture
+;; ;; (require 'org-protocol) ;; org-protocol to capture directly from browser
+;; ;; (require 'org-id) ;; generate unique IDs for captured items for future linking
+;; ;; (after! org
+;; ;;   (add-to-list 'org-modules 'org-id 'org-protocol))
+;; ;; ;; Org-id
+;; ;; (setq org-id-method 'uuid)
+;; ;; (setq org-id-link-to-org-use-id t)
+;; ;; Org-capture templates
+;; ;; Doom org-capture presets
+;; ;; (setq org-capture-templates
+;; ;;       '(("t" "Personal todo" entry (file+headline +org-capture-todo-file "Inbox")
+;; ;;          "* [ ] %?\n%i\n%a" :prepend t)
+;; ;;         ("n" "Personal notes" entry (file+headline +org-capture-notes-file "Inbox")
+;; ;;          "* %u %?\n%i\n%a" :prepend t)
+;; ;;         ("j" "Journal" entry (file+olp+datetree +org-capture-journal-file)
+;; ;;          "* %U %?\n%i\n%a" :prepend t)
+;; ;;         ("p" "Templates for projects")
+;; ;;         ("pt" "Project-local todo" entry
+;; ;;          (file+headline +org-capture-project-todo-file "Inbox") "* TODO %?\n%i\n%a"
+;; ;;          :prepend t)
+;; ;;         ("pn" "Project-local notes" entry
+;; ;;          (file+headline +org-capture-project-notes-file "Inbox") "* %U %?\n%i\n%a"
+;; ;;          :prepend t)
+;; ;;         ("pc" "Project-local changelog" entry
+;; ;;          (file+headline +org-capture-project-changelog-file "Unreleased")
+;; ;;          "* %U %?\n%i\n%a" :prepend t)
+;; ;;         ("o" "Centralized templates for projects")
+;; ;;         ("ot" "Project todo" entry #'+org-capture-central-project-todo-file
+;; ;;          "* TODO %?\n %i\n %a" :heading "Tasks" :prepend nil)
+;; ;;         ("on" "Project notes" entry #'+org-capture-central-project-notes-file
+;; ;;          "* %U %?\n %i\n %a" :heading "Notes" :prepend t)
+;; ;;         ("oc" "Project changelog" entry #'+org-capture-central-project-changelog-file
+;; ;;          "* %U %?\n %i\n %a" :heading "Changelog" :prepend t)))
+;; (setq org-capture-templates
+;;       '(("b" "bookmark" entry (file+headline "~/notx/links.org" "Bookmarks")
+;;          "* %a %^G\n:PROPERTIES:\n:CREATED: %U\n:END:\n\n** %:initial%?"
+;;          :empty-lines 1)
+;;         ("c" "contact" entry (file "~/notx/contacts.org")
+;;          "* %^{Name} %^G\n:PROPERTIES:\n:EMAIL: %^{email}\n:PHONE: %^{phone}\n:ALIAS: %^{nickname}\n:ADDRESS: %^{address}\n:BIRTHDAY: %^{birthday}t\n:CREATED: %U\n:END:\n %?"
+;;          :empty-lines 1)
+;;         ("i" "inbox")
+;;         ("ii" "ideas" entry (file+headline "~/notx/inbox.org" "Ideas")
+;;          "* %?\n%U\n%i"
+;;          :empty-lines 1)
+;;         ("ip" "problems" entry (file+headline "~/notx/inbox.org" "Problems")
+;;          "* %?\n%U\n%i"
+;;          :empty-lines 1)
+;;         ("it" "task" entry (file+headline "~/notx/inbox.org" "TODOs")
+;;          "* TODO %?\n%U\n%a\n%i"
+;;          :empty-lines 1)
+;;         ("n" "notes")
+;;         ("na" "article-notes" entry (file+headline "~/notx/notes.org" "Articles")
+;;          "* %^{title} %^G\n:PROPERTIES:\n:CREATED: %U\n:END:\n\n#+NAME: %^{key}\n#+BEGIN_SRC bibtex\n@article{%\\2,\ntitle={%\\1},\nauthor={%^{authors}},\njournal={%^{journal}},\nyear={%^{year}},\ndoi={%^{doi}},\nkeywords={%^{keywords}}\n}\n#+END_SRC\n\n** %:initial%?"
+;;          :empty-lines 1)
+;;         ("nb" "book-notes" entry (file+headline "~/notx/notes.org" "Books")
+;;          "* %^{booktitle} %^{edition}E\n** %^{chapter-num}. %^{chapter-name} %^G\n:PROPERTIES:\n:CREATED: %U\n:END:\n\n#+NAME: %^{key}:%\\3\n#+BEGIN_SRC bibtex\n@inbook{%\\5:%\\3,\ntitle={%\\1},\nchapter={%\\3},\nauthor={%^{authors}},\npublisher={%^{publisher}},\nyear={%^{year}},\nedition={%\\2},\ndoi={%^{doi}},\nisbn={%^{isbn}},\nkeywords={%^{keywords}}\n}\n#+END_SRC\n\n*** %:initial%?"
+;;          :empty-lines 1)
+;;         ("d" "dailies")
+;;         ("dd" "daily" entry (file+olp+datetree "~/notx/journal.org" "Journals")
+;;          "* %(format-time-string \"%H:%M\") - Journal :journal:\n\n%?\n\n"
+;;          :empty-lines 1)
+;;         ("dw" "wishlist" entry (file+headline "~/notx/journal.org" "Wishlists")
+;;          "* %?\n%U\n%i"
+;;          :empty-lines 1)
+;;         ("m" "media")
+;;         ("mm" "movies" entry (file+headline "~/notx/media.org" "Movies")
+;;          "* %?\n%U\n%i")
+;;         ("md" "documentaries")
+;;         ("mdb" "BBC" entry (file+headline "~/notx/media.org" "Documentaries" "BBC")
+;;          "* %?\n%U\n%i")
+;;         ))
+;; ;; Org-agenda
+;; (setq org-agenda-files (list "~/notx/inbox.org" org-directory))
+;; (setq org-agenda-start-with-log-mode t)
+;; (setq org-log-into-drawer t)
+;; (setq org-log-done 'time)
+;; (setq org-agenda-include-diary t) ;; diary integration with org-agenda
+;; ;; Doom org-agenda presets
+;; ;; (setq org-todo-keywords
+;; ;;       '((sequence "TODO(t)" "PROJ(p)" "LOOP(r)" "STRT(s)" "WAIT(w)" "HOLD(h)" "IDEA(i)"
+;; ;;          "|" "DONE(d)" "KILL(k)")
+;; ;;         (sequence "[ ](T)" "[-](S)" "[?](W)" "|" "[X](D)")
+;; ;;         (sequence "|" "OKAY(o)" "YES(y)" "NO(n)")))
+;; (setq org-todo-keywords
+;;       '((sequence "TODO(t)" "MAYBE(m)" "|" "DONE(d!)" "CANCELLED(c)")
+;;         (sequence "[ ](T)" "[-](S)" "|" "[X](D)")))
+;; ;; Org-refile
+;; ;; org-refile targets and save org buffers
+;; (setq org-refile-targets
+;;       '((org-agenda-files . (:maxlevel . 8))
+;;         (org-agenda-files . (:tag . "refile")) ;; use tags as filter for org-refile-targets
+;;         (nil . (:maxlevel . 8))))
+;; (setq org-refile-allow-creating-parent-nodes 'confirm)
+;; (setq org-refile-use-cache t)
+;; (setq org-log-refile 'time)
+;; (setq org-reverse-note-order nil)
+;; (setq org-refile-use-outline-path 'file)
+;; (setq org-outline-path-complete-in-steps nil) ;; already use completion, no need for step completions
+;; (advice-add 'org-refile :after 'org-save-all-org-buffers)
+;; ;; org-archive
+;; (setq org-archive-location "~/notx/archive.org::* From %s") ;; string-type syntax for org-archive-location
+;; ;; org-contacts
+;; (setq org-contacts-files '("~/notx/contacts.org")) ;; (repeat file)-type symbol property
+;; ;; org export backends
+;; ;; add markdown export as org export backend (mostly for rendering git readmes)
+;; (require 'ox-md)
+;; ;; (setq org-export-backends '(("pandoc" "beamer" "md" "ascii" "html" "icalendar" "latex" "odt"))
 
 
 ;; Yasnippets
@@ -175,6 +394,7 @@
 ;; (use-package markdown-mode
 ;;   :hook (markdown-mode . eglot-{}))
 
+
 ;; Citar
 ;; citations using Citar
 ;; path config for use of citar for vertico
@@ -195,131 +415,6 @@
 ;; (setq! citar-bibliography '("~/sty/articles/bib/cite.bib")
 ;;        citar-library-paths '("~/sty/articles/")
 ;;        citar-notes-paths '("~/notx/notes.org"))
-
-
-;; Orgmode
-(use-package org
-  :defer t
-  :ensure t
-  :config
-  (setq org-directory "~/notx/"))
-
-(use-package org-id
-  :after org
-  :config
-  (setq org-id-method 'uuid
-        org-id-link-to-org-use-id t))
-
-(use-package org-protocol
-  :defer t)
-;; ;; Org-capture
-;; (require 'org-protocol) ;; org-protocol to capture directly from browser
-;; (require 'org-id) ;; generate unique IDs for captured items for future linking
-;; (after! org
-;;   (add-to-list 'org-modules 'org-id 'org-protocol))
-;; ;; Org-id
-;; (setq org-id-method 'uuid)
-;; (setq org-id-link-to-org-use-id t)
-;; Org-capture templates
-;; Doom org-capture presets
-;; (setq org-capture-templates
-;;       '(("t" "Personal todo" entry (file+headline +org-capture-todo-file "Inbox")
-;;          "* [ ] %?\n%i\n%a" :prepend t)
-;;         ("n" "Personal notes" entry (file+headline +org-capture-notes-file "Inbox")
-;;          "* %u %?\n%i\n%a" :prepend t)
-;;         ("j" "Journal" entry (file+olp+datetree +org-capture-journal-file)
-;;          "* %U %?\n%i\n%a" :prepend t)
-;;         ("p" "Templates for projects")
-;;         ("pt" "Project-local todo" entry
-;;          (file+headline +org-capture-project-todo-file "Inbox") "* TODO %?\n%i\n%a"
-;;          :prepend t)
-;;         ("pn" "Project-local notes" entry
-;;          (file+headline +org-capture-project-notes-file "Inbox") "* %U %?\n%i\n%a"
-;;          :prepend t)
-;;         ("pc" "Project-local changelog" entry
-;;          (file+headline +org-capture-project-changelog-file "Unreleased")
-;;          "* %U %?\n%i\n%a" :prepend t)
-;;         ("o" "Centralized templates for projects")
-;;         ("ot" "Project todo" entry #'+org-capture-central-project-todo-file
-;;          "* TODO %?\n %i\n %a" :heading "Tasks" :prepend nil)
-;;         ("on" "Project notes" entry #'+org-capture-central-project-notes-file
-;;          "* %U %?\n %i\n %a" :heading "Notes" :prepend t)
-;;         ("oc" "Project changelog" entry #'+org-capture-central-project-changelog-file
-;;          "* %U %?\n %i\n %a" :heading "Changelog" :prepend t)))
-(setq org-capture-templates
-      '(("b" "bookmark" entry (file+headline "~/notx/links.org" "Bookmarks")
-         "* %a %^G\n:PROPERTIES:\n:CREATED: %U\n:END:\n\n** %:initial%?"
-         :empty-lines 1)
-        ("c" "contact" entry (file "~/notx/contacts.org")
-         "* %^{Name} %^G\n:PROPERTIES:\n:EMAIL: %^{email}\n:PHONE: %^{phone}\n:ALIAS: %^{nickname}\n:ADDRESS: %^{address}\n:BIRTHDAY: %^{birthday}t\n:CREATED: %U\n:END:\n %?"
-         :empty-lines 1)
-        ("i" "inbox")
-        ("ii" "ideas" entry (file+headline "~/notx/inbox.org" "Ideas")
-         "* %?\n%U\n%i"
-         :empty-lines 1)
-        ("ip" "problems" entry (file+headline "~/notx/inbox.org" "Problems")
-         "* %?\n%U\n%i"
-         :empty-lines 1)
-        ("it" "task" entry (file+headline "~/notx/inbox.org" "TODOs")
-         "* TODO %?\n%U\n%a\n%i"
-         :empty-lines 1)
-        ("n" "notes")
-        ("na" "article-notes" entry (file+headline "~/notx/notes.org" "Articles")
-         "* %^{title} %^G\n:PROPERTIES:\n:CREATED: %U\n:END:\n\n#+NAME: %^{key}\n#+BEGIN_SRC bibtex\n@article{%\\2,\ntitle={%\\1},\nauthor={%^{authors}},\njournal={%^{journal}},\nyear={%^{year}},\ndoi={%^{doi}},\nkeywords={%^{keywords}}\n}\n#+END_SRC\n\n** %:initial%?"
-         :empty-lines 1)
-        ("nb" "book-notes" entry (file+headline "~/notx/notes.org" "Books")
-         "* %^{booktitle} %^{edition}E\n** %^{chapter-num}. %^{chapter-name} %^G\n:PROPERTIES:\n:CREATED: %U\n:END:\n\n#+NAME: %^{key}:%\\3\n#+BEGIN_SRC bibtex\n@inbook{%\\5:%\\3,\ntitle={%\\1},\nchapter={%\\3},\nauthor={%^{authors}},\npublisher={%^{publisher}},\nyear={%^{year}},\nedition={%\\2},\ndoi={%^{doi}},\nisbn={%^{isbn}},\nkeywords={%^{keywords}}\n}\n#+END_SRC\n\n*** %:initial%?"
-         :empty-lines 1)
-        ("d" "dailies")
-        ("dd" "daily" entry (file+olp+datetree "~/notx/journal.org" "Journals")
-         "* %(format-time-string \"%H:%M\") - Journal :journal:\n\n%?\n\n"
-         :empty-lines 1)
-        ("dw" "wishlist" entry (file+headline "~/notx/journal.org" "Wishlists")
-         "* %?\n%U\n%i"
-         :empty-lines 1)
-        ("m" "media")
-        ("mm" "movies" entry (file+headline "~/notx/media.org" "Movies")
-         "* %?\n%U\n%i")
-        ("md" "documentaries")
-        ("mdb" "BBC" entry (file+headline "~/notx/media.org" "Documentaries" "BBC")
-         "* %?\n%U\n%i")
-        ))
-;; Org-agenda
-(setq org-agenda-files (list "~/notx/inbox.org" org-directory))
-(setq org-agenda-start-with-log-mode t)
-(setq org-log-into-drawer t)
-(setq org-log-done 'time)
-(setq org-agenda-include-diary t) ;; diary integration with org-agenda
-;; Doom org-agenda presets
-;; (setq org-todo-keywords
-;;       '((sequence "TODO(t)" "PROJ(p)" "LOOP(r)" "STRT(s)" "WAIT(w)" "HOLD(h)" "IDEA(i)"
-;;          "|" "DONE(d)" "KILL(k)")
-;;         (sequence "[ ](T)" "[-](S)" "[?](W)" "|" "[X](D)")
-;;         (sequence "|" "OKAY(o)" "YES(y)" "NO(n)")))
-(setq org-todo-keywords
-      '((sequence "TODO(t)" "MAYBE(m)" "|" "DONE(d!)" "CANCELLED(c)")
-        (sequence "[ ](T)" "[-](S)" "|" "[X](D)")))
-;; Org-refile
-;; org-refile targets and save org buffers
-(setq org-refile-targets
-      '((org-agenda-files . (:maxlevel . 8))
-        (org-agenda-files . (:tag . "refile")) ;; use tags as filter for org-refile-targets
-        (nil . (:maxlevel . 8))))
-(setq org-refile-allow-creating-parent-nodes 'confirm)
-(setq org-refile-use-cache t)
-(setq org-log-refile 'time)
-(setq org-reverse-note-order nil)
-(setq org-refile-use-outline-path 'file)
-(setq org-outline-path-complete-in-steps nil) ;; already use completion, no need for step completions
-(advice-add 'org-refile :after 'org-save-all-org-buffers)
-;; org-archive
-(setq org-archive-location "~/notx/archive.org::* From %s") ;; string-type syntax for org-archive-location
-;; org-contacts
-(setq org-contacts-files '("~/notx/contacts.org")) ;; (repeat file)-type symbol property
-;; org export backends
-;; add markdown export as org export backend (mostly for rendering git readmes)
-(require 'ox-md)
-;; (setq org-export-backends '(("pandoc" "beamer" "md" "ascii" "html" "icalendar" "latex" "odt"))
 
 
 ;; LaTeX
@@ -382,10 +477,22 @@
 
 
 ;; auth-sources
-(setq auth-sources '("~/.local/share/authinfo.gpg"))
-;; use pass
-(auth-source-pass-enable)
-(auth-source-pass-file-name-p (list "~/.local/share/pass/"))
+(use-package auth-source
+  :defer t
+  :config
+  (setq auth-sources '("~/.local/share/authinfo.gpg"))
+  (auth-source-pass-enable)
+  (auth-source-pass-file-name-p (list "~/.local/share/pass/")))
+;; (setq auth-sources '("~/.local/share/authinfo.gpg"))
+;; ;; use pass
+;; (auth-source-pass-enable)
+;; (auth-source-pass-file-name-p (list "~/.local/share/pass/"))
+
+
+;; Emacs-Everywhere
+(use-package emacs-everywhere
+  :config
+  (setq emacs-everywhere-major-mode-function #'org-mode))
 
 
 ;; mu4e
@@ -441,3 +548,29 @@
 ;; (add-to-list 'load-path "/usr/share/emacs/site-lisp/slime/")
 ;; (require 'slime)
 ;; (evil-collection-slime-setup)
+
+;; Custom Keybindings
+;; consult-fd
+;; since, locate is not used on my system, let's replace consult-locate with consult-fd
+;; Doomemacs binds <SPC>-s-f to consult-locate, rebind it to consult-fd
+(map!
+ :leader
+ :prefix ("s" . "search")
+ :desc "Find file"
+ "f" (cmd! (consult-fd "~")))
+
+;; helpful-at-point
+(map!
+ :leader
+ :prefix ("h" . "help")
+ :desc "Help at point"
+ "h" #'helpful-at-point)
+
+;; org-paste-subtree
+(map!
+ :after org
+ :map org-mode-map
+ :localleader
+ :prefix "s"
+ :desc "org-paste-subtree"
+ "p" #'org-paste-subtree)

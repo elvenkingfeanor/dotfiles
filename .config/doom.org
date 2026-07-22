@@ -14,15 +14,16 @@ This Org file configures my Doom Emacs setup.
 - [[#scope][Scope]]
 - [[#daemon][Daemon]]
 - [[#user][User]]
-- [[#password-management][Password management]]
+- [[#auth-source][auth-source]]
   - [[#auth-sources][auth-sources]]
   - [[#pass-integration][pass integration]]
 - [[#ui][UI]]
-  - [[#font][Font]]
-  - [[#theme][Theme]]
+  - [[#doom-ui][Doom UI]]
+  - [[#emacs-font][Emacs Font]]
+  - [[#emacs-themes][Emacs Themes]]
   - [[#line-numbers][Line numbers]]
-  - [[#grep][Grep]]
   - [[#word-wrap][Word-wrap]]
+  - [[#grep][Grep]]
 - [[#doom-package-info][Doom package info]]
   - [[#install-package][Install package]]
   - [[#reconfigure-a-package][Reconfigure a package]]
@@ -33,13 +34,13 @@ This Org file configures my Doom Emacs setup.
   - [[#rainbow-mode][rainbow-mode]]
 - [[#org][Org]]
   - [[#org-directory][org-directory]]
-  - [[#org-modules][org-modules]]
+  - [[#org-agenda][org-agenda]]
   - [[#org-capture][org-capture]]
   - [[#org-insert][org-insert]]
-  - [[#org-agenda][org-agenda]]
-  - [[#org-refile][org-refile]]
   - [[#org-archive][org-archive]]
+  - [[#org-refile][org-refile]]
   - [[#org-export][org-export]]
+  - [[#org-modules][org-modules]]
   - [[#org-other][org-other]]
 - [[#eglot][Eglot]]
 - [[#yasnippet][Yasnippet]]
@@ -135,17 +136,28 @@ Some functionality uses this to identify you, e.g. GPG configuration, email clie
 #+begin_src emacs-lisp
 (setq user-full-name "ts")
 #+end_src
-* Password management :password:authentication:
+* auth-source :password:authentication:
+:PROPERTIES:
+:ID:       bbfbc362-9340-4b57-8f18-cb1b390cc635
+:END:
+
+The built-in =auth-source= package provides for easy management of usernames and passwords in Emacs.
+
+#+begin_src emacs-lisp
+(use-package auth-source
+  :defer t
+  :config
+  (setq auth-sources '("~/.local/share/authinfo.gpg"))
+  (auth-source-pass-enable)
+  (auth-source-pass-file-name-p (list "~/.local/share/pass/")))
+#+end_src
+
 ** auth-sources :auth:
 :PROPERTIES:
 :ID:       963bb083-5516-4949-bab3-eab1fa45a387
 :END:
 
-Emacs looks for passwords and other information in the =auth-source= library.  The variable =auth-sources= tells the library location of the info.
-
-#+begin_src emacs-lisp
-(setq auth-sources '("~/.local/share/authinfo.gpg"))
-#+end_src
+The =auth-sources= variable provides the location of the /.netrc/ format password file, also called the =authinfo= file.
 
 By default, the =authinfo= file is in unencrypted plain-text format.  For obvious safety purposes, we encrypt it with the Emacs EasyPG Assistant.  Firstly, create the file at the desired location.  Next, use the =epa-encrypt-file= function to encrypt the file.  After encryption, delete the original unencrypted file, and set the encrypted file as the =auth-sources= location.
 ** pass integration :pass:
@@ -155,24 +167,38 @@ By default, the =authinfo= file is in unencrypted plain-text format.  For obviou
 
 Since, we use [[https://www.passwordstore.org/][pass]], we add our password-store to the [[id:963bb083-5516-4949-bab3-eab1fa45a387][auth-sources]] variable, using the =auth-source-pass-enable= function.
 
-Similarly, we pass the location of our password-store to =auth-source= via the =auth-source-ass-filename= variable, which defaults to =~/.password-store= directory.
+Similarly, we pass the location of our password-store to =auth-source= via the =auth-source-pass-filename= variable, which defaults to =~/.password-store= directory.
 
-#+begin_src emacs-lisp
-(auth-source-pass-enable)
-(auth-source-pass-file-name-p (list "~/.local/share/pass/"))
-#+end_src
 * UI :ui:
 
-** Font :font:
+** Doom UI :doom_ui:
 :PROPERTIES:
-:ID:       7f47e418-fa44-4cf2-812b-42c36b81963d
+:ID:       52a811ef-d9d0-43ce-bd79-179b1db42dfd
 :END:
- 
+
+The =doom-ui= package exposes the five =doom-*-font= and the =doom-theme= variables.
+
+#+begin_src emacs-lisp
+(use-package doom-ui
+  :ensure t
+  :config
+  (setq doom-font (font-spec :family "JetBrains Mono" :weight 'regular :size 24)
+        doom-variable-pitch-font (font-spec :family "Source Sans Pro")
+        doom-serif-font (font-spec :family "DejaVu Serif")
+        doom-symbol-font (font-spec :family "Noto Color Emoji")
+        doom-theme 'doom-one))
+#+end_src
+
 *** Doom fonts
 
 #+begin_quote
- Doom exposes five (optional) variables for controlling fonts in Doom:
+See =C-h v doom-font= for documentation and more examples of what they accept. For example:
 #+end_quote
+
+#+begin_example
+(setq doom-font (font-spec :family "Fira Code" :size 12 :weight 'semi-light)
+      doom-variable-pitch-font (font-spec :family "Fira Sans" :size 13))
+#+end_example
 
 **** doom-font
 
@@ -204,27 +230,17 @@ for symbols
 for the `fixed-pitch-serif' face
 #+end_quote
 
-*** Setting Doom fonts
+*** Doom themes
 :PROPERTIES:
-:ID:       e72f49b3-9ac2-4914-a463-3fe5ebb2e5e8
+:ID:       adc8e437-fc3c-4107-88a7-64a9c9c36c6b
 :END:
 
-#+begin_quote
-See =C-h v doom-font= for documentation and more examples of what they accept. For example:
-#+end_quote
-
-#+begin_example
-(setq doom-font (font-spec :family "Fira Code" :size 12 :weight 'semi-light)
-      doom-variable-pitch-font (font-spec :family "Fira Sans" :size 13))
-#+end_example
-
-#+begin_src emacs-lisp 
-(setq doom-font (font-spec :family "JetBrains Mono" :weight 'regular :size 24)
-      doom-variable-pitch-font (font-spec :family "Source Sans Pro")
-      doom-serif-font (font-spec :family "DejaVu Serif")
-      doom-symbol-font (font-spec :family "Noto Color Emoji"))
-#+end_src
-
+Set by variable =doom-theme=.
+** Emacs Font :font:
+:PROPERTIES:
+:ID:       7f47e418-fa44-4cf2-812b-42c36b81963d
+:END:
+ 
 *** Troubleshooting
 
 #+begin_quote
@@ -276,7 +292,7 @@ To specify a font, add it to a list specifying the =default-frame-alist= variabl
              '(font . "JetBrainsMono Nerd Font-20"))
 #+end_example
 
-** Theme :theme:
+** Emacs Themes :theme:
 :PROPERTIES:
 :ID:       ad7d1047-e013-46a4-a3c9-489e59d469fc
 :END:
@@ -284,18 +300,6 @@ To specify a font, add it to a list specifying the =default-frame-alist= variabl
 #+begin_quote
 There are two ways to load a theme. Both assume the theme is installed and available. You can either set `doom-theme' or manually load a theme with the `load-theme' function. 
 #+end_quote
-*** Doom theming method
-:PROPERTIES:
-:ID:       adc8e437-fc3c-4107-88a7-64a9c9c36c6b
-:END:
-
-#+begin_quote
-This is the default:
-#+end_quote
-
-#+begin_src emacs-lisp :results silent
-(setq doom-theme 'doom-one)
-#+end_src
 *** Manual theming method
 
 To manually load a theme
@@ -319,30 +323,15 @@ Doom preset:
 #+begin_src emacs-lisp
 (setq display-line-numbers-type 'relative)
 #+end_src
-** Grep :grep:
+** Word-wrap :word_wrap:
 :PROPERTIES:
-:ID:       cbdc8287-512e-49df-8c11-24939f093184
+:ID:       f56f6c49-a2a5-424d-9020-55ce2d23d1b9
 :END:
 
-Change the default Emacs Grep buffer from
-#+begin_example
-"grep --color=auto -nH --null -e "
-#+end_example
-
-to
-#+begin_example
-"grep --color=auto -rnHiI -C2 -e "
-#+end_example
-
-#+begin_src emacs-lisp
-(setopt grep-command "grep --color=auto -rnHiI -C2 -e ")
-#+end_src
-** Word-wrap :word_wrap:
-
 Enable Doom module =word-wrap= everywhere:
-#+begin_src emacs-lisp
+#+begin_example
 (+global-word-wrap-mode +1)
-#+end_src
+#+end_example
 *** [[https://www.gnu.org/software/emacs/manual/html_node/emacs/Fill-Commands.html][fill-column]] :fill_column:
 :PROPERTIES:
 :ID:       7d169ed9-493d-4844-a5e2-362605f3fea7
@@ -376,6 +365,24 @@ To enable it everywhere, we use:
 (global-visual-line-mode 1)
 #+end_example
 
+** Grep :grep:
+:PROPERTIES:
+:ID:       cbdc8287-512e-49df-8c11-24939f093184
+:END:
+
+Change the default Emacs Grep buffer from
+#+begin_example
+"grep --color=auto -nH --null -e "
+#+end_example
+
+to
+#+begin_example
+"grep --color=auto -rnHiI -C2 -e "
+#+end_example
+
+#+begin_src emacs-lisp
+(setopt grep-command "grep --color=auto -rnHiI -C2 -e ")
+#+end_src
 * Doom package info :packages:
 
 Doom Emacs does all the work regarding package management, especially its =init.el= modules. All the user has to do, is tweak the packages to one's liking.
@@ -599,7 +606,113 @@ Org has so many features, that to combine them all into a single =use-package= c
   :defer t
   :ensure t
   :config
-  (setq org-directory "~/notx/"))
+  (setq org-directory "~/notx/"
+        org-agenda-files (list "~/notx/inbox.org" org-directory)
+        org-agenda-start-with-log-mode t
+        org-log-into-drawer t
+        org-log-done 'time
+        org-todo-keywords '((sequence "TODO(t)" "MAYBE(m)" "|" "DONE(d!)" "CANCELLED(c)")
+                            (sequence "[ ](T)" "[-](S)" "|" "[X](D)"))
+        org-capture-templates '(("b" "bookmark" entry (file+headline "~/notx/links.org" "Bookmarks")
+                                 "* %a %^G\n:PROPERTIES:\n:CREATED: %U\n:END:\n\n** %:initial%?"
+                                 :empty-lines 1)
+                                ("c" "contact" entry (file "~/notx/contacts.org")
+                                 "* %^{Name} %^G\n:PROPERTIES:\n:EMAIL: %^{email}\n:PHONE: %^{phone}\n:ALIAS: %^{nickname}\n:ADDRESS: %^{address}\n:BIRTHDAY: %^{birthday}t\n:CREATED: %U\n:END:\n %?"
+                                 :empty-lines 1)
+                                ("i" "inbox")
+                                ("ii" "ideas" entry (file+headline "~/notx/inbox.org" "Ideas")
+                                 "* %?\n%U\n%i"
+                                 :empty-lines 1)
+                                ("ip" "problems" entry (file+headline "~/notx/inbox.org" "Problems")
+                                 "* %?\n%U\n%i"
+                                 :empty-lines 1)
+                                ("it" "task" entry (file+headline "~/notx/inbox.org" "TODOs")
+                                 "* TODO %?\n%U\n%a\n%i"
+                                 :empty-lines 1)
+                                ("n" "notes")
+                                ("na" "article-notes" entry (file+headline "~/notx/notes.org" "Articles")
+                                 "* %^{title} %^G\n:PROPERTIES:\n:CREATED: %U\n:END:\n\n#+NAME: %^{key}\n#+BEGIN_SRC bibtex\n@article{%\\2,\ntitle={%\\1},\nauthor={%^{authors}},\njournal={%^{journal}},\nyear={%^{year}},\ndoi={%^{doi}},\nkeywords={%^{keywords}}\n}\n#+END_SRC\n\n** %:initial%?"
+                                 :empty-lines 1)
+                                ("nb" "book-notes" entry (file+headline "~/notx/notes.org" "Books")
+                                 "* %^{booktitle} %^{edition}E\n** %^{chapter-num}. %^{chapter-name} %^G\n:PROPERTIES:\n:CREATED: %U\n:END:\n\n#+NAME: %^{key}:%\\3\n#+BEGIN_SRC bibtex\n@inbook{%\\5:%\\3,\ntitle={%\\1},\nchapter={%\\3},\nauthor={%^{authors}},\npublisher={%^{publisher}},\nyear={%^{year}},\nedition={%\\2},\ndoi={%^{doi}},\nisbn={%^{isbn}},\nkeywords={%^{keywords}}\n}\n#+END_SRC\n\n*** %:initial%?"
+                                 :empty-lines 1)
+                                ("d" "dailies")
+                                ("dd" "daily" entry (file+olp+datetree "~/notx/journal.org" "Journals")
+                                 "* %(format-time-string \"%H:%M\") - Journal :journal:\n\n%?\n\n"
+                                 :empty-lines 1)
+                                ("dw" "wishlist" entry (file+headline "~/notx/journal.org" "Wishlists")
+                                 "* %?\n%U\n%i"
+                                 :empty-lines 1)
+                                ("m" "media")
+                                ("mm" "movies" entry (file+headline "~/notx/media.org" "Movies")
+                                 "* %?\n%U\n%i")
+                                ("md" "documentaries")
+                                ("mdb" "BBC" entry (file+headline "~/notx/media.org" "Documentaries" "BBC")
+                                 "* %?\n%U\n%i"))
+        org-archive-location "~/notx/archive.org::* From %s"
+        org-refile-targets '((org-agenda-files . (:maxlevel . 8))
+                             (org-agenda-files . (:tag . "refile"))
+                             (nil . (:maxlevel . 8)))
+        org-refile-allow-creating-parent-nodes 'confirm
+        org-refile-use-cache t
+        org-reverse-note-order nil
+        org-refile-use-outline-path 'file
+        org-outline-path-complete-in-steps nil
+        org-log-refile 'time
+        org-export-backends '("pandoc" "latex" "html" "beamer" "md" "ascii" "icalendar" "odt")
+        org-latex-compiler "lualatex"
+        org-latex-hyperref-template "\\hypersetup{\n linktoc=section,\n backref=section,\n breaklinks=true,\n colorlinks=true,\n linkcolor=red,\n urlcolor=magenta,\n pdfauthor={%a},\n pdftitle={%t},\n pdfkeywords={%k},\n pdfsubject={%d},\n pdfcreator={%c},\n pdflang={%L}}\n"
+        org-export-default-language "en-gb"
+        org-latex-classes '(("beamer"
+                             "\\documentclass[presentation]{beamer}\n\\usepackage[usenames]{color}\n[DEFAULT-PACKAGES]\n[PACKAGES]\n\\urlstyle{tt}"
+                             ("\\section{%s}" . "\\section*{%s}")
+                             ("\\subsection{%s}" . "\\subsection*{%s}")
+                             ("\\subsubsection{%s}" . "\\subsubsection*{%s}"))
+                            ("article"
+                             "\\documentclass[12pt,a4paper]{article}\n\\usepackage[usenames]{color}\n[DEFAULT-PACKAGES]\n[PACKAGES]\n\\urlstyle{tt}"
+                             ("\\section{%s}" . "\\section*{%s}")
+                             ("\\subsection{%s}" . "\\subsection*{%s}")
+                             ("\\subsubsection{%s}" . "\\subsubsection*{%s}")
+                             ("\\paragraph{%s}" . "\\paragraph*{%s}")
+                             ("\\subparagraph{%s}" . "\\subparagraph*{%s}"))
+                            ("report"
+                             "\\documentclass[12pt,a4paper]{report}\n\\usepackage[usenames]{color}\n[DEFAULT-PACKAGES]\n[PACKAGES]\n\\urlstyle{tt}"
+                             ("\\part{%s}" . "\\part*{%s}")
+                             ("\\chapter{%s}" . "\\chapter*{%s}")
+                             ("\\section{%s}" . "\\section*{%s}")
+                             ("\\subsection{%s}" . "\\subsection*{%s}")
+                             ("\\subsubsection{%s}" . "\\subsubsection*{%s}"))
+                            ("book"
+                             "\\documentclass[12pt,a4paper]{book}\n\\usepackage[usenames]{color}\n[DEFAULT-PACKAGES]\n[PACKAGES]\n\\urlstyle{tt}"
+                             ("\\part{%s}" . "\\part*{%s}")
+                             ("\\chapter{%s}" . "\\chapter*{%s}")
+                             ("\\section{%s}" . "\\section*{%s}")
+                             ("\\subsection{%s}" . "\\subsection*{%s}")
+                             ("\\subsubsection{%s}" . "\\subsubsection*{%s}")))
+        org-latex-remove-logfiles t
+        org-pandoc-options '((standalone . t) (toc . t) (mathjax . t) (variable . "revealjs-url=https://revealjs.com"))
+        org-pandoc-options-for-latex-pdf '((pdf-engine . "lualatex")
+                                         (shift-heading-level-by . "-1")
+                                         (variable . "papersize:a4")
+                                         (variable . "babeloptions:provide=english")
+                                         (variable . "mainfont:DejaVuSerif")
+                                         (variable . "mainfontoptions:Extensions=.ttf, UprightFont=*, BoldFont=*-Bold, ItalicFont=*-Italic, BoldItalicFont=*-BoldItalic")
+                                         (variable . "sansfont:DejaVuSans")
+                                         (variable . "monofont:DejaVuSansMono")
+                                         (variable . "mathfont:DejaVuMathTeXGyre-Regular")
+                                         (variable . "mainfontfallback:FreeSans:")
+                                         (variable . "mainfontfallback:NotoColorEmoji:")
+                                         (variable . "fontsize:12pt")
+                                         (variable . "hyperrefoptions:linktoc=all")
+                                         (variable . "hyperrefoptions:backref=section")
+                                         (variable . "hyperrefoptions:breaklinks=true")
+                                         (variable . "hyperrefoptions:colorlinks=true")
+                                         (variable . "colorlinks:linkcolor=red")
+                                         (variable . "colorlinks:urlcolor=magenta")
+                                         (variable . "urlstyle:tt"))
+        org-export-with-broken-links t
+        org-contacts-files '("~/notx/contacts.org"))
+  (advice-add 'org-refile :after 'org-save-all-org-buffers))
 #+end_src
 
 ** org-directory :directory:
@@ -620,85 +733,48 @@ Doom preset, points to =/home/user/org= directory.
 #+end_example
 
 Our =org-directory= set to =/home/user/notx= ('notx' stands for "notes").
-** org-modules :module:
-
-List of active internal =org-modules=
-
-Default preset:
-#+begin_example
-(setq org-modules '(ol-doi ol-w3m ol-bbdb ol-bibtex ol-docview ol-gnus ol-info ol-irc ol-mhe ol-rmail ol-eww))
-#+end_example
-
-*** org-id :org_id:id:
+** org-agenda :agenda:
+*** org-agenda-files :agendafiles:
 :PROPERTIES:
-:ID:       8f600356-48bf-4cc8-ab03-190399f4591e
+:ID:       410444f2-8ef0-433c-9234-8200c3ba50f3
 :END:
 
-Let us configure, =org-id= using =use-package=:
+Files storing TODO items
 
-#+begin_src emacs-lisp
+Present setup:
+Org directory is part of this list, opening all files whenever jumping to single TODO item
 
-#+end_src
-
-Activate =org-id= by adding to =org-modules= list:
-#+begin_src emacs-lisp
-(use-package org-id
-  :after org
-  :config
-  (setq org-id-method 'uuid
-        org-id-link-to-org-use-id t))
-#+end_src
-
+Possible setup:
+Only =inbox.org= stores TODO items, and should open on visiting TODO item. This however, causes problems during =org-refile= as it looks in =org-agenda-files= to refile
 #+begin_example
-(after! org
-  (add-to-list 'org-modules 'org-id))
+(setq org-agenda-files "~/notx/inbox.org")
 #+end_example
+*** org-agenda-start-with-log-mode :agendastart:log:
 
-The above also achieved by:
-#+begin_example
-(require 'org-id)
-#+end_example
-
-**** org-id-method :method:
+Show LOGBOOK state in new =org-agenda= buffer.
+*** org-log-into-drawer :todostate:log:
 :PROPERTIES:
-:ID:       4294c8cd-5dcf-4ee7-b6d4-007606f2fc36
+:ID:       4830edcd-73f4-420f-9c6d-1ea268ce1030
 :END:
 
-The method used to create an =org-id=.
-**** org-id-link-to-org-use-id :usage:
+Track TODO state changes into LOGBOOK.
+
+*** org-todo-keywords :todokeywords:
 :PROPERTIES:
-:ID:       c055d0aa-3beb-4b8a-8fcd-26f91b65df68
+:ID:       884c9576-0e69-4caf-80c3-b5119f880aa6
 :END:
 
-Only create an =org-id= when specifically asked to create it.
-*** org-protocol :org_protocol:
-:PROPERTIES:
-:ID:       d3d8da17-b34d-44d3-adb9-0a10e9590399
-:END:
+List of TODO keywords for Org.
 
-Controls actions in Emacs when triggered from external applications.
-
-=org-protocol= supports any application which supports invoking external programs with a URL as an argument.
-
-To activate it:
-#+begin_src emacs-lisp
-(use-package org-protocol
-  :defer t)
-#+end_src
-
-To activate it without using =use-protocol=, we use:
+Doom presets:
 #+begin_example
-(require 'org-protocol)
+(setq org-todo-keywords
+      '((sequence "TODO(t)" "PROJ(p)" "LOOP(r)" "STRT(s)" "WAIT(w)" "HOLD(h)" "IDEA(i)"
+         "|" "DONE(d)" "KILL(k)")
+        (sequence "[ ](T)" "[-](S)" "[?](W)" "|" "[X](D)")
+        (sequence "|" "OKAY(o)" "YES(y)" "NO(n)")))
 #+end_example
-**** browser settings :browser:
 
-Although, Firefox settings via clicking is available, I use =qutebrowser= whose settings can be found elsewhere:
-- [[https://github.com/yantar92/org-capture-ref#integration-with-qutebrowser]]
-- [[https://blog.sidhartharya.com/posts/integrating-org-protocol-with-qutebrowser/]]
-- [[https://www.reddit.com/r/qutebrowser/comments/nzjlde/integrating_org_protocol_with_qutebrowser/]]
-- [[https://github.com/alcah/qute-capture]]
-- [[https://www.reddit.com/r/emacs/s/7jVeb7FMxL]]
-- [[https://github.com/keegancsmith/dotfiles/blob/master/qutebrowser/userscripts/org-capture.py]]
 ** org-capture :capture:
 *** org-capture-templates :capture_templates:
 :PROPERTIES:
@@ -733,129 +809,22 @@ Doom preset:
          "* %U %?\n %i\n %a" :heading "Changelog" :prepend t)))
 #+end_example
 
-Present setup:
-#+begin_src emacs-lisp
-(setq org-capture-templates
-      '(("b" "bookmark" entry (file+headline "~/notx/links.org" "Bookmarks")
-         "* %a %^G\n:PROPERTIES:\n:CREATED: %U\n:END:\n\n** %:initial%?"
-         :empty-lines 1)
-        ("c" "contact" entry (file "~/notx/contacts.org")
-         "* %^{Name} %^G\n:PROPERTIES:\n:EMAIL: %^{email}\n:PHONE: %^{phone}\n:ALIAS: %^{nickname}\n:ADDRESS: %^{address}\n:BIRTHDAY: %^{birthday}t\n:CREATED: %U\n:END:\n %?"
-         :empty-lines 1)
-        ("i" "inbox")
-        ("ii" "ideas" entry (file+headline "~/notx/inbox.org" "Ideas")
-         "* %?\n%U\n%i"
-         :empty-lines 1)
-        ("ip" "problems" entry (file+headline "~/notx/inbox.org" "Problems")
-         "* %?\n%U\n%i"
-         :empty-lines 1)
-        ("it" "task" entry (file+headline "~/notx/inbox.org" "TODOs")
-         "* TODO %?\n%U\n%a\n%i"
-         :empty-lines 1)
-        ("n" "notes")
-        ("na" "article-notes" entry (file+headline "~/notx/notes.org" "Articles")
-         "* %^{title} %^G\n:PROPERTIES:\n:CREATED: %U\n:END:\n\n#+NAME: %^{key}\n#+BEGIN_SRC bibtex\n@article{%\\2,\ntitle={%\\1},\nauthor={%^{authors}},\njournal={%^{journal}},\nyear={%^{year}},\ndoi={%^{doi}},\nkeywords={%^{keywords}}\n}\n#+END_SRC\n\n** %:initial%?"
-         :empty-lines 1)
-        ("nb" "book-notes" entry (file+headline "~/notx/notes.org" "Books")
-         "* %^{booktitle} %^{edition}E\n** %^{chapter-num}. %^{chapter-name} %^G\n:PROPERTIES:\n:CREATED: %U\n:END:\n\n#+NAME: %^{key}:%\\3\n#+BEGIN_SRC bibtex\n@inbook{%\\5:%\\3,\ntitle={%\\1},\nchapter={%\\3},\nauthor={%^{authors}},\npublisher={%^{publisher}},\nyear={%^{year}},\nedition={%\\2},\ndoi={%^{doi}},\nisbn={%^{isbn}},\nkeywords={%^{keywords}}\n}\n#+END_SRC\n\n*** %:initial%?"
-         :empty-lines 1)
-        ("d" "dailies")
-        ("dd" "daily" entry (file+olp+datetree "~/notx/journal.org" "Journals")
-         "* %(format-time-string \"%H:%M\") - Journal :journal:\n\n%?\n\n"
-         :empty-lines 1)
-        ("dw" "wishlist" entry (file+headline "~/notx/journal.org" "Wishlists")
-         "* %?\n%U\n%i"
-         :empty-lines 1)
-        ("m" "media")
-        ("mm" "movies" entry (file+headline "~/notx/media.org" "Movies")
-         "* %?\n%U\n%i")
-        ("md" "documentaries")
-        ("mdb" "BBC" entry (file+headline "~/notx/media.org" "Documentaries" "BBC")
-         "* %?\n%U\n%i")
-        ))
-#+end_src
 ** org-insert :insert:
 *** org-structure-template-alist :structure_template:list:
-** org-agenda :agenda:
-*** org-agenda-files :agendafiles:
+** org-archive :archive:
 :PROPERTIES:
-:ID:       410444f2-8ef0-433c-9234-8200c3ba50f3
+:ID:       c48770a6-88cb-4c2e-8d38-2da34eccd85d
 :END:
 
-Files storing TODO items
-
-Present setup:
-Org directory is part of this list, opening all files whenever jumping to single TODO item
-#+begin_src emacs-lisp
-(setq org-agenda-files (list "~/notx/inbox.org" org-directory))
-#+end_src
-
-Possible setup:
-Only =inbox.org= stores TODO items, and should open on visiting TODO item. This however, causes problems during =org-refile= as it looks in =org-agenda-files= to refile
-#+begin_example
-(setq org-agenda-files "~/notx/inbox.org")
-#+end_example
-*** org-agenda-start-with-log-mode :log:
-
-Not required since, it is not permitted in TODO view of Agenda buffer
-
-Previous setup:
-#+begin_example
-(setq org-agenda-start-with-log-mode t)
-#+end_example
-*** org-log-into-drawer :todostate:log:
-:PROPERTIES:
-:ID:       4830edcd-73f4-420f-9c6d-1ea268ce1030
-:END:
-
-track TODO state changes into LOGBOOK
-#+begin_src emacs-lisp
-(setq org-log-into-drawer t
-      org-log-done 'time)
-#+end_src
-
-*** org-todo-keywords :todokeywords:
-:PROPERTIES:
-:ID:       884c9576-0e69-4caf-80c3-b5119f880aa6
-:END:
-
-List of TODO keywords for Org.
-
-Doom presets:
-#+begin_example
-(setq org-todo-keywords
-      '((sequence "TODO(t)" "PROJ(p)" "LOOP(r)" "STRT(s)" "WAIT(w)" "HOLD(h)" "IDEA(i)"
-         "|" "DONE(d)" "KILL(k)")
-        (sequence "[ ](T)" "[-](S)" "[?](W)" "|" "[X](D)")
-        (sequence "|" "OKAY(o)" "YES(y)" "NO(n)")))
-#+end_example
-
-Present setup:
-#+begin_src emacs-lisp
-(setq org-todo-keywords
-      '((sequence "TODO(t)" "MAYBE(m)" "|" "DONE(d!)" "CANCELLED(c)")
-        (sequence "[ ](T)" "[-](S)" "|" "[X](D)")))
-#+end_src
+Set org-archive-location and level
 ** org-refile :refile:
 *** refile-targets :targets:
 :PROPERTIES:
 :ID:       aa54645d-f531-42ab-a61f-d70f82c69445
 :END:
 
-Present setup:
-#+begin_src emacs-lisp
-(setq org-refile-targets
-      '((org-agenda-files . (:maxlevel . 8))
-        (org-agenda-files . (:tag . "refile"))
-        (nil . (:maxlevel . 8)))
-      org-refile-allow-creating-parent-nodes 'confirm
-      org-refile-use-cache t
-      org-reverse-note-order nil
-      org-refile-use-outline-path 'file
-      org-outline-path-complete-in-steps nil)
-#+end_src
-Explanation follows:
-**** org-refile-targets :agendafiles:
+The variables used above signify:
+**** org-refile-targets :refile_targets:
 :PROPERTIES:
 :ID:       9775e3f5-0d8f-418a-b6e6-39430c722ef5
 :END:
@@ -913,27 +882,15 @@ org-outline-path-complete-in-steps nil
 :END:
 
 Save a timestamp, when refiling an entry.
-#+begin_src emacs-lisp
-(setq org-log-refile 'time)
-#+end_src
 *** automatically save Org buffers after refiling :save:
 :PROPERTIES:
 :ID:       b9dd9d1f-99c8-4cb7-9643-7388b066ae06
 :END:
 
-#+begin_src emacs-lisp
+#+begin_example
 (advice-add 'org-refile :after 'org-save-all-org-buffers)
-#+end_src
+#+end_example
 
-** org-archive :archive:
-:PROPERTIES:
-:ID:       c48770a6-88cb-4c2e-8d38-2da34eccd85d
-:END:
-
-Set org-archive-location and level
-#+begin_src emacs-lisp
-(setq org-archive-location "~/notx/archive.org::* From %s")
-#+end_src
 ** org-export :export:
 *** org-export-backend :backend:
 :PROPERTIES:
@@ -949,9 +906,6 @@ Present value
 #+begin_example
 (pandoc LaTeX html beamer md ascii icalendar odt)
 #+end_example
-#+begin_src emacs-lisp
-(setq org-export-backends '(("pandoc" "latex" "html" "beamer" "md" "ascii" "icalendar" "odt"))
-#+end_src
 *** ox-md :markdown:
 :PROPERTIES:
 :ID:       b18836a2-0709-43d3-9b15-2a5b3d19503f
@@ -959,8 +913,14 @@ Present value
 
 For markdown export backend, package =ox-md= required.
 
-#+begin_src emacs-lisp
+#+begin_example
 (require 'ox-md)
+#+end_example
+
+#+begin_src emacs-lisp
+(use-package ox-md
+  :after org
+  :defer t)
 #+end_src
 *** org-latex :latex:
 **** org-latex-compiler :compiler:
@@ -978,9 +938,6 @@ Preset value:
 list of acceptable compilers present in =org-latex-compilers= variable
 
 Change it to =lualatex=
-#+begin_src emacs-lisp
-(setq org-latex-compiler "lualatex")
-#+end_src
 **** org-latex-pdf-process :make_process:
 :PROPERTIES:
 :ID:       b2682dda-3148-464e-809b-c41735ea0d38
@@ -1062,10 +1019,6 @@ Default preset:
 
 Presently =org-latex-hyperref-template= includes /linktoc=section/, /backref=section/, /colorlinks=true/, /linkcolor=red/, /urlcolor=magenta/ and /breaklinks=true/.
 
-#+begin_src emacs-lisp
-(setq org-latex-hyperref-template
-      "\\hypersetup{\n linktoc=section,\n backref=section,\n breaklinks=true,\n colorlinks=true,\n linkcolor=red,\n urlcolor=magenta,\n pdfauthor={%a},\n pdftitle={%t},\n pdfkeywords={%k},\n pdfsubject={%d},\n pdfcreator={%c},\n pdflang={%L}}\n")
-#+end_src
 **** org-latex-title-command :title:
 
 Controls the LaTeX document output PDF title generated by Org-export
@@ -1108,9 +1061,6 @@ Preset defaults to =en= for American English.
 Obtain the list of all languages supported by Org and their corresponding codes from =org-latex-language-alist=.
 
 We change it to =en-gb= variant for UK English.
-#+begin_src emacs-lisp
-(setq org-export-default-language "en-gb")
-#+end_src
 **** org-latex-classes :class:latexclass:
 :PROPERTIES:
 :ID:       93443a9f-46ac-4d58-b790-7030b3837fd4
@@ -1177,35 +1127,6 @@ Present value has =beamer= as a =org-latex-classes= class, fontsize fixed at /12
 The [[id:fb545500-ec74-45bf-a704-f746fe34997b][org-latex-hyperref-template]] variable provides the LaTeX package =hyperref= (loaded as part of the [[id:e5acbd2d-14ae-431b-bbca-eeed2574aa45][org-latex-default-packages-alist]] variable) metadata.  Although =hyperref= loads LaTeX package =url=, which provides the =urlstyle= command, =hypersetup= (controlling =hyperref= behaviour) doesnot includes the =urlstyle= parameter.  Also to maintain compatibility, insert =urlstyle= only after =hyperref= has loaded.
 
 To achieve the above, modify the header-string of the =org-latex-classes= variable to include the =urlstyle= parameter. The modified header-strings below copied from the =org-format-latex-header= variable, and modified further by appending /\n\\urlstyle{tt}/ and removing /\n\\pagestyle{empty}/.
-#+begin_src emacs-lisp
-(setq org-latex-classes
-      '(("beamer"
-         "\\documentclass[presentation]{beamer}\n\\usepackage[usenames]{color}\n[DEFAULT-PACKAGES]\n[PACKAGES]\n\\urlstyle{tt}"
-         ("\\section{%s}" . "\\section*{%s}")
-         ("\\subsection{%s}" . "\\subsection*{%s}")
-         ("\\subsubsection{%s}" . "\\subsubsection*{%s}"))
-        ("article"
-         "\\documentclass[12pt,a4paper]{article}\n\\usepackage[usenames]{color}\n[DEFAULT-PACKAGES]\n[PACKAGES]\n\\urlstyle{tt}"
-         ("\\section{%s}" . "\\section*{%s}")
-         ("\\subsection{%s}" . "\\subsection*{%s}")
-         ("\\subsubsection{%s}" . "\\subsubsection*{%s}")
-         ("\\paragraph{%s}" . "\\paragraph*{%s}")
-         ("\\subparagraph{%s}" . "\\subparagraph*{%s}"))
-        ("report"
-         "\\documentclass[12pt,a4paper]{report}\n\\usepackage[usenames]{color}\n[DEFAULT-PACKAGES]\n[PACKAGES]\n\\urlstyle{tt}"
-         ("\\part{%s}" . "\\part*{%s}")
-         ("\\chapter{%s}" . "\\chapter*{%s}")
-         ("\\section{%s}" . "\\section*{%s}")
-         ("\\subsection{%s}" . "\\subsection*{%s}")
-         ("\\subsubsection{%s}" . "\\subsubsection*{%s}"))
-        ("book"
-         "\\documentclass[12pt,a4paper]{book}\n\\usepackage[usenames]{color}\n[DEFAULT-PACKAGES]\n[PACKAGES]\n\\urlstyle{tt}"
-         ("\\part{%s}" . "\\part*{%s}")
-         ("\\chapter{%s}" . "\\chapter*{%s}")
-         ("\\section{%s}" . "\\section*{%s}")
-         ("\\subsection{%s}" . "\\subsection*{%s}")
-         ("\\subsubsection{%s}" . "\\subsubsection*{%s}"))))
-#+end_src
 ***** default class :default:
 
 default class defined by the =org-latex-default-class= variable
@@ -1251,15 +1172,12 @@ List of general pandoc options found by:
 (print org-pandoc-valid-options)
 #+end_example
 
-Doom preset
+Doom preset:
 #+begin_example
 (setq org-pandoc-options '((standalone . t) (mathjax . t) (variable . "revealjs-url=https://revealjs.com")))
 #+end_example
 
-Present setup adds =toc=
-#+begin_src emacs-lisp
-(add-to-list 'org-pandoc-options '(toc . t))
-#+end_src
+Present setup adds =toc=.
 **** org-pandoc-options-for-latex-pdf :latex:pdf:hyperref:font:url:compiler:latexclass:
 :PROPERTIES:
 :ID:       63097bde-492e-4b76-81d5-59f6aba9e911
@@ -1273,27 +1191,6 @@ nil
 #+end_example
 
 Present setup changes =pdf-engine=, adds font parameters and other document metadata, similar to the default [[id:fb545500-ec74-45bf-a704-f746fe34997b][org-latex-hyperref-template]] described above
-#+begin_src emacs-lisp
-(setq org-pandoc-options-for-latex-pdf '((pdf-engine . "lualatex")
-                                         (shift-heading-level-by . "-1")
-                                         (variable . "papersize:a4")
-                                         (variable . "babeloptions:provide=english")
-                                         (variable . "mainfont:DejaVuSerif")
-                                         (variable . "mainfontoptions:Extensions=.ttf, UprightFont=*, BoldFont=*-Bold, ItalicFont=*-Italic, BoldItalicFont=*-BoldItalic")
-                                         (variable . "sansfont:DejaVuSans")
-                                         (variable . "monofont:DejaVuSansMono")
-                                         (variable . "mathfont:DejaVuMathTeXGyre-Regular")
-                                         (variable . "mainfontfallback:FreeSans:")
-                                         (variable . "mainfontfallback:NotoColorEmoji:")
-                                         (variable . "fontsize:12pt")
-                                         (variable . "hyperrefoptions:linktoc=all")
-                                         (variable . "hyperrefoptions:backref=section")
-                                         (variable . "hyperrefoptions:breaklinks=true")
-                                         (variable . "hyperrefoptions:colorlinks=true")
-                                         (variable . "colorlinks:linkcolor=red")
-                                         (variable . "colorlinks:urlcolor=magenta")
-                                         (variable . "urlstyle:tt")))
-#+end_src
 *** org-export-with-broken-links :broken_links:
 :PROPERTIES:
 :ID:       750fa2e9-c7d3-43e0-b732-1ef5444b0fdb
@@ -1306,11 +1203,87 @@ Default preset =nil=
 (defcustom org-export-with-broken-links nil)
 #+end_example
 
-Set it to =t=
+Set it to =t=.
+
+** org-modules :module:
+
+List of active internal =org-modules=
+
+Default preset:
+#+begin_example
+(setq org-modules '(ol-doi ol-w3m ol-bbdb ol-bibtex ol-docview ol-gnus ol-info ol-irc ol-mhe ol-rmail ol-eww))
+#+end_example
+
+*** org-id :org_id:id:
+:PROPERTIES:
+:ID:       8f600356-48bf-4cc8-ab03-190399f4591e
+:END:
+
+Let us configure, =org-id= using =use-package=:
+
 #+begin_src emacs-lisp
-(setq org-export-with-broken-links t)
+
 #+end_src
 
+Activate =org-id= by adding to =org-modules= list:
+#+begin_src emacs-lisp
+(use-package org-id
+  :after org
+  :config
+  (setq org-id-method 'uuid
+        org-id-link-to-org-use-id t))
+#+end_src
+
+#+begin_example
+(after! org
+  (add-to-list 'org-modules 'org-id))
+#+end_example
+
+The above also achieved by:
+#+begin_example
+(require 'org-id)
+#+end_example
+
+**** org-id-method :method:
+:PROPERTIES:
+:ID:       4294c8cd-5dcf-4ee7-b6d4-007606f2fc36
+:END:
+
+The method used to create an =org-id=.
+**** org-id-link-to-org-use-id :usage:
+:PROPERTIES:
+:ID:       c055d0aa-3beb-4b8a-8fcd-26f91b65df68
+:END:
+
+Only create an =org-id= when specifically asked to create it.
+*** org-protocol :org_protocol:
+:PROPERTIES:
+:ID:       d3d8da17-b34d-44d3-adb9-0a10e9590399
+:END:
+
+Controls actions in Emacs when triggered from external applications.
+
+=org-protocol= supports any application which supports invoking external programs with a URL as an argument.
+
+To activate it:
+#+begin_src emacs-lisp
+(use-package org-protocol
+  :defer t)
+#+end_src
+
+To activate it without using =use-protocol=, we use:
+#+begin_example
+(require 'org-protocol)
+#+end_example
+**** browser settings :browser:
+
+Although, Firefox settings via clicking is available, I use =qutebrowser= whose settings can be found elsewhere:
+- [[https://github.com/yantar92/org-capture-ref#integration-with-qutebrowser]]
+- [[https://blog.sidhartharya.com/posts/integrating-org-protocol-with-qutebrowser/]]
+- [[https://www.reddit.com/r/qutebrowser/comments/nzjlde/integrating_org_protocol_with_qutebrowser/]]
+- [[https://github.com/alcah/qute-capture]]
+- [[https://www.reddit.com/r/emacs/s/7jVeb7FMxL]]
+- [[https://github.com/keegancsmith/dotfiles/blob/master/qutebrowser/userscripts/org-capture.py]]
 ** org-other
 
 Configurations for other Org-related packages.
@@ -1349,9 +1322,6 @@ Similarly, to call [[https://github.com/oantolin/embark][embark]] functions whil
 :END:
 
 Was installed as part of Doom Emacs's =org= module with the =+contacts= flag, now sadly removed.
-#+begin_src emacs-lisp
-(setq org-contacts-files '("~/notx/contacts.org"))
-#+end_src
 * Eglot :eglot:lsp:
 
 Eglot is Emacs's built-in LSP client.
@@ -1622,6 +1592,7 @@ Most Doom Emacs keybindings are fine, with some additions
 :PROPERTIES:
 :ID:       a8d79ec5-154e-4daf-bdea-f01b695d2477
 :END:
+
 =<Spc>-s-f= to find files anywhere from user's home directory.
 
 Doom Emacs uses =consult-locate=, which uses the shell command =locate=, not used by my system. Replace =consult-locate= with =consult-fd=.
@@ -1642,6 +1613,7 @@ Doom preset
 :PROPERTIES:
 :ID:       6151e430-cf18-43f2-a628-d17f436fec00
 :END:
+
 =<Spc>-h-h= to show help for symbol at point.
 
 #+begin_src emacs-lisp
@@ -1655,6 +1627,7 @@ Doom preset
 :PROPERTIES:
 :ID:       a1006633-6d14-40cb-b21e-85dd70d36b18
 :END:
+
 While in Orgmode, =<Spc>-s-p= pastes the clipboard as a subtree, with modification of headline level.
 #+begin_src emacs-lisp
 (map!
