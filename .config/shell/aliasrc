@@ -143,8 +143,8 @@ alias llb="/usr/bin/lsblk -o +LABEL"
 alias ninja="cd $HOME && /usr/bin/clear && /usr/bin/xdg-ninja"
 
 # bulk rename
-alias nn=/usr/bin/vimv
-alias nnn="/usr/bin/doas /usr/bin/vimv"
+alias nn="/usr/bin/vimv -e /usr/bin/nvim"
+alias nnn="/usr/bin/doas /usr/bin/vimv -e /usr/bin/nvim"
 
 # confirm before overwriting something
 alias cp="/usr/bin/cp -vir"
@@ -196,10 +196,10 @@ alias mm=/usr/bin/mpv
 alias minfo="/usr/bin/ffmpeg -i"
 
 # vim/nvim
-alias vi="/usr/bin/vim -i NONE"
-alias svim="/usr/bin/doas /usr/bin/vim"
-alias vdiff="/usr/bin/vim -d"
-alias vimdiff="/usr/bin/vim -d"
+alias vi="/usr/bin/nvim -i NONE"
+alias svim="/usr/bin/doas /usr/bin/nvim"
+alias vdiff="/usr/bin/nvim -d"
+alias vimdiff="/usr/bin/nvim -d"
 
 # emacs
 alias edd="/usr/bin/killall emacs && /usr/bin/emacs --daemon"
