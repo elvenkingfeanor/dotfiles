@@ -35,7 +35,7 @@ file1="$(/usr/bin/find "$HOME" -type d \( \
       -path "$HOME"/dl/youtube-viewer -o \
       -path "$HOME"/mdi -o \
       -path "$HOME"/.pki -o \
-      -path "$HOME"/.ssh -o \
+      -path "$HOME"/.ssh \
       \) -prune -false -o \
       \! -path "*.git/*" \
       \! -iname "*.jpg" \
@@ -86,7 +86,7 @@ file2="$(/usr/bin/find "$HOME" -type d \( \
       -path "$HOME"/dl/youtube-viewer -o \
       -path "$HOME"/mdi -o \
       -path "$HOME"/.pki -o \
-      -path "$HOME"/.ssh -o \
+      -path "$HOME"/.ssh \
       \) -prune -false -o \
       \! -path "*.git/*" \
       \! -iname "*.jpg" \
