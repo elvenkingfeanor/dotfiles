@@ -48,7 +48,7 @@ blbl="$(/usr/bin/lsblk -anlp -o +LABEL | \
 # check if backup drive is mounted, else proceed accordingly
 if [ -n "$(/usr/bin/findmnt "$selected")" ]; then
 	/usr/bin/notify-send "Backup drive $selected" "already mounted"
-	exit 1
+    cd /media/"$blbl" || exit
 else
 	if ! /usr/bin/pmount "$selected" "$blbl" 2>>"$logfile"; then
 		/usr/bin/notify-send "Backup drive $selected" "couldnot be mounted"
@@ -56,9 +56,8 @@ else
 	else
 		/usr/bin/notify-send "Backup drive $selected" "mounted successfully at /media/$blbl"
         /usr/bin/pkill -RTMIN+14 -f /usr/local/bin/dwmblocks
+        cd /media/"$blbl" || exit
 	fi
 fi
 
-# cd into /media/(backup drive label)
-cd /media/"$blbl" || exit
 $SHELL
