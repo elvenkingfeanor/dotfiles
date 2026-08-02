@@ -360,6 +360,13 @@
 ;; ;; (setq org-export-backends '(("pandoc" "beamer" "md" "ascii" "html" "icalendar" "latex" "odt"))
 
 
+;; Dired
+;; (use-package dired
+;;   :defer t
+;;   :config
+;;   (dired-hide-details-mode 1))
+
+
 ;; Yasnippets
 (use-package yasnippet
   :defer t

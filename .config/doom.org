@@ -44,6 +44,7 @@ This Org file configures my Doom Emacs setup.
   - [[#org-export][org-export]]
   - [[#org-modules][org-modules]]
   - [[#org-other][org-other]]
+- [[#dired][Dired]]
 - [[#eglot][Eglot]]
 - [[#yasnippet][Yasnippet]]
   - [[#doom-snippets-installation][doom-snippets installation]]
@@ -1342,6 +1343,20 @@ Similarly, to call [[https://github.com/oantolin/embark][embark]] functions whil
 :END:
 
 Was installed as part of Doom Emacs's =org= module with the =+contacts= flag, now sadly removed.
+* Dired :dired:
+:PROPERTIES:
+:ID:       32467ef2-dd9c-4bc8-a02b-203efc32f6da
+:END:
+
+=Dired= is the built-in Emacs file browser.
+#+begin_example
+(use-package dired
+  :defer t
+  :ensure t
+  :config
+  (dired-hide-details-mode 1))
+#+end_example
+
 * Eglot :eglot:lsp:
 
 Eglot is Emacs's built-in LSP client.
