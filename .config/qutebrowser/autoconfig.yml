@@ -74,6 +74,7 @@ settings:
       rd: https://www.reddit.com/search?q={}
       s: https://stackoverflow.com/search?q={}
       sc: https://www.shellcheck.net/wiki/{}
+      tl: https://tolkiengateway.net/wiki/{}
       w: https://en.wikipedia.org/wiki/{}
   url.start_pages:
     global: https://start.duckduckgo.com
