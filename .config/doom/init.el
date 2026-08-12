@@ -14,6 +14,7 @@
 ;;      Alternatively, press 'gd' (or 'C-c c d') on a module to browse its
 ;;      directory (for easy access to its source code).
 
+
 (doom! :input
        ;; bidi              ; (tfel ot) thgir etirw uoy gnipleh
        ;; chinese
@@ -188,8 +189,13 @@
        ;; emms
        everywhere        ; *leave* Emacs!? You must be joking
        ;; irc               ; how neckbeards socialize
-       (rss +org +youtube)        ; emacs as an RSS reader
+       (rss +org)        ; emacs as an RSS reader
 
        :config
        ;; literate
-       (default +bindings +smartparens))
+       (default +bindings +smartparens)
+)
+
+;; (setq +literate-config-file (file-name-concat
+;;                              (getenv-internal "XDG_CONFIG_HOME")
+;;                              "doom.org"))

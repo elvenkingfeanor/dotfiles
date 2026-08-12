@@ -4,7 +4,7 @@
 #+startup: overview
 #+property: header-args:emacs-lisp :results silent
 #+property: header-args:emacs-lisp :lexical yes
-#+property: header-args:emacs-lisp :tangle ~/.config/doom/test.el
+#+property: header-args:emacs-lisp :tangle ~/.config/doom/config.el
 
 This Org file configures my Doom Emacs setup.
 
@@ -682,7 +682,7 @@ Org has so many features, that to combine them all into a single =use-package= c
         org-log-refile 'time
         org-export-backends '("pandoc" "latex" "html" "beamer" "md" "ascii" "icalendar" "odt")
         org-latex-compiler "lualatex"
-        org-latex-hyperref-template "\\hypersetup{\n linktoc=section,\n backref=section,\n breaklinks=true,\n colorlinks=true,\n linkcolor=red,\n urlcolor=magenta,\n pdfauthor={%a},\n pdftitle={%t},\n pdfkeywords={%k},\n pdfsubject={%d},\n pdfcreator={%c},\n pdflang={%L}}\n"
+        org-latex-hyperref-template "\\hypersetup{\n linktoc=all,\n backref=section,\n breaklinks=true,\n colorlinks=true,\n linkcolor=red,\n urlcolor=magenta,\n pdfauthor={%a},\n pdftitle={%t},\n pdfkeywords={%k},\n pdfsubject={%d},\n pdfcreator={%c},\n pdflang={%L}}\n"
         org-export-default-language "en-gb"
         org-latex-classes '(("beamer"
                              "\\documentclass[presentation]{beamer}\n\\usepackage[usenames]{color}\n[DEFAULT-PACKAGES]\n[PACKAGES]\n\\urlstyle{tt}"
@@ -1038,7 +1038,7 @@ Default preset:
  pdfsubject={%d},\n pdfcreator={%c},\n pdflang={%L}}\n")
 #+end_example
 
-Presently =org-latex-hyperref-template= includes /linktoc=section/, /backref=section/, /colorlinks=true/, /linkcolor=red/, /urlcolor=magenta/ and /breaklinks=true/.
+Presently =org-latex-hyperref-template= includes /linktoc=all/, /backref=section/, /colorlinks=true/, /linkcolor=red/, /urlcolor=magenta/ and /breaklinks=true/.
 
 **** org-latex-title-command :title:
 
