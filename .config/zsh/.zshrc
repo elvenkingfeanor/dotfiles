@@ -28,7 +28,7 @@ setopt share_history # terminals share history
 # ignore these commands in history
 zshaddhistory() {
 	case "${1%% *}" in
-		(man|cat|less|echo|nvim|vi|pss|psi|yss|ysi|cl|cll|cdd|cd|clc|clear|tree|clt|gss|gpp|fcc|df|du|iv|mm|mmm|cu|cn|yt|yta|zz) return 1;;
+		(cat|less|echo|cd) return 1;;
 	esac
 	return 0;
 }
@@ -47,7 +47,7 @@ zstyle :compinstall filename '~/.config/zsh/.zshrc'
 fpath=(~/.local/share/zsh/site-functions/ $fpath)
 # enable zsh completion
 autoload -Uz compinit
-compinit
+compinit -u -d "$XDG_CACHE_HOME"/zsh/zcompdump-$ZSH_VERSION
 # For autocompletion with arrow driven interface
 # press Tab twice, to activate menu
 zstyle ':completion:*' menu select
@@ -57,10 +57,53 @@ zstyle ':completion::complete:*' gain-privileges 1
 [ -d "$XDG_CACHE_HOME"/zsh ] || /usr/bin/mkdir -p "$XDG_CACHE_HOME"/zsh
 # autocompletion with arrows
 zstyle ':completion:*' cache-path "$XDG_CACHE_HOME"/zsh/zcompcache
-# store completion history
-compinit -d "$XDG_CACHE_HOME"/zsh/zcompdump-$ZSH_VERSION
 # include hidden files
 _comp_options+=(globdots)
+
+# Keybindings
+# zsh doesn't use readline, but Zsh Line Editor (ZLE)
+# keybindings are assigned by mapping a keysequence escape sequence, from terminfo, to a ZLE widget, listed in zshzle manual page.
+# (source: https://wiki.archlinux.org/title/Zsh#Key_bindings)
+# create a zkbd compatible hash;
+# to add other keys to this hash, see: man 5 terminfo
+typeset -g -A key
+#
+key[Home]="${terminfo[khome]}"
+key[End]="${terminfo[kend]}"
+key[Insert]="${terminfo[kich1]}"
+key[Backspace]="${terminfo[kbs]}"
+key[Delete]="${terminfo[kdch1]}"
+key[Up]="${terminfo[kcuu1]}"
+key[Down]="${terminfo[kcud1]}"
+key[Left]="${terminfo[kcub1]}"
+key[Right]="${terminfo[kcuf1]}"
+key[PageUp]="${terminfo[kpp]}"
+key[PageDown]="${terminfo[knp]}"
+key[Shift-Tab]="${terminfo[kcbt]}"
+#
+# setup key accordingly
+[[ -n "${key[Home]}"      ]] && bindkey -- "${key[Home]}"       beginning-of-line
+[[ -n "${key[End]}"       ]] && bindkey -- "${key[End]}"        end-of-line
+[[ -n "${key[Insert]}"    ]] && bindkey -- "${key[Insert]}"     overwrite-mode
+[[ -n "${key[Backspace]}" ]] && bindkey -- "${key[Backspace]}"  backward-delete-char
+[[ -n "${key[Delete]}"    ]] && bindkey -- "${key[Delete]}"     delete-char
+[[ -n "${key[Up]}"        ]] && bindkey -- "${key[Up]}"         up-line-or-history
+[[ -n "${key[Down]}"      ]] && bindkey -- "${key[Down]}"       down-line-or-history
+[[ -n "${key[Left]}"      ]] && bindkey -- "${key[Left]}"       backward-char
+[[ -n "${key[Right]}"     ]] && bindkey -- "${key[Right]}"      forward-char
+[[ -n "${key[PageUp]}"    ]] && bindkey -- "${key[PageUp]}"     beginning-of-buffer-or-history
+[[ -n "${key[PageDown]}"  ]] && bindkey -- "${key[PageDown]}"   end-of-buffer-or-history
+[[ -n "${key[Shift-Tab]}" ]] && bindkey -- "${key[Shift-Tab]}"  reverse-menu-complete
+#
+# Finally, make sure the terminal is in application mode, when zle is
+# active. Only then are the values from $terminfo valid.
+if (( ${+terminfo[smkx]} && ${+terminfo[rmkx]} )); then
+    autoload -Uz add-zle-hook-widget
+    function zle_application_mode_start { echoti smkx }
+    function zle_application_mode_stop { echoti rmkx }
+    add-zle-hook-widget -Uz zle-line-init zle_application_mode_start
+    add-zle-hook-widget -Uz zle-line-finish zle_application_mode_stop
+fi
 
 # History search
 autoload -Uz up-line-or-beginning-search down-line-or-beginning-search
@@ -70,7 +113,7 @@ zle -N down-line-or-beginning-search
 [[ -n "${key[Up]}"  ]] && bindkey -- "${key[Up]}"  up-line-or-beginning-search
 [[ -n "${key[Down]}"  ]] && bindkey -- "${key[Down]}"  down-line-or-beginning-search
 
-# Change curor ala vim (source: https://github.com/LukeSmithxyz/voidrice/blob/master/.config/zsh/.zshrc)
+# Change cursor like vim (source: https://github.com/LukeSmithxyz/voidrice/blob/master/.config/zsh/.zshrc)
 function zle-keymap-select() {
 	case $KEYMAP in
 		vicmd) /usr/bin/echo -ne "\e[1 q" ;; # block
@@ -86,11 +129,21 @@ zle -N zle-line-init
 /usr/bin/echo -ne "\e[5 q" # use beam cursor on startup
 preexec() { /usr/bin/echo -ne "\e[5 q" ;} # use beam cursor on each new prompt
 
-# edit line in vim with ctrl-e:
+# edit line in $EDITOR with ctrl-e:
 autoload edit-command-line
 zle -N edit-command-line
 
 bindkey '^e' edit-command-line
+
+# Clear backbuffer when clearing
+# (source: https://wiki.archlinux.org/title/Zsh#Clear_the_backbuffer_using_a_key_binding)
+function clear-screen-and-scrollback() {
+    /usr/bin/echo -ne "\e[5 q"
+    zle clear-screen
+}
+
+zle -N clear-screen-and-scrollback
+bindkey '^L' clear-screen-and-scrollback
 
 # automatically close parentheses and quotes
 if [[ ! -d ~/.config/zsh/zsh-autopair/ ]]; then

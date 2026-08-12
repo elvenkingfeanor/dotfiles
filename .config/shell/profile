@@ -23,6 +23,16 @@ export VIDEO=/usr/bin/mpv
 export IMAGE=/usr/bin/nsxiv
 export WM=/usr/local/bin/dwm
 
+# guix
+GUIX_PROFILE="$HOME/.guix-profile"
+. "$GUIX_PROFILE/etc/profile"
+GUIX_PROFILE="$HOME/.config/guix/current"
+. "$GUIX_PROFILE/etc/profile"
+export GUIX_LOCPATH="$HOME/.guix-profile/lib/locale"
+
+# nix
+export NIX_REMOTE=daemon
+
 # xdg-usr-directories
 userid="$(/usr/bin/id -ru)"
 export XDG_DOWNLOAD_DIR="$HOME/dl"
