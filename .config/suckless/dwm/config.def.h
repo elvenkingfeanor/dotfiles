@@ -1,6 +1,7 @@
 /* See LICENSE file for copyright and license details. */
 
 #define SESSION_FILE "/tmp/dwm-session"
+#include "gaplessgrid.c"
 
 /* appearance */
 static const unsigned int borderpx  = 1;        /* border pixel of windows */
@@ -118,7 +119,6 @@ static const Layout layouts[] = {
 static char dmenumon[2] = "0"; /* component of dmenucmd, manipulated in spawn() */
 static const char *dmenucmd[] = { "dmenu_run", "-i", "-fn", dmenufont, "-nb", normbgcolor, "-nf", normfgcolor, "-sb", selbordercolor, "-sf", selfgcolor, topbar ? NULL : "-b", NULL };
 static const char *termcmd[]  = { "alacritty", NULL };
-#include "gaplessgrid.c"
 #include "shift-tools.c"
 #include "exitdwm.c"
 #include "movestack.c"
@@ -131,7 +131,7 @@ static Key keyseq_quit[] = {
   { ShiftMask,		XK_q,	killclient,	    {.ui = 2}},  // killall
   { 0,              XK_c,   exitdwm,        {0}}, // exitmenu
   {0}
-}
+};
 
 /* focusbynum + keysequence */
 static Key keyseq_focus[] = {
@@ -145,7 +145,7 @@ static Key keyseq_focus[] = {
   { 0,	        	XK_r,	focusbynum,	    {.i = 6}},
   { 0,	        	XK_a,	focusbynum,	    {.i = 7}},
   {0}
-}
+};
 
 /* other scratchpads + keysequence */
 static Key keyseq_scratch[] = {
@@ -155,7 +155,7 @@ static Key keyseq_scratch[] = {
   { 0,	        	XK_e,	togglescratch,	{.ui = 5}}, /* emacs-terminal */
   { ShiftMask,	    XK_e,	togglescratch,	{.ui = 6}}, /* emacs */
   {0}
-}
+};
 
 /* layouts + keysequence */
 static Key keyseq_layout[] = {
@@ -168,7 +168,7 @@ static Key keyseq_layout[] = {
   { 0,              XK_o,   winview,        {0}},
   { 0,              XK_r,   winviewmono,    {}},
   {0}
-}
+};
 
 static const Key keys[] = {
 	/* modifier                     key        function        argument */
@@ -181,15 +181,15 @@ static const Key keys[] = {
 	{ MODKEY,                       XK_b,      togglebar,      {0} },
 	{ MODKEY,                       XK_n,      focusstack,     {.i = +1 } },
 	{ MODKEY,                       XK_e,      focusstack,     {.i = -1 } },
-	{ MODKEY|ControlMask|ShiftMask, xk_n,      cycleview,      {1} }, /* cycleview + colemak */
-	{ MODKEY|ControlMask|ShiftMask, xk_e,      cycleview,      {0} },
+	{ MODKEY|ControlMask|ShiftMask, XK_n,      cycleview,      {1} }, /* cycleview + colemak */
+	{ MODKEY|ControlMask|ShiftMask, XK_e,      cycleview,      {0} },
 	{ MODKEY|ShiftMask,             XK_l,      incnmaster,     {.i = +1 } },
 	{ MODKEY|ShiftMask,             XK_u,      incnmaster,     {.i = -1 } },
 	{ MODKEY,                       XK_h,      setmfact,       {.f = -0.05} },
 	{ MODKEY,                       XK_i,      setmfact,       {.f = +0.05} },
 	{ MODKEY,                       XK_equal,  setmfact,       {.f = -1.0} },
-	{ MODKEY|ShiftMask,             xk_n,      movestack,      {.i = +1 } }, /* movestack + colemak */
-	{ MODKEY|ShiftMask,             xk_e,      movestack,      {.i = -1 } },
+	{ MODKEY|ShiftMask,             XK_n,      movestack,      {.i = +1 } }, /* movestack + colemak */
+	{ MODKEY|ShiftMask,             XK_e,      movestack,      {.i = -1 } },
 	{ MODKEY|ControlMask|ShiftMask, XK_h,      setcfact,	   {.f = +0.25} },
 	{ MODKEY|ControlMask|ShiftMask, XK_i,      setcfact,	   {.f = -0.25} }, /* setcfact + colemak */
 	{ MODKEY|ControlMask|ShiftMask, XK_o,      setcfact,	   {.f = 0.00} },
