@@ -7,21 +7,21 @@
 
 # check if fzf is installed first, else abort with message
 if ! command -v fzf > /dev/null 2>&1; then
-    /usr/bin/notify-send "Aborted!" "Install fzf to continue"
+    notify-send "Aborted!" "Install fzf to continue"
     exit 1
 fi
 
-selected="$(/usr/bin/find . -type f | \
-    /usr/bin/sort -u | \
-    /usr/bin/fzf -m | \
-    /usr/bin/sed 's@^\.@'"$PWD"'@g' | \
-    /usr/bin/paste -s -d ' ' | \
-    /usr/bin/tr -d '\n')"
+selected="$(find . -type f | \
+    sort -u | \
+    fzf -m | \
+    sed 's@^\.@'"$PWD"'@g' | \
+    paste -s -d ' ' | \
+    tr -d '\n')"
 
 if [ -z "$selected" ]; then
-    /usr/bin/notify-send "Aborted!" "No file selected"
+    notify-send "Aborted!" "No file selected"
     exit 1
 else
-    /usr/bin/printf "%s" "$selected" | /usr/bin/xclip -selection clipboard
-    /usr/bin/notify-send "Success!" "$selected copied to clipboard"
+    printf "%s" "$selected" | xclip -selection clipboard
+    notify-send "Success!" "$selected copied to clipboard"
 fi

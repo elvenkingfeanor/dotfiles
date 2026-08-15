@@ -15,6 +15,6 @@ esearch \
     -sep " " \
     -tab ", " \
     -element Initials,LastName | \
-    /usr/bin/sort -R | \
-    /usr/bin/uniq -c | \
-    /usr/bin/sort -rn > "$3"-group
+    sort -R | \
+    uniq -c | \
+    sort -rn > "$3"-group

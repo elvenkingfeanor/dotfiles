@@ -2,4 +2,4 @@
 #gpp
 # grep within directory
 
-/usr/bin/grep -iIrn -C1 --color -E "$1" ./*
+grep -iIrn -C1 --color -E "$1" ./*

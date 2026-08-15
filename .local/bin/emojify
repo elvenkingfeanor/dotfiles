@@ -10,7 +10,7 @@ if ! command -v dmenu > /dev/null 2>&1; then
 	if command -v fzf > /dev/null 2>&1; then
 	chooser="fzf"
 	else
-        /usr/bin/printf "%s\n" "Install dmenu or fzf to proceed"
+        printf "%s\n" "Install dmenu or fzf to proceed"
 		exit 1
 	fi
 else
@@ -19,20 +19,20 @@ fi
 
 # use dmenu or fzf to pick emoji
 if [ -z "$file" ]; then
-    /usr/bin/printf "%s\n" "No emoji file present. Exiting.."
+    printf "%s\n" "No emoji file present. Exiting.."
     exit 1
 else
     if [ "$chooser" = "dmenu" ]; then
-        /usr/bin/cat "$file" | \
+        cat "$file" | \
             "$chooser" -p "pick an emoji" | \
-            /usr/bin/cut -d ' ' -f 1 | \
-            /usr/bin/tr -d '\n' | \
-            /usr/bin/xclip -selection clipboard
+            cut -d ' ' -f 1 | \
+            tr -d '\n' | \
+            xclip -selection clipboard
     else
-        /usr/bin/cat "$file" | \
+        cat "$file" | \
             "$chooser" --prompt="pick an emoji" | \
-            /usr/bin/cut -d ' ' -f 1 | \
-            /usr/bin/tr -d '\n' | \
-            /usr/bin/xclip -selection clipboard
+            cut -d ' ' -f 1 | \
+            tr -d '\n' | \
+            xclip -selection clipboard
     fi
 fi

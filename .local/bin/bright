@@ -3,31 +3,31 @@
 # automatically sets brightness depending on time of day, else set it as desired
 # send requisite signal to statusbar
 
-time="$(/usr/bin/date +%H%M)"
+time="$(date +%H%M)"
 lvl="$1"
 
 if [ -n "$lvl" ]; then
-	/usr/bin/light -S "$lvl"
-	/usr/bin/notify-send --urgency=low "Brightness set to $lvl"
-	/usr/bin/pkill -f -RTMIN+12 /usr/local/bin/dwmblocks
+	light -S "$lvl"
+	notify-send --urgency=low "Brightness set to $lvl"
+	pkill -RTMIN+12 dwmblocks
 elif [ "$time" -ge 600 ] && [ "$time" -lt 1600 ]; then
-	/usr/bin/light -S 100
-	/usr/bin/notify-send --urgency=low "Brightness set to 100"
-	/usr/bin/pkill -f -RTMIN+12 /usr/local/bin/dwmblocks
+	light -S 100
+	notify-send --urgency=low "Brightness set to 100"
+	pkill -RTMIN+12 dwmblocks
 elif [ "$time" -ge 1600 ] && [ "$time" -lt 1615 ]; then
-	/usr/bin/light -S 90
-	/usr/bin/notify-send --urgency=low "Brightness set to 90"
-	/usr/bin/pkill -f -RTMIN+12 /usr/local/bin/dwmblocks
+	light -S 90
+	notify-send --urgency=low "Brightness set to 90"
+	pkill -RTMIN+12 dwmblocks
 elif [ "$time" -ge 1615 ] && [ "$time" -lt 1630 ]; then
-	/usr/bin/light -S 80
-	/usr/bin/notify-send --urgency=low "Brightness set to 80"
-	/usr/bin/pkill -f -RTMIN+12 /usr/local/bin/dwmblocks
+	light -S 80
+	notify-send --urgency=low "Brightness set to 80"
+	pkill -RTMIN+12 dwmblocks
 elif [ "$time" -ge 1630 ] && [ "$time" -lt 1645 ]; then
-	/usr/bin/light -S 75
-	/usr/bin/notify-send --urgency=low "Brightness set to 75"
-	/usr/bin/pkill -f -RTMIN+12 /usr/local/bin/dwmblocks
+	light -S 75
+	notify-send --urgency=low "Brightness set to 75"
+	pkill -RTMIN+12 dwmblocks
 else [ "$time" -ge 1645 ] || [ "$time" -lt 600 ];
-	/usr/bin/light -S 70
-	/usr/bin/notify-send --urgency=low "Brightness set to 70"
-	/usr/bin/pkill -f -RTMIN+12 /usr/local/bin/dwmblocks
+	light -S 70
+	notify-send --urgency=low "Brightness set to 70"
+	pkill -RTMIN+12 dwmblocks
 fi

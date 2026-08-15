@@ -3,18 +3,18 @@
 # create maps of minetest worlds
 # check for world directories, and select one using fzf
 
-selected=$(/usr/bin/find "$XDG_DATA_HOME"/luanti/worlds -mindepth 1 -type d | /usr/bin/fzf) # exclude root directory from printing
+selected=$(find "$XDG_DATA_HOME"/luanti/worlds -mindepth 1 -type d | fzf) # exclude root directory from printing
 
 # error handling
 if [ -z "$selected" ]; then
-       /usr/bin/echo "No worlds selected"
+       echo "No worlds selected"
        exit 1
        else
-           shortsel=$(/usr/bin/echo "$selected" | /usr/bin/sed 's@.*worlds/@@') # grab world name
-           seedsel=$(/usr/bin/grep -rI "^seed" "$selected" | /usr/bin/cut -d " " -f 3) # grab world seed ID
-           if /usr/bin/grep -Eq "^..v7" "$selected"/map_meta.txt; then
+           shortsel=$(echo "$selected" | sed 's@.*worlds/@@') # grab world name
+           seedsel=$(grep -rI "^seed" "$selected" | cut -d " " -f 3) # grab world seed ID
+           if grep -Eq "^..v7" "$selected"/map_meta.txt; then
                   mapgen="v7"
-           elif /usr/bin/grep -Eq "^..v6" "$selected"/map_meta.txt && /usr/bin/grep -q noflat "$selected"/map_meta.txt; then
+           elif grep -Eq "^..v6" "$selected"/map_meta.txt && grep -q noflat "$selected"/map_meta.txt; then
                   mapgen="v6"
            else mapgen="v6-flat"
            fi
@@ -22,6 +22,6 @@ fi
 
 # after selection, let minetestmapper generate the map to specified location
 
-# /usr/bin/minetestmapper --draworigin --drawplayers --backend "sqlite3" --zoom 4 -v -i "$selected" -o ~/mdi/pix/mmaps/"$shortsel"-"$seedsel"-"$(/usr/bin/date +%Y%m%d%H%M%S)".png
-# /usr/bin/minetestmapper --draworigin --drawplayers --backend "sqlite3" --zoom 4 -v -i "$selected" -o ~/mdi/pix/mmaps/"$shortsel"-"$seedsel".png
-/usr/bin/minetestmapper --draworigin --drawplayers --backend "sqlite3" -v -i "$selected" -o ~/mdi/pix/mmaps/"$shortsel"-"$seedsel"-"$mapgen".png
+# minetestmapper --draworigin --drawplayers --backend "sqlite3" --zoom 4 -v -i "$selected" -o ~/mdi/pix/mmaps/"$shortsel"-"$seedsel"-"$(date +%Y%m%d%H%M%S)".png
+# minetestmapper --draworigin --drawplayers --backend "sqlite3" --zoom 4 -v -i "$selected" -o ~/mdi/pix/mmaps/"$shortsel"-"$seedsel".png
+minetestmapper --draworigin --drawplayers --backend "sqlite3" -v -i "$selected" -o ~/mdi/pix/mmaps/"$shortsel"-"$seedsel"-"$mapgen".png

@@ -2,4 +2,4 @@
 #emfeed
 # run elfeed in emacsclient directly from dwm
 
-/usr/bin/emacsclient -c --eval \(elfeed\)
+emacsclient -n -c -a "" -e \(elfeed\)

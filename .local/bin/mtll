@@ -2,4 +2,4 @@
 #mtll
 # list mtpfs devices currently attached
 
-/usr/bin/simple-mtpfs -l
+simple-mtpfs -l

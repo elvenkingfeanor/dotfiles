@@ -9,31 +9,31 @@
 logfile="$HOME/.local/share/bmnt.log"
 
 # list of backup drives attached
-bdrive="$(/usr/bin/lsblk -anlp -o +LABEL | \
-	/usr/bin/grep backup | \
-	/usr/bin/cut -d ' ' -f 1)"
+bdrive="$(lsblk -anlp -o +LABEL | \
+	grep backup | \
+	cut -d ' ' -f 1)"
 
 # exit if no backup drive attached
 if [ -z "$bdrive" ]; then
-	/usr/bin/notify-send "No backup drive attached" "Nothing to mount"
+	notify-send "No backup drive attached" "Nothing to mount"
 	exit 1
 fi
 
 # if number of attached backup drives -eq 1, then bypass chooser application
-if [ "$(/usr/bin/printf "%s\n" "$bdrive" | \
-	/usr/bin/wc -l)" -eq 1 ]; then
+if [ "$(printf "%s\n" "$bdrive" | \
+	wc -l)" -eq 1 ]; then
 	selected="$bdrive"
 else
 	if ! command -v dmenu > /dev/null 2>&1; then
 		if command -v fzf > /dev/null 2>&1; then
-			selected="$(/usr/bin/printf "%s\n" "$bdrive" | \
+			selected="$(printf "%s\n" "$bdrive" | \
 				fzf --prompt="choose backup drive to mount: ")"
 		else
-			/usr/bin/notify-send "Error" "Install dmenu or fzf to proceed"
+			notify-send "Error" "Install dmenu or fzf to proceed"
 			exit 1
 		fi
 	else
-		selected="$(/usr/bin/printf "%s\n" "$bdrive" | \
+		selected="$(printf "%s\n" "$bdrive" | \
 			dmenu -p "choose backup drive to mount: ")"
 	fi
 fi
@@ -41,21 +41,21 @@ fi
 # mount selected backup drive as per its label
 # LABEL is last word of lsblk output line
 # space-separated drive LABEL, maynot work
-blbl="$(/usr/bin/lsblk -anlp -o +LABEL | \
-	/usr/bin/grep "$selected" | \
-	/usr/bin/sed 's@^.*\ @@g')"
+blbl="$(lsblk -anlp -o +LABEL | \
+	grep "$selected" | \
+	sed 's@^.*\ @@g')"
 
 # check if backup drive is mounted, else proceed accordingly
-if [ -n "$(/usr/bin/findmnt "$selected")" ]; then
-	/usr/bin/notify-send "Backup drive $selected" "already mounted"
+if [ -n "$(findmnt "$selected")" ]; then
+	notify-send "Backup drive $selected" "already mounted"
     cd /media/"$blbl" || exit
 else
-	if ! /usr/bin/pmount "$selected" "$blbl" 2>>"$logfile"; then
-		/usr/bin/notify-send "Backup drive $selected" "couldnot be mounted"
+	if ! pmount "$selected" "$blbl" 2>>"$logfile"; then
+		notify-send "Backup drive $selected" "couldnot be mounted"
 		exit 1
 	else
-		/usr/bin/notify-send "Backup drive $selected" "mounted successfully at /media/$blbl"
-        /usr/bin/pkill -RTMIN+14 -f /usr/local/bin/dwmblocks
+		notify-send "Backup drive $selected" "mounted successfully at /media/$blbl"
+        pkill -RTMIN+14 -f dwmblocks
         cd /media/"$blbl" || exit
 	fi
 fi

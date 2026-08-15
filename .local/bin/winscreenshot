@@ -2,7 +2,7 @@
 #winscreenshot
 # screenshot selected window to file using maim
 
-/usr/bin/maim \
+maim \
     --hidecursor \
-    -i "$(/usr/bin/xdo id)" \
-    "$XDG_PICTURES_DIR"/ss/"$(/usr/bin/date +%Y%m%d_%H%M%S)"_wss.png
+    -i "$(xdo id)" \
+    "$XDG_PICTURES_DIR"/ss/"$(date +%Y%m%d_%H%M%S)"_wss.png

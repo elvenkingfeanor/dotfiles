@@ -2,4 +2,4 @@
 #mtuu
 # unmount mtpfs device
 
-/usr/bin/fusermount -uz "$XDG_DOWNLOAD_DIR"/mtp
+fusermount -uz "$XDG_DOWNLOAD_DIR"/mtp

@@ -4,12 +4,12 @@
 # for weekly cron
 
 # user groups
-/usr/bin/id 1000 > ~/.bak/userinfo/groups.txt
+id 1000 > ~/.bak/userinfo/groups.txt
 # official (native) packages
-/usr/bin/pacman -Qqent > ~/.bak/userinfo/pacman.lst
+pacman -Qqent > ~/.bak/userinfo/pacman.lst
 # AUR (foreign) packages
-/usr/bin/pacman -Qqemt > ~/.bak/userinfo/aur.lst
+pacman -Qqemt > ~/.bak/userinfo/aur.lst
 # package check
-/usr/bin/pacman -Qk > ~/.bak/userinfo/package-check.txt
+pacman -Qk > ~/.bak/userinfo/package-check.txt
 
-/usr/bin/notify-send "package list generated"
+notify-send "package list generated"

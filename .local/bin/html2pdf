@@ -8,29 +8,29 @@ input="$*"
 
 # check if file is HTML, else quit
 if [ -f "$input" ]; then
-    if /usr/bin/file "$input" | \
-        /usr/bin/grep -Eoq 'HTML document'; then
-        inputname="$(/usr/bin/printf "%s" "$input" | \
-            /usr/bin/sed 's/^/./' | \
-            /usr/bin/rev | \
-            /usr/bin/cut -d '.' -f2- | \
-            /usr/bin/rev | \
-            /usr/bin/cut -c2-)"
-        # inputext="$(/usr/bin/printf "%s" "$input" | \
-        #     /usr/bin/sed 's/^/./' | \
-        #     /usr/bin/rev | \
-        #     /usr/bin/cut -d '.' -f1 | \
-        #     /usr/bin/rev)"
+    if file "$input" | \
+        grep -Eoq 'HTML document'; then
+        inputname="$(printf "%s" "$input" | \
+            sed 's/^/./' | \
+            rev | \
+            cut -d '.' -f2- | \
+            rev | \
+            cut -c2-)"
+        # inputext="$(printf "%s" "$input" | \
+        #     sed 's/^/./' | \
+        #     rev | \
+        #     cut -d '.' -f1 | \
+        #     rev)"
     fi
 else
-    /usr/bin/printf "%s\n" "Make sure input is html."
+    printf "%s\n" "Make sure input is html."
     exit 1
 fi
 
 # use pandoc to convert to indexable pdf
 # -s for standalone, else internal refs dont work
 # -N for numbered sections
-/usr/bin/pandoc -s \
+pandoc -s \
     -f html -t pdf \
     --shift-heading-level-by=-1 \
     --pdf-engine=lualatex \

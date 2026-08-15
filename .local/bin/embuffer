@@ -2,4 +2,4 @@
 #embuffer
 # run emacsclient directly from dwm
 
-/usr/bin/emacsclient -n -c -a ""
+emacsclient -n -c -a ""

@@ -3,4 +3,4 @@
 # local xdg-open wrapper
 # old script, unused, buggy
 
-/usr/bin/xdg-open "$(/usr/bin/find . -type f | /usr/bin/fzf)"
+xdg-open "$(find . -type f | fzf)"

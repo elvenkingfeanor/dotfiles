@@ -2,22 +2,22 @@
 #micvol
 # get speaker and mic volume status
 
-speakermute="$(/usr/bin/wpctl get-volume @DEFAULT_AUDIO_SINK@ | /usr/bin/cut -d ' ' -f 3)"
-speakervol="$(/usr/bin/wpctl get-volume @DEFAULT_AUDIO_SINK@ | /usr/bin/cut -d ' ' -f 2)"
-microphonemute="$(/usr/bin/wpctl get-volume @DEFAULT_AUDIO_SOURCE@ | /usr/bin/cut -d ' ' -f 3)"
-microphonevol="$(/usr/bin/wpctl get-volume @DEFAULT_AUDIO_SOURCE@ | /usr/bin/cut -d ' ' -f 2)"
+speakermute="$(wpctl get-volume @DEFAULT_AUDIO_SINK@ | cut -d ' ' -f 3)"
+speakervol="$(wpctl get-volume @DEFAULT_AUDIO_SINK@ | cut -d ' ' -f 2)"
+microphonemute="$(wpctl get-volume @DEFAULT_AUDIO_SOURCE@ | cut -d ' ' -f 3)"
+microphonevol="$(wpctl get-volume @DEFAULT_AUDIO_SOURCE@ | cut -d ' ' -f 2)"
 
 if [ -n "$speakermute" ]; then
     spk="🔇";
 else
-    spk="🎧$(/usr/bin/printf "%s\n" "$speakervol*100/1" | /usr/bin/bc)";
+    spk="🎧$(printf "%s\n" "$speakervol*100/1" | bc)";
 fi
 
 if [ -n "$microphonemute" ]; then
     mic="🔇";
 else
-    mic="🎤$(/usr/bin/printf "%s\n" "$microphonevol*100/1" | /usr/bin/bc)";
+    mic="🎤$(printf "%s\n" "$microphonevol*100/1" | bc)";
     # the (/1) is required to prevent bc from outputting decimal
 fi
 
-/usr/bin/printf "%s" "$spk:$mic"
+printf "%s" "$spk:$mic"

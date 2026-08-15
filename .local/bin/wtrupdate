@@ -7,40 +7,40 @@ wfile="$HOME/.local/share/weather.txt"
 wttrlog="$HOME/.local/share/wttr.log"
 
 # create logfile, if not present
-if [ -z "$wttrlog" ]; then /usr/bin/touch "$wttrlog"; fi
+if [ -z "$wttrlog" ]; then touch "$wttrlog"; fi
 
 # check modification time of wfile, and update once daily, notifying once
 # shellcheck disable=2154
 if [ -s "$wfile" ]; then
-    if [ "$(/usr/bin/jq -r '.weather[0].date' "$wfile" | /usr/bin/tr -d '-')" -ne "$(/usr/bin/date '+%Y%m%d')" ]; then
-        if ! /usr/bin/curl -sf wttr.in/"$place"\?format=j1 > "$wfile" 2>>"$wttrlog"; then
-            /usr/bin/notify-send "weather update failed for today $(/usr/bin/date '+%Y-%m-%d')"
+    if [ "$(jq -r '.weather[0].date' "$wfile" | tr -d '-')" -ne "$(date '+%Y%m%d')" ]; then
+        if ! curl -sf wttr.in/"$place"\?format=j1 > "$wfile" 2>>"$wttrlog"; then
+            notify-send "weather update failed for today $(date '+%Y-%m-%d')"
             exit 1
         else
-            /usr/bin/notify-send "weather report updated for today $(/usr/bin/date '+%Y-%m-%d')"
+            notify-send "weather report updated for today $(date '+%Y-%m-%d')"
         fi
     else
-        /usr/bin/notify-send "weather report up-to-date for today $(/usr/bin/date '+%Y-%m-%d')"
+        notify-send "weather report up-to-date for today $(date '+%Y-%m-%d')"
     fi
 elif [ -f "$wfile" ]; then
-    if ! /usr/bin/curl -sf wttr.in/"$place"\?format=j1 > "$wfile" 2>>"$wttrlog"; then
-        /usr/bin/notify-send "weather update failed for today $(/usr/bin/date '+%Y-%m-%d')"
+    if ! curl -sf wttr.in/"$place"\?format=j1 > "$wfile" 2>>"$wttrlog"; then
+        notify-send "weather update failed for today $(date '+%Y-%m-%d')"
         exit 1
     else
-        /usr/bin/notify-send "weather report updated for today $(/usr/bin/date '+%Y-%m-%d')"
+        notify-send "weather report updated for today $(date '+%Y-%m-%d')"
     fi
 elif [ -z "$wfile" ]; then
-    /usr/bin/touch "$wfile"
-    if ! /usr/bin/curl -sf wttr.in/"$place"\?format=j1 > "$wfile" 2>>"$wttrlog"; then
-        /usr/bin/notify-send "weather update failed for today $(/usr/bin/date '+%Y-%m-%d')"
+    touch "$wfile"
+    if ! curl -sf wttr.in/"$place"\?format=j1 > "$wfile" 2>>"$wttrlog"; then
+        notify-send "weather update failed for today $(date '+%Y-%m-%d')"
         exit 1
     else
-        /usr/bin/notify-send "weather report updated for today $(/usr/bin/date '+%Y-%m-%d')"
+        notify-send "weather report updated for today $(date '+%Y-%m-%d')"
     fi
-elif ! /usr/bin/ping -c2 wttr.in > /dev/null 2>>"$wttrlog"; then
-    /usr/bin/notify-send "wttr.in maybe down, try again later"
+elif ! ping -c2 wttr.in > /dev/null 2>>"$wttrlog"; then
+    notify-send "wttr.in maybe down, try again later"
     exit 1
 else
-    /usr/bin/notify-send "no weather report generated, check logfile"
+    notify-send "no weather report generated, check logfile"
     exit 1
 fi

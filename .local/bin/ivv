@@ -3,7 +3,7 @@
 # open all image files, without caching, in directory with nsxiv
 # display selected images absolute paths to stdout
 
-/usr/bin/find . -mindepth 1 \
+find . -mindepth 1 \
     -type f \( \
     -iname "*.jpg" -o \
     -iname "*.jpeg" -o \
@@ -13,8 +13,8 @@
     -iname "*.bmp" -o \
     -iname "*.webp" \
     \) -print | \
-    /usr/bin/sort -t '.' -k 3,3 -n | \
-    /usr/bin/nsxiv -itpoq | \
-    /usr/bin/sed 's@^\.@'"$PWD"'@' | \
-    /usr/bin/paste -s -d ' ' | \
-    /usr/bin/tr -d '\n'
+    sort -t '.' -k 3,3 -n | \
+    nsxiv -itpoq | \
+    sed 's@^\.@'"$PWD"'@' | \
+    paste -s -d ' ' | \
+    tr -d '\n'

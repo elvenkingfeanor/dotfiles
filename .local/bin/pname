@@ -2,4 +2,4 @@
 #pname
 # look for executables associated with installed packages
 
-/usr/bin/pacman -Qlq "$1" | /usr/bin/grep /usr/bin/
+pacman -Qlq "$1" | grep 

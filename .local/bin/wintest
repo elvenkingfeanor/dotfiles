@@ -6,7 +6,7 @@
 
 # check if xev is installed, else exit
 if ! command -v xprop > /dev/null 2>&1 ; then
-    /usr/bin/printf "%s\n" "Install the xorg-xprop package before proceeding"
+    printf "%s\n" "Install the xorg-xprop package before proceeding"
     exit 1
 fi
 

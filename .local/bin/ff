@@ -3,4 +3,4 @@
 # find file in current directory
 # old script
 
-/usr/bin/find . -type "$1" -iname "$2"
+find . -type "$1" -iname "$2"

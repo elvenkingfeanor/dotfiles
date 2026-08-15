@@ -2,7 +2,7 @@
 #cpr
 # rsync copy
 
-/usr/bin/rsync \
+rsync \
     --archive \
     --checksum \
     -hh \

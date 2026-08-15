@@ -3,4 +3,4 @@
 # run vanilla emacsclient in the terminal directly from dwm
 # cannot run on its own, needs a command like ( $TERMINAL -e etbuffer ) to function
 
-/usr/bin/emacsclient -q -nw
+emacsclient -q -nw

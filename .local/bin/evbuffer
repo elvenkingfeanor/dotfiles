@@ -1,5 +1,5 @@
 #!/bin/sh
 #evbuffer
-# run emacs-everywhere in emacsclient in the terminal directly from dwm
+# run emacs-everywhere in emacsclient in st directly from dwm
 
-/usr/local/bin/st -e /usr/bin/emacsclient --eval \(emacs-everywhere\)
+st -e emacsclient -q -nw --eval \(emacs-everywhere\)

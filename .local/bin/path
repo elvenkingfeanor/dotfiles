@@ -2,7 +2,7 @@
 #path
 # yank path of file to system clipboard
 
-/usr/bin/find "$HOME" -type d \( \
+find "$HOME" -type d \( \
       -path "$HOME"/.android -o \
       -path "$HOME"/.arx -o \
       -path "$HOME"/.cache -o \
@@ -23,7 +23,7 @@
       -path "$HOME"/.ssh \
       \) -prune -false -o \
       -type f -name '*' -print | \
-      /usr/bin/fzf -m | \
-      /usr/bin/paste -s -d ' ' | \
-      /usr/bin/tr -d '\n' | \
-      /usr/bin/xclip -selection clipboard
+      fzf -m | \
+      paste -s -d ' ' | \
+      tr -d '\n' | \
+      xclip -selection clipboard

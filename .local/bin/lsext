@@ -6,21 +6,21 @@ input="$*"
 
 # check if directory exists and is not empty, else exit
 if [ -z "$input" ]; then
-    /usr/bin/printf "%s\n" "$input directory does not exists"
+    printf "%s\n" "$input directory does not exists"
     exit 1
 elif
     [ -d "$input" ]; then
-    if [ -z "$(/usr/bin/find "$input" -mindepth 1)" ]; then
-        /usr/bin/printf "%s\n" "$input directory is empty"
+    if [ -z "$(find "$input" -mindepth 1)" ]; then
+        printf "%s\n" "$input directory is empty"
         exit 1
     else
-        # /usr/bin/find "$input" -type f | perl -ne 'print $1 if m/\.([^.\/]+)$/' | /usr/bin/sort -u
-        /usr/bin/find "$input" -type f -iname '*.?*' | \
-            /usr/bin/rev | \
-            /usr/bin/cut -d. -f1 | \
-            /usr/bin/rev | \
-            /usr/bin/sort | \
-            /usr/bin/uniq -c | \
-            /usr/bin/sort -rn
+        # find "$input" -type f | perl -ne 'print $1 if m/\.([^.\/]+)$/' | sort -u
+        find "$input" -type f -iname '*.?*' | \
+            rev | \
+            cut -d. -f1 | \
+            rev | \
+            sort | \
+            uniq -c | \
+            sort -rn
     fi
 fi

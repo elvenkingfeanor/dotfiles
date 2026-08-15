@@ -3,4 +3,4 @@
 # backup user crontab
 # for daily cron
 
-/usr/bin/rsync -aPc /var/spool/cron/ts -t ~/.config/crond/ts 1>/dev/null 2>&1
+rsync -aPc /var/spool/cron/ts -t ~/.config/crond/ts 1>/dev/null 2>&1

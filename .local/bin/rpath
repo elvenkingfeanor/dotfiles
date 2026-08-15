@@ -2,7 +2,7 @@
 #rpath
 # yank system file path to clipboard
 
-/usr/bin/find /etc /usr /opt /tmp /var \
+find /etc /usr /opt /tmp /var \
     -type d \( \
     -path /etc/pacman.d/gnupg -o \
     -path /etc/audit/plugins.d -o \
@@ -44,6 +44,6 @@
     -path "/tmp/systemd-private-*" \) \
     -prune -false -o \
     -type f -name '*' -print | \
-    /usr/bin/fzf | \
-    /usr/bin/tr -d '\n' | \
-    /usr/bin/xclip -selection clipboard
+    fzf | \
+    tr -d '\n' | \
+    xclip -selection clipboard

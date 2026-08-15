@@ -7,7 +7,7 @@
 
 # check if xev is installed, else exit
 if ! command -v xev > /dev/null 2>&1 ; then
-    /usr/bin/printf "%s\n" "Install the xorg-xev package before proceeding"
+    printf "%s\n" "Install the xorg-xev package before proceeding"
     exit 1
 fi
 

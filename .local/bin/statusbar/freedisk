@@ -3,31 +3,31 @@
 # check storage space used and available on / and /home partitions
 
 # available space on /home partition
-avh="$(/usr/bin/df -h ~ | \
-    /usr/bin/tail -n 1 | \
-    /usr/bin/tr -s '[:blank:]' | \
-    /usr/bin/cut -d ' ' -f 4)"
+avh="$(df -h ~ | \
+    tail -n 1 | \
+    tr -s '[:blank:]' | \
+    cut -d ' ' -f 4)"
 
 # percent used space on /home partition
-usph="$(/usr/bin/df -h ~ | \
-    /usr/bin/tail -n 1 | \
-    /usr/bin/tr -s '[:blank:]' | \
-    /usr/bin/cut -d ' ' -f 5)"
+usph="$(df -h ~ | \
+    tail -n 1 | \
+    tr -s '[:blank:]' | \
+    cut -d ' ' -f 5)"
 
 # available space on / partition
-avr="$(/usr/bin/df -h / | \
-    /usr/bin/tail -n 1 | \
-    /usr/bin/tr -s '[:blank:]' | \
-    /usr/bin/cut -d ' ' -f 4)"
+avr="$(df -h / | \
+    tail -n 1 | \
+    tr -s '[:blank:]' | \
+    cut -d ' ' -f 4)"
 
 # percent used space on / partition
-uspr="$(/usr/bin/df -h / | \
-    /usr/bin/tail -n 1 | \
-    /usr/bin/tr -s '[:blank:]' | \
-    /usr/bin/cut -d ' ' -f 5)"
+uspr="$(df -h / | \
+    tail -n 1 | \
+    tr -s '[:blank:]' | \
+    cut -d ' ' -f 5)"
 
-# varh=$(/usr/bin/df -h ~ | /usr/bin/awk 'FNR == 2 {print $5,$4}') # too much awk!
-# varr=$(/usr/bin/df -h / | /usr/bin/awk 'FNR == 2 {print $5,$4}') # well, this is AWKward!
-# /usr/bin/echo "$varh|$varr" | /usr/bin/sed 's/\ /:/g'
+# varh=$(df -h ~ | awk 'FNR == 2 {print $5,$4}') # too much awk!
+# varr=$(df -h / | awk 'FNR == 2 {print $5,$4}') # well, this is AWKward!
+# echo "$varh|$varr" | sed 's/\ /:/g'
 
-/usr/bin/printf "%s" "🗄️$usph:$avh💿$uspr:$avr"
+printf "%s" "🗄️$usph:$avh💿$uspr:$avr"

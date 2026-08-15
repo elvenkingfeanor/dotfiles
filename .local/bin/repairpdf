@@ -2,7 +2,7 @@
 #repairpdf
 # repair a pdf using ghostscript
 
-/usr/bin/gs \
+gs \
     -o "$1-repaired.pdf" \
     -sDEVICE=pdfwrite \
     -dPDFSETTINGS=/ebook \

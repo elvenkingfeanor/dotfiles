@@ -2,7 +2,7 @@
 #gss
 # grep within specific config directories for patterns
 
-/usr/bin/find \
+find \
     "$HOME"/.local/bin \
     "$XDG_CONFIG_HOME"/X11 \
     "$XDG_CONFIG_HOME"/aerc \
@@ -29,5 +29,5 @@
     -name "themes" -prune -o \
     \! -user root \
     -type f -print | \
-    /usr/bin/sort -u | \
-    /usr/bin/xargs /usr/bin/grep -iIrn -C2 --color -E "$1"
+    sort -u | \
+    xargs grep -iIrn -C2 --color -E "$1"

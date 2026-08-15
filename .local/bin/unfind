@@ -1,4 +1,4 @@
-#!/usr/bin/env sh
+#!env sh
 #unfind
 # find subdirectories not having certain files
 # generally used for batch operations and extensions matching
@@ -24,9 +24,9 @@ name="$*"
 
 # above causing warnings from shellcheck:
 # read -d is undefined in POSIX sh (SC3045)
-/usr/bin/find . -type d -print | \
+find . -type d -print | \
     while IFS= read -r dir; do
-        if [ -z "$(/usr/bin/find "$dir" -type f -iname "*$name*")" ]; then
-            /usr/bin/printf "%s\n" "$dir"
+        if [ -z "$(find "$dir" -type f -iname "*$name*")" ]; then
+            printf "%s\n" "$dir"
         fi
     done

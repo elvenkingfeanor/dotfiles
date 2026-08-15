@@ -3,5 +3,5 @@
 # increase brightness by fixed margin
 # send requisite signal to statusbar
 
-/usr/bin/light -A 5
-/usr/bin/pkill -f -RTMIN+12 /usr/local/bin/dwmblocks
+light -A 5
+pkill -RTMIN+12 dwmblocks

@@ -2,7 +2,7 @@
 #mvr
 # rsync mv
 
-/usr/bin/rsync \
+rsync \
     --archive \
     --checksum \
     -hh \

@@ -1,4 +1,4 @@
-#!/usr/bin/env sh
+#!env sh
 #junk.sh
 # remove junk files from pdflatex (auctex) operations
 # include all .aux, .log, .toc, .lof, .lot files

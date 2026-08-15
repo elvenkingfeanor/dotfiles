@@ -9,21 +9,21 @@ file="$HOME/.local/share/bookmarks"
 # reject any lines starting with a # and display via dmenu for user to select
 # curate selected via cut to leave out any spaces (i.e. not part of any url)
 if [ -z "$file" ]; then
-    /usr/bin/echo "Bookmarks file doesnot exists"
+    echo "Bookmarks file doesnot exists"
     exit 1
 else
-    selected="$(/usr/bin/grep -v "^#" "$file" | \
-        /usr/local/bin/dmenu -i -l 20 | \
-        /usr/bin/cut -d ' ' -f 1)"
+    selected="$(grep -v "^#" "$file" | \
+        dmenu -i -l 20 | \
+        cut -d ' ' -f 1)"
 fi
 
 # yank selected url to system clipboard, after trimming trailing newline character
 if [ -z "$selected" ]; then
-    /usr/bin/notify-send "No URL selected"
+    notify-send "No URL selected"
     exit 1
 else
-    /usr/bin/echo "$selected" | \
-        /usr/bin/tr -d '\n' | \
-        /usr/bin/xclip -selection clipboard
-    /usr/bin/notify-send "$selected copied"
+    echo "$selected" | \
+        tr -d '\n' | \
+        xclip -selection clipboard
+    notify-send "$selected copied"
 fi

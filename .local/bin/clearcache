@@ -4,7 +4,7 @@
 # for monthly cron
 
 # list of all logfiles in ~/.local/share/ directory
-logfiles="$(/usr/bin/find "$HOME/.local/share" \
+logfiles="$(find "$HOME/.local/share" \
     -maxdepth 1 \
     -type f \
     -name "*.log")"
@@ -12,5 +12,5 @@ logfiles="$(/usr/bin/find "$HOME/.local/share" \
 # cat /dev/null to each entry in logfiles
 for file in $logfiles;
 do
-    /usr/bin/cat /dev/null > "$file"
+    cat /dev/null > "$file"
 done

@@ -6,19 +6,19 @@
 # check if clipboard is empty, else continue
 # check clipboard for Github html link
 # convert and put back into clipboard for further use
-if [ -z "$(/usr/bin/xclip -o)" ]; then
-    /usr/bin/printf "%s\n" "Nothing in clipboard"
+if [ -z "$(xclip -o)" ]; then
+    printf "%s\n" "Nothing in clipboard"
     exit 1
 else
-    if /usr/bin/printf "%s" "$(/usr/bin/xclip -o)" | /usr/bin/grep -qE 'github\.com'; then
-        if /usr/bin/printf "%s" "$(/usr/bin/xclip -o)" | /usr/bin/grep -qE 'blob/'; then
-            /usr/bin/printf "%s" "$(/usr/bin/xclip -o)" | \
-                /usr/bin/sed 's@blob@refs/heads@;s@github\.com@raw\.githubusercontent\.com@' | \
-                /usr/bin/xclip -i
+    if printf "%s" "$(xclip -o)" | grep -qE 'github\.com'; then
+        if printf "%s" "$(xclip -o)" | grep -qE 'blob/'; then
+            printf "%s" "$(xclip -o)" | \
+                sed 's@blob@refs/heads@;s@github\.com@raw\.githubusercontent\.com@' | \
+                xclip -i
         else
-            /usr/bin/printf "%s" "$(/usr/bin/xclip -o)" | \
-                /usr/bin/sed 's@raw/@@;s@github.com@raw.githubusercontent.com@' | \
-                /usr/bin/xclip -i
+            printf "%s" "$(xclip -o)" | \
+                sed 's@raw/@@;s@github.com@raw.githubusercontent.com@' | \
+                xclip -i
         fi
     fi
 fi
@@ -27,8 +27,8 @@ fi
 # if name is 'README.org', then save link as readme.url,
 # where, *project* is basename of directory
 # else, save as 'url'
-if /usr/bin/printf "%s" "$(/usr/bin/xclip -o)" | /usr/bin/grep -Eiq "readme\.org"; then
-    /usr/bin/xclip -o > readme.url
+if printf "%s" "$(xclip -o)" | grep -Eiq "readme\.org"; then
+    xclip -o > readme.url
 else
-    /usr/bin/xclip -o > url
+    xclip -o > url
 fi

@@ -3,25 +3,25 @@
 # show battery status
 
 # get charging/discharging status
-if /usr/bin/grep -iq discharging /sys/class/power_supply/BAT0/uevent; then
+if grep -iq discharging /sys/class/power_supply/BAT0/uevent; then
     stat="🪫";
-elif /usr/bin/grep -iq "not charging" /sys/class/power_supply/BAT0/uevent; then
+elif grep -iq "not charging" /sys/class/power_supply/BAT0/uevent; then
     stat="🔌";
 else
     stat="🔋";
 fi
 
 # get present battery capacity
-cap=$(/usr/bin/grep -i "capacity=" /sys/class/power_supply/BAT0/uevent | \
-    /usr/bin/sed 's@^.*\=@@')
+cap=$(grep -i "capacity=" /sys/class/power_supply/BAT0/uevent | \
+    sed 's@^.*\=@@')
 
 # formatted output with alerts
-if /usr/bin/grep -iq discharging /sys/class/power_supply/BAT0/uevent && [ "$cap" -le 30 ]; then
-    /usr/bin/notify-send -u critical "Battery low" "Please plug-in charger"
-    /usr/bin/printf "%s" "❗$cap"
+if grep -iq discharging /sys/class/power_supply/BAT0/uevent && [ "$cap" -le 30 ]; then
+    notify-send -u critical "Battery low" "Please plug-in charger"
+    printf "%s" "❗$cap"
 # not needed after setting, charge_stop_threshold in BAT0
-# elif /usr/bin/grep -iwq charging /sys/class/power_supply/BAT0/uevent && [ "$cap" -ge 80 ]; then
-#     /usr/bin/notify-send -u critical "Battery full" "Please turn off charging"
-#     /usr/bin/printf "%s" "❗$cap"
-else /usr/bin/printf "%s" "$stat$cap";
+# elif grep -iwq charging /sys/class/power_supply/BAT0/uevent && [ "$cap" -ge 80 ]; then
+#     notify-send -u critical "Battery full" "Please turn off charging"
+#     printf "%s" "❗$cap"
+else printf "%s" "$stat$cap";
 fi

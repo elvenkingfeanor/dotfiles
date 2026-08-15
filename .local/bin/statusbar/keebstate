@@ -6,38 +6,38 @@
 
 # # check if xset is installed, else exit
 # if ! command -v xset > /dev/null 2>&1; then
-#     /usr/bin/printf "%s\n" "please install xset first"
+#     printf "%s\n" "please install xset first"
 #     exit 1
 # fi
 
 # # display as per LED Mask status of keyboard
 # # (hence, only supports 2 layouts)
-# if [ "$(/usr/bin/xset -q | \
-#     /usr/bin/grep -i "led mask" | \
-#     /usr/bin/cut -d ':' -f 4 | \
-#     /usr/bin/tr -d ' ')" = "00000000" ]; then
-#     /usr/bin/printf "%s" "🎹us"
+# if [ "$(xset -q | \
+#     grep -i "led mask" | \
+#     cut -d ':' -f 4 | \
+#     tr -d ' ')" = "00000000" ]; then
+#     printf "%s" "🎹us"
 # elif
-#     [ "$(/usr/bin/xset -q | \
-#         /usr/bin/grep -i "led mask" | \
-#         /usr/bin/cut -d ':' -f 4 | \
-#         /usr/bin/tr -d ' ')" = "00001000" ]; then
-#     /usr/bin/printf "%s" "🎹bn"
+#     [ "$(xset -q | \
+#         grep -i "led mask" | \
+#         cut -d ':' -f 4 | \
+#         tr -d ' ')" = "00001000" ]; then
+#     printf "%s" "🎹bn"
 # else
-#     /usr/bin/printf "%s" "??"
+#     printf "%s" "??"
 # fi
 
 # check if xkblayout-state is installed, else exit
 if ! command -v xkblayout-state > /dev/null 2>&1; then
-    /usr/bin/printf "%s\n" "please install xkblayout-state first"
+    printf "%s\n" "please install xkblayout-state first"
     exit 1
 fi
 
 # report keyboard settings in final output format
-if [ "$(/usr/bin/xkblayout-state print %c)" = "0" ]; then
-    /usr/bin/printf "%s" "🎹us"
-elif [ "$(/usr/bin/xkblayout-state print %c)" = "1" ]; then
-    /usr/bin/printf "%s" "🎹in"
+if [ "$(xkblayout-state print %c)" = "0" ]; then
+    printf "%s" "🎹us"
+elif [ "$(xkblayout-state print %c)" = "1" ]; then
+    printf "%s" "🎹in"
 else
-    /usr/bin/printf "%s" "🎹bd"
+    printf "%s" "🎹bd"
 fi

@@ -4,7 +4,7 @@
 # selected image copied to xwallpaper config directory
 # old script, rarely used, updated
 
-selected="$( /usr/bin/find . \
+selected="$( find . \
     -type f \( \
     -iname "*.jpg" -o \
     -iname "*.jpeg" -o \
@@ -13,18 +13,18 @@ selected="$( /usr/bin/find . \
     -iname "*.tiff" -o \
     -iname "*.bmp" \
     \) -print | \
-    /usr/bin/sort -u | \
-    /usr/bin/xargs /usr/bin/nsxiv -iftoq | \
-    /usr/bin/sed 's@^\.@'"$PWD"'@')"
+    sort -u | \
+    xargs nsxiv -iftoq | \
+    sed 's@^\.@'"$PWD"'@')"
 
 # set wallpaper
 if [ -z "$selected" ]; then
-    /usr/bin/notify-send "Exiting..." "No image selected"
+    notify-send "Exiting..." "No image selected"
     exit 1
 else
-    /usr/bin/xwallpaper --focus "$selected"
-    /usr/bin/notify-send "Setting wallpaper" "Wallpaper set from $selected"
+    xwallpaper --focus "$selected"
+    notify-send "Setting wallpaper" "Wallpaper set from $selected"
     # copy image and image info to xwallpaper config directory
-    /usr/bin/echo "/usr/bin/xwallpaper --focus $selected" > "$XDG_CONFIG_HOME"/xwallpaper/swall
+    echo "xwallpaper --focus $selected" > "$XDG_CONFIG_HOME"/xwallpaper/swall
     ~/.local/bin/cpr "$selected" "$XDG_CONFIG_HOME"/xwallpaper/output.jpg
 fi

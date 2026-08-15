@@ -3,4 +3,4 @@
 # reload all newsraft feeds
 # for daily cron
 
-/usr/bin/newsraft -e reload-all
+newsraft -e reload-all

@@ -2,6 +2,6 @@
 #unotify
 # updates notification
 
-upd=$(/usr/bin/checkupdates | /usr/bin/wc -l)
+upd=$(checkupdates | wc -l)
 
-/usr/bin/notify-send "Updates available $upd"
+notify-send "Updates available $upd"

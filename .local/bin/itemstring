@@ -2,10 +2,10 @@
 #itemstring
 # find official names (itemstrings) in luanti
 
-/usr/bin/find \
+find \
     "$MINETEST_USER_PATH" \
     -type f \
     -name "*.lua" \
-    -exec /usr/bin/grep \
+    -exec grep \
     -rE '\.register_.*\("[_a-z:]+"' "{}" \; | \
-    /usr/bin/grep "$@"
+    grep "$@"

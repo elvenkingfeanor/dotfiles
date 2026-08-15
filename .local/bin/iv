@@ -3,7 +3,7 @@
 # view all images in directory &&
 # yank selected images paths to system clipboard
 
-/usr/bin/find . -maxdepth 1 \
+find . -maxdepth 1 \
     -type f \( \
     -iname "*.jpg" -o \
     -iname "*.jpeg" -o \
@@ -13,9 +13,9 @@
     -iname "*.tiff" -o \
     -iname "*.bmp" \
     \) -print | \
-    /usr/bin/sort -u | \
-    /usr/bin/xargs /usr/bin/nsxiv -iftoq | \
-    /usr/bin/sed 's@^\.@'"$PWD"'@' | \
-    /usr/bin/paste -s -d ' ' | \
-    /usr/bin/tr -d '\n' | \
-    /usr/bin/xclip -selection clipboard
+    sort -u | \
+    xargs nsxiv -iftoq | \
+    sed 's@^\.@'"$PWD"'@' | \
+    paste -s -d ' ' | \
+    tr -d '\n' | \
+    xclip -selection clipboard

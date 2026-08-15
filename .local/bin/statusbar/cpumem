@@ -2,71 +2,71 @@
 #cpumem
 # display percent cpu and ram usage, plus cpu temp
 
-# cpu=$(/usr/bin/grep cpu /proc/stat | /usr/bin/head -n 1 | /usr/bin/awk '{print ($5*100)/($2+$3+$4+$5+$6+$7+$8+$9+$10+$11)}' | /usr/bin/awk '{print "C:" int(100-$1)}')
+# cpu=$(grep cpu /proc/stat | head -n 1 | awk '{print ($5*100)/($2+$3+$4+$5+$6+$7+$8+$9+$10+$11)}' | awk '{print "C:" int(100-$1)}')
 
-# ram=$(/usr/bin/free | /usr/bin/grep -i mem | /usr/bin/awk '{print "R:" int($3/$2*100)}')
+# ram=$(free | grep -i mem | awk '{print "R:" int($3/$2*100)}')
 
 # echo "$cpu$ram"
 
 # store cpu parameters from /proc/stat to individual variables
-cpar0="$(/usr/bin/grep "cpu " /proc/stat | \
-    /usr/bin/tr -s '[:blank:]' | \
-    /usr/bin/cut -d ' ' -f 2)"
-cpar1="$(/usr/bin/grep "cpu " /proc/stat | \
-    /usr/bin/tr -s '[:blank:]' | \
-    /usr/bin/cut -d ' ' -f 3)"
-cpar2="$(/usr/bin/grep "cpu " /proc/stat | \
-    /usr/bin/tr -s '[:blank:]' | \
-    /usr/bin/cut -d ' ' -f 4)"
-cpar3="$(/usr/bin/grep "cpu " /proc/stat | \
-    /usr/bin/tr -s '[:blank:]' | \
-    /usr/bin/cut -d ' ' -f 5)"
-cpar4="$(/usr/bin/grep "cpu " /proc/stat | \
-    /usr/bin/tr -s '[:blank:]' | \
-    /usr/bin/cut -d ' ' -f 6)"
-cpar5="$(/usr/bin/grep "cpu " /proc/stat | \
-    /usr/bin/tr -s '[:blank:]' | \
-    /usr/bin/cut -d ' ' -f 7)"
-cpar6="$(/usr/bin/grep "cpu " /proc/stat | \
-    /usr/bin/tr -s '[:blank:]' | \
-    /usr/bin/cut -d ' ' -f 8)"
-cpar7="$(/usr/bin/grep "cpu " /proc/stat | \
-    /usr/bin/tr -s '[:blank:]' | \
-    /usr/bin/cut -d ' ' -f 9)"
-cpar8="$(/usr/bin/grep "cpu " /proc/stat | \
-    /usr/bin/tr -s '[:blank:]' | \
-    /usr/bin/cut -d ' ' -f 10)"
-cpar9="$(/usr/bin/grep "cpu " /proc/stat | \
-    /usr/bin/tr -s '[:blank:]' | \
-    /usr/bin/cut -d ' ' -f 11)"
+cpar0="$(grep "cpu " /proc/stat | \
+    tr -s '[:blank:]' | \
+    cut -d ' ' -f 2)"
+cpar1="$(grep "cpu " /proc/stat | \
+    tr -s '[:blank:]' | \
+    cut -d ' ' -f 3)"
+cpar2="$(grep "cpu " /proc/stat | \
+    tr -s '[:blank:]' | \
+    cut -d ' ' -f 4)"
+cpar3="$(grep "cpu " /proc/stat | \
+    tr -s '[:blank:]' | \
+    cut -d ' ' -f 5)"
+cpar4="$(grep "cpu " /proc/stat | \
+    tr -s '[:blank:]' | \
+    cut -d ' ' -f 6)"
+cpar5="$(grep "cpu " /proc/stat | \
+    tr -s '[:blank:]' | \
+    cut -d ' ' -f 7)"
+cpar6="$(grep "cpu " /proc/stat | \
+    tr -s '[:blank:]' | \
+    cut -d ' ' -f 8)"
+cpar7="$(grep "cpu " /proc/stat | \
+    tr -s '[:blank:]' | \
+    cut -d ' ' -f 9)"
+cpar8="$(grep "cpu " /proc/stat | \
+    tr -s '[:blank:]' | \
+    cut -d ' ' -f 10)"
+cpar9="$(grep "cpu " /proc/stat | \
+    tr -s '[:blank:]' | \
+    cut -d ' ' -f 11)"
 
 # percent cpu free
 # simply do arithmetic operation within shell, instead of piping to bc
-# cpufree="$(/usr/bin/printf "%s\n" \
+# cpufree="$(printf "%s\n" \
 #     "($cpar3*100)/($cpar0+$cpar1+$cpar2+$cpar3+$cpar4+$cpar5+$cpar6+$cpar7+$cpar8+$cpar9)" | \
-#     /usr/bin/bc)"
+#     bc)"
 cpufree="$(((cpar3 * 100)/(cpar0 + cpar1 + cpar3 + cpar4 + cpar5 + cpar6 + cpar7 + cpar8 + cpar9)))"
 # percent cpu used
-# cpuuse="$(/usr/bin/printf "%s\n" "(100-$cpufree)" | \
-#     /usr/bin/bc)"
+# cpuuse="$(printf "%s\n" "(100-$cpufree)" | \
+#     bc)"
 cpuuse="$((100 - cpufree))"
 
-cputemp="$(/usr/bin/sed 's/000$/°C/' /sys/class/thermal/thermal_zone0/temp)"
+cputemp="$(sed 's/000$/°C/' /sys/class/thermal/thermal_zone0/temp)"
 
 # ram parameters as per $(free)
-ramused="$(/usr/bin/free | \
-    /usr/bin/grep -i mem | \
-    /usr/bin/tr -s '[:blank:]' | \
-    /usr/bin/cut -d ' ' -f 3)"
-ramtotal="$(/usr/bin/free | \
-    /usr/bin/grep -i mem | \
-    /usr/bin/tr -s '[:blank:]' | \
-    /usr/bin/cut -d ' ' -f 2)"
+ramused="$(free | \
+    grep -i mem | \
+    tr -s '[:blank:]' | \
+    cut -d ' ' -f 3)"
+ramtotal="$(free | \
+    grep -i mem | \
+    tr -s '[:blank:]' | \
+    cut -d ' ' -f 2)"
 # percent ram used
-# ramuse="$(/usr/bin/printf "%s\n" \
+# ramuse="$(printf "%s\n" \
 #     "(100*$ramused/$ramtotal)" | \
-#     /usr/bin/bc)"
+#     bc)"
 ramuse="$((100 * ramused / ramtotal))"
 
 # output final result fully formatted
-/usr/bin/printf "%s" "💻$cpuuse♨️$cputemp📟$ramuse"
+printf "%s" "💻$cpuuse♨️$cputemp📟$ramuse"

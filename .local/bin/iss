@@ -3,6 +3,6 @@
 # where is the ISS now?
 # old script, rarely used
 
-/usr/bin/curl \
+curl \
     -s http://api.open-notify.org/iss-now.json | \
-    /usr/bin/jq '.'
+    jq '.'
