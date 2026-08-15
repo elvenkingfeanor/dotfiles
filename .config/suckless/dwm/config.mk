@@ -1,5 +1,5 @@
 # dwm version
-VERSION = 6.6
+VERSION = 6.8
 
 # Customize below to fit your system
 
@@ -19,8 +19,8 @@ FREETYPELIBS = -lfontconfig -lXft
 FREETYPEINC = /usr/include/freetype2
 # OpenBSD (uncomment)
 #FREETYPEINC = ${X11INC}/freetype2
-#MANPREFIX = ${PREFIX}/man
 #KVMLIB = -lkvm
+#MANPREFIX = ${PREFIX}/man
 
 # includes and libs
 INCS = -I${X11INC} -I${FREETYPEINC}

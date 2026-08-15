@@ -1,27 +1,22 @@
-From ca2a2e6386a746ebfc3480787e5d99da11e7abee Mon Sep 17 00:00:00 2001
+From 5c4db00890ed6f967dc14b80e704a0cd89faa209 Mon Sep 17 00:00:00 2001
 From: Justinas Grigas <dev@jstnas.com>
-Date: Wed, 9 Oct 2024 01:00:20 +0100
-Subject: [PATCH] [dwm][statuscmd] better click regions
+Date: Tue, 8 Oct 2024 17:55:11 +0100
+Subject: [PATCH] dwm statuscmd: support all mouse buttons
 
-The main improvement of this patch over the previous version 20210405 is that
-the click region now ends on a matching signal raw byte.
+This patch enables all mouse buttons to interact with the status bar
+script.
 
-The matching byte is optional, and without it dwm will behave as before.
-
-To take advantage of this feature, scripts need to be modified to print the raw
-byte at the end as well.
-
-In addition, this patch cleanly applies onto master branch.
+It also fixes getstatusbarpid declaration.
 ---
- config.def.h |   6 ++-
+ config.def.h |  12 +++++-
  dwm.c        | 104 ++++++++++++++++++++++++++++++++++++++++++++++++---
- 2 files changed, 104 insertions(+), 6 deletions(-)
+ 2 files changed, 110 insertions(+), 6 deletions(-)
 
 diff --git a/config.def.h b/config.def.h
-index 9efa774..d008275 100644
+index 81c3fc0..dbe798b 100644
 --- a/config.def.h
 +++ b/config.def.h
-@@ -55,6 +55,8 @@ static const Layout layouts[] = {
+@@ -56,6 +56,8 @@ static const Layout layouts[] = {
  /* helper for spawning shell commands in the pre dwm-5.0 fashion */
  #define SHCMD(cmd) { .v = (const char*[]){ "/bin/sh", "-c", cmd, NULL } }
  
@@ -30,7 +25,7 @@ index 9efa774..d008275 100644
  /* commands */
  static char dmenumon[2] = "0"; /* component of dmenucmd, manipulated in spawn() */
  static const char *dmenucmd[] = { "dmenu_run", "-m", dmenumon, "-fn", dmenufont, "-nb", col_gray1, "-nf", col_gray3, "-sb", col_cyan, "-sf", col_gray4, NULL };
-@@ -104,7 +106,9 @@ static const Button buttons[] = {
+@@ -105,7 +107,15 @@ static const Button buttons[] = {
  	{ ClkLtSymbol,          0,              Button1,        setlayout,      {0} },
  	{ ClkLtSymbol,          0,              Button3,        setlayout,      {.v = &layouts[2]} },
  	{ ClkWinTitle,          0,              Button2,        zoom,           {0} },
@@ -38,18 +33,24 @@ index 9efa774..d008275 100644
 +	{ ClkStatusText,        0,              Button1,        sigstatusbar,   {.i = 1} },
 +	{ ClkStatusText,        0,              Button2,        sigstatusbar,   {.i = 2} },
 +	{ ClkStatusText,        0,              Button3,        sigstatusbar,   {.i = 3} },
++	{ ClkStatusText,        0,              Button4,        sigstatusbar,   {.i = 4} },
++	{ ClkStatusText,        0,              Button5,        sigstatusbar,   {.i = 5} },
++	{ ClkStatusText,        0,              6,              sigstatusbar,   {.i = 6} },
++	{ ClkStatusText,        0,              7,              sigstatusbar,   {.i = 7} },
++	{ ClkStatusText,        0,              8,              sigstatusbar,   {.i = 8} },
++	{ ClkStatusText,        0,              9,              sigstatusbar,   {.i = 9} },
  	{ ClkClientWin,         MODKEY,         Button1,        movemouse,      {0} },
  	{ ClkClientWin,         MODKEY,         Button2,        togglefloating, {0} },
  	{ ClkClientWin,         MODKEY,         Button3,        resizemouse,    {0} },
 diff --git a/dwm.c b/dwm.c
-index 1443802..94ee0c7 100644
+index 53b393e..dbaef27 100644
 --- a/dwm.c
 +++ b/dwm.c
 @@ -171,6 +171,7 @@ static void focusstack(const Arg *arg);
  static Atom getatomprop(Client *c, Atom prop);
  static int getrootptr(int *x, int *y);
  static long getstate(Window w);
-+static pid_t getstatusbarpid();
++static pid_t getstatusbarpid(void);
  static int gettextprop(Window w, Atom atom, char *text, unsigned int size);
  static void grabbuttons(Client *c, int focused);
  static void grabkeys(void);
@@ -98,8 +99,8 @@ index 1443802..94ee0c7 100644
 +					text = s + 1;
 +					if (x >= ev->x)
 +						break;
-+					/* reset on matching signal raw byte */
-+					if (ch == statussig)
++					/* End clickable section on a matching signal raw byte */
++					if (statussig == ch)
 +						statussig = 0;
 +					else
 +						statussig = ch;
@@ -136,12 +137,12 @@ index 1443802..94ee0c7 100644
  	}
  
  	for (c = m->clients; c; c = c->next) {
-@@ -876,6 +915,30 @@ getatomprop(Client *c, Atom prop)
+@@ -877,6 +916,30 @@ getatomprop(Client *c, Atom prop)
  	return atom;
  }
  
 +pid_t
-+getstatusbarpid()
++getstatusbarpid(void)
 +{
 +	char buf[32], *str = buf, *c;
 +	FILE *fp;
@@ -167,7 +168,7 @@ index 1443802..94ee0c7 100644
  int
  getrootptr(int *x, int *y)
  {
-@@ -1643,6 +1706,20 @@ showhide(Client *c)
+@@ -1644,6 +1707,20 @@ showhide(Client *c)
  	}
  }
  
@@ -188,7 +189,7 @@ index 1443802..94ee0c7 100644
  void
  spawn(const Arg *arg)
  {
-@@ -2004,8 +2081,25 @@ updatesizehints(Client *c)
+@@ -2005,8 +2082,25 @@ updatesizehints(Client *c)
  void
  updatestatus(void)
  {
@@ -216,5 +217,5 @@ index 1443802..94ee0c7 100644
  }
  
 -- 
-2.46.2
+2.52.0
 

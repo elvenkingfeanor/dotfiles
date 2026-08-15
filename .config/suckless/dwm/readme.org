@@ -1,0 +1,12 @@
+#+title: Readme for this test repo for DWM
+
+This is my build of DWM for personal use, with personal preferences and keybindings.
+
+This repo is basically a ~git clone~ of my [[https://github.com/elvenkingfeanor/dwm.test][dwm.test]] repo, with modifications on top of that, stored in the =config.diff= file.  I've included the =old.config.diff= and the =old.man.diff= files for historical purposes.
+
+For information on patches, see the upstream [[https://github.com/elvenkingfeanor/dwm.test][dwm.test]] repo.  All patchfiles are present in the =../dwm-patches/= directory.  See =info.org= in the =../dwm-patches/= directory for more information on individual patchfiles.
+
+A summary of changes compared to the upstream [[https://github.com/elvenkingfeanor/dwm.test][dwm.test]] repo:
+- additional =scratchpads= defined.
+- additional =rules= defined.
+- =keysequence= (MOD +) now binds =exit= (q), some additional =scratchpads= (a), =focusbynumber= (z), and =layouts= (c) functionalities.

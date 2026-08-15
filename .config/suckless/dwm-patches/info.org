@@ -1,0 +1,303 @@
+#+title: Patches selected for testing with DWM
+
+This is to test DWM v6.8 with selected patches.
+
+* DWM version
+6.8
+* Patches :dwm_patches:patch:
+All patches arranged in order from +smallest to largest+ largest to smallest, possibly reflecting the order of patching.
+** [[file:/home/ts/.publ/suckless/dwm.tests/patchset0826/dwm-swallow-20201211-61bb8b2.diff][swallow-20201211]] :client:
+:PROPERTIES:
+:ID:       4deda056-2346-4f2c-8688-a9605711ff01
+:END:
+This [[file:/home/ts/.publ/suckless/suckless-site/sites/dwm.suckless.org/patches/swallow/index.md][patch]] allows drawing the child window on top of the parent terminal window, i.e. the parent terminal window =swallows= the child window.
+
+Much simpler and smaller alternative to the new-fancy [[/home/ts/.publ/suckless/suckless-site/sites/dwm.suckless.org/patches/dynamicswallow/dwm-dynamicswallow-20240320-061e9fe.diff][dynamicswallow-2024]] patch (>29k size).
+*** size
+9.8k
+*** conflicts with
+need to check
+*** status
+done
+** [[file:/home/ts/.publ/suckless/dwm.tests/patchset0826/dwm-scratchpads-20200414-728d397b.diff][scratchpads-2020]] :client:
+:PROPERTIES:
+:ID:       e6710595-2e57-41d1-adeb-175abdd66ea2
+:END:
+This [[file:/home/ts/.publ/suckless/suckless-site/sites/dwm.suckless.org/patches/scratchpads/index.md][patch]], although limited in the sense it doesn't support scratchpads unique to each tag, is ultimately much simpler and smaller compared to the new [[file:/home/ts/.publ/suckless/suckless-site/sites/dwm.suckless.org/patches/namedscratchpads/index.md][namedscratchpads-6.5]] patch and its tag-related subpatch.
+*** size
+7.8k
+*** conflicts with
+The ~rules[]~ array in the =config.def.h= file patched with the [[file:/home/ts/.publ/suckless/suckless-site/sites/dwm.suckless.org/patches/swallow/index.md][swallow-20201211]] patch, conflicts with this patch.
+*** status
+** [[file:/home/ts/.publ/suckless/dwm.tests/patchset0826/dwm-xrdb-6.4.diff][xrdb-6.4]] :color:
+This [[file:/home/ts/.publ/suckless/suckless-site/sites/dwm.suckless.org/patches/xrdb/index.md][patch]] provides for managing =dwm= colors from =.Xresources= file using the =xrdb= tool.
+*** size
+7.3k
+*** conflicts with
+need to check
+*** status
+done
+** [[file:/home/ts/.publ/suckless/dwm.tests/patchset0826/dwm-shif-tools-6.2.diff][shift-tools-6.2]] :tag:client:
+:PROPERTIES:
+:ID:       bf6364d6-9477-4187-b500-4bfee9938e96
+:END:
+This [[file:/home/ts/.publ/suckless/suckless-site/sites/dwm.suckless.org/patches/shift-tools/index.md][patch]] shifts tags and client windows.  It includes a number of functions like sending clients to the next/previous tag (=shifttag/shifttagclients=), view the next/previous tag (=shiftview/shiftviewclients=), shift and view clients in the next/previous tag (=shiftboth=), swap the tags of all clients in the next/previous tag (=shiftswaptags=).
+
+This patch effectively replaces the much singular [[file:/home/ts/.publ/suckless/suckless-site/sites/dwm.suckless.org/patches/rotatetags/index.md][rotatetags-2021]] patch.
+*** size
+7.2k
+*** clashes with
+need to check
+*** status
+done
+** [[file:/home/ts/.publ/suckless/dwm.tests/patchset0826/dwm-statuscmd-20260124-a9aa0d8.diff][statuscmd-2026]] :signal:
+This [[file:/home/ts/.publ/suckless/suckless-site/sites/dwm.suckless.org/patches/statuscmd/index.md][patch]] allows sending signals to =dwm statusbar=, =dwmblocks= in our case. 
+*** size
+6.8k
+*** clashes with
+clashes with =commit:44dbc68= on ~dwm/HEAD~ which is newer.
+*** status
+done
+** [[file:/home/ts/.publ/suckless/dwm.tests/patchset0826/dwm-moveresize-20221210-7ac106c.diff][moveresize-2022]] :client:
+:PROPERTIES:
+:ID:       f8ea21d1-32ea-4387-aec5-e9daf8168bfc
+:END:
+This [[file:/home/ts/.publ/suckless/suckless-site/sites/dwm.suckless.org/patches/moveresize/index.md][patch]] allows moving and resizing floating clients/windows via the keyboard.
+*** size
+6.6k
+*** clashes with
+need to check
+*** status
+done
+** [[file:/home/ts/.publ/suckless/dwm.tests/patchset0826/dwm-pertag-20200914-61bb8b2.diff][pertag-2020]] :tag:
+:PROPERTIES:
+:ID:       7bf1a0d9-0887-4115-9010-a696e6b54c64
+:END:
+This [[file:/home/ts/.publ/suckless/suckless-site/sites/dwm.suckless.org/patches/pertag/index.md][patch]] allows setting layout, bar position (=barpos=), number of master (=nmaster=) and width of master (=mfact=) properties individually per tag.
+*** size
+5.4k
+*** clashes with
+generally none, checked with [[id:d0c5d007-2beb-453b-97c7-086d2aa2e40f][workspaces-2026]], no problem.
+*** status
+done
+** [[file:/home/ts/.publ/suckless/dwm.tests/patchset0826/dwm-winview-gaplessgrid-gridall-6.5.diff][gridall-6.5]] :layout:
+This [[file:/home/ts/.publ/suckless/suckless-site/sites/dwm.suckless.org/patches/gridall/index.md][patch]] shows all the client windows across all tags using this gapless-grid layout.  This also shows the selected client windows in their respective tags using the built-in monocle layout.
+
+This patch combines the [[file:/home/ts/.publ/suckless/suckless-site/sites/dwm.suckless.org/patches/gaplessgrid/index.md][gapless-grid]] patch and the [[file:/home/ts/.publ/suckless/suckless-site/sites/dwm.suckless.org/patches/winview/index.md][winview]] patch, including updating the manual page file =dwm.1=.
+*** size
+4.3k
+*** conflicts with
+none
+*** status
+done
+** [[file:/home/ts/.publ/suckless/dwm.tests/patchset0826/keysequence-20250606-0d6af14.diff][keysequence-2025]] :keybinding:
+This [[file:/home/ts/.publ/suckless/suckless-site/sites/dwm.suckless.org/patches/keysequence/index.md][patch]] allows binding of keychains instead of simple keypresses along with =dwm= modifier keys.
+*** size
+4.0k
+*** conflicts with
+need to check
+*** status
+done
+** [[file:/home/ts/.publ/suckless/dwm.tests/patchset0826/dwm-6.6-spawn_window_cwd.diff][spawn_window_cwd-6.6]] :client:
+This [[file:/home/ts/.publ/suckless/suckless-site/sites/dwm.suckless.org/patches/spawn_window_cwd/index.md][patch]] provides spawning new windows (for eg. terminals) from the working directory of the focussed client.
+*** size
+3.8k
+*** conflicts with
+need to check
+*** status
+done
+** [[file:/home/ts/.publ/suckless/dwm.tests/patchset0826/dwm-cfacts-20200913-61bb8b2.diff][cfacts-2020]] :client:
+This [[file:/home/ts/.publ/suckless/suckless-site/sites/dwm.suckless.org/patches/cfacts/index.md][patch]] allows changing tiled client weights. 
+*** size
+3.5k
+*** clashes with
+generally none, as it mostly adds to =dwm.c=.
+*** status
+done
+** [[file:/home/ts/.publ/suckless/dwm.tests/patchset0826/dwm-exitmenu-6.3.diff][exitmenu-6.3]] :bar:
+This [[file:/home/ts/.publ/suckless/suckless-site/sites/dwm.suckless.org/patches/exitmenu/index.md][patch]] provides a nice menu while exiting =dwm=.
+*** size
+3.4k
+*** clashes with
+none, as it only adds a line to =config.def.h= to source a new included file, so doesn't disturbs =dwm.c=.
+*** status
+done
+** [[file:/home/ts/.publ/suckless/dwm.tests/patchset0826/dwm-movestack-20211115-a786211.diff][movestack-2021]] :client:
+:PROPERTIES:
+:ID:       8516552a-751e-474a-8981-0807a93ee506
+:END:
+This [[file:/home/ts/.publ/suckless/suckless-site/sites/dwm.suckless.org/patches/movestack/index.md][patch]] moves clients around in the stack as well as swap them with the master.
+
+This patch replaces the old [[file:/home/ts/.publ/suckless/suckless-site/sites/dwm.suckless.org/patches/rotatestack/index.md][rotatestack-2016]] patch, and is also a much simpler alternative to the [[file:/home/ts/.publ/suckless/suckless-site/sites/dwm.suckless.org/patches/stacker/index.md][stacker]] patch.
+*** size
+3.3k
+*** conflicts with
+need to check, probably none.
+*** status
+done
+** [[/home/ts/.publ/suckless/dwm.tests/patchset0826/dwm-fsignal-6.2.diff][fsignal-6.2]] :signal:ipc:
+This [[file:/home/ts/.publ/suckless/suckless-site/sites/dwm.suckless.org/patches/fsignal/index.md][patch]] sends =IPC= compatible signals to =dwm=.  Allows calling dwm functions from external applications, eg. with ~sxhkd~.
+*** size
+3.1k
+*** clashes with
+generally none, as it mostly only adds to =dwm.c=.
+*** status
+done
+** [[file:/home/ts/.publ/suckless/dwm.tests/patchset0826/dwm-attachaside-6.6.diff][attachaside-6.6]] :client:
+This [[file:/home/ts/.publ/suckless/suckless-site/sites/dwm.suckless.org/patches/attachaside/index.md][patch]] makes newly spawned child clients attach on top of the stack, instead of being the new master client.
+*** size
+2.8k
+*** conflicts with
+need to check
+*** status
+done
+** [[file:/home/ts/.publ/suckless/dwm.tests/patchset0826/dwm-focusonclick-20260516-44dbc68.diff][focusonclick-2026]] :client:
+This [[file:/home/ts/.publ/suckless/suckless-site/sites/dwm.suckless.org/patches/focusonclick/index.md][patch]] changes the default behaviour of changing focussed client on mouse hover to mouse click.
+*** size
+2.8k
+*** clashes with
+generally none, as it mostly add to =dwm.c=, with a few modifications in the /buttonpress/ function.
+*** status
+done
+** [[file:/home/ts/.publ/suckless/dwm.tests/patchset0826/dwm-bulkill-20231029-9f88553.diff][bulkill-2023]] :client:
+This [[file:/home/ts/.publ/suckless/suckless-site/sites/dwm.suckless.org/patches/bulkill/index.md][patch]] provides additional functions to kill clients in present tag.
+*** size
+2.6k
+*** conflicts with
+need to check
+*** status
+done
+** [[file:/home/ts/.publ/suckless/dwm.tests/patchset0826/dwm-clientresizehints-6.5.diff][clientresizehints-6.5]] :client:
+This [[file:/home/ts/.publ/suckless/suckless-site/sites/dwm.suckless.org/patches/clientresizehints/index.md][patch]] allows setting rules for resizing clients in the =config.def.h= file, via the ~resizehints~ variable.
+*** size
+2.5k
+*** conflicts with
+~rules[]~ array in =config.def.h= conflicts with both [[id:4deda056-2346-4f2c-8688-a9605711ff01][swallow-20201211]] and [[id:e6710595-2e57-41d1-adeb-175abdd66ea2][scratchpads-2020]] patches
+*** status
+done
+** [[file:/home/ts/.publ/suckless/dwm.tests/patchset0826/dwm-dragmfact-6.2.diff][dragmfact-6.2]] :client:
+This [[file:/home/ts/.publ/suckless/suckless-site/sites/dwm.suckless.org/patches/dragmfact/index.md][patch]] allows adjusting the master-tile separator (=mfact=) by dragging the mouse.
+*** size
+2.4k
+*** clashes with
+none, as the patch only deals with mouse click events.
+*** status
+done
+** [[file:/home/ts/.publ/suckless/dwm.tests/patchset0826/dwm-colemak_keys-20200907-61bb8b2.diff][colemak_keys-2020]] :keybinding:
+This [[file:/home/ts/.publ/suckless/suckless-site/sites/dwm.suckless.org/patches/colemak_keys/index.md][patch]] replaces traditional Qwerty bindings with Colemak keys, while also updating the manual page file =dwm.1=.
+*** size
+2.3k
+*** status
+done
+** [[file:/home/ts/.publ/suckless/dwm.tests/patchset0826/dwm-restoreafterrestart-20220709-d3f93c7.diff][restoreafterrestart-2022]] :client:tag:
+:PROPERTIES:
+:ID:       1907da4c-7211-4552-b756-dfd4e632121a
+:END:
+This [[file:/home/ts/.publ/suckless/suckless-site/sites/dwm.suckless.org/patches/restoreafterrestart/index.md][patch]] saves the tag information for every client to a specified file.  After restarting =dwm=, this patch uses that file to restore all window/client to their previous tags.
+*** size
+2.3k
+*** clashes with
+none, as this patch only adds new functions to =dwm.c= and defines a variable in =config.def.h=.
+*** status
+done
+** [[file:/home/ts/.publ/suckless/dwm.tests/patchset0826/dwm-tiledmove-20231210-b731.diff][tiledmove-2023]] :client:
+:PROPERTIES:
+:ID:       6b526d9e-5e9e-4b43-9797-d95170d61155
+:END:
+This [[file:/home/ts/.publ/suckless/suckless-site/sites/dwm.suckless.org/patches/tiledmove/index.md][patch]] modifies =movemouse= function to not force clients to float while moving.  Tiled clients when moved will swap with other tiled clients indicated by the mouse cursor, and snap in place.
+*** size
+2.1k
+*** clashes with
+need to check
+*** status
+done
+** [[file:/home/ts/.publ/suckless/dwm.tests/patchset0826/dwm-focusbynum-20230720-e81f17d.diff][focusbynum-2023]] :client:
+:PROPERTIES:
+:ID:       c447826e-b7ad-40e0-85f6-8d4684a4b82b
+:END:
+This [[file:/home/ts/.publ/suckless/suckless-site/sites/dwm.suckless.org/patches/focusbynum/index.md][patch]] allows quick focussing a client by single keypress.
+*** size
+2.1k
+*** conflicts with
+keybindings clash with [[id:bf6364d6-9477-4187-b500-4bfee9938e96][shift-tools-6.2]] and [[id:8516552a-751e-474a-8981-0807a93ee506][movestack-2021]] patches
+*** status
+done
+** [[file:/home/ts/.publ/suckless/dwm.tests/patchset0826/dwm-focusmaster-return-6.2.diff][focusmaster-return-2021]] :client:
+This [[file:/home/ts/.publ/suckless/suckless-site/sites/dwm.suckless.org/patches/focusmaster/index.md][patch]] allows jumping to the master client window from any window in the current tag, and returning back using the same keybinding.
+*** size
+2k
+*** conflicts with
+need to check
+*** status
+done
+** [[file:/home/ts/.publ/suckless/dwm.tests/patchset0826/dwm-defaultmfact-6.5.diff][defaultmfact-6.5]] :client:
+This [[file:/home/ts/.publ/suckless/suckless-site/sites/dwm.suckless.org/patches/defaultmfact/index.md][patch]] resets master-tile separator to its default value.
+*** size
+2.0k
+*** clashes with
+none
+*** status
+done
+** [[file:/home/ts/.publ/suckless/dwm.tests/patchset0826/dwm-cycleview-20241121-0a129d5f.diff][cycleview-2024]] :tag:
+:PROPERTIES:
+:ID:       5cba873c-8a53-4b5b-b5c3-487abd42f549
+:END:
+This [[file:/home/ts/.publ/suckless/suckless-site/sites/dwm.suckless.org/patches/cycleview/index.md][patch]] cycles through all tags of active monitor.
+*** size
+2.0k
+*** clashes with
+Keybindings in =config.def.h= file conflicts with pre-existing patches like [[id:8516552a-751e-474a-8981-0807a93ee506][movestack-2021]] and [[id:c447826e-b7ad-40e0-85f6-8d4684a4b82b][focusbynum-2023]] patches.
+*** status
+done
+** [[file:/home/ts/.publ/suckless/dwm.tests/patchset0826/dwm-zeroastag-22032023-0aea805.diff][zeroastag-2023]] :tag:
+:PROPERTIES:
+:ID:       ab277b33-a4ab-431a-bf90-e8b5c580f271
+:END:
+This [[file:/home/ts/.publ/suckless/suckless-site/sites/dwm.suckless.org/patches/zeroastag/index.md][patch]] changes the default behaviour of the ~0~ tag from showing/selecting all tags to just a regular tag.
+*** size
+1.7k
+*** status
+done
+** [[file:/home/ts/.publ/suckless/dwm.tests/patchset0826/dwm-taglayouts-6.4.diff][taglayouts-6.4]] :tag:
+This [[file:/home/ts/.publ/suckless/suckless-site/sites/dwm.suckless.org/patches/taglayouts/index.md][patch]] allows setting default layout for each tag.  Must patch it after the [[id:7bf1a0d9-0887-4115-9010-a696e6b54c64][pertag-2020]] patch.
+*** size
+1.4k
+*** clashes with
+[[id:ab277b33-a4ab-431a-bf90-e8b5c580f271][zeroastag-2023]] patch
+*** status
+done
+** [[file:/home/ts/.publ/suckless/dwm.tests/patchset0826/dwm-hide_vacant_tags-6.4.diff][hide_vacant_tags-6.4]] :tag:
+:PROPERTIES:
+:ID:       0863f421-07b0-48ca-8455-e5cd6de66f74
+:END:
+This [[file:/home/ts/.publ/suckless/suckless-site/sites/dwm.suckless.org/patches/hide_vacant_tags/index.md][patch]] hides tags with no client windows.
+*** size
+1.3k
+*** clashes with
+none
+*** status
+done
+** [[file:/home/ts/.publ/suckless/dwm.tests/patchset0826/dwm-doublepressquit-6.3.diff][doublepressquit-6.3]] :keybinding:
+This [[file:/home/ts/.publ/suckless/suckless-site/sites/dwm.suckless.org/patches/doublepressquit/index.md][patch]] prevents accidental =dwm= quits.
+*** size
+1.3k
+*** conflicts with
+Modifies pre-existing ~quit~ function in =dwm.c= file, which clash with existing modifications by the [[id:1907da4c-7211-4552-b756-dfd4e632121a][restoreafterrestart-2022]] patch.
+*** status
+done
+** [[file:/home/ts/.publ/suckless/dwm.tests/patchset0826/dwm-dmenumatchtop-6.2.diff][dmenumatchtop-6.2]] :bar:
+This [[file:/home/ts/.publ/suckless/suckless-site/sites/dwm.suckless.org/patches/dmenumatchtop/index.md][patch]] allows =dmenu= to follow =topbar= position.
+*** size
+0.7k
+*** conflicts with
+none
+*** status
+done
+** [[file:/home/ts/.publ/suckless/dwm.tests/patchset0826/dwm-alwayscenter-20200625-f04cac6.diff][alwayscenter-2020]] :client:
+This [[file:/home/ts/.publ/suckless/suckless-site/sites/dwm.suckless.org/patches/alwayscenter/index.md][patch]] always centers all floating windows.
+*** size
+0.5k
+*** conflicts with
+none
+*** status
+done
