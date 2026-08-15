@@ -135,6 +135,18 @@ This patch replaces the old [[file:/home/ts/.publ/suckless/suckless-site/sites/d
 need to check, probably none.
 *** status
 done
+** [[file:/home/ts/.publ/suckless/dwm.tests/patchset0826/dwm-restartsig-20180523-6.2.diff][restartsig-2018]] :signal:
+:PROPERTIES:
+:ID:       1addbcfa-c158-474d-a16f-759afa925c68
+:END:
+This [[file:/home/ts/.publ/suckless/suckless-site/sites/dwm.suckless.org/patches/restartsig/index.md][patch]] sends restart signals to =dwm=.
+
+Although, I have =dwmstart= script to restart =dwm=, window clients now crowd tag 1.  To solve this, needed to add the [[id:1907da4c-7211-4552-b756-dfd4e632121a][restoreafterrestart-2022]] patch, for which this patch is a dependency.
+*** size
+3.3k
+*** conficts with
+
+*** status
 ** [[/home/ts/.publ/suckless/dwm.tests/patchset0826/dwm-fsignal-6.2.diff][fsignal-6.2]] :signal:ipc:
 This [[file:/home/ts/.publ/suckless/suckless-site/sites/dwm.suckless.org/patches/fsignal/index.md][patch]] sends =IPC= compatible signals to =dwm=.  Allows calling dwm functions from external applications, eg. with ~sxhkd~.
 *** size
@@ -194,10 +206,12 @@ done
 :ID:       1907da4c-7211-4552-b756-dfd4e632121a
 :END:
 This [[file:/home/ts/.publ/suckless/suckless-site/sites/dwm.suckless.org/patches/restoreafterrestart/index.md][patch]] saves the tag information for every client to a specified file.  After restarting =dwm=, this patch uses that file to restore all window/client to their previous tags.
+
+This patch only works on top of [[id:1addbcfa-c158-474d-a16f-759afa925c68][restartsig-2018]] patch.
 *** size
 2.3k
 *** clashes with
-none, as this patch only adds new functions to =dwm.c= and defines a variable in =config.def.h=.
+[[id:283182f3-4c1e-4b29-b615-43792455c402][doublepressquit-6.3]], both modify the ~quit()~ function in =dwm.c= file.
 *** status
 done
 ** [[file:/home/ts/.publ/suckless/dwm.tests/patchset0826/dwm-tiledmove-20231210-b731.diff][tiledmove-2023]] :client:
@@ -278,6 +292,9 @@ none
 *** status
 done
 ** [[file:/home/ts/.publ/suckless/dwm.tests/patchset0826/dwm-doublepressquit-6.3.diff][doublepressquit-6.3]] :keybinding:
+:PROPERTIES:
+:ID:       283182f3-4c1e-4b29-b615-43792455c402
+:END:
 This [[file:/home/ts/.publ/suckless/suckless-site/sites/dwm.suckless.org/patches/doublepressquit/index.md][patch]] prevents accidental =dwm= quits.
 *** size
 1.3k

@@ -1,0 +1,255 @@
+diff --git a/dwm.1 b/dwm.1
+index d083be0..17d4254 100644
+--- a/dwm.1
++++ b/dwm.1
+@@ -49,185 +49,165 @@ label toggles between tiled and floating layout.
+ .B Button3
+ click on a tag label adds/removes all windows with that tag to/from the view.
+ .TP
+-.B Mod1\-Button1
++.B Mod4\-Button1
+ click on a tag label applies that tag to the focused window.
+ .TP
+-.B Mod1\-Button3
++.B Mod4\-Button3
+ click on a tag label adds/removes that tag to/from the focused window.
+ .SS Keyboard commands
+ .TP
+-.B Mod1\-Shift\-Return
+-Start
+-.BR st(1).
+-.TP
+-.B Mod1\-p
++.B Mod4\-x
+ Spawn
+ .BR dmenu(1)
+ for launching other programs.
+ .TP
+-.B Mod1\-,
++.B Mod4\-,
+ Focus previous screen, if any.
+ .TP
+-.B Mod1\-.
++.B Mod4\-.
+ Focus next screen, if any.
+ .TP
+-.B Mod1\-Shift\-,
++.B Mod4\-Shift\-,
+ Send focused window to previous screen, if any.
+ .TP
+-.B Mod1\-Shift\-.
++.B Mod4\-Shift\-.
+ Send focused window to next screen, if any.
+ .TP
+-.B Mod1\-b
++.B Mod4\-Shift\-b
+ Toggles bar on and off.
+ .TP
+-.B Mod1\-t
+-Sets tiled layout.
++.B Mod4\-c [t/f/m/g]
++Sets tiled/floating/monocle/gapless grid layout.
++.TP
++.B Mod4\-c Shift\-g
++Display all window clients in all tags together in a gapless grid layout.
+ .TP
+-.B Mod1\-f
+-Sets floating layout.
++.B Mod4\-c o
++Select view of the window in focus. The list of tags to be displayed is matched to the window tag list.
+ .TP
+-.B Mod1\-m
+-Sets monocle layout.
++.B Mod4\-c Shift\-o
++Jump to selected window client from gapless grid layout.
+ .TP
+-.B Mod1\-space
++.B Mod4\-space
+ Toggles between current and previous layout.
+ .TP
+-.B Mod1\-n
++.B Mod4\-n
+ Focus next window.
+ .TP
+-.B Mod1\-e
++.B Mod4\-e
+ Focus previous window.
+ .TP
+-.B Mod1\-l
++.B Mod4\-Shift\-l
+ Increase number of windows in master area.
+ .TP
+-.B Mod1\-u
++.B Mod4\-Shift\-u
+ Decrease number of windows in master area.
+ .TP
+-.B Mod1\-i
++.B Mod4\-i
+ Increase master area size.
+ .TP
+-.B Mod1\-h
++.B Mod4\-h
+ Decrease master area size.
+ .TP
+-.B Mod1\-bracket[right/left]
++.B Mod4\-equal
++Restore master area size to default.
++.TP
++.B Mod4\-bracket[right/left]
+ View the next/prev tag that has a client window, else view the next/prev tag.
+ .TP
+-.B Mod1\-Shift\-bracket[right/left]
++.B Mod4\-Shift\-bracket[right/left]
+ View the next/prev tag.
+ .TP
+-.B Mod1\-Shift\-[h/i]
++.B Mod4\-Shift\-[h/i]
+ Move active client window to next/prev tag and view that tag.
+ .TP
+-.B Mod1\-Control\-[h/i]
++.B Mod4\-Control\-[h/i]
+ Swaps tag on all client windows of selected tag with the next/prev tag.
+ .TP
+-.B Mod1\-Control\-Shift\-[h/i]
++.B Mod4\-Control\-Shift\-[h/i]
+ Increase/Decrease tiled client window size.
+ .TP
+-.B Mod1\-Control\-Shift\-o
++.B Mod4\-Control\-Shift\-o
+ Restore client window sizes to default within respective stack.
+ .TP
+-.B Mod1\-Shift\-[n/e]
++.B Mod4\-Shift\-[n/e]
+ Swap to next/prev client window from selected client window.
+ .TP
+-.B Mod1\-Control\-Shift\-[n/e]
++.B Mod4\-Control\-Shift\-[n/e]
+ View the prev/next tag.
+ .TP
+-.B Mod1\-o
+-Select view of the window in focus. The list of tags to be displayed is matched to the window tag list.
+-.TP
+-.B Mod1\-g
+-Display all window clients in all tags together in a gapless grid layout.
+-.TP
+-.B Mod1\-r
+-Jump to selected window client from gapless grid layout.
+-.TP
+-.B Mod1\-Return
+-Zooms/cycles focused window to/from master area (tiled layouts only).
+-.TP
+-.B Mod1\-Shift\-c
++.B Mod4\-q q
+ Close focused window.
+ .TP
+-.B Mod1\-Control\-c
++.B Mod4\-q Control\-q
+ Close all windows in current tag, except focused window.
+ .TP
+-.B Mod1\-Control\-Shift\-c
++.B Mod4\-q Shift\-q
+ Close all windows in current tag.
+ .TP
+-.B Mod1\-Shift\-space
++.B Mod4\-q c
++Invoke exitmenu for dwm.
++.TP
++.B Mod4\-q Shift\-c
++Restart dwm.
++.TP
++.B Mod4\-Shift\-space
+ Toggle focused window between tiled and floating state.
+ .TP
+-.B Mod1\-Control\-space
++.B Mod4\-Control\-space
+ Switch focus to tiled master client window from anywhere in the stack.  Return to the client window from the master client by repeating the same keybind.
+ .TP
+-.B Mod1\-Tab
++.B Mod4\-Tab
+ Toggles to the previously selected tags.
+ .TP
+-.B Mod1\-Shift\-[1..n]
++.B Mod4\-Shift\-[1..n]
+ Apply nth tag to focused window.
+ .TP
+-.B Mod1\-Shift\-0
+-Apply all tags to focused window.
+-.TP
+-.B Mod1\-Control\-Shift\-[1..n]
++.B Mod4\-Control\-Shift\-[1..n]
+ Add/remove nth tag to/from focused window.
+ .TP
+-.B Mod1\-[1..n]
++.B Mod4\-[1..n]
+ View all windows with nth tag.
+ .TP
+-.B Mod1\-0
+-View all windows with any tag.
+-.TP
+-.B Mod1\-Control\-[1..n]
++.B Mod4\-Control\-[1..n]
+ Add/remove all windows with nth tag to/from the view.
+ .TP
+-.B Mod1\-[Up/Down/Left/Right]
++.B Mod4\-[Up/Down/Left/Right]
+ Move floating windows.
+ .TP
+-.B Mod1\-Shift\-[Up/Down/Left/Right]
++.B Mod4\-Shift\-[Up/Down/Left/Right]
+ Resize floating windows.
+ .TP
+-.B Mod1\-Control\-[Up/Down/Left/Right]
++.B Mod4\-Control\-[Up/Down/Left/Right]
+ Move floating window to edge of screen.
+ .TP
+-.B Mod1\-Control\-Shift\-[Up/Down/Left/Right]
++.B Mod4\-Control\-Shift\-[Up/Down/Left/Right]
+ Resize floating window to edge of screen.
+ .TP
+-.B Mod1\-F5
++.B Mod4\-Shift\-F5
+ Reload colors from .Xresources file.
+ .TP
+-.B Mod1\-[y/a/x]
+-Launch scratchpads for st/ranger/keepassxc.
+-.TP
+-.B Mod1\-Control\-[n/e/t/s/r/a]
+-Jump to first/second/third/fourth/fifth/sixth window of current tag.
++.B Mod4\-[grave/Shift\-grave/Shift\-equal]
++Launch scratchpads for st/emacs capture buffer/st running calc.
+ .TP
+-.B Mod1\-Shift\-q
+-Quit dwm.
++.B Mod4\-a [n/Shift\-n/e/Shift\-e]
++Launch scratchpads for st running lf/emacs dired buffer/st running emacs scratch buffer/emacs scratch buffer.
+ .TP
+-.B Mod1\-Control\-Shift\-q
+-Restart dwm.
++.B Mod4\-z [n/e/i/o/t/s/r/a]
++Jump to first/second/third/fourth/fifth/sixth/seventh/eighth window of current tag.
+ .SS Mouse commands
+ .TP
+-.B Mod1\-Button1
++.B Mod4\-Button1
+ Move focused window while dragging. Tiled windows will be toggled to the floating state.
+ .TP
+-.B Mod1\-Button2
++.B Mod4\-Button2
+ Toggles focused window between floating and tiled state.
+ .TP
+-.B Mod1\-Button3
++.B Mod4\-Button3
+ Resize focused window while dragging. Tiled windows will be toggled to the floating state.
+ .SH CUSTOMIZATION
+ dwm is customized by creating a custom config.h and (re)compiling the source
+ code. This keeps it fast, secure and simple.
+-.SH SIGNALS
+-.TP
+-.B SIGHUP - 1
+-Restart the dwm process.
+-.TP
+-.B SIGTERM - 15
+-Cleanly terminate the dwm process.
+ .SH SEE ALSO
+ .BR dmenu (1),
+ .BR st (1)

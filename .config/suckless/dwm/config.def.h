@@ -130,6 +130,7 @@ static Key keyseq_quit[] = {
   { ControlMask,	XK_q,	killclient,	    {.ui = 1}},  // kill unselect 
   { ShiftMask,		XK_q,	killclient,	    {.ui = 2}},  // killall
   { 0,              XK_c,   exitdwm,        {0}}, // exitmenu
+  { ShiftMask,      XK_c,   quit,           {1}}, // restartsig
   {0}
 };
 
@@ -166,7 +167,7 @@ static Key keyseq_layout[] = {
   { 0,	        	XK_g,	setlayout,      {.v = &layouts[3]}}, /* gaplessgrid */
   { ShiftMask,      XK_g,   gridall,        {}},
   { 0,              XK_o,   winview,        {0}},
-  { 0,              XK_r,   winviewmono,    {}},
+  { ShiftMask,      XK_o,   winviewmono,    {}},
   {0}
 };
 
@@ -178,7 +179,7 @@ static const Key keys[] = {
 	{ MODKEY,	                XK_bracketleft,  shiftviewclients,    { .i = -1 } },
 	{ MODKEY,                       XK_x,      spawn,          {.v = dmenucmd } }, /* remove sxhkd binding for dmenu */
 	/* { MODKEY|ShiftMask,             XK_Return, spawn,          {.v = termcmd } }, /\* sxhkd already manages programs *\/ */
-	{ MODKEY,                       XK_b,      togglebar,      {0} },
+	{ MODKEY|ShiftMask,             XK_b,      togglebar,      {0} }, /* sxhkd binding clash, modified */
 	{ MODKEY,                       XK_n,      focusstack,     {.i = +1 } },
 	{ MODKEY,                       XK_e,      focusstack,     {.i = -1 } },
 	{ MODKEY|ControlMask|ShiftMask, XK_n,      cycleview,      {1} }, /* cycleview + colemak */
@@ -193,10 +194,10 @@ static const Key keys[] = {
 	{ MODKEY|ControlMask|ShiftMask, XK_h,      setcfact,	   {.f = +0.25} },
 	{ MODKEY|ControlMask|ShiftMask, XK_i,      setcfact,	   {.f = -0.25} }, /* setcfact + colemak */
 	{ MODKEY|ControlMask|ShiftMask, XK_o,      setcfact,	   {.f = 0.00} },
-	{ MODKEY|ShiftMask,				XK_h,      shiftboth,      { .i = -1 }	}, /* shift-tools + colemak */
-	{ MODKEY|ControlMask,			XK_h,      shiftswaptags,  { .i = -1 }	},
-	{ MODKEY|ControlMask,			XK_i,      shiftswaptags,  { .i = +1 }	},
-	{ MODKEY|ShiftMask,             XK_i,      shiftboth,      { .i = +1 }	},
+	{ MODKEY|ShiftMask,				XK_h,      shiftboth,      { .i = -1 } }, /* shift-tools + colemak */
+	{ MODKEY|ControlMask,			XK_h,      shiftswaptags,  { .i = -1 } },
+	{ MODKEY|ControlMask,			XK_i,      shiftswaptags,  { .i = +1 } },
+	{ MODKEY|ShiftMask,             XK_i,      shiftboth,      { .i = +1 } },
     { MODKEY,                       XK_q,      keypress_other, {.v = keyseq_quit}}, /* bulkill + keysequence */
     { MODKEY,                       XK_c,      keypress_other, {.v = keyseq_layout}}, /* layouts + keysequence */
 	{ MODKEY,                       XK_space,  setlayout,      {0} },
@@ -222,7 +223,7 @@ static const Key keys[] = {
 	{ MODKEY,                       XK_period, focusmon,       {.i = +1 } },
 	{ MODKEY|ShiftMask,             XK_comma,  tagmon,         {.i = -1 } },
 	{ MODKEY|ShiftMask,             XK_period, tagmon,         {.i = +1 } },
-	{ MODKEY|ShiftMask,             XK_F5,     xrdb,           {.v = NULL } }, /* sxhkd keybind clash */
+	{ MODKEY|ShiftMask,             XK_F5,     xrdb,           {.v = NULL } }, /* sxhkd keybind clash, modified */
     { MODKEY,	                	XK_grave,  togglescratch,  {.ui = 0 } }, /* spterm */
     { MODKEY|ShiftMask,	            XK_grave,  togglescratch,  {.ui = 1 } }, /* spnote */
     { MODKEY|ShiftMask,	            XK_equal,  togglescratch,  {.ui = 2 } }, /* spcalc */
