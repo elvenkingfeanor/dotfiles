@@ -1,0 +1,5 @@
+#!/bin/sh
+#emcapture
+# capture using emacsclient as a scratchpad with fixed geometry directly from dwm
+
+emacsclient -n -c -a "" -F "((width . 96) (height . 24))" -e \(org-capture\)

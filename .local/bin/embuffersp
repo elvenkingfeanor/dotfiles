@@ -1,0 +1,5 @@
+#!/bin/sh
+#embuffersp
+# run emacsclient as scratchpad with fixed geometry directly from dwm
+
+emacsclient -n -c -a "" -F "((width . 120) (height . 30))"

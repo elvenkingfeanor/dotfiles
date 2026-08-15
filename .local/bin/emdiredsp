@@ -1,0 +1,5 @@
+#!/bin/sh
+#emdiredsp
+# run Dired in an emacsclient as a scratchpad with fixed geometry directly from dwm
+
+emacsclient -n -c -a "" -F "((width . 120) (height . 30))" -e \(dirvish\)

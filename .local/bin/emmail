@@ -1,0 +1,5 @@
+#!/bin/sh
+#emmail
+# read emails using mu4e in emacsclient directly from dwm
+
+emacsclient -n -c -a "" -e \(mu4e\)
