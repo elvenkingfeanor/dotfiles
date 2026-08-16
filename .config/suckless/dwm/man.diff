@@ -1,8 +1,8 @@
 diff --git a/dwm.1 b/dwm.1
-index d083be0..17d4254 100644
+index d050497..a558a6b 100644
 --- a/dwm.1
 +++ b/dwm.1
-@@ -49,185 +49,165 @@ label toggles between tiled and floating layout.
+@@ -49,188 +49,168 @@ label toggles between tiled and floating layout.
  .B Button3
  click on a tag label adds/removes all windows with that tag to/from the view.
  .TP
@@ -91,10 +91,14 @@ index d083be0..17d4254 100644
 +.B Mod4\-h
  Decrease master area size.
  .TP
--.B Mod1\-bracket[right/left]
+-.B Mod1\-Return
 +.B Mod4\-equal
 +Restore master area size to default.
 +.TP
++.B Mod4\-BackSpace
+ Zooms/cycles focused window to/from master area (tiled layouts only).
+ .TP
+-.B Mod1\-bracket[right/left]
 +.B Mod4\-bracket[right/left]
  View the next/prev tag that has a client window, else view the next/prev tag.
  .TP

@@ -189,6 +189,8 @@ static const Key keys[] = {
 	{ MODKEY,                       XK_h,      setmfact,       {.f = -0.05} },
 	{ MODKEY,                       XK_i,      setmfact,       {.f = +0.05} },
 	{ MODKEY,                       XK_equal,  setmfact,       {.f = -1.0} },
+	{ MODKEY,                    XK_BackSpace, zoom,           {0} }, /* sxhkd binding clash, modified */
+	{ MODKEY,                       XK_Tab,    view,           {0} },
 	{ MODKEY|ShiftMask,             XK_n,      movestack,      {.i = +1 } }, /* movestack + colemak */
 	{ MODKEY|ShiftMask,             XK_e,      movestack,      {.i = -1 } },
 	{ MODKEY|ControlMask|ShiftMask, XK_h,      setcfact,	   {.f = +0.25} },

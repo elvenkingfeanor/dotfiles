@@ -1,5 +1,5 @@
 diff --git a/config.def.h b/config.def.h
-index 86a0875..add6337 100644
+index 4db6195..972228b 100644
 --- a/config.def.h
 +++ b/config.def.h
 @@ -10,14 +10,14 @@ static const int swallowfloating    = 0;        /* 1 means swallow floating wind
@@ -131,7 +131,7 @@ index 86a0875..add6337 100644
  #define TAGKEYS(KEY,TAG) \
  	{ MODKEY,                       KEY,      view,           {.ui = 1 << TAG} }, \
  	{ MODKEY|ControlMask,           KEY,      toggleview,     {.ui = 1 << TAG} }, \
-@@ -101,61 +117,89 @@ static const Layout layouts[] = {
+@@ -101,63 +117,91 @@ static const Layout layouts[] = {
  
  /* commands */
  static char dmenumon[2] = "0"; /* component of dmenucmd, manipulated in spawn() */
@@ -227,6 +227,9 @@ index 86a0875..add6337 100644
  	{ MODKEY,                       XK_h,      setmfact,       {.f = -0.05} },
  	{ MODKEY,                       XK_i,      setmfact,       {.f = +0.05} },
  	{ MODKEY,                       XK_equal,  setmfact,       {.f = -1.0} },
+-	{ MODKEY,                       XK_Return, zoom,           {0} },
++	{ MODKEY,                    XK_BackSpace, zoom,           {0} }, /* sxhkd binding clash, modified */
+ 	{ MODKEY,                       XK_Tab,    view,           {0} },
 -	{ MODKEY|ShiftMask,             XK_n,      movestack,      {.i = +1 } }, /* movestack patch bindings modified */
 +	{ MODKEY|ShiftMask,             XK_n,      movestack,      {.i = +1 } }, /* movestack + colemak */
  	{ MODKEY|ShiftMask,             XK_e,      movestack,      {.i = -1 } },
@@ -256,7 +259,7 @@ index 86a0875..add6337 100644
  	{ MODKEY,                       XK_space,  setlayout,      {0} },
  	{ MODKEY|ShiftMask,             XK_space,  togglefloating, {0} },
  	{ MODKEY|ControlMask,           XK_space,  focusmaster,    {0} }, /* focusmaster-6.2 patch */
-@@ -179,10 +223,11 @@ static const Key keys[] = {
+@@ -181,10 +225,11 @@ static const Key keys[] = {
  	{ MODKEY,                       XK_period, focusmon,       {.i = +1 } },
  	{ MODKEY|ShiftMask,             XK_comma,  tagmon,         {.i = -1 } },
  	{ MODKEY|ShiftMask,             XK_period, tagmon,         {.i = +1 } },
@@ -272,7 +275,7 @@ index 86a0875..add6337 100644
  	TAGKEYS(                        XK_1,                      0)
  	TAGKEYS(                        XK_2,                      1)
  	TAGKEYS(                        XK_3,                      2)
-@@ -193,25 +238,7 @@ static const Key keys[] = {
+@@ -195,25 +240,7 @@ static const Key keys[] = {
  	TAGKEYS(                        XK_8,                      7)
  	TAGKEYS(                        XK_9,                      8)
  	TAGKEYS(                        XK_0,                      9)
@@ -299,7 +302,7 @@ index 86a0875..add6337 100644
  	{0}
  };
  
-@@ -234,7 +261,6 @@ static const Button buttons[] = {
+@@ -236,7 +263,6 @@ static const Button buttons[] = {
  	{ ClkClientWin,         MODKEY,         Button1,        movemouse,      {0} },
  	{ ClkClientWin,         MODKEY,         Button2,        togglefloating, {0} },
  	{ ClkClientWin,         MODKEY,         Button3,        resizemouse,    {0} },
