@@ -154,6 +154,9 @@ source ~/.config/zsh/zsh-autopair/autopair.zsh
 autopair-init
 
 # fzf keybindings and completion
+# Ctrl+t chooses files from PWD
+# Ctrl+r chooses commands from history
+# Alt+c chooses directories to cd into from PWD
 source <(/usr/bin/fzf --zsh)
 
 # Syntax highlighting; should be last:

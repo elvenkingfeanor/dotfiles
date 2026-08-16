@@ -11,7 +11,10 @@ PS1='[\u@\h \W]\$ '
 # shellcheck disable=1090
 for f in "${XDG_CONFIG_HOME:-$HOME/.config}"/shell/*; do source "$f"; done
 
-# fzf keybindings and completion for bash
+# fzf keybindings and completion for bash:
+# Ctrl+t chooses files from PWD
+# Ctrl+r chooses commands from history
+# Alt+c chooses directories to cd into from PWD
 eval "$(fzf --bash)"
 
 # find out if bash-completion is present, so as to enable for doas
